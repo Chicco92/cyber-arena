@@ -207,4 +207,24 @@
 
         // Gestione tasto Avvio
         document.getElementById('btn-start-game').addEventListener('click', () => {
-            sound.
+            sound.init();
+            document.getElementById('menu-overlay').classList.add('hidden');
+            isGameRunning = true;
+            document.body.requestPointerLock();
+        });
+
+        window.addEventListener('resize', () => {
+            if (camera && renderer) {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+        });
+
+        // Avvio motore grafico all'caricamento della pagina
+        window.onload = () => {
+            init3D();
+        };
+    </script>
+</body>
+</html>
