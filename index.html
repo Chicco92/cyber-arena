@@ -1,230 +1,637 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CyberStrike 3D - FPS Web Game</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            user-select: none;
-            -webkit-user-select: none;
-            box-sizing: border-box;
-        }
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #050711;
-            font-family: 'Inter', sans-serif;
-            color: #f8fafc;
-        }
-        .font-cyber {
-            font-family: 'Orbitron', sans-serif;
-        }
-        #game-canvas {
-            display: block;
-            width: 100vw;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        .cyber-panel {
-            background: rgba(10, 15, 32, 0.78);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(34, 211, 238, 0.35);
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
-        }
-        #damage-overlay {
-            background: radial-gradient(circle, transparent 45%, rgba(239, 68, 68, 0.65) 100%);
-            transition: opacity 0.18s ease-out;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CyberStrike 3D - FPS Web Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            box-sizing: border-box;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #050711;
+            font-family: 'Inter', sans-serif;
+            color: #f8fafc;
+        }
+        .font-cyber {
+            font-family: 'Orbitron', sans-serif;
+        }
+        #game-canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .cyber-panel {
+            background: rgba(10, 15, 32, 0.78);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(34, 211, 238, 0.35);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+        }
+        #damage-overlay {
+            background: radial-gradient(circle, transparent 45%, rgba(239, 68, 68, 0.65) 100%);
+            transition: opacity 0.18s ease-out;
+        }
+    </style>
 </head>
 <body class="relative w-screen h-screen overflow-hidden">
 
-    <!-- CANVAS 3D PRINCIPALE -->
-    <canvas id="game-canvas"></canvas>
+    <!-- CANVAS 3D PRINCIPALE -->
+    <canvas id="game-canvas"></canvas>
 
-    <!-- OVERLAY DANNO RICEVUTO -->
-    <div id="damage-overlay" class="fixed inset-0 pointer-events-none z-10 opacity-0"></div>
+    <!-- OVERLAY DANNO RICEVUTO -->
+    <div id="damage-overlay" class="fixed inset-0 pointer-events-none z-10 opacity-0"></div>
 
-    <!-- MIRINO PERFETTAMENTE CENTRATO NEL VIEWPORT -->
-    <div id="crosshair" class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none transition-transform duration-75">
-        <div class="relative flex items-center justify-center">
-            <div id="crosshair-dot" class="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></div>
-            <div class="crosshair-line absolute -top-3.5 w-0.5 h-2.5 bg-cyan-400/90 transition-all duration-150"></div>
-            <div class="crosshair-line absolute -bottom-3.5 w-0.5 h-2.5 bg-cyan-400/90 transition-all duration-150"></div>
-            <div class="crosshair-line absolute -left-3.5 h-0.5 w-2.5 bg-cyan-400/90 transition-all duration-150"></div>
-            <div class="crosshair-line absolute -right-3.5 h-0.5 w-2.5 bg-cyan-400/90 transition-all duration-150"></div>
-        </div>
-    </div>
+    <!-- MIRINO PERFETTAMENTE CENTRATO NEL VIEWPORT -->
+    <div id="crosshair" class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none transition-transform duration-75">
+        <div class="relative flex items-center justify-center">
+            <!-- Punto centrale -->
+            <div id="crosshair-dot" class="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></div>
+            <!-- Stanghette mirino -->
+            <div class="crosshair-line absolute -top-3.5 w-0.5 h-2.5 bg-cyan-400/90 transition-all duration-150"></div>
+            <div class="crosshair-line absolute -bottom-3.5 w-0.5 h-2.5 bg-cyan-400/90 transition-all duration-150"></div>
+            <div class="crosshair-line absolute -left-3.5 h-0.5 w-2.5 bg-cyan-400/90 transition-all duration-150"></div>
+            <div class="crosshair-line absolute -right-3.5 h-0.5 w-2.5 bg-cyan-400/90 transition-all duration-150"></div>
+        </div>
+    </div>
 
-    <!-- OVERLAY MIRINO OTTICO ADS (Tasto Destro del Mouse) -->
-    <div id="ads-overlay" class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border border-cyan-400/45 pointer-events-none z-20 opacity-0 scale-125 transition-all duration-150 flex items-center justify-center shadow-[0_0_40px_rgba(6,182,212,0.2)]">
-        <div class="w-44 h-44 rounded-full border border-dashed border-cyan-300/30"></div>
-        <div class="absolute w-full h-px bg-cyan-400/20"></div>
-        <div class="absolute h-full w-px bg-cyan-400/20"></div>
-        <div id="ads-zoom-label" class="absolute -top-6 text-[10px] font-cyber text-cyan-300 tracking-widest uppercase bg-slate-950/80 px-2 py-0.5 rounded border border-cyan-500/30">LOCK // ZOOM 1.6X</div>
-    </div>
+    <!-- OVERLAY MIRINO OTTICO ADS (Tasto Destro del Mouse) -->
+    <div id="ads-overlay" class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border border-cyan-400/45 pointer-events-none z-20 opacity-0 scale-125 transition-all duration-150 flex items-center justify-center shadow-[0_0_40px_rgba(6,182,212,0.2)]">
+        <div class="w-44 h-44 rounded-full border border-dashed border-cyan-300/30"></div>
+        <div class="absolute w-full h-px bg-cyan-400/20"></div>
+        <div class="absolute h-full w-px bg-cyan-400/20"></div>
+        <div id="ads-zoom-label" class="absolute -top-6 text-[10px] font-cyber text-cyan-300 tracking-widest uppercase bg-slate-950/80 px-2 py-0.5 rounded border border-cyan-500/30">LOCK // ZOOM 1.6X</div>
+    </div>
 
-    <!-- MIRINO OTTICO TRASPARENTE SPECIFICO PER IL CECCHINO -->
-    <div id="sniper-scope-overlay" class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border-2 border-rose-500/80 pointer-events-none z-20 opacity-0 scale-110 transition-all duration-150 flex items-center justify-center shadow-[0_0_60px_rgba(244,63,94,0.35)] bg-cyan-950/10 backdrop-brightness-125">
-        <div class="absolute inset-0 rounded-full border border-rose-400/30"></div>
-        <div class="absolute w-full h-0.5 bg-rose-500/70"></div>
-        <div class="absolute h-full w-0.5 bg-rose-500/70"></div>
-        <div class="w-40 h-40 rounded-full border border-rose-400/40"></div>
-        <div class="absolute top-3 text-[10px] font-cyber text-rose-400 tracking-widest uppercase bg-slate-950/90 px-2 py-0.5 rounded border border-rose-500/40">RAILGUN V9 // OTTICA TRASPARENTE 3.2X</div>
-    </div>
+    <!-- HITMARKER CENTRATO (X rossa quando colpisci un nemico) -->
+    <div id="hit-marker" class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none z-20 opacity-0 transition-opacity duration-75">
+        <div class="absolute inset-0 rotate-45 flex items-center justify-center">
+            <div class="w-full h-0.5 bg-rose-500 shadow-[0_0_8px_#f43f5e]"></div>
+        </div>
+        <div class="absolute inset-0 -rotate-45 flex items-center justify-center">
+            <div class="w-full h-0.5 bg-rose-500 shadow-[0_0_8px_#f43f5e]"></div>
+        </div>
+    </div>
 
-    <!-- HITMARKER CENTRATO -->
-    <div id="hit-marker" class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 pointer-events-none z-20 opacity-0 transition-opacity duration-75">
-        <div class="absolute inset-0 rotate-45 flex items-center justify-center">
-            <div class="w-full h-0.5 bg-rose-500 shadow-[0_0_8px_#f43f5e]"></div>
-        </div>
-        <div class="absolute inset-0 -rotate-45 flex items-center justify-center">
-            <div class="w-full h-0.5 bg-rose-500 shadow-[0_0_8px_#f43f5e]"></div>
-        </div>
-    </div>
+    <!-- RUOTA DELLE ARMI (RADIAL WEAPON WHEEL) -->
+    <div id="weapon-wheel-overlay" class="fixed inset-0 z-30 pointer-events-none flex items-center justify-center opacity-0 scale-90 transition-all duration-150 bg-slate-950/45 backdrop-blur-[2px]">
+        <div class="relative w-80 h-80 sm:w-96 sm:h-96 flex items-center justify-center">
+            <!-- Cerchio esterno hi-tech -->
+            <div class="absolute inset-0 rounded-full bg-slate-950/90 border-2 border-cyan-500/45 shadow-[0_0_60px_rgba(6,182,212,0.35)]"></div>
+            <div class="absolute inset-6 rounded-full border border-dashed border-cyan-400/25"></div>
 
-    <!-- HUD PRINCIPALE -->
-    <div id="game-hud" class="fixed inset-0 pointer-events-none z-20 flex flex-col justify-between p-3 sm:p-5">
-        <div class="flex items-start justify-between gap-3">
-            <div class="cyber-panel rounded-xl px-4 py-2.5 flex items-center gap-4 sm:gap-6 pointer-events-auto">
-                <div>
-                    <div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Ondata</div>
-                    <div id="hud-wave" class="text-xl sm:text-2xl font-cyber font-black text-cyan-400">01</div>
-                </div>
-                <div class="h-8 w-px bg-cyan-500/30"></div>
-                <div>
-                    <div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Punteggio</div>
-                    <div id="hud-score" class="text-xl sm:text-2xl font-cyber font-black text-white">0</div>
-                </div>
-                <div class="h-8 w-px bg-cyan-500/30"></div>
-                <div>
-                    <div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Ostili</div>
-                    <div id="hud-enemies" class="text-xl sm:text-2xl font-cyber font-black text-rose-400">0</div>
-                </div>
-            </div>
+            <!-- Centro della ruota: Info Arma Selezionata -->
+            <div class="relative z-10 w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-slate-900/95 border border-cyan-400/60 flex flex-col items-center justify-center p-3 text-center shadow-[inset_0_0_20px_rgba(6,182,212,0.25)]">
+                <div id="wheel-center-slot" class="text-[10px] font-cyber text-cyan-400 tracking-widest uppercase">ARMI [Q]</div>
+                <div id="wheel-center-name" class="text-xs sm:text-sm font-cyber font-black text-white leading-tight my-1">FUCILE D'ASSALTO</div>
+                <div id="wheel-center-stats" class="text-[10px] text-slate-300 uppercase tracking-wider">30/30 COLPI</div>
+            </div>
 
-            <div class="flex items-start gap-2.5 pointer-events-auto">
-                <button id="btn-mute" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-cyan-300 hover:bg-cyan-500/20 transition">🔊 AUDIO</button>
-                <button id="btn-pause" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-slate-200 hover:bg-slate-700/40 transition">⏸ PAUSA</button>
-            </div>
-        </div>
+            <!-- Contenitore Slot Radial (generati via JS) -->
+            <div id="wheel-slots-container" class="absolute inset-0 pointer-events-auto"></div>
+        </div>
+    </div>
 
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-end justify-between gap-3">
-            <div class="cyber-panel rounded-xl px-4 py-3 w-full sm:w-72">
-                <div class="flex justify-between items-baseline mb-1.5">
-                    <span class="text-[11px] font-cyber uppercase tracking-widest text-slate-300">Integrità Corazza</span>
-                    <span id="hud-health-text" class="text-xl font-cyber font-bold text-emerald-400">100%</span>
-                </div>
-                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
-                    <div id="hud-health-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 rounded-full transition-all duration-200" style="width: 100%"></div>
-                </div>
-            </div>
+    <!-- HUD PRINCIPALE DI GIOCO -->
+    <div id="game-hud" class="fixed inset-0 pointer-events-none z-20 flex flex-col justify-between p-3 sm:p-5">
+        <!-- Barra Superiore: Ondata, Punteggio, Nemici e Radar -->
+        <div class="flex items-start justify-between gap-3">
+            <div class="cyber-panel rounded-xl px-4 py-2.5 flex items-center gap-4 sm:gap-6 pointer-events-auto">
+                <div>
+                    <div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Ondata</div>
+                    <div id="hud-wave" class="text-xl sm:text-2xl font-cyber font-black text-cyan-400">01</div>
+                </div>
+                <div class="h-8 w-px bg-cyan-500/30"></div>
+                <div>
+                    <div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Punteggio</div>
+                    <div id="hud-score" class="text-xl sm:text-2xl font-cyber font-black text-white">0</div>
+                </div>
+                <div class="h-8 w-px bg-cyan-500/30"></div>
+                <div>
+                    <div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Ostili</div>
+                    <div id="hud-enemies" class="text-xl sm:text-2xl font-cyber font-black text-rose-400">0</div>
+                </div>
+                <div class="h-8 w-px bg-cyan-500/30 hidden sm:block"></div>
+                <div class="hidden sm:block">
+                    <div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Eliminazioni</div>
+                    <div id="hud-kills" class="text-xl sm:text-2xl font-cyber font-black text-fuchsia-400">0</div>
+                </div>
+            </div>
 
-            <div class="cyber-panel rounded-xl px-5 py-3 flex items-center justify-between sm:justify-end gap-5">
-                <div class="text-left sm:text-right">
-                    <div id="hud-weapon-name" class="text-xs font-cyber uppercase tracking-widest text-cyan-400 font-bold">Fucile d'Assalto MK-IV</div>
-                </div>
-                <div class="h-10 w-px bg-cyan-500/30"></div>
-                <div class="flex items-baseline gap-1 font-cyber">
-                    <span id="hud-ammo-clip" class="text-3xl sm:text-4xl font-black text-white">30</span>
-                    <span class="text-lg text-slate-400">/</span>
-                    <span id="hud-ammo-max" class="text-lg text-cyan-400 font-bold">30</span>
-                </div>
-            </div>
-        </div>
-    </div>
+            <!-- Minimappa Radar e Pulsanti Rapidi -->
+            <div class="flex items-start gap-2.5 pointer-events-auto">
+                <button id="btn-mute" title="Audio On/Off" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-cyan-300 hover:bg-cyan-500/20 transition">
+                    🔊 AUDIO
+                </button>
+                <button id="btn-pause" title="Pausa [P]" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-slate-200 hover:bg-slate-700/40 transition">
+                    ⏸ PAUSA
+                </button>
+                <div class="cyber-panel rounded-full p-1.5 hidden sm:block">
+                    <canvas id="radar-canvas" width="96" height="96" class="rounded-full block"></canvas>
+                </div>
+            </div>
+        </div>
 
-    <!-- MENU OVERLAY -->
-    <div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
-        <div class="cyber-panel rounded-2xl max-w-lg w-full p-6 sm:p-8 border border-cyan-400/50 text-center relative overflow-hidden">
-            <h1 class="text-3xl sm:text-4xl font-cyber font-black text-white tracking-wider uppercase mb-2">
-                CYBERSTRIKE <span class="text-cyan-400">3D</span>
-            </h1>
-            <p class="text-sm text-slate-300 mb-6">Premi il pulsante per avviare la missione e bloccare il puntatore.</p>
-            <button id="btn-start-game" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-base uppercase tracking-wider shadow-[0_0_25px_rgba(34,211,238,0.45)] transition transform active:scale-98 cursor-pointer">
-                Inizia Missione
-            </button>
-        </div>
-    </div>
+        <!-- Messaggio Centrale Annuncio Ondata / Sblocco Arma -->
+        <div class="flex flex-col items-center justify-center my-auto pointer-events-none">
+            <div id="wave-announcement" class="opacity-0 transition-all duration-300 transform scale-95 text-center px-6 py-3 rounded-2xl bg-slate-950/85 border border-cyan-400/50 shadow-[0_0_40px_rgba(34,211,238,0.25)]">
+                <div id="announcement-title" class="text-2xl sm:text-3xl font-cyber font-black text-cyan-300 tracking-wider uppercase">ONDATA 01</div>
+                <div id="announcement-subtitle" class="text-xs sm:text-sm text-slate-300 mt-1">Elimina tutti i droni ostili</div>
+            </div>
+            <div id="reload-prompt" class="hidden mt-4 px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-400/60 text-amber-300 text-xs font-cyber uppercase tracking-widest animate-pulse">
+                [R] Ricarica Consigliata
+            </div>
+        </div>
 
-    <script>
-        class CyberSoundEngine {
-            constructor() { this.ctx = null; this.enabled = true; }
-            init() {
-                if (!this.ctx) {
-                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                    if (AudioCtx) this.ctx = new AudioCtx();
-                }
-                if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
-            }
-            toggle() { this.enabled = !this.enabled; return this.enabled; }
-        }
+        <!-- Controlli Touch Mobile (visibili su schermi touch) -->
+        <div id="touch-controls" class="hidden justify-between items-end w-full mb-3 pointer-events-auto sm:hidden">
+            <!-- Joystick Movimento Sinistro -->
+            <div id="joystick-zone" class="relative w-28 h-28 rounded-full bg-slate-900/65 border border-cyan-400/40 flex items-center justify-center touch-none">
+                <div id="joystick-knob" class="w-11 h-11 rounded-full bg-cyan-400/80 shadow-[0_0_15px_#22d3ee]"></div>
+            </div>
+            <!-- Pulsanti Azione Destri -->
+            <div class="flex gap-2 items-end">
+                <button id="btn-touch-wheel" class="w-12 h-12 rounded-full cyber-panel border border-purple-400/80 text-purple-300 font-cyber text-[10px] font-bold active:scale-95">
+                    ARMI
+                </button>
+                <button id="btn-touch-aim" class="w-12 h-12 rounded-full cyber-panel border border-cyan-400/80 text-cyan-300 font-cyber text-[10px] font-bold active:scale-95">
+                    MIRA
+                </button>
+                <button id="btn-touch-reload" class="w-12 h-12 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-bold active:scale-95">
+                    RIC
+                </button>
+                <button id="btn-touch-jump" class="w-12 h-12 rounded-full cyber-panel border border-emerald-400/80 text-emerald-300 font-cyber text-[10px] font-bold active:scale-95">
+                    SALTA
+                </button>
+                <button id="btn-touch-fire" class="w-16 h-16 rounded-full bg-rose-600/80 border-2 border-rose-300 text-white font-cyber text-xs font-black shadow-[0_0_20px_#f43f5e] active:scale-95">
+                    FUOCO
+                </button>
+            </div>
+        </div>
 
-        const sound = new CyberSoundEngine();
+        <!-- Barra Inferiore: Salute e Munizioni Arma Corrente -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-end justify-between gap-3">
+            <!-- Integrità Corazza -->
+            <div class="cyber-panel rounded-xl px-4 py-3 w-full sm:w-72">
+                <div class="flex justify-between items-baseline mb-1.5">
+                    <span class="text-[11px] font-cyber uppercase tracking-widest text-slate-300">Integrità Corazza</span>
+                    <span id="hud-health-text" class="text-xl font-cyber font-bold text-emerald-400">100%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
+                    <div id="hud-health-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 rounded-full transition-all duration-200" style="width: 100%"></div>
+                </div>
+            </div>
 
-        // Inizializzazione Tre.js e logica di avvio
-        let scene, camera, renderer;
-        let isGameRunning = false;
+            <!-- Contatore Munizioni e Arma Equipaggiata -->
+            <div class="cyber-panel rounded-xl px-5 py-3 flex items-center justify-between sm:justify-end gap-5">
+                <div class="text-left sm:text-right">
+                    <div class="flex items-center sm:justify-end gap-2">
+                        <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-[10px] font-cyber text-cyan-300">[Q] Ruota</span>
+                        <div id="hud-weapon-name" class="text-xs font-cyber uppercase tracking-widest text-cyan-400 font-bold">Fucile d'Assalto MK-IV</div>
+                    </div>
+                    <div id="hud-weapon-status" class="text-xs text-emerald-400 uppercase font-semibold tracking-wider mt-0.5">Modalità Fianco // Tasto DX per Mirare</div>
+                    <div id="hud-secret-progress" class="text-[10px] font-cyber text-fuchsia-400/90 tracking-wider uppercase mt-0.5">Arma Segreta [5]: 0/100 Kill</div>
+                </div>
+                <div class="h-10 w-px bg-cyan-500/30"></div>
+                <div class="flex items-baseline gap-1 font-cyber">
+                    <span id="hud-ammo-clip" class="text-3xl sm:text-4xl font-black text-white">30</span>
+                    <span class="text-lg text-slate-400">/</span>
+                    <span id="hud-ammo-max" class="text-lg text-cyan-400 font-bold">30</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        function init3D() {
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x050711);
+    <!-- MENU OVERLAY (START / PAUSA / GAME OVER) -->
+    <div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
+        <div class="cyber-panel rounded-2xl max-w-lg w-full p-6 sm:p-8 border border-cyan-400/50 text-center relative overflow-hidden">
+            <div class="inline-block px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-[11px] font-cyber tracking-widest uppercase mb-3">
+                Simulazione Tattica WebGL
+            </div>
+            <h1 id="menu-title" class="text-3xl sm:text-4xl font-cyber font-black text-white tracking-wider uppercase mb-2">
+                CYBERSTRIKE <span class="text-cyan-400">3D</span>
+            </h1>
+            <p id="menu-subtitle" class="text-sm text-slate-300 mb-6">
+                Respira, prendi la mira col tasto destro e abbatti le ondate di droni ostili. Sblocca l'arma segreta raggiungendo 100 eliminazioni!
+            </p>
 
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 2, 0);
+            <!-- Statistiche Fine Partita (nascoste all'avvio) -->
+            <div id="gameover-stats" class="hidden grid-cols-3 gap-2 mb-6 p-3 rounded-xl bg-slate-900/90 border border-rose-500/40">
+                <div>
+                    <div class="text-[10px] font-cyber text-slate-400 uppercase">Punteggio</div>
+                    <div id="final-score" class="text-xl font-cyber font-bold text-white">0</div>
+                </div>
+                <div>
+                    <div class="text-[10px] font-cyber text-slate-400 uppercase">Ondata</div>
+                    <div id="final-wave" class="text-xl font-cyber font-bold text-cyan-400">1</div>
+                </div>
+                <div>
+                    <div class="text-[10px] font-cyber text-slate-400 uppercase">Droni Eliminati</div>
+                    <div id="final-kills" class="text-xl font-cyber font-bold text-emerald-400">0</div>
+                </div>
+            </div>
 
-            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('game-canvas'), antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            <!-- Guida Comandi -->
+            <div class="text-left bg-slate-900/75 rounded-xl p-4 mb-5 border border-slate-800 space-y-2 text-xs sm:text-sm">
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Movimento & Scatto</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-mono text-xs border border-slate-700">WASD + Shift</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Mira di Precisione (ADS)</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-mono text-xs border border-slate-700">Tieni Tasto Destro Mouse</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Fuoco Arma</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-mono text-xs border border-slate-700">Tasto Sinistro Mouse</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Ruota delle Armi / Scelta Rapida</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-mono text-xs border border-slate-700">Tieni [Q] o [TAB] / [1-5]</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Ricarica / Salta</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-mono text-xs border border-slate-700">[R] / [Spazio]</span>
+                </div>
+            </div>
 
-            // Griglia Arena Base
-            const grid = new THREE.GridHelper(100, 40, 0x22d3ee, 0x1e293b);
-            grid.position.y = 0;
-            scene.add(grid);
+            <!-- Regolazione Sensibilità Mouse -->
+            <div class="mb-6 text-left bg-slate-900/50 rounded-xl px-4 py-2.5 border border-slate-800">
+                <div class="flex justify-between text-xs mb-1">
+                    <span class="text-slate-300 font-semibold">Sensibilità Puntatore</span>
+                    <span id="sens-value" class="text-cyan-400 font-cyber">1.0x</span>
+                </div>
+                <input id="sens-slider" type="range" min="0.3" max="2.5" step="0.1" value="1.0" class="w-full accent-cyan-400 cursor-pointer">
+            </div>
 
-            const ambient = new THREE.AmbientLight(0xffffff, 0.7);
-            scene.add(ambient);
+            <button id="btn-start-game" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-base uppercase tracking-wider shadow-[0_0_25px_rgba(34,211,238,0.45)] transition transform active:scale-98 cursor-pointer">
+                Inizia Missione
+            </button>
+        </div>
+    </div>
 
-            animate();
-        }
+    <script>
+        /**
+         * MOTORE AUDIO SINTETIZZATO (Web Audio API - Nessun file esterno richiesto)
+         */
+        class CyberSoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+            }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            if (renderer && scene && camera) {
-                renderer.render(scene, camera);
-            }
-        }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) {
+                        this.ctx = new AudioCtx();
+                    }
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
 
-        // Gestione tasto Avvio
-        document.getElementById('btn-start-game').addEventListener('click', () => {
-            sound.init();
-            document.getElementById('menu-overlay').classList.add('hidden');
-            isGameRunning = true;
-            document.body.requestPointerLock();
-        });
+            toggle() {
+                this.enabled = !this.enabled;
+                return this.enabled;
+            }
 
-        window.addEventListener('resize', () => {
-            if (camera && renderer) {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-        });
+            playWeaponFire(weaponId) {
+                if (!this.ctx || !this.enabled) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
 
-        // Avvio motore grafico all'caricamento della pagina
-        window.onload = () => {
-            init3D();
-        };
-    </script>
-</body>
-</html>
+                if (weaponId === 'SMG') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(980, now);
+                    osc.frequency.exponentialRampToValueAtTime(220, now + 0.08);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.085);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.09);
+                } else if (weaponId === 'SHOTGUN') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(250, now);
+                    osc.frequency.exponentialRampToValueAtTime(42, now + 0.28);
+                    gain.gain.setValueAtTime(0.32, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.29);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (weaponId === 'SNIPER') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(1400, now);
+                    osc.frequency.exponentialRampToValueAtTime(60, now + 0.38);
+                    gain.gain.setValueAtTime(0.34, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.39);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (weaponId === 'SECRET') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.linearRampToValueAtTime(1280, now + 0.11);
+                    osc.frequency.exponentialRampToValueAtTime(55, now + 0.44);
+                    gain.gain.setValueAtTime(0.35, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.45);
+                } else {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(760, now);
+                    osc.frequency.exponentialRampToValueAtTime(130, now + 0.13);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.14);
+                }
+            }
+
+            playHit() {
+                if (!this.ctx || !this.enabled) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(1250, now);
+                osc.frequency.exponentialRampToValueAtTime(420, now + 0.06);
+                gain.gain.setValueAtTime(0.18, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.07);
+            }
+
+            playExplosion() {
+                if (!this.ctx || !this.enabled) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(28, now + 0.35);
+                gain.gain.setValueAtTime(0.28, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.37);
+            }
+
+            playReload() {
+                if (!this.ctx || !this.enabled) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.linearRampToValueAtTime(780, now + 0.25);
+                gain.gain.setValueAtTime(0.14, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.27);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.28);
+            }
+
+            playPickup() {
+                if (!this.ctx || !this.enabled) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(520, now);
+                osc.frequency.setValueAtTime(880, now + 0.07);
+                gain.gain.setValueAtTime(0.16, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.21);
+            }
+
+            playPlayerDamage() {
+                if (!this.ctx || !this.enabled) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(190, now);
+                osc.frequency.linearRampToValueAtTime(75, now + 0.18);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            }
+        }
+
+        const sound = new CyberSoundEngine();
+
+        const WEAPONS = [
+            {
+                id: 'ASSAULT',
+                key: '1',
+                name: "Fucile d'Assalto MK-IV",
+                shortName: "ASSALTO",
+                desc: "Bilanciato Automatico",
+                maxAmmo: 30,
+                reloadTime: 1.35,
+                fireRate: 0.12,
+                damage: 35,
+                adsDamage: 46,
+                pellets: 1,
+                hipSpread: 0.042,
+                adsSpread: 0.0,
+                adsFov: 48,
+                zoomLabel: "LOCK // ZOOM 1.6X",
+                recoil: 0.12,
+                colorHex: 0x22d3ee,
+                uiColor: '#22d3ee',
+                beamWidth: 0.024,
+                secret: false
+            },
+            {
+                id: 'SMG',
+                key: '2',
+                name: "Mitraglietta Vector-X",
+                shortName: "MITRAGLIETTA",
+                desc: "Cadenza Estrema",
+                maxAmmo: 48,
+                reloadTime: 1.05,
+                fireRate: 0.062,
+                damage: 21,
+                adsDamage: 27,
+                pellets: 1,
+                hipSpread: 0.068,
+                adsSpread: 0.01,
+                adsFov: 56,
+                zoomLabel: "REFLEX // ZOOM 1.3X",
+                recoil: 0.075,
+                colorHex: 0xfacc15,
+                uiColor: '#facc15',
+                beamWidth: 0.018,
+                secret: false
+            },
+            {
+                id: 'SHOTGUN',
+                key: '3',
+                name: "Fucile a Pompa Titan-8",
+                shortName: "POMPA",
+                desc: "8 Dardi Plasma",
+                maxAmmo: 8,
+                reloadTime: 1.7,
+                fireRate: 0.65,
+                damage: 26,
+                adsDamage: 32,
+                pellets: 8,
+                hipSpread: 0.125,
+                adsSpread: 0.055,
+                adsFov: 58,
+                zoomLabel: "CHOKE // ZOOM 1.3X",
+                recoil: 0.26,
+                colorHex: 0xf97316,
+                uiColor: '#f97316',
+                beamWidth: 0.02,
+                secret: false
+            },
+            {
+                id: 'SNIPER',
+                key: '4',
+                name: "Cecchino Railgun V9",
+                shortName: "CECCHINO",
+                desc: "Colpo Perforante",
+                maxAmmo: 5,
+                reloadTime: 1.85,
+                fireRate: 0.92,
+                damage: 170,
+                adsDamage: 270,
+                pellets: 1,
+                hipSpread: 0.085,
+                adsSpread: 0.0,
+                adsFov: 24,
+                zoomLabel: "OPTIC // ZOOM 3.2X",
+                recoil: 0.32,
+                colorHex: 0xf43f5e,
+                uiColor: '#f43f5e',
+                beamWidth: 0.045,
+                secret: false
+            },
+            {
+                id: 'SECRET',
+                key: '5',
+                name: "Singolarità Omega",
+                shortName: "OMEGA-X",
+                desc: "Esplosione Antimateria",
+                maxAmmo: 60,
+                reloadTime: 1.1,
+                fireRate: 0.09,
+                damage: 95,
+                adsDamage: 140,
+                pellets: 3,
+                hipSpread: 0.025,
+                adsSpread: 0.006,
+                adsFov: 42,
+                zoomLabel: "OMEGA // ZOOM 1.8X",
+                recoil: 0.1,
+                colorHex: 0xd946ef,
+                uiColor: '#d946ef',
+                beamWidth: 0.055,
+                secret: true,
+                unlockKills: 100,
+                explosiveRadius: 6.5
+            }
+        ];
+
+        const GAME_CONFIG = {
+            arenaHalfSize: 55,
+            playerHeight: 2.2,
+            playerRadius: 0.9,
+            moveSpeed: 13.0,
+            sprintMultiplier: 1.45,
+            jumpForce: 11.5,
+            gravity: 26.0,
+            baseSensitivity: 0.0022
+        };
+
+        const state = {
+            mode: 'MENU',
+            score: 0,
+            wave: 1,
+            kills: 0,
+            secretUnlocked: false,
+            currentWeaponIndex: 0,
+            weaponClips: [30, 48, 8, 5, 60],
+            isWheelOpen: false,
+            hoveredWheelIndex: 0,
+            wheelMouseX: 0,
+            wheelMouseY: 0,
+            health: 100,
+            maxHealth: 100,
+            ammo: 30,
+            isReloading: false,
+            reloadTimer: 0,
+            fireCooldown: 0,
+            isFiring: false,
+            isAiming: false,
+            adsProgress: 0,
+            sensitivityMultiplier: 1.0,
+            enemiesToSpawn: 0,
+            spawnTimer: 0,
+            waveTransitionTimer: 0,
+            inWaveTransition: false
+        };
+
+        function getCurrentWeapon() {
+            return WEAPONS[state.currentWeaponIndex];
+        }
+
+        // Riferimenti DOM
+        const canvas = document.getElementById('game-canvas');
+        const radarCanvas = document.getElementById('radar-canvas');
+        const radarCtx = radarCanvas ? radarCanvas.getContext('2d') : null;
+        const menuOverlay = document.getElementById('menu-overlay');
+        const menuTitle = document.getElementById('menu-title');
+        const menuSubtitle = document.getElementById('menu-subtitle');
+        const gameoverStats = document.getElementById('gameover-stats');
+        const finalScore = document.getElementById('final-score');
+        const finalWave = document.getElementById('final-wave');
+        const finalKills = document.getElementById('final-kills');
+        const btnStartGame = document.getElementById('btn-start-game');
+        const btnPause = document.getElementById('btn-pause');
+        const btnMute = document.getElementById('btn-mute');
+        const sensSlider = document.getElementById('sens-slider');
+        const sensValue = document.getElementById('sens-value');
+
+        const hudWave = document.getElementById('hud-wave');
+        const hudScore = document.getElementById('hud-score');
+        const hudEnemies = document.getElementById('hud-enemies');
+        const hudKills = document.getElementById('hud-kills');
+        const hudHealthText = document.getElementById('hud-health-text');
+        const hudHealthBar = document.getElementById('hud-health-bar');
+        const hudAmmoClip = document.getElementById('hud-ammo-clip'
