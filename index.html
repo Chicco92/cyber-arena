@@ -39,11 +39,11 @@
             left: 0;
             z-index: 1;
         }
+        /* Rimossi backdrop-filter: blur pesanti per eliminare qualsiasi lag nei menu e nel negozio */
         .cyber-panel {
-            background: rgba(10, 15, 32, 0.78);
-            backdrop-filter: blur(8px);
+            background: rgba(10, 15, 32, 0.92);
             border: 1px solid rgba(34, 211, 238, 0.35);
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.12);
         }
         #damage-overlay {
             background: radial-gradient(circle, transparent 45%, rgba(239, 68, 68, 0.65) 100%);
@@ -66,7 +66,7 @@
     <!-- OVERLAY DANNO RICEVUTO -->
     <div id="damage-overlay" class="fixed inset-0 pointer-events-none z-10 opacity-0"></div>
 
-    <!-- MIRINO STANDARD SVG (Sempre centrato al pixel, senza cerchi invasivi) -->
+    <!-- MIRINO STANDARD SVG (Senza banner zoom) -->
     <div id="crosshair" class="screen-center z-30 w-16 h-16 transition-transform duration-75 flex items-center justify-center">
         <svg id="crosshair-svg" viewBox="0 0 100 100" class="w-full h-full overflow-visible">
             <line id="ch-top" class="ch-line transition-all duration-150" x1="50" y1="24" x2="50" y2="38" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
@@ -77,54 +77,35 @@
         </svg>
     </div>
 
-    <!-- OVERLAY OTTICA SNIPER REALISTICA (Senza banner di testo, con reticolo da cecchino) -->
-    <div id="sniper-scope-overlay" class="fixed inset-0 pointer-events-none z-30 opacity-0 transition-opacity duration-100 flex items-center justify-center">
-        <!-- Maschera scura esterna da cannocchiale -->
-        <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 50%, transparent 250px, rgba(3, 6, 18, 0.98) 254px);"></div>
-        <!-- Lente e Reticolo Balistico Mil-Dot -->
-        <div class="screen-center w-[508px] h-[508px] flex items-center justify-center">
-            <svg viewBox="0 0 500 500" class="w-full h-full">
-                <!-- Bordo metallico e anello ottico -->
-                <circle cx="250" cy="250" r="246" fill="none" stroke="#0f172a" stroke-width="8" />
-                <circle cx="250" cy="250" r="242" fill="none" stroke="#f43f5e" stroke-width="2" stroke-opacity="0.85" />
-                <circle cx="250" cy="250" r="230" fill="none" stroke="#22d3ee" stroke-width="0.75" stroke-dasharray="6 4" stroke-opacity="0.4" />
-                
-                <!-- Croci esterne spesse (Tipiche dei mirini da cecchino) -->
-                <line x1="4" y1="250" x2="130" y2="250" stroke="#020617" stroke-width="6" />
-                <line x1="370" y1="250" x2="496" y2="250" stroke="#020617" stroke-width="6" />
-                <line x1="250" y1="4" x2="250" y2="130" stroke="#020617" stroke-width="6" />
-                <line x1="250" y1="370" x2="250" y2="496" stroke="#020617" stroke-width="6" />
-
-                <!-- Fili interni sottili ad alta precisione -->
-                <line x1="130" y1="250" x2="242" y2="250" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
-                <line x1="258" y1="250" x2="370" y2="250" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
-                <line x1="250" y1="130" x2="250" y2="242" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
-                <line x1="250" y1="258" x2="250" y2="370" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
-
-                <!-- Tacche Mil-Dot orizzontali e verticali -->
-                <g stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.85">
-                    <line x1="160" y1="244" x2="160" y2="256" />
-                    <line x1="180" y1="246" x2="180" y2="254" />
-                    <line x1="200" y1="244" x2="200" y2="256" />
-                    <line x1="220" y1="246" x2="220" y2="254" />
-                    <line x1="280" y1="246" x2="280" y2="254" />
-                    <line x1="300" y1="244" x2="300" y2="256" />
-                    <line x1="320" y1="246" x2="320" y2="254" />
-                    <line x1="340" y1="244" x2="340" y2="256" />
-
-                    <line x1="244" y1="160" x2="256" y2="160" />
-                    <line x1="246" y1="180" x2="254" y2="180" />
-                    <line x1="244" y1="200" x2="256" y2="200" />
-                    <line x1="246" y1="220" x2="254" y2="220" />
-                    <line x1="244" y1="280" x2="256" y2="280" />
-                    <line x1="242" y1="300" x2="258" y2="300" />
-                    <line x1="240" y1="320" x2="260" y2="320" />
-                    <line x1="236" y1="340" x2="264" y2="340" />
+    <!-- OVERLAY OTTICA SNIPER REALISTICA (Senza banner testuali) -->
+    <div id="sniper-scope-overlay" class="fixed inset-0 pointer-events-none z-25 opacity-0 transition-opacity duration-100 flex items-center justify-center">
+        <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 50%, transparent 33%, rgba(2, 5, 15, 0.98) 35%);"></div>
+        <div class="screen-center w-[480px] h-[480px] sm:w-[560px] sm:h-[560px] flex items-center justify-center">
+            <svg viewBox="0 0 400 400" class="w-full h-full">
+                <circle cx="200" cy="200" r="195" fill="none" stroke="#0f172a" stroke-width="8" />
+                <circle cx="200" cy="200" r="190" fill="none" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.75" />
+                <line x1="5" y1="200" x2="115" y2="200" stroke="#0f172a" stroke-width="5" />
+                <line x1="285" y1="200" x2="395" y2="200" stroke="#0f172a" stroke-width="5" />
+                <line x1="200" y1="285" x2="200" y2="395" stroke="#0f172a" stroke-width="5" />
+                <line x1="115" y1="200" x2="193" y2="200" stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.85" />
+                <line x1="207" y1="200" x2="285" y2="200" stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.85" />
+                <line x1="200" y1="15" x2="200" y2="193" stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.85" />
+                <line x1="200" y1="207" x2="200" y2="285" stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.85" />
+                <g stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.8">
+                    <line x1="140" y1="196" x2="140" y2="204" />
+                    <line x1="160" y1="197" x2="160" y2="203" />
+                    <line x1="180" y1="197" x2="180" y2="203" />
+                    <line x1="220" y1="197" x2="220" y2="203" />
+                    <line x1="240" y1="197" x2="240" y2="203" />
+                    <line x1="260" y1="196" x2="260" y2="204" />
+                    <line x1="196" y1="140" x2="204" y2="140" />
+                    <line x1="197" y1="160" x2="203" y2="160" />
+                    <line x1="197" y1="180" x2="203" y2="180" />
+                    <line x1="197" y1="220" x2="203" y2="220" />
+                    <line x1="197" y1="240" x2="203" y2="240" />
+                    <line x1="196" y1="260" x2="204" y2="260" />
                 </g>
-
-                <!-- Anello telemetrico centrale e punto laser -->
-                <circle cx="250" cy="250" r="32" fill="none" stroke="#f43f5e" stroke-width="1" stroke-opacity="0.45" />
-                <circle cx="250" cy="250" r="2.2" fill="#22d3ee" />
+                <circle cx="200" cy="200" r="2.2" fill="#f43f5e" />
             </svg>
         </div>
     </div>
@@ -140,11 +121,11 @@
     </div>
 
     <!-- RUOTA DELLE ARMI (8 SLOT) -->
-    <div id="weapon-wheel-overlay" class="fixed inset-0 z-30 pointer-events-none flex items-center justify-center opacity-0 scale-90 transition-all duration-150 bg-slate-950/45 backdrop-blur-[2px]">
+    <div id="weapon-wheel-overlay" class="fixed inset-0 z-30 pointer-events-none flex items-center justify-center opacity-0 scale-90 transition-all duration-150 bg-slate-950/70">
         <div class="relative w-[360px] h-[360px] sm:w-[430px] sm:h-[430px] flex items-center justify-center">
-            <div class="absolute inset-0 rounded-full bg-slate-950/90 border-2 border-cyan-500/45 shadow-[0_0_60px_rgba(6,182,212,0.35)]"></div>
+            <div class="absolute inset-0 rounded-full bg-slate-950/95 border-2 border-cyan-500/45 shadow-[0_0_40px_rgba(6,182,212,0.3)]"></div>
             <div class="absolute inset-6 rounded-full border border-dashed border-cyan-400/25"></div>
-            <div class="relative z-10 w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-slate-900/95 border border-cyan-400/60 flex flex-col items-center justify-center p-3 text-center shadow-[inset_0_0_20px_rgba(6,182,212,0.25)]">
+            <div class="relative z-10 w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-slate-900 border border-cyan-400/60 flex flex-col items-center justify-center p-3 text-center">
                 <div id="wheel-center-slot" class="text-[10px] font-cyber text-cyan-400 tracking-widest uppercase">ARMI [Q]</div>
                 <div id="wheel-center-name" class="text-xs sm:text-sm font-cyber font-black text-white leading-tight my-1">FUCILE D'ASSALTO</div>
                 <div id="wheel-center-stats" class="text-[10px] text-slate-300 uppercase tracking-wider">30/30 COLPI</div>
@@ -203,8 +184,8 @@
                             <div id="hud-ping" class="text-xs sm:text-sm font-cyber font-bold text-cyan-400">12ms</div>
                         </div>
                     </div>
-                    <button id="btn-mute" type="button" title="Audio On/Off" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-cyan-300 hover:bg-cyan-500/20 transition cursor-pointer">🔊 AUDIO</button>
-                    <button id="btn-pause" type="button" title="Pausa [P]" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-slate-200 hover:bg-slate-700/40 transition cursor-pointer">⏸ PAUSA</button>
+                    <button id="btn-mute" title="Audio On/Off" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-cyan-300 hover:bg-cyan-500/20 transition cursor-pointer">🔊 AUDIO</button>
+                    <button id="btn-pause" title="Pausa [P]" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-slate-200 hover:bg-slate-700/40 transition cursor-pointer">⏸ PAUSA</button>
                     <div class="cyber-panel rounded-full p-1.5 hidden sm:block">
                         <canvas id="radar-canvas" width="96" height="96" class="rounded-full block"></canvas>
                     </div>
@@ -212,7 +193,7 @@
             </div>
 
             <!-- BARRA SALUTE BOSS -->
-            <div id="boss-hud-container" class="hidden w-full max-w-xl mx-auto cyber-panel rounded-xl px-5 py-2.5 border border-rose-500/60 shadow-[0_0_30px_rgba(244,63,94,0.3)]">
+            <div id="boss-hud-container" class="hidden w-full max-w-xl mx-auto cyber-panel rounded-xl px-5 py-2.5 border border-rose-500/60">
                 <div class="flex justify-between items-baseline mb-1">
                     <span id="boss-name-label" class="text-xs font-cyber font-black text-rose-400 tracking-widest uppercase">⚠️ BOSS OMEGA DRONE ⚠️</span>
                     <span id="boss-health-text" class="text-xs font-cyber font-bold text-rose-300">100%</span>
@@ -224,7 +205,7 @@
 
             <!-- BANNER ANNUNCI IN ALTO -->
             <div class="flex flex-col items-center justify-start mt-1 pointer-events-none">
-                <div id="wave-announcement" class="opacity-0 transition-all duration-300 transform -translate-y-2 scale-95 text-center px-6 py-2 rounded-2xl bg-slate-950/90 border border-cyan-400/50 shadow-[0_0_35px_rgba(34,211,238,0.25)]">
+                <div id="wave-announcement" class="opacity-0 transition-all duration-300 transform -translate-y-2 scale-95 text-center px-6 py-2 rounded-2xl bg-slate-950/95 border border-cyan-400/50">
                     <div id="announcement-title" class="text-lg sm:text-2xl font-cyber font-black text-cyan-300 tracking-wider uppercase">ONDATA 01</div>
                     <div id="announcement-subtitle" class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Elimina tutti i droni ostili</div>
                 </div>
@@ -236,19 +217,19 @@
 
         <!-- Controlli Touch Mobile -->
         <div id="touch-controls" class="hidden justify-between items-end w-full mb-3 pointer-events-auto sm:hidden mt-auto">
-            <div id="joystick-zone" class="relative w-28 h-28 rounded-full bg-slate-900/65 border border-cyan-400/40 flex items-center justify-center touch-none">
-                <div id="joystick-knob" class="w-11 h-11 rounded-full bg-cyan-400/80 shadow-[0_0_15px_#22d3ee]"></div>
+            <div id="joystick-zone" class="relative w-28 h-28 rounded-full bg-slate-900/80 border border-cyan-400/40 flex items-center justify-center touch-none">
+                <div id="joystick-knob" class="w-11 h-11 rounded-full bg-cyan-400/80"></div>
             </div>
             <div class="flex gap-2 items-end">
-                <button id="btn-touch-wheel" type="button" class="w-12 h-12 rounded-full cyber-panel border border-purple-400/80 text-purple-300 font-cyber text-[10px] font-bold active:scale-95">ARMI</button>
-                <button id="btn-touch-aim" type="button" class="w-12 h-12 rounded-full cyber-panel border border-cyan-400/80 text-cyan-300 font-cyber text-[10px] font-bold active:scale-95">MIRA</button>
-                <button id="btn-touch-reload" type="button" class="w-12 h-12 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-bold active:scale-95">RIC</button>
-                <button id="btn-touch-jump" type="button" class="w-12 h-12 rounded-full cyber-panel border border-emerald-400/80 text-emerald-300 font-cyber text-[10px] font-bold active:scale-95">SALTA</button>
-                <button id="btn-touch-fire" type="button" class="w-16 h-16 rounded-full bg-rose-600/80 border-2 border-rose-300 text-white font-cyber text-xs font-black shadow-[0_0_20px_#f43f5e] active:scale-95">FUOCO</button>
+                <button id="btn-touch-wheel" class="w-12 h-12 rounded-full cyber-panel border border-purple-400/80 text-purple-300 font-cyber text-[10px] font-bold active:scale-95">ARMI</button>
+                <button id="btn-touch-aim" class="w-12 h-12 rounded-full cyber-panel border border-cyan-400/80 text-cyan-300 font-cyber text-[10px] font-bold active:scale-95">MIRA</button>
+                <button id="btn-touch-reload" class="w-12 h-12 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-bold active:scale-95">RIC</button>
+                <button id="btn-touch-jump" class="w-12 h-12 rounded-full cyber-panel border border-emerald-400/80 text-emerald-300 font-cyber text-[10px] font-bold active:scale-95">SALTA</button>
+                <button id="btn-touch-fire" class="w-16 h-16 rounded-full bg-rose-600 border-2 border-rose-300 text-white font-cyber text-xs font-black active:scale-95">FUOCO</button>
             </div>
         </div>
 
-        <!-- Barra Inferiore: Salute, Stamina e Munizioni -->
+        <!-- Barra Inferiore: Salute, Stamina e Munizioni + XP Arma -->
         <div class="flex flex-col sm:flex-row items-stretch sm:items-end justify-between gap-3 mt-auto">
             <div class="flex flex-col gap-2 w-full sm:w-72">
                 <div class="cyber-panel rounded-xl px-4 py-2.5">
@@ -277,7 +258,13 @@
                         <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-[10px] font-cyber text-cyan-300">[Q] Ruota</span>
                         <div id="hud-weapon-name" class="text-xs font-cyber uppercase tracking-widest text-cyan-400 font-bold">Fucile d'Assalto MK-IV</div>
                     </div>
-                    <div id="hud-weapon-status" class="text-xs text-emerald-400 uppercase font-semibold tracking-wider mt-0.5">Modalità Fianco // Tasto DX per Mirare</div>
+                    <div class="flex items-center sm:justify-end gap-2 mt-1">
+                        <span id="hud-weapon-lvl" class="text-[10px] font-cyber font-bold text-amber-400">LVL 1</span>
+                        <div class="w-24 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div id="hud-weapon-xp-bar" class="h-full bg-amber-400 transition-all duration-150" style="width: 0%"></div>
+                        </div>
+                        <span id="hud-weapon-sp" class="text-[10px] font-cyber font-bold text-emerald-400">0 PN</span>
+                    </div>
                     <div id="hud-secret-progress" class="text-[10px] font-cyber text-fuchsia-400/90 tracking-wider uppercase mt-0.5">Segrete: [5] 100 Kill | [6-8] Boss Ondata 10/20/30</div>
                 </div>
                 <div class="h-10 w-px bg-cyan-500/30"></div>
@@ -290,60 +277,8 @@
         </div>
     </div>
 
-    <!-- MODAL NEGOZIO POTENZIAMENTI ARMI (ARMERIA) -->
-    <div id="shop-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5 bg-slate-950/90 backdrop-blur-md overflow-y-auto">
-        <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-amber-400/50 relative my-auto shadow-[0_0_50px_rgba(251,191,36,0.18)]">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
-                <div>
-                    <div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest">Officina Balistica CyberStrike</div>
-                    <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase tracking-wider">🛒 NEGOZIO POTENZIAMENTI ARMI</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Elimina i droni con un'arma per farla salire di livello e ottenere <span class="text-amber-300 font-semibold">Punti Negozio (PN)</span> dedicati a quell'arma.</p>
-                </div>
-                <button id="btn-close-shop" type="button" class="self-end sm:self-auto px-4 py-2 rounded-xl bg-slate-800 hover:bg-rose-600/80 text-white font-cyber text-xs font-bold uppercase tracking-wider border border-slate-700 transition cursor-pointer">
-                    ✕ Chiudi Negozio
-                </button>
-            </div>
-
-            <!-- Selettore Armi nel Negozio -->
-            <div id="shop-weapons-tabs" class="grid grid-cols-2 sm:grid-cols-4 gap-2 my-4"></div>
-
-            <!-- Dettaglio Arma Selezionata e Barra XP -->
-            <div class="bg-slate-900/90 rounded-xl p-4 border border-cyan-500/30 mb-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span id="shop-selected-title" class="text-lg font-cyber font-black text-cyan-400 uppercase">Fucile d'Assalto MK-IV</span>
-                            <span id="shop-selected-lvl" class="px-2 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/50 text-xs font-cyber font-bold text-cyan-300">LVL 1</span>
-                        </div>
-                        <div id="shop-selected-desc" class="text-xs text-slate-400 mt-0.5">Bilanciato Automatico</div>
-                    </div>
-                    <div class="flex items-center gap-3 bg-slate-950 px-3.5 py-2 rounded-xl border border-amber-400/50">
-                        <div>
-                            <div class="text-[9px] font-cyber text-amber-400 uppercase tracking-widest">Punti Negozio Arma</div>
-                            <div id="shop-selected-sp" class="text-lg font-cyber font-black text-amber-300">0 PN</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Barra Progresso XP Arma -->
-                <div>
-                    <div class="flex justify-between text-[10px] font-cyber text-slate-300 mb-1">
-                        <span id="shop-xp-label">ESPERIENZA ARMA: 0 / 100 XP</span>
-                        <span class="text-amber-300">Prossimo Livello: +1 Punto Negozio (PN)</span>
-                    </div>
-                    <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
-                        <div id="shop-xp-bar" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 rounded-full transition-all duration-200" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lista Potenziamenti Acquistabili (4 Moduli per Arma) -->
-            <div id="shop-upgrades-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-        </div>
-    </div>
-
-    <!-- MENU OVERLAY CON PROFILO GIOCATORE E SALVATAGGIO RECORD -->
-    <div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+    <!-- MENU PRINCIPALE OVERLAY -->
+    <div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-slate-950/92 overflow-y-auto">
         <div class="cyber-panel rounded-2xl max-w-lg w-full p-5 sm:p-7 border border-cyan-400/50 text-center relative my-auto">
             <div class="inline-block px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-[10px] font-cyber tracking-widest uppercase mb-2">
                 Simulazione Tattica WebGL // Profilo Cloud Locale
@@ -352,11 +287,11 @@
                 CYBERSTRIKE <span class="text-cyan-400">3D</span>
             </h1>
             <p id="menu-subtitle" class="text-xs sm:text-sm text-slate-300 mb-4">
-                I tuoi record e le armi segrete sbloccate vengono salvati automaticamente nel tuo profilo.
+                Ogni arma guadagna XP eliminando droni e sblocca Punti Negozio (PN) ad ogni livello!
             </p>
 
             <!-- SEZIONE PROFILO OPERATORE & RECORD SALVATI -->
-            <div class="bg-slate-900/90 rounded-xl p-3.5 mb-4 border border-cyan-500/35 text-left">
+            <div class="bg-slate-900 rounded-xl p-3.5 mb-4 border border-cyan-500/35 text-left">
                 <div class="flex items-center justify-between gap-2 mb-3">
                     <div>
                         <label for="profile-name-input" class="text-[10px] font-cyber uppercase tracking-widest text-cyan-400 block">Nome Operatore (Profilo)</label>
@@ -364,36 +299,35 @@
                             class="mt-1 bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg px-3 py-1 text-sm font-cyber font-bold text-white outline-none w-44 sm:w-52">
                     </div>
                     <div class="text-right">
-                        <span id="save-badge" class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-[9px] font-cyber text-emerald-300 uppercase transition-transform">
-                            ✓ Profilo Attivo
+                        <span id="save-badge" class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-[9px] font-cyber text-emerald-300 uppercase">
+                            ✓ Profilo Salvato
                         </span>
                         <div class="text-[10px] text-slate-400 mt-1">Partite: <span id="profile-games" class="text-white font-bold">0</span></div>
                     </div>
                 </div>
 
-                <!-- Griglia Record Personali -->
                 <div class="grid grid-cols-4 gap-2 pt-2.5 border-t border-slate-800 text-center">
-                    <div class="bg-slate-950/70 rounded-lg p-2 border border-slate-800/80">
+                    <div class="bg-slate-950 rounded-lg p-2 border border-slate-800">
                         <div class="text-[9px] font-cyber text-amber-400 uppercase">Record Punti</div>
                         <div id="profile-best-score" class="text-sm sm:text-base font-cyber font-black text-white mt-0.5">0</div>
                     </div>
-                    <div class="bg-slate-950/70 rounded-lg p-2 border border-slate-800/80">
+                    <div class="bg-slate-950 rounded-lg p-2 border border-slate-800">
                         <div class="text-[9px] font-cyber text-cyan-400 uppercase">Max Ondata</div>
                         <div id="profile-best-wave" class="text-sm sm:text-base font-cyber font-black text-cyan-300 mt-0.5">1</div>
                     </div>
-                    <div class="bg-slate-950/70 rounded-lg p-2 border border-slate-800/80">
+                    <div class="bg-slate-950 rounded-lg p-2 border border-slate-800">
                         <div class="text-[9px] font-cyber text-fuchsia-400 uppercase">Kill Totali</div>
                         <div id="profile-total-kills" class="text-sm sm:text-base font-cyber font-black text-fuchsia-300 mt-0.5">0</div>
                     </div>
-                    <div class="bg-slate-950/70 rounded-lg p-2 border border-slate-800/80">
+                    <div class="bg-slate-950 rounded-lg p-2 border border-slate-800">
                         <div class="text-[9px] font-cyber text-emerald-400 uppercase">Armi Segrete</div>
                         <div id="profile-unlocked-weapons" class="text-sm sm:text-base font-cyber font-black text-emerald-300 mt-0.5">0/4</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Statistiche Ultima Partita (visibili al Game Over) -->
-            <div id="gameover-stats" class="hidden grid-cols-3 gap-2 mb-4 p-3 rounded-xl bg-rose-950/40 border border-rose-500/50">
+            <!-- Statistiche Ultima Partita -->
+            <div id="gameover-stats" class="hidden grid-cols-3 gap-2 mb-4 p-3 rounded-xl bg-rose-950/50 border border-rose-500/50">
                 <div>
                     <div class="text-[10px] font-cyber text-rose-300 uppercase">Punteggio Partita</div>
                     <div id="final-score" class="text-lg font-cyber font-bold text-white">0</div>
@@ -408,24 +342,8 @@
                 </div>
             </div>
 
-            <!-- Guida Comandi -->
-            <div class="text-left bg-slate-900/75 rounded-xl p-3.5 mb-4 border border-slate-800 space-y-1.5 text-xs">
-                <div class="flex justify-between items-center">
-                    <span class="text-slate-300">Movimento & Scatto (Stamina)</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-mono text-[11px] border border-slate-700">WASD + Shift</span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-slate-300">Mira di Precisione (ADS / Ottica)</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-mono text-[11px] border border-slate-700">Tieni Tasto Destro Mouse</span>
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-slate-300">Ruota delle Armi / Scelta Rapida</span>
-                    <span class="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 font-mono text-[11px] border border-slate-700">Tieni [Q] o [TAB] / [1-8]</span>
-                </div>
-            </div>
-
             <!-- Regolazione Sensibilità Mouse -->
-            <div class="mb-4 text-left bg-slate-900/50 rounded-xl px-4 py-2 border border-slate-800">
+            <div class="mb-4 text-left bg-slate-900 rounded-xl px-4 py-2 border border-slate-800">
                 <div class="flex justify-between text-xs mb-1">
                     <span class="text-slate-300 font-semibold">Sensibilità Puntatore</span>
                     <span id="sens-value" class="text-cyan-400 font-cyber">1.0x</span>
@@ -433,42 +351,157 @@
                 <input id="sens-slider" type="range" min="0.3" max="2.5" step="0.1" value="1.0" class="w-full accent-cyan-400 cursor-pointer">
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <button id="btn-open-shop" type="button" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-cyber font-black text-sm uppercase tracking-wider shadow-[0_0_20px_rgba(245,158,11,0.35)] transition transform active:scale-98 cursor-pointer">
-                    🛒 Negozio Armi <span id="menu-shop-badge" class="ml-1 px-1.5 py-0.5 rounded bg-slate-950 text-amber-300 text-[10px]">0 PN</span>
+            <!-- Pulsanti Azione Principali: Gioca e Negozio Armi -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button id="btn-open-shop" type="button" class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-amber-400/70 text-amber-300 font-cyber font-black text-sm uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2">
+                    <span>🛒 Negozio Armi</span>
+                    <span id="menu-shop-badge" class="px-2 py-0.5 text-[10px] rounded-full bg-amber-400 text-slate-950 font-black">0 PN</span>
                 </button>
-                <button id="btn-start-game" type="button" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-sm uppercase tracking-wider shadow-[0_0_25px_rgba(34,211,238,0.45)] transition transform active:scale-98 cursor-pointer">
+                <button id="btn-start-game" type="button" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-sm uppercase tracking-wider transition cursor-pointer">
                     Inizia Missione
                 </button>
             </div>
 
-            <div class="mt-3 flex justify-end items-center gap-2">
-                <button id="btn-reset-profile" type="button" class="text-[10px] font-cyber text-slate-400 hover:text-rose-400 uppercase tracking-wider transition cursor-pointer">
+            <div class="mt-3 flex justify-end">
+                <button id="btn-reset-profile" type="button" class="text-[10px] font-cyber text-slate-500 hover:text-rose-400 uppercase tracking-wider transition cursor-pointer">
                     🗑️ Azzera Profilo e Record
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- NEGOZIO POTENZIAMENTI ARMI (Ultra-leggero e reattivo, zero lag) -->
+    <div id="shop-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
+        <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-amber-400/50 my-auto">
+            <!-- Header Negozio -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+                <div>
+                    <div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest">Armeria Tattica CyberStrike</div>
+                    <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">NEGOZIO POTENZIAMENTI ARMI</h2>
+                    <p class="text-xs text-slate-400">Accumula XP usando un'arma in battaglia: ogni Livello Arma fornisce <strong class="text-amber-300">+1 Punto Negozio (PN)</strong> per quell'arma.</p>
+                </div>
+                <button id="btn-close-shop" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase cursor-pointer">
+                    ✕ Torna al Menu
+                </button>
+            </div>
+
+            <!-- Selettore Armi Orizzontale -->
+            <div id="shop-weapons-tabs" class="grid grid-cols-2 sm:grid-cols-4 gap-2 my-4"></div>
+
+            <!-- Dettagli Arma Selezionata e Barra XP -->
+            <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 mb-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="shop-weapon-title" class="text-lg font-cyber font-black text-cyan-400">Fucile d'Assalto MK-IV</span>
+                            <span id="shop-weapon-level-badge" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 font-cyber text-xs font-bold">LIVELLO 1</span>
+                        </div>
+                        <p id="shop-weapon-desc" class="text-xs text-slate-400 mt-0.5">Bilanciato Automatico</p>
+                    </div>
+                    <div class="bg-slate-950 px-4 py-2 rounded-xl border border-amber-400/40 text-right">
+                        <div class="text-[10px] font-cyber text-slate-400 uppercase">Punti Negozio Arma</div>
+                        <div id="shop-weapon-points" class="text-xl font-cyber font-black text-amber-400">0 PN</div>
+                    </div>
+                </div>
+
+                <!-- Barra Progressione XP Arma -->
+                <div>
+                    <div class="flex justify-between text-[11px] font-cyber mb-1">
+                        <span class="text-slate-300">Esperienza Arma (XP)</span>
+                        <span id="shop-weapon-xp-text" class="text-cyan-300">0 / 100 XP</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                        <div id="shop-weapon-xp-bar" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 rounded-full transition-all duration-150" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Griglia dei 4 Potenziamenti dell'Arma -->
+            <div id="shop-upgrades-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        </div>
+    </div>
+
     <script>
         /**
-         * GESTORE PROFILO, XP ARMI E NEGOZIO POTENZIAMENTI (Con protezione per ambienti Sandbox)
+         * DEFINIZIONE DELLE 8 ARMI E POTENZIAMENTI
          */
-        const PROFILE_STORAGE_KEY = 'cyberstrike_3d_player_profile_v1';
+        const WEAPONS = [
+            {
+                id: 'ASSAULT', key: '1', name: "Fucile d'Assalto MK-IV", shortName: "ASSALTO", desc: "Bilanciato Automatico",
+                maxAmmo: 30, reloadTime: 1.35, fireRate: 0.12, damage: 35, adsDamage: 46, pellets: 1, hipSpread: 0.042, adsSpread: 0.0,
+                adsFov: 48, recoil: 0.12, colorHex: 0x22d3ee, uiColor: '#22d3ee', beamWidth: 0.024,
+                adsY: -0.155, adsZ: -0.34, tipZ: -0.58, secret: false
+            },
+            {
+                id: 'SMG', key: '2', name: "Mitraglietta Vector-X", shortName: "MITRAGLIETTA", desc: "Cadenza Estrema",
+                maxAmmo: 48, reloadTime: 1.05, fireRate: 0.062, damage: 21, adsDamage: 27, pellets: 1, hipSpread: 0.068, adsSpread: 0.01,
+                adsFov: 56, recoil: 0.075, colorHex: 0xfacc15, uiColor: '#facc15', beamWidth: 0.018,
+                adsY: -0.145, adsZ: -0.32, tipZ: -0.42, secret: false
+            },
+            {
+                id: 'SHOTGUN', key: '3', name: "Fucile a Pompa Titan-8", shortName: "POMPA", desc: "8 Dardi Plasma",
+                maxAmmo: 8, reloadTime: 1.7, fireRate: 0.65, damage: 26, adsDamage: 32, pellets: 8, hipSpread: 0.125, adsSpread: 0.055,
+                adsFov: 58, recoil: 0.26, colorHex: 0xf97316, uiColor: '#f97316', beamWidth: 0.02,
+                adsY: -0.14, adsZ: -0.35, tipZ: -0.56, secret: false
+            },
+            {
+                id: 'SNIPER', key: '4', name: "Cecchino Railgun V9", shortName: "CECCHINO", desc: "Colpo Perforante",
+                maxAmmo: 5, reloadTime: 1.85, fireRate: 0.92, damage: 170, adsDamage: 270, pellets: 1, hipSpread: 0.085, adsSpread: 0.0,
+                adsFov: 24, recoil: 0.32, colorHex: 0xf43f5e, uiColor: '#f43f5e', beamWidth: 0.045,
+                adsY: -0.17, adsZ: -0.30, tipZ: -0.88, secret: false, isSniper: true, isPiercing: true
+            },
+            {
+                id: 'SECRET', key: '5', name: "Singolarità Omega", shortName: "OMEGA-X", desc: "Esplosione Antimateria",
+                maxAmmo: 60, reloadTime: 1.1, fireRate: 0.09, damage: 95, adsDamage: 140, pellets: 3, hipSpread: 0.025, adsSpread: 0.006,
+                adsFov: 42, recoil: 0.1, colorHex: 0xd946ef, uiColor: '#d946ef', beamWidth: 0.055,
+                adsY: -0.155, adsZ: -0.34, tipZ: -0.62, secret: true, unlockType: 'kills', unlockKills: 100, explosiveRadius: 6.5
+            },
+            {
+                id: 'TESLA', key: '6', name: "Arco Elettromagnetico Tesla", shortName: "ARCO TESLA", desc: "Fulmine a Catena (4x)",
+                maxAmmo: 12, reloadTime: 1.5, fireRate: 0.55, damage: 145, adsDamage: 195, pellets: 1, hipSpread: 0.015, adsSpread: 0.0,
+                adsFov: 46, recoil: 0.16, colorHex: 0x38bdf8, uiColor: '#38bdf8', beamWidth: 0.042,
+                adsY: -0.15, adsZ: -0.33, tipZ: -0.60, secret: true, unlockType: 'boss', bossLevel: 1, unlockLabel: "BOSS ONDATA 10",
+                singleShot: true, chainTargets: 4, chainRadius: 14.0
+            },
+            {
+                id: 'HYDRA', key: '7', name: "Lanciarazzi Termico Hydra", shortName: "HYDRA RPG", desc: "Missili Termobarici",
+                maxAmmo: 4, reloadTime: 2.1, fireRate: 0.95, damage: 340, adsDamage: 440, pellets: 1, hipSpread: 0.02, adsSpread: 0.0,
+                adsFov: 44, recoil: 0.38, colorHex: 0x10b981, uiColor: '#10b981', beamWidth: 0.075,
+                adsY: -0.16, adsZ: -0.30, tipZ: -0.66, secret: true, unlockType: 'boss', bossLevel: 2, unlockLabel: "BOSS ONDATA 20",
+                singleShot: true, explosiveRadius: 9.5, splashDamage: 160
+            },
+            {
+                id: 'GAUSS', key: '8', name: "Cannone Gauss Quantico", shortName: "GAUSS-Q", desc: "Raggio Quantico Perforante",
+                maxAmmo: 6, reloadTime: 1.8, fireRate: 0.85, damage: 480, adsDamage: 680, pellets: 1, hipSpread: 0.01, adsSpread: 0.0,
+                adsFov: 32, recoil: 0.34, colorHex: 0xfbbf24, uiColor: '#fbbf24', beamWidth: 0.068,
+                adsY: -0.155, adsZ: -0.32, tipZ: -0.84, secret: true, unlockType: 'boss', bossLevel: 3, unlockLabel: "BOSS ONDATA 30",
+                singleShot: true, isPiercing: true, explosiveRadius: 5.0, splashDamage: 90
+            }
+        ];
 
-        const WEAPON_IDS = ['ASSAULT', 'SMG', 'SHOTGUN', 'SNIPER', 'SECRET', 'TESLA', 'HYDRA', 'GAUSS'];
+        const UPGRADE_TYPES = [
+            { key: 'damage', name: 'Nucleo Sovraccaricato', desc: '+15% Danno per livello', maxTier: 5, icon: '⚡' },
+            { key: 'fireRate', name: 'Acceleratore Ciclico', desc: '+10% Cadenza di fuoco per livello', maxTier: 5, icon: '🔥' },
+            { key: 'ammo', name: 'Cella Energetica Estesa', desc: '+20% Munizioni caricatore per livello', maxTier: 5, icon: '🔋' },
+            { key: 'reload', name: 'Iniettori Rapidi', desc: '-12% Tempo di ricarica per livello', maxTier: 5, icon: '⚙️' }
+        ];
 
-        function createDefaultWeaponMastery() {
-            const obj = {};
-            WEAPON_IDS.forEach(id => {
-                obj[id] = {
+        /**
+         * GESTORE PROFILO E PROGRESSI ARMI (localStorage)
+         */
+        const PROFILE_STORAGE_KEY = 'cyberstrike_3d_player_profile_v2';
+
+        function createDefaultWeaponStats() {
+            const stats = {};
+            WEAPONS.forEach(w => {
+                stats[w.id] = {
                     xp: 0,
                     level: 1,
                     shopPoints: 0,
-                    upgrades: { dmg: 0, rate: 0, mag: 0, reload: 0 }
+                    upgrades: { damage: 0, fireRate: 0, ammo: 0, reload: 0 }
                 };
             });
-            return obj;
+            return stats;
         }
 
         const playerProfile = {
@@ -480,43 +513,75 @@
             secretUnlockedPermanent: false,
             maxBossesDefeatedPermanent: 0,
             sensitivity: 1.0,
-            weaponMastery: createDefaultWeaponMastery()
+            weaponStats: createDefaultWeaponStats()
         };
 
-        function ensureWeaponMasteryIntegrity() {
-            if (!playerProfile.weaponMastery || typeof playerProfile.weaponMastery !== 'object') {
-                playerProfile.weaponMastery = createDefaultWeaponMastery();
+        function getWeaponStats(weaponId) {
+            if (!playerProfile.weaponStats[weaponId]) {
+                playerProfile.weaponStats[weaponId] = {
+                    xp: 0, level: 1, shopPoints: 0,
+                    upgrades: { damage: 0, fireRate: 0, ammo: 0, reload: 0 }
+                };
             }
-            WEAPON_IDS.forEach(id => {
-                const wm = playerProfile.weaponMastery[id];
-                if (!wm || typeof wm !== 'object') {
-                    playerProfile.weaponMastery[id] = {
-                        xp: 0, level: 1, shopPoints: 0,
-                        upgrades: { dmg: 0, rate: 0, mag: 0, reload: 0 }
-                    };
-                } else {
-                    wm.xp = Number(wm.xp) || 0;
-                    wm.level = Math.max(1, Number(wm.level) || 1);
-                    wm.shopPoints = Math.max(0, Number(wm.shopPoints) || 0);
-                    if (!wm.upgrades || typeof wm.upgrades !== 'object') {
-                        wm.upgrades = { dmg: 0, rate: 0, mag: 0, reload: 0 };
-                    } else {
-                        wm.upgrades.dmg = Math.min(5, Math.max(0, Number(wm.upgrades.dmg) || 0));
-                        wm.upgrades.rate = Math.min(5, Math.max(0, Number(wm.upgrades.rate) || 0));
-                        wm.upgrades.mag = Math.min(5, Math.max(0, Number(wm.upgrades.mag) || 0));
-                        wm.upgrades.reload = Math.min(5, Math.max(0, Number(wm.upgrades.reload) || 0));
-                    }
-                }
-            });
+            return playerProfile.weaponStats[weaponId];
         }
 
         function getXpRequiredForNextLevel(level) {
-            return 80 + (level - 1) * 45;
+            return 80 + (level - 1) * 50;
+        }
+
+        function getEffectiveWeaponStats(w) {
+            const st = getWeaponStats(w.id);
+            const up = st.upgrades;
+            const dmgMult = 1 + up.damage * 0.15;
+            const rateMult = Math.max(0.35, 1 - up.fireRate * 0.10);
+            const ammoMult = 1 + up.ammo * 0.20;
+            const reloadMult = Math.max(0.35, 1 - up.reload * 0.12);
+
+            return {
+                damage: Math.round(w.damage * dmgMult),
+                adsDamage: Math.round(w.adsDamage * dmgMult),
+                fireRate: w.fireRate * rateMult,
+                maxAmmo: Math.max(w.maxAmmo + up.ammo, Math.round(w.maxAmmo * ammoMult)),
+                reloadTime: w.reloadTime * reloadMult
+            };
+        }
+
+        function getTotalAvailableShopPoints() {
+            let total = 0;
+            WEAPONS.forEach(w => {
+                total += getWeaponStats(w.id).shopPoints;
+            });
+            return total;
+        }
+
+        function addWeaponXp(weaponId, amount) {
+            const st = getWeaponStats(weaponId);
+            st.xp += amount;
+            let leveledUp = false;
+            let req = getXpRequiredForNextLevel(st.level);
+
+            while (st.xp >= req) {
+                st.xp -= req;
+                st.level++;
+                st.shopPoints++;
+                leveledUp = true;
+                req = getXpRequiredForNextLevel(st.level);
+            }
+
+            if (leveledUp) {
+                const wObj = WEAPONS.find(w => w.id === weaponId);
+                sound.playPickup();
+                showAnnouncement(
+                    `⬆️ ${wObj ? wObj.shortName : weaponId} LIVELLO ${st.level}!`,
+                    `+1 Punto Negozio (PN) Sbloccato! Apri il Negozio Armi nel menu per potenziarla.`
+                );
+            }
         }
 
         function loadPlayerProfile() {
             try {
-                const raw = window.localStorage ? window.localStorage.getItem(PROFILE_STORAGE_KEY) : null;
+                const raw = window.localStorage ? localStorage.getItem(PROFILE_STORAGE_KEY) : null;
                 if (raw) {
                     const parsed = JSON.parse(raw);
                     playerProfile.name = parsed.name || 'GHOST-01';
@@ -527,31 +592,36 @@
                     playerProfile.secretUnlockedPermanent = Boolean(parsed.secretUnlockedPermanent);
                     playerProfile.maxBossesDefeatedPermanent = Number(parsed.maxBossesDefeatedPermanent) || 0;
                     playerProfile.sensitivity = Number(parsed.sensitivity) || 1.0;
-                    if (parsed.weaponMastery) {
-                        playerProfile.weaponMastery = parsed.weaponMastery;
+
+                    if (parsed.weaponStats) {
+                        WEAPONS.forEach(w => {
+                            if (parsed.weaponStats[w.id]) {
+                                playerProfile.weaponStats[w.id] = {
+                                    xp: Number(parsed.weaponStats[w.id].xp) || 0,
+                                    level: Number(parsed.weaponStats[w.id].level) || 1,
+                                    shopPoints: Number(parsed.weaponStats[w.id].shopPoints) || 0,
+                                    upgrades: {
+                                        damage: Number(parsed.weaponStats[w.id].upgrades?.damage) || 0,
+                                        fireRate: Number(parsed.weaponStats[w.id].upgrades?.fireRate) || 0,
+                                        ammo: Number(parsed.weaponStats[w.id].upgrades?.ammo) || 0,
+                                        reload: Number(parsed.weaponStats[w.id].upgrades?.reload) || 0
+                                    }
+                                };
+                            }
+                        });
                     }
                 }
             } catch (e) {
-                // Ambiente sandbox senza localStorage
+                console.warn('Profilo locale non accessibile:', e);
             }
-            ensureWeaponMasteryIntegrity();
         }
 
         function savePlayerProfile() {
-            ensureWeaponMasteryIntegrity();
             try {
                 if (window.localStorage) {
-                    window.localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(playerProfile));
+                    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(playerProfile));
                 }
-                const badge = document.getElementById('save-badge');
-                if (badge) {
-                    badge.textContent = '✓ Salvato';
-                    badge.classList.add('scale-105');
-                    setTimeout(() => badge.classList.remove('scale-105'), 200);
-                }
-            } catch (e) {
-                // Ignora errori di storage in iFrame sandbox
-            }
+            } catch (e) {}
             updateProfileUI();
         }
 
@@ -560,23 +630,17 @@
             const btn = document.getElementById('btn-reset-profile');
             if (!resetConfirmPending) {
                 resetConfirmPending = true;
-                if (btn) {
-                    btn.textContent = '⚠️ Clicca di nuovo per confermare Reset';
-                    btn.className = 'text-[10px] font-cyber text-rose-400 font-bold uppercase tracking-wider transition cursor-pointer';
-                }
+                if (btn) btn.textContent = '⚠️ CLICCA DI NUOVO PER CONFERMARE RESET';
                 setTimeout(() => {
                     resetConfirmPending = false;
-                    if (btn) {
-                        btn.textContent = '🗑️ Azzera Profilo e Record';
-                        btn.className = 'text-[10px] font-cyber text-slate-400 hover:text-rose-400 uppercase tracking-wider transition cursor-pointer';
-                    }
+                    if (btn) btn.textContent = '🗑️ Azzera Profilo e Record';
                 }, 3500);
                 return;
             }
-
             resetConfirmPending = false;
+            if (btn) btn.textContent = '🗑️ Azzera Profilo e Record';
             try {
-                if (window.localStorage) window.localStorage.removeItem(PROFILE_STORAGE_KEY);
+                if (window.localStorage) localStorage.removeItem(PROFILE_STORAGE_KEY);
             } catch (e) {}
 
             playerProfile.name = 'GHOST-01';
@@ -587,25 +651,13 @@
             playerProfile.secretUnlockedPermanent = false;
             playerProfile.maxBossesDefeatedPermanent = 0;
             playerProfile.sensitivity = 1.0;
-            playerProfile.weaponMastery = createDefaultWeaponMastery();
+            playerProfile.weaponStats = createDefaultWeaponStats();
 
             state.secretUnlocked = false;
             state.bossesDefeated = 0;
-            if (btn) {
-                btn.textContent = '✓ Profilo Azzerato!';
-                setTimeout(() => {
-                    btn.textContent = '🗑️ Azzera Profilo e Record';
-                    btn.className = 'text-[10px] font-cyber text-slate-400 hover:text-rose-400 uppercase tracking-wider transition cursor-pointer';
-                }, 1500);
-            }
             savePlayerProfile();
             refreshWeaponWheelUI();
             updateHUD();
-        }
-
-        function getTotalAvailableShopPoints() {
-            ensureWeaponMasteryIntegrity();
-            return WEAPON_IDS.reduce((acc, id) => acc + (playerProfile.weaponMastery[id]?.shopPoints || 0), 0);
         }
 
         function updateProfileUI() {
@@ -619,28 +671,22 @@
             const hudHigh = document.getElementById('hud-highscore');
             if (hudHigh) hudHigh.textContent = Math.max(playerProfile.bestScore, state.score);
 
-            const elBestScore = document.getElementById('profile-best-score');
-            if (elBestScore) elBestScore.textContent = playerProfile.bestScore;
-            const elBestWave = document.getElementById('profile-best-wave');
-            if (elBestWave) elBestWave.textContent = playerProfile.bestWave;
-            const elTotalKills = document.getElementById('profile-total-kills');
-            if (elTotalKills) elTotalKills.textContent = playerProfile.totalKills;
-            const elGames = document.getElementById('profile-games');
-            if (elGames) elGames.textContent = playerProfile.gamesPlayed;
+            document.getElementById('profile-best-score').textContent = playerProfile.bestScore;
+            document.getElementById('profile-best-wave').textContent = playerProfile.bestWave;
+            document.getElementById('profile-total-kills').textContent = playerProfile.totalKills;
+            document.getElementById('profile-games').textContent = playerProfile.gamesPlayed;
 
             const unlockedSecretCount = (playerProfile.secretUnlockedPermanent ? 1 : 0) + Math.min(3, playerProfile.maxBossesDefeatedPermanent);
-            const elUnlocked = document.getElementById('profile-unlocked-weapons');
-            if (elUnlocked) elUnlocked.textContent = `${unlockedSecretCount}/4`;
+            document.getElementById('profile-unlocked-weapons').textContent = `${unlockedSecretCount}/4`;
 
             const shopBadge = document.getElementById('menu-shop-badge');
             if (shopBadge) {
-                const totalPts = getTotalAvailableShopPoints();
-                shopBadge.textContent = `${totalPts} PN`;
+                shopBadge.textContent = `${getTotalAvailableShopPoints()} PN`;
             }
         }
 
         /**
-         * MOTORE AUDIO SINTETIZZATO WEB AUDIO API
+         * MOTORE AUDIO SINTETIZZATO
          */
         class CyberSoundEngine {
             constructor() {
@@ -662,209 +708,143 @@
             }
             playWeaponFire(weaponId) {
                 if (!this.ctx || !this.enabled) return;
-                try {
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    if (weaponId === 'SMG') {
-                        osc.type = 'square';
-                        osc.frequency.setValueAtTime(980, now);
-                        osc.frequency.exponentialRampToValueAtTime(220, now + 0.08);
-                        gain.gain.setValueAtTime(0.15, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.085);
-                    } else if (weaponId === 'SHOTGUN') {
-                        osc.type = 'sawtooth';
-                        osc.frequency.setValueAtTime(250, now);
-                        osc.frequency.exponentialRampToValueAtTime(42, now + 0.28);
-                        gain.gain.setValueAtTime(0.32, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.29);
-                    } else if (weaponId === 'SNIPER') {
-                        osc.type = 'triangle';
-                        osc.frequency.setValueAtTime(1400, now);
-                        osc.frequency.exponentialRampToValueAtTime(60, now + 0.38);
-                        gain.gain.setValueAtTime(0.34, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.39);
-                    } else if (weaponId === 'TESLA') {
-                        osc.type = 'sawtooth';
-                        osc.frequency.setValueAtTime(1650, now);
-                        osc.frequency.linearRampToValueAtTime(420, now + 0.12);
-                        osc.frequency.linearRampToValueAtTime(1100, now + 0.22);
-                        gain.gain.setValueAtTime(0.28, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-                    } else if (weaponId === 'HYDRA') {
-                        osc.type = 'sawtooth';
-                        osc.frequency.setValueAtTime(140, now);
-                        osc.frequency.exponentialRampToValueAtTime(32, now + 0.42);
-                        gain.gain.setValueAtTime(0.38, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.44);
-                    } else if (weaponId === 'GAUSS') {
-                        osc.type = 'triangle';
-                        osc.frequency.setValueAtTime(1950, now);
-                        osc.frequency.exponentialRampToValueAtTime(45, now + 0.44);
-                        gain.gain.setValueAtTime(0.4, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-                    } else if (weaponId === 'SECRET') {
-                        osc.type = 'sawtooth';
-                        osc.frequency.setValueAtTime(520, now);
-                        osc.frequency.linearRampToValueAtTime(1280, now + 0.11);
-                        osc.frequency.exponentialRampToValueAtTime(55, now + 0.44);
-                        gain.gain.setValueAtTime(0.35, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-                    } else {
-                        osc.type = 'sawtooth';
-                        osc.frequency.setValueAtTime(760, now);
-                        osc.frequency.exponentialRampToValueAtTime(130, now + 0.13);
-                        gain.gain.setValueAtTime(0.2, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
-                    }
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(now);
-                    osc.stop(now + 0.45);
-                } catch (e) {}
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                if (weaponId === 'SMG') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(980, now);
+                    osc.frequency.exponentialRampToValueAtTime(220, now + 0.08);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.085);
+                } else if (weaponId === 'SHOTGUN') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(250, now);
+                    osc.frequency.exponentialRampToValueAtTime(42, now + 0.28);
+                    gain.gain.setValueAtTime(0.32, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.29);
+                } else if (weaponId === 'SNIPER') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(1400, now);
+                    osc.frequency.exponentialRampToValueAtTime(60, now + 0.38);
+                    gain.gain.setValueAtTime(0.34, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.39);
+                } else if (weaponId === 'TESLA') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(1650, now);
+                    osc.frequency.linearRampToValueAtTime(420, now + 0.12);
+                    osc.frequency.linearRampToValueAtTime(1100, now + 0.22);
+                    gain.gain.setValueAtTime(0.28, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                } else if (weaponId === 'HYDRA') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(140, now);
+                    osc.frequency.exponentialRampToValueAtTime(32, now + 0.42);
+                    gain.gain.setValueAtTime(0.38, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.44);
+                } else if (weaponId === 'GAUSS') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(1950, now);
+                    osc.frequency.exponentialRampToValueAtTime(45, now + 0.44);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+                } else if (weaponId === 'SECRET') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.linearRampToValueAtTime(1280, now + 0.11);
+                    osc.frequency.exponentialRampToValueAtTime(55, now + 0.44);
+                    gain.gain.setValueAtTime(0.35, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+                } else {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(760, now);
+                    osc.frequency.exponentialRampToValueAtTime(130, now + 0.13);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+                }
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.45);
             }
             playHit() {
                 if (!this.ctx || !this.enabled) return;
-                try {
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(1250, now);
-                    osc.frequency.exponentialRampToValueAtTime(420, now + 0.06);
-                    gain.gain.setValueAtTime(0.18, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(now);
-                    osc.stop(now + 0.07);
-                } catch (e) {}
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(1250, now);
+                osc.frequency.exponentialRampToValueAtTime(420, now + 0.06);
+                gain.gain.setValueAtTime(0.18, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.07);
             }
             playExplosion() {
                 if (!this.ctx || !this.enabled) return;
-                try {
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(150, now);
-                    osc.frequency.exponentialRampToValueAtTime(28, now + 0.35);
-                    gain.gain.setValueAtTime(0.28, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(now);
-                    osc.stop(now + 0.37);
-                } catch (e) {}
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(28, now + 0.35);
+                gain.gain.setValueAtTime(0.28, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.37);
             }
             playReload() {
                 if (!this.ctx || !this.enabled) return;
-                try {
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(320, now);
-                    osc.frequency.linearRampToValueAtTime(780, now + 0.25);
-                    gain.gain.setValueAtTime(0.14, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.27);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(now);
-                    osc.stop(now + 0.28);
-                } catch (e) {}
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.linearRampToValueAtTime(780, now + 0.25);
+                gain.gain.setValueAtTime(0.14, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.27);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.28);
             }
             playPickup() {
                 if (!this.ctx || !this.enabled) return;
-                try {
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(520, now);
-                    osc.frequency.setValueAtTime(880, now + 0.07);
-                    gain.gain.setValueAtTime(0.16, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(now);
-                    osc.stop(now + 0.21);
-                } catch (e) {}
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(520, now);
+                osc.frequency.setValueAtTime(880, now + 0.07);
+                gain.gain.setValueAtTime(0.16, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.21);
             }
             playPlayerDamage() {
                 if (!this.ctx || !this.enabled) return;
-                try {
-                    const now = this.ctx.currentTime;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(190, now);
-                    osc.frequency.linearRampToValueAtTime(75, now + 0.18);
-                    gain.gain.setValueAtTime(0.25, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(now);
-                    osc.stop(now + 0.2);
-                } catch (e) {}
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(190, now);
+                osc.frequency.linearRampToValueAtTime(75, now + 0.18);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.2);
             }
         }
 
         const sound = new CyberSoundEngine();
-
-        const WEAPONS = [
-            {
-                id: 'ASSAULT', key: '1', name: "Fucile d'Assalto MK-IV", shortName: "ASSALTO", desc: "Bilanciato Automatico",
-                maxAmmo: 30, reloadTime: 1.35, fireRate: 0.12, damage: 35, adsDamage: 46, pellets: 1, hipSpread: 0.042, adsSpread: 0.0,
-                adsFov: 48, zoomLabel: "LOCK // ZOOM 1.6X", recoil: 0.12, colorHex: 0x22d3ee, uiColor: '#22d3ee', beamWidth: 0.024,
-                adsY: -0.155, adsZ: -0.34, tipZ: -0.58, secret: false
-            },
-            {
-                id: 'SMG', key: '2', name: "Mitraglietta Vector-X", shortName: "MITRAGLIETTA", desc: "Cadenza Estrema",
-                maxAmmo: 48, reloadTime: 1.05, fireRate: 0.062, damage: 21, adsDamage: 27, pellets: 1, hipSpread: 0.068, adsSpread: 0.01,
-                adsFov: 56, zoomLabel: "REFLEX // ZOOM 1.3X", recoil: 0.075, colorHex: 0xfacc15, uiColor: '#facc15', beamWidth: 0.018,
-                adsY: -0.145, adsZ: -0.32, tipZ: -0.42, secret: false
-            },
-            {
-                id: 'SHOTGUN', key: '3', name: "Fucile a Pompa Titan-8", shortName: "POMPA", desc: "8 Dardi Plasma",
-                maxAmmo: 8, reloadTime: 1.7, fireRate: 0.65, damage: 26, adsDamage: 32, pellets: 8, hipSpread: 0.125, adsSpread: 0.055,
-                adsFov: 58, zoomLabel: "CHOKE // ZOOM 1.3X", recoil: 0.26, colorHex: 0xf97316, uiColor: '#f97316', beamWidth: 0.02,
-                adsY: -0.14, adsZ: -0.35, tipZ: -0.56, secret: false
-            },
-            {
-                id: 'SNIPER', key: '4', name: "Cecchino Railgun V9", shortName: "CECCHINO", desc: "Colpo Perforante",
-                maxAmmo: 5, reloadTime: 1.85, fireRate: 0.92, damage: 170, adsDamage: 270, pellets: 1, hipSpread: 0.085, adsSpread: 0.0,
-                adsFov: 24, zoomLabel: "OPTIC // ZOOM 3.2X", recoil: 0.32, colorHex: 0xf43f5e, uiColor: '#f43f5e', beamWidth: 0.045,
-                adsY: -0.17, adsZ: -0.30, tipZ: -0.88, secret: false, isSniper: true, isPiercing: true
-            },
-            {
-                id: 'SECRET', key: '5', name: "Singolarità Omega", shortName: "OMEGA-X", desc: "Esplosione Antimateria",
-                maxAmmo: 60, reloadTime: 1.1, fireRate: 0.09, damage: 95, adsDamage: 140, pellets: 3, hipSpread: 0.025, adsSpread: 0.006,
-                adsFov: 42, zoomLabel: "OMEGA // ZOOM 1.8X", recoil: 0.1, colorHex: 0xd946ef, uiColor: '#d946ef', beamWidth: 0.055,
-                adsY: -0.155, adsZ: -0.34, tipZ: -0.62, secret: true, unlockType: 'kills', unlockKills: 100, explosiveRadius: 6.5
-            },
-            {
-                id: 'TESLA', key: '6', name: "Arco Elettromagnetico Tesla", shortName: "ARCO TESLA", desc: "Fulmine a Catena (4x)",
-                maxAmmo: 12, reloadTime: 1.5, fireRate: 0.55, damage: 145, adsDamage: 195, pellets: 1, hipSpread: 0.015, adsSpread: 0.0,
-                adsFov: 46, zoomLabel: "TESLA // ZOOM 1.6X", recoil: 0.16, colorHex: 0x38bdf8, uiColor: '#38bdf8', beamWidth: 0.042,
-                adsY: -0.15, adsZ: -0.33, tipZ: -0.60, secret: true, unlockType: 'boss', bossLevel: 1, unlockLabel: "BOSS ONDATA 10",
-                singleShot: true, chainTargets: 4, chainRadius: 14.0
-            },
-            {
-                id: 'HYDRA', key: '7', name: "Lanciarazzi Termico Hydra", shortName: "HYDRA RPG", desc: "Missili Termobarici",
-                maxAmmo: 4, reloadTime: 2.1, fireRate: 0.95, damage: 340, adsDamage: 440, pellets: 1, hipSpread: 0.02, adsSpread: 0.0,
-                adsFov: 44, zoomLabel: "THERMAL // ZOOM 1.7X", recoil: 0.38, colorHex: 0x10b981, uiColor: '#10b981', beamWidth: 0.075,
-                adsY: -0.16, adsZ: -0.30, tipZ: -0.66, secret: true, unlockType: 'boss', bossLevel: 2, unlockLabel: "BOSS ONDATA 20",
-                singleShot: true, explosiveRadius: 9.5, splashDamage: 160
-            },
-            {
-                id: 'GAUSS', key: '8', name: "Cannone Gauss Quantico", shortName: "GAUSS-Q", desc: "Raggio Quantico Perforante",
-                maxAmmo: 6, reloadTime: 1.8, fireRate: 0.85, damage: 480, adsDamage: 680, pellets: 1, hipSpread: 0.01, adsSpread: 0.0,
-                adsFov: 32, zoomLabel: "QUANTUM // ZOOM 2.4X", recoil: 0.34, colorHex: 0xfbbf24, uiColor: '#fbbf24', beamWidth: 0.068,
-                adsY: -0.155, adsZ: -0.32, tipZ: -0.84, secret: true, unlockType: 'boss', bossLevel: 3, unlockLabel: "BOSS ONDATA 30",
-                singleShot: true, isPiercing: true, explosiveRadius: 5.0, splashDamage: 90
-            }
-        ];
 
         const GAME_CONFIG = {
             arenaHalfSize: 55,
@@ -882,239 +862,18 @@
             secretUnlocked: false,
             bossesDefeated: 0,
             currentWeaponIndex: 0,
+            selectedShopWeaponIdx: 0,
             weaponClips: WEAPONS.map(w => w.maxAmmo),
             isWheelOpen: false, hoveredWheelIndex: 0, wheelMouseX: 0, wheelMouseY: 0,
             health: 100, maxHealth: 100, stamina: 100, maxStamina: 100, ammo: 30,
             isReloading: false, reloadTimer: 0, fireCooldown: 0, isFiring: false,
             isAiming: false, adsProgress: 0, sensitivityMultiplier: 1.0,
             enemiesToSpawn: 0, spawnTimer: 0, waveTransitionTimer: 0, inWaveTransition: false,
-            activeBoss: null
+            activeBoss: null,
+            needsStaticRender: true
         };
 
-        /**
-         * CALCOLO STATISTICHE ARMA CON POTENZIAMENTI NEGOZIO E GESTIONE XP
-         */
-        function getWeaponMastery(weaponId) {
-            ensureWeaponMasteryIntegrity();
-            return playerProfile.weaponMastery[weaponId];
-        }
-
-        function getEffectiveWeaponStats(w) {
-            const wm = getWeaponMastery(w.id);
-            const u = wm.upgrades;
-            const dmgMult = 1 + u.dmg * 0.15;          // +15% Danno per livello
-            const rateMult = Math.pow(0.90, u.rate);   // +10% Cadenza di tiro per livello
-            const magBonus = Math.round(w.maxAmmo * (u.mag * 0.20)) + u.mag; // +20% Capienza caricatore per livello
-            const reloadMult = Math.pow(0.88, u.reload); // -12% Tempo ricarica per livello
-
-            return {
-                damage: Math.round(w.damage * dmgMult),
-                adsDamage: Math.round(w.adsDamage * dmgMult),
-                fireRate: Math.max(0.035, w.fireRate * rateMult),
-                maxAmmo: w.maxAmmo + magBonus,
-                reloadTime: Math.max(0.35, w.reloadTime * reloadMult),
-                splashDamage: w.splashDamage ? Math.round(w.splashDamage * dmgMult) : undefined
-            };
-        }
-
         function getCurrentWeapon() { return WEAPONS[state.currentWeaponIndex]; }
-
-        function addWeaponXP(weaponId, xpAmount) {
-            const wm = getWeaponMastery(weaponId);
-            const wObj = WEAPONS.find(item => item.id === weaponId) || getCurrentWeapon();
-            wm.xp += xpAmount;
-
-            let leveledUp = false;
-            let needed = getXpRequiredForNextLevel(wm.level);
-            while (wm.xp >= needed) {
-                wm.xp -= needed;
-                wm.level++;
-                wm.shopPoints++;
-                leveledUp = true;
-                needed = getXpRequiredForNextLevel(wm.level);
-            }
-
-            if (leveledUp) {
-                sound.playPickup();
-                showAnnouncement(
-                    `⬆️ ${wObj.shortName} LIVELLO ${wm.level}!`,
-                    `+1 Punto Negozio (Totale: ${wm.shopPoints} PN) • Potenzia l'arma nel Negozio!`
-                );
-            }
-        }
-
-        let selectedShopWeaponIndex = 0;
-        const shopOverlay = document.getElementById('shop-overlay');
-        const shopWeaponsTabs = document.getElementById('shop-weapons-tabs');
-        const shopSelectedTitle = document.getElementById('shop-selected-title');
-        const shopSelectedLvl = document.getElementById('shop-selected-lvl');
-        const shopSelectedDesc = document.getElementById('shop-selected-desc');
-        const shopSelectedSp = document.getElementById('shop-selected-sp');
-        const shopXpLabel = document.getElementById('shop-xp-label');
-        const shopXpBar = document.getElementById('shop-xp-bar');
-        const shopUpgradesGrid = document.getElementById('shop-upgrades-grid');
-
-        function openShopModal() {
-            selectedShopWeaponIndex = state.currentWeaponIndex;
-            renderShopUI();
-            shopOverlay.classList.remove('hidden');
-            shopOverlay.classList.add('flex');
-        }
-
-        function closeShopModal() {
-            shopOverlay.classList.add('hidden');
-            shopOverlay.classList.remove('flex');
-            updateProfileUI();
-            updateHUD();
-        }
-
-        function buyWeaponUpgrade(weaponId, upgradeKey) {
-            const wm = getWeaponMastery(weaponId);
-            if (wm.shopPoints <= 0 || wm.upgrades[upgradeKey] >= 5) {
-                sound.playPlayerDamage();
-                return;
-            }
-            wm.shopPoints--;
-            wm.upgrades[upgradeKey]++;
-
-            // Se aumentiamo il caricatore, aggiorniamo subito i colpi disponibili
-            const wIndex = WEAPONS.findIndex(w => w.id === weaponId);
-            if (wIndex !== -1 && upgradeKey === 'mag') {
-                const eff = getEffectiveWeaponStats(WEAPONS[wIndex]);
-                state.weaponClips[wIndex] = eff.maxAmmo;
-                if (state.currentWeaponIndex === wIndex) {
-                    state.ammo = eff.maxAmmo;
-                }
-            }
-
-            sound.playPickup();
-            savePlayerProfile();
-            renderShopUI();
-            refreshWeaponWheelUI();
-            updateHUD();
-        }
-
-        function renderShopUI() {
-            if (!shopWeaponsTabs) return;
-            ensureWeaponMasteryIntegrity();
-
-            shopWeaponsTabs.innerHTML = '';
-            WEAPONS.forEach((w, idx) => {
-                const wm = getWeaponMastery(w.id);
-                const unlocked = isWeaponUnlocked(w);
-                const isSelected = idx === selectedShopWeaponIndex;
-
-                const tabBtn = document.createElement('button');
-                tabBtn.type = 'button';
-                tabBtn.className = `p-2.5 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between ${
-                    isSelected
-                        ? 'bg-cyan-950/90 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
-                        : 'bg-slate-900/80 border-slate-800 hover:border-slate-600'
-                }`;
-
-                tabBtn.innerHTML = `
-                    <div class="flex items-center justify-between gap-1">
-                        <span class="text-[10px] font-cyber font-bold truncate" style="color:${unlocked ? w.uiColor : '#94a3b8'}">[${w.key}] ${w.shortName}</span>
-                        <span class="text-[9px] font-cyber px-1.5 py-0.5 rounded bg-slate-950 text-cyan-300 border border-cyan-500/30">Lv.${wm.level}</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-1.5 text-[10px]">
-                        <span class="text-slate-400">${unlocked ? 'Sbloccata' : '🔒 Bloccata'}</span>
-                        <span class="font-cyber font-bold ${wm.shopPoints > 0 ? 'text-amber-300 animate-pulse' : 'text-slate-500'}">${wm.shopPoints} PN</span>
-                    </div>
-                `;
-                tabBtn.addEventListener('click', () => {
-                    selectedShopWeaponIndex = idx;
-                    renderShopUI();
-                });
-                shopWeaponsTabs.appendChild(tabBtn);
-            });
-
-            const curW = WEAPONS[selectedShopWeaponIndex];
-            const curWm = getWeaponMastery(curW.id);
-            const eff = getEffectiveWeaponStats(curW);
-            const nextXp = getXpRequiredForNextLevel(curWm.level);
-            const xpPct = Math.min(100, Math.round((curWm.xp / nextXp) * 100));
-
-            shopSelectedTitle.textContent = curW.name;
-            shopSelectedTitle.style.color = curW.uiColor;
-            shopSelectedLvl.textContent = `LIVELLO ${curWm.level}`;
-            shopSelectedDesc.textContent = `${curW.desc} • Danno Attuale: ${eff.damage} (ADS: ${eff.adsDamage}) • Caricatore: ${eff.maxAmmo}`;
-            shopSelectedSp.textContent = `${curWm.shopPoints} PN`;
-            shopXpLabel.textContent = `ESPERIENZA ARMA: ${curWm.xp} / ${nextXp} XP (${xpPct}%)`;
-            shopXpBar.style.width = `${xpPct}%`;
-
-            const upgradeDefinitions = [
-                {
-                    key: 'dmg',
-                    name: 'Nucleo Sovraccaricato',
-                    desc: '+15% Danno per colpo ad ogni livello',
-                    statText: `Danno: ${eff.damage} (Mira: ${eff.adsDamage})`,
-                    color: 'border-rose-500/40'
-                },
-                {
-                    key: 'rate',
-                    name: 'Acceleratore Ciclico',
-                    desc: '+10% Cadenza di fuoco ad ogni livello',
-                    statText: `Rateo: ${(1 / eff.fireRate).toFixed(1)} colpi/s`,
-                    color: 'border-amber-500/40'
-                },
-                {
-                    key: 'mag',
-                    name: 'Cella Energetica Estesa',
-                    desc: '+20% Capienza munizioni caricatore',
-                    statText: `Capienza: ${eff.maxAmmo} colpi`,
-                    color: 'border-cyan-500/40'
-                },
-                {
-                    key: 'reload',
-                    name: 'Iniettori Rapidi',
-                    desc: '-12% Tempo di ricarica ad ogni livello',
-                    statText: `Ricarica: ${eff.reloadTime.toFixed(2)}s`,
-                    color: 'border-emerald-500/40'
-                }
-            ];
-
-            shopUpgradesGrid.innerHTML = '';
-            upgradeDefinitions.forEach(up => {
-                const currentTier = curWm.upgrades[up.key];
-                const isMaxed = currentTier >= 5;
-                const canAfford = curWm.shopPoints > 0 && !isMaxed;
-
-                let barsHtml = '';
-                for (let i = 1; i <= 5; i++) {
-                    barsHtml += `<div class="h-2 flex-1 rounded-sm ${i <= currentTier ? 'bg-amber-400 shadow-[0_0_8px_#fbbf24]' : 'bg-slate-800'}"></div>`;
-                }
-
-                const card = document.createElement('div');
-                card.className = `bg-slate-900/95 rounded-xl p-3.5 border ${up.color} flex flex-col justify-between gap-3`;
-                card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-cyber font-bold text-white uppercase">${up.name}</span>
-                            <span class="text-[10px] font-cyber text-amber-300">Grado ${currentTier}/5</span>
-                        </div>
-                        <p class="text-[11px] text-slate-400 mt-0.5">${up.desc}</p>
-                        <div class="text-[11px] font-cyber text-cyan-300 mt-1.5">${up.statText}</div>
-                        <div class="flex gap-1 mt-2">${barsHtml}</div>
-                    </div>
-                    <button type="button" class="w-full py-2 rounded-lg font-cyber text-xs font-bold uppercase tracking-wider transition ${
-                        isMaxed
-                            ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-500/40 cursor-default'
-                            : (canAfford
-                                ? 'bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 cursor-pointer shadow-[0_0_15px_rgba(251,191,36,0.3)]'
-                                : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed')
-                    }">
-                        ${isMaxed ? '✓ LIVELLO MASSIMO' : 'POTENZIA (Costo: 1 PN)'}
-                    </button>
-                `;
-
-                const btn = card.querySelector('button');
-                if (!isMaxed) {
-                    btn.addEventListener('click', () => buyWeaponUpgrade(curW.id, up.key));
-                }
-                shopUpgradesGrid.appendChild(card);
-            });
-        }
 
         function isWeaponUnlocked(w) {
             if (!w.secret) return true;
@@ -1127,6 +886,7 @@
         const radarCanvas = document.getElementById('radar-canvas');
         const radarCtx = radarCanvas ? radarCanvas.getContext('2d') : null;
         const menuOverlay = document.getElementById('menu-overlay');
+        const shopOverlay = document.getElementById('shop-overlay');
         const menuTitle = document.getElementById('menu-title');
         const menuSubtitle = document.getElementById('menu-subtitle');
         const gameoverStats = document.getElementById('gameover-stats');
@@ -1134,6 +894,8 @@
         const finalWave = document.getElementById('final-wave');
         const finalKills = document.getElementById('final-kills');
         const btnStartGame = document.getElementById('btn-start-game');
+        const btnOpenShop = document.getElementById('btn-open-shop');
+        const btnCloseShop = document.getElementById('btn-close-shop');
         const btnPause = document.getElementById('btn-pause');
         const btnMute = document.getElementById('btn-mute');
         const sensSlider = document.getElementById('sens-slider');
@@ -1159,7 +921,9 @@
         const hudAmmoClip = document.getElementById('hud-ammo-clip');
         const hudAmmoMax = document.getElementById('hud-ammo-max');
         const hudWeaponName = document.getElementById('hud-weapon-name');
-        const hudWeaponStatus = document.getElementById('hud-weapon-status');
+        const hudWeaponLvl = document.getElementById('hud-weapon-lvl');
+        const hudWeaponXpBar = document.getElementById('hud-weapon-xp-bar');
+        const hudWeaponSp = document.getElementById('hud-weapon-sp');
         const hudSecretProgress = document.getElementById('hud-secret-progress');
         const reloadPrompt = document.getElementById('reload-prompt');
         const crosshair = document.getElementById('crosshair');
@@ -1187,6 +951,11 @@
         let weaponReloadAngle = 0;
         let headBobTimer = 0;
 
+        // Geometrie condivise per azzerare allocazioni di memoria durante il gioco
+        let sharedParticleGeo = null;
+        let sharedProjectileGeo = null;
+        let sharedBossProjGeo = null;
+
         let fpsFrameCount = 0;
         let fpsLastTime = performance.now();
 
@@ -1210,18 +979,176 @@
         let isDraggingMouse = false;
         let isTouchDevice = false;
         const touchMoveVector = { x: 0, y: 0 };
-        let appInitialized = false;
+
+        /**
+         * LOGICA NEGOZIO ARMI OTTIMIZZATA (Costruzione singola + Event Delegation = Zero Lag)
+         */
+        let shopDomInitialized = false;
+
+        function initShopDOMOnce() {
+            if (shopDomInitialized) return;
+            shopDomInitialized = true;
+
+            const tabsContainer = document.getElementById('shop-weapons-tabs');
+            const grid = document.getElementById('shop-upgrades-grid');
+
+            tabsContainer.innerHTML = '';
+            WEAPONS.forEach((w, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.id = `shop-tab-btn-${idx}`;
+                btn.dataset.idx = idx;
+                btn.innerHTML = `
+                    <span class="text-[10px] font-cyber font-bold truncate max-w-full" style="color:${w.uiColor}">[${w.key}] ${w.shortName}</span>
+                    <span id="shop-tab-sub-${idx}" class="text-[10px] text-slate-300 mt-0.5">LVL 1</span>
+                `;
+                tabsContainer.appendChild(btn);
+            });
+
+            tabsContainer.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-idx]');
+                if (!btn) return;
+                state.selectedShopWeaponIdx = Number(btn.dataset.idx);
+                sound.playHit();
+                renderShopUI();
+            });
+
+            grid.innerHTML = '';
+            UPGRADE_TYPES.forEach(u => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-900 rounded-xl p-3.5 border border-slate-800 flex flex-col justify-between gap-3';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-cyber font-bold text-white">${u.icon} ${u.name}</span>
+                            <span id="shop-up-tier-${u.key}" class="text-[10px] font-cyber text-cyan-400">GRADO 0/${u.maxTier}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-0.5">${u.desc}</p>
+                        <div id="shop-up-bars-${u.key}" class="flex gap-1 mt-2">
+                            ${Array.from({ length: u.maxTier }).map(() => `<div class="h-1.5 flex-1 rounded-full bg-slate-800"></div>`).join('')}
+                        </div>
+                    </div>
+                    <button type="button" id="shop-up-btn-${u.key}" data-upkey="${u.key}" class="w-full py-2 rounded-lg font-cyber text-xs font-black uppercase tracking-wider transition">
+                        POTENZIA (1 PN)
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+
+            grid.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-upkey]');
+                if (!btn || btn.disabled) return;
+                const upKey = btn.dataset.upkey;
+                const w = WEAPONS[state.selectedShopWeaponIdx];
+                const st = getWeaponStats(w.id);
+                const u = UPGRADE_TYPES.find(item => item.key === upKey);
+                if (!u || st.shopPoints <= 0 || st.upgrades[upKey] >= u.maxTier) return;
+
+                st.shopPoints--;
+                st.upgrades[upKey]++;
+                sound.playPickup();
+
+                const eff = getEffectiveWeaponStats(w);
+                state.weaponClips[state.selectedShopWeaponIdx] = eff.maxAmmo;
+                if (state.currentWeaponIndex === state.selectedShopWeaponIdx) {
+                    state.ammo = eff.maxAmmo;
+                }
+
+                savePlayerProfile();
+                renderShopUI();
+                refreshWeaponWheelUI();
+                updateHUD();
+            });
+        }
+
+        function openShop() {
+            state.selectedShopWeaponIdx = state.currentWeaponIndex;
+            initShopDOMOnce();
+            renderShopUI();
+            shopOverlay.classList.remove('hidden');
+            shopOverlay.classList.add('flex');
+        }
+
+        function closeShop() {
+            shopOverlay.classList.add('hidden');
+            shopOverlay.classList.remove('flex');
+            updateProfileUI();
+            updateHUD();
+        }
+
+        function renderShopUI() {
+            WEAPONS.forEach((w, idx) => {
+                const st = getWeaponStats(w.id);
+                const unlocked = isWeaponUnlocked(w);
+                const active = idx === state.selectedShopWeaponIdx;
+                const btn = document.getElementById(`shop-tab-btn-${idx}`);
+                const sub = document.getElementById(`shop-tab-sub-${idx}`);
+                if (btn) {
+                    btn.className = `p-2.5 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between ${
+                        active ? 'bg-cyan-950/90 border-cyan-400' : 'bg-slate-900 border-slate-800 hover:border-slate-700'
+                    }`;
+                }
+                if (sub) {
+                    sub.innerHTML = unlocked
+                        ? `LVL ${st.level} ${st.shopPoints > 0 ? `<span class="text-amber-400 font-bold">• ${st.shopPoints} PN</span>` : ''}`
+                        : '🔒 Bloccata';
+                }
+            });
+
+            const w = WEAPONS[state.selectedShopWeaponIdx];
+            const st = getWeaponStats(w.id);
+            const eff = getEffectiveWeaponStats(w);
+            const reqXp = getXpRequiredForNextLevel(st.level);
+            const xpPct = Math.min(100, Math.round((st.xp / reqXp) * 100));
+
+            document.getElementById('shop-weapon-title').textContent = w.name;
+            document.getElementById('shop-weapon-title').style.color = w.uiColor;
+            document.getElementById('shop-weapon-level-badge').textContent = `LIVELLO ${st.level}`;
+            document.getElementById('shop-weapon-desc').textContent = `${w.desc} — Danno: ${eff.damage} | Caricatore: ${eff.maxAmmo} | Ricarica: ${eff.reloadTime.toFixed(2)}s`;
+            document.getElementById('shop-weapon-points').textContent = `${st.shopPoints} PN`;
+            document.getElementById('shop-weapon-xp-text').textContent = `${st.xp} / ${reqXp} XP`;
+            document.getElementById('shop-weapon-xp-bar').style.width = `${xpPct}%`;
+
+            UPGRADE_TYPES.forEach(u => {
+                const currentTier = st.upgrades[u.key] || 0;
+                const isMax = currentTier >= u.maxTier;
+                const canAfford = st.shopPoints >= 1 && !isMax;
+
+                const tierEl = document.getElementById(`shop-up-tier-${u.key}`);
+                if (tierEl) tierEl.textContent = `GRADO ${currentTier}/${u.maxTier}`;
+
+                const barsContainer = document.getElementById(`shop-up-bars-${u.key}`);
+                if (barsContainer) {
+                    const bars = barsContainer.children;
+                    for (let i = 0; i < bars.length; i++) {
+                        bars[i].className = `h-1.5 flex-1 rounded-full ${i < currentTier ? 'bg-amber-400' : 'bg-slate-800'}`;
+                    }
+                }
+
+                const btn = document.getElementById(`shop-up-btn-${u.key}`);
+                if (btn) {
+                    btn.disabled = !canAfford;
+                    btn.textContent = isMax ? '✓ GRADO MASSIMO' : 'POTENZIA (1 PN)';
+                    btn.className = `w-full py-2 rounded-lg font-cyber text-xs font-black uppercase tracking-wider transition ${
+                        isMax
+                            ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 cursor-default'
+                            : (canAfford
+                                ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 cursor-pointer'
+                                : 'bg-slate-800 text-slate-500 cursor-not-allowed')
+                    }`;
+                }
+            });
+        }
 
         function initThreeJS() {
-            if (appInitialized) return;
-            appInitialized = true;
-
             loadPlayerProfile();
             state.secretUnlocked = playerProfile.secretUnlockedPermanent;
             state.bossesDefeated = playerProfile.maxBossesDefeatedPermanent;
             state.sensitivityMultiplier = playerProfile.sensitivity;
-            if (sensSlider) sensSlider.value = playerProfile.sensitivity;
-            if (sensValue) sensValue.textContent = playerProfile.sensitivity.toFixed(1) + 'x';
+            sensSlider.value = playerProfile.sensitivity;
+            sensValue.textContent = playerProfile.sensitivity.toFixed(1) + 'x';
+            state.weaponClips = WEAPONS.map(w => getEffectiveWeaponStats(w).maxAmmo);
+            state.ammo = state.weaponClips[0];
             updateProfileUI();
 
             scene = new THREE.Scene();
@@ -1233,9 +1160,13 @@
 
             renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, powerPreference: 'high-performance' });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
 
             clock = new THREE.Clock();
+
+            sharedParticleGeo = new THREE.BoxGeometry(0.14, 0.14, 0.14);
+            sharedProjectileGeo = new THREE.SphereGeometry(0.22, 6, 6);
+            sharedBossProjGeo = new THREE.SphereGeometry(0.4, 6, 6);
 
             scene.add(new THREE.AmbientLight(0x1e293b, 1.5));
             const dirLight = new THREE.DirectionalLight(0x38bdf8, 0.95);
@@ -1251,6 +1182,7 @@
             buildWeaponWheelUI();
             setupInputListeners();
             updateHUD();
+            state.needsStaticRender = true;
         }
 
         function buildCyberArena() {
@@ -1325,7 +1257,7 @@
             const lightMetal = new THREE.MeshBasicMaterial({ color: 0x64748b });
             const gripMat = new THREE.MeshBasicMaterial({ color: 0x090d16 });
 
-            // 1. FUCILE D'ASSALTO MK-IV (Mire lineari senza cerchi)
+            // 1. FUCILE D'ASSALTO MK-IV
             const assaultGrp = new THREE.Group();
             const cyanGlow = new THREE.MeshBasicMaterial({ color: 0x22d3ee });
 
@@ -1371,7 +1303,7 @@
             weaponModels['ASSAULT'] = assaultGrp;
             weaponGroup.add(assaultGrp);
 
-            // 2. MITRAGLIETTA VECTOR-X (Mire ad U aperte senza cerchi)
+            // 2. MITRAGLIETTA VECTOR-X
             const smgGrp = new THREE.Group();
             const yellowGlow = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
 
@@ -1413,7 +1345,7 @@
             weaponModels['SMG'] = smgGrp;
             weaponGroup.add(smgGrp);
 
-            // 3. FUCILE A POMPA TITAN-8 (Doppia Canna + Mire aperte)
+            // 3. FUCILE A POMPA TITAN-8
             const sgGrp = new THREE.Group();
             const orangeGlow = new THREE.MeshBasicMaterial({ color: 0xf97316 });
 
@@ -1687,15 +1619,15 @@
                 const isLocked = !isWeaponUnlocked(w);
                 const isSelected = state.currentWeaponIndex === index;
                 const isHovered = state.hoveredWheelIndex === index;
-                const clip = state.weaponClips[index];
                 const eff = getEffectiveWeaponStats(w);
-                const wm = getWeaponMastery(w.id);
+                const st = getWeaponStats(w.id);
+                const clip = state.weaponClips[index];
 
-                let borderClass = 'border-slate-700/80 bg-slate-900/85 opacity-85';
+                let borderClass = 'border-slate-700/80 bg-slate-900 opacity-85';
                 if (isHovered) {
-                    borderClass = 'border-cyan-300 bg-cyan-950/95 scale-110 shadow-[0_0_22px_rgba(34,211,238,0.65)] opacity-100 z-20';
+                    borderClass = 'border-cyan-300 bg-cyan-950 scale-110 opacity-100 z-20';
                 } else if (isSelected) {
-                    borderClass = 'border-cyan-500/80 bg-slate-900/95 opacity-100';
+                    borderClass = 'border-cyan-500/80 bg-slate-900 opacity-100';
                 }
 
                 btn.className = `absolute left-1/2 top-1/2 w-24 h-16 rounded-xl border transition-all duration-150 flex flex-col items-center justify-center p-1 cursor-pointer select-none ${borderClass}`;
@@ -1712,17 +1644,16 @@
                 } else {
                     btn.innerHTML = `
                         <div class="text-[9px] font-cyber tracking-widest font-bold" style="color:${w.uiColor}">[${w.key}] ${w.shortName}</div>
-                        <div class="text-[9px] text-amber-300 font-cyber">Lv.${wm.level} ${wm.shopPoints > 0 ? `(${wm.shopPoints} PN)` : ''}</div>
+                        <div class="text-[8px] text-amber-300 font-cyber">LVL ${st.level}</div>
                         <div class="text-[10px] font-cyber font-bold text-white">${clip}/${eff.maxAmmo}</div>
                     `;
                 }
             });
 
             const hoveredW = WEAPONS[state.hoveredWheelIndex] || getCurrentWeapon();
-            const hoveredEff = getEffectiveWeaponStats(hoveredW);
-            const hoveredWm = getWeaponMastery(hoveredW.id);
             const hoveredLocked = !isWeaponUnlocked(hoveredW);
-            wheelCenterSlot.textContent = hoveredLocked ? '🔒 CLASSIFICATO' : `TASTO [${hoveredW.key}] • LVL ${hoveredWm.level}`;
+            const hoveredEff = getEffectiveWeaponStats(hoveredW);
+            wheelCenterSlot.textContent = hoveredLocked ? '🔒 CLASSIFICATO' : `TASTO [${hoveredW.key}] • LVL ${getWeaponStats(hoveredW.id).level}`;
             wheelCenterName.textContent = hoveredW.name;
             wheelCenterName.style.color = hoveredLocked ? '#f43f5e' : hoveredW.uiColor;
             if (hoveredLocked) {
@@ -1779,16 +1710,14 @@
             setAimingState(false);
 
             state.currentWeaponIndex = index;
-            state.ammo = state.weaponClips[index];
+            const eff = getEffectiveWeaponStats(targetWeapon);
+            state.ammo = Math.min(state.weaponClips[index], eff.maxAmmo);
             state.fireCooldown = 0.16;
             weaponRecoilOffset = 0.15;
 
             applyWeaponVisuals(targetWeapon);
-            hudWeaponStatus.textContent = 'Modalità Fianco // Tasto DX per Mirare';
-            hudWeaponStatus.className = 'text-xs text-emerald-400 uppercase font-semibold tracking-wider mt-0.5';
 
-            const targetEff = getEffectiveWeaponStats(targetWeapon);
-            if (state.ammo <= Math.ceil(targetEff.maxAmmo * 0.2) && state.ammo > 0) {
+            if (state.ammo <= Math.ceil(eff.maxAmmo * 0.2) && state.ammo > 0) {
                 reloadPrompt.classList.remove('hidden');
             } else {
                 reloadPrompt.classList.add('hidden');
@@ -1809,8 +1738,12 @@
             const chRight = document.getElementById('ch-right');
 
             if (aiming) {
+                chTop.setAttribute('y1', '34'); chTop.setAttribute('y2', '43');
+                chBottom.setAttribute('y1', '57'); chBottom.setAttribute('y2', '66');
+                chLeft.setAttribute('x1', '34'); chLeft.setAttribute('x2', '43');
+                chRight.setAttribute('x1', '57'); chRight.setAttribute('x2', '66');
+
                 if (w.isSniper) {
-                    // Attiva il mirino da cecchino a tutto schermo e nasconde il mirino standard
                     sniperScopeOverlay.classList.remove('opacity-0');
                     sniperScopeOverlay.classList.add('opacity-100');
                     crosshair.style.opacity = '0';
@@ -1818,16 +1751,8 @@
                 } else {
                     sniperScopeOverlay.classList.add('opacity-0');
                     sniperScopeOverlay.classList.remove('opacity-100');
-                    chTop.setAttribute('y1', '34'); chTop.setAttribute('y2', '43');
-                    chBottom.setAttribute('y1', '57'); chBottom.setAttribute('y2', '66');
-                    chLeft.setAttribute('x1', '34'); chLeft.setAttribute('x2', '43');
-                    chRight.setAttribute('x1', '57'); chRight.setAttribute('x2', '66');
                     crosshair.style.opacity = '1';
                     if (weaponGroup) weaponGroup.visible = true;
-                }
-                if (!state.isReloading) {
-                    hudWeaponStatus.textContent = 'MIRA DI PRECISIONE ATTIVA';
-                    hudWeaponStatus.className = 'text-xs text-cyan-300 uppercase font-semibold tracking-wider mt-0.5';
                 }
             } else {
                 chTop.setAttribute('y1', '24'); chTop.setAttribute('y2', '38');
@@ -1839,11 +1764,6 @@
                 sniperScopeOverlay.classList.remove('opacity-100');
                 crosshair.style.opacity = '1';
                 if (weaponGroup) weaponGroup.visible = true;
-
-                if (!state.isReloading) {
-                    hudWeaponStatus.textContent = 'Modalità Fianco // Tasto DX per Mirare';
-                    hudWeaponStatus.className = 'text-xs text-emerald-400 uppercase font-semibold tracking-wider mt-0.5';
-                }
             }
         }
 
@@ -1852,6 +1772,7 @@
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
+                state.needsStaticRender = true;
             });
 
             if (profileNameInput) {
@@ -1866,10 +1787,18 @@
                 btnResetProfile.addEventListener('click', resetPlayerProfile);
             }
 
-            const btnOpenShop = document.getElementById('btn-open-shop');
-            const btnCloseShop = document.getElementById('btn-close-shop');
-            if (btnOpenShop) btnOpenShop.addEventListener('click', openShopModal);
-            if (btnCloseShop) btnCloseShop.addEventListener('click', closeShopModal);
+            if (btnOpenShop) {
+                btnOpenShop.addEventListener('click', () => {
+                    sound.init();
+                    openShop();
+                });
+            }
+
+            if (btnCloseShop) {
+                btnCloseShop.addEventListener('click', () => {
+                    closeShop();
+                });
+            }
 
             sensSlider.addEventListener('input', (e) => {
                 state.sensitivityMultiplier = parseFloat(e.target.value);
@@ -2136,7 +2065,7 @@
             state.weaponClips = WEAPONS.map(w => getEffectiveWeaponStats(w).maxAmmo);
             state.health = state.maxHealth;
             state.stamina = state.maxStamina;
-            state.ammo = getEffectiveWeaponStats(WEAPONS[0]).maxAmmo;
+            state.ammo = state.weaponClips[0];
             state.isReloading = false;
             state.reloadTimer = 0;
             state.isFiring = false;
@@ -2153,9 +2082,12 @@
             reloadPrompt.classList.add('hidden');
             gameoverStats.classList.add('hidden');
             gameoverStats.classList.remove('grid');
+            shopOverlay.classList.add('hidden');
+            shopOverlay.classList.remove('flex');
             menuOverlay.classList.add('hidden');
 
             state.mode = 'PLAYING';
+            clock.getDelta();
             startWave(1);
             refreshWeaponWheelUI();
             updateHUD();
@@ -2172,16 +2104,18 @@
             closeWeaponWheel();
             setAimingState(false);
             savePlayerProfile();
-            try {
-                if (document.pointerLockElement === canvas) document.exitPointerLock();
-            } catch (e) {}
+            if (document.pointerLockElement === canvas) {
+                try { document.exitPointerLock(); } catch (e) {}
+            }
             menuTitle.innerHTML = 'MISSIONE <span class="text-cyan-400">IN PAUSA</span>';
-            menuSubtitle.textContent = 'Il tuo profilo e i tuoi record sono salvati. Prendi fiato prima di tornare in azione.';
+            menuSubtitle.textContent = 'Approfitta della pausa per potenziare le tue armi nel Negozio Armi!';
             btnStartGame.textContent = 'Riprendi Missione';
             menuOverlay.classList.remove('hidden');
         }
 
         function resumeGame() {
+            shopOverlay.classList.add('hidden');
+            shopOverlay.classList.remove('flex');
             menuOverlay.classList.add('hidden');
             state.mode = 'PLAYING';
             clock.getDelta();
@@ -2196,9 +2130,9 @@
             closeWeaponWheel();
             setAimingState(false);
             bossHudContainer.classList.add('hidden');
-            try {
-                if (document.pointerLockElement === canvas) document.exitPointerLock();
-            } catch (e) {}
+            if (document.pointerLockElement === canvas) {
+                try { document.exitPointerLock(); } catch (e) {}
+            }
 
             const isNewRecord = state.score > playerProfile.bestScore;
             if (state.score > playerProfile.bestScore) playerProfile.bestScore = state.score;
@@ -2209,8 +2143,8 @@
                 ? 'NUOVO <span class="text-amber-400">RECORD!</span>'
                 : 'SISTEMA <span class="text-rose-500">COMPROMESSO</span>';
             menuSubtitle.textContent = isNewRecord
-                ? `Complimenti ${playerProfile.name}! Hai stabilito il tuo nuovo record personale di punteggio!`
-                : 'La tua corazza ha ceduto sotto il fuoco dei droni. I tuoi progressi sono stati salvati nel profilo.';
+                ? `Complimenti ${playerProfile.name}! Nuovo record personale! Spendi i tuoi Punti Negozio (PN) prima di ripartire.`
+                : 'La tua corazza ha ceduto. Usa il Negozio Armi per potenziare il tuo arsenale e riprova!';
             finalScore.textContent = state.score;
             finalWave.textContent = state.wave;
             finalKills.textContent = state.kills;
@@ -2243,7 +2177,7 @@
             if (isBossWave) {
                 state.enemiesToSpawn = 0;
                 spawnBossDrone();
-                showAnnouncement(`⚠️ ONDATA BOSS ${waveNum} ⚠️`, `Elimina il Boss per sbloccare una Nuova Arma Segreta!`);
+                showAnnouncement(`⚠️ ONDATA BOSS ${waveNum} ⚠️`, `Elimina il Boss per sbloccare una Nuova Arma Segreta e +250 XP Arma!`);
             } else {
                 state.enemiesToSpawn = 4 + waveNum * 3;
                 state.spawnTimer = 0.8;
@@ -2261,8 +2195,6 @@
             state.isReloading = true;
             state.reloadTimer = eff.reloadTime;
             reloadPrompt.classList.add('hidden');
-            hudWeaponStatus.textContent = 'Ricarica Cella in corso...';
-            hudWeaponStatus.className = 'text-xs text-amber-400 uppercase font-semibold tracking-wider mt-0.5 animate-pulse';
             sound.playReload();
         }
 
@@ -2314,8 +2246,10 @@
             sound.playWeaponFire(w.id);
 
             weaponRecoilOffset = state.isAiming ? w.recoil * 0.45 : w.recoil;
-            crosshair.style.transform = 'translate(-50%, -50%) scale(1.32)';
-            setTimeout(() => { crosshair.style.transform = 'translate(-50%, -50%) scale(1)'; }, 75);
+            if (!w.isSniper || !state.isAiming) {
+                crosshair.style.transform = 'translate(-50%, -50%) scale(1.32)';
+                setTimeout(() => { crosshair.style.transform = 'translate(-50%, -50%) scale(1)'; }, 75);
+            }
 
             muzzleMesh.material.opacity = 0.95;
             muzzleLight.intensity = 2.6;
@@ -2380,9 +2314,9 @@
 
                             if (!enemyRef && !bossRef) {
                                 endPoint.copy(hit.point);
-                                spawnParticleBurst(hit.point, w.colorHex, 5, 4);
+                                spawnParticleBurst(hit.point, w.colorHex, 4, 4);
                                 if (w.explosiveRadius) {
-                                    triggerSingularityBlast(hit.point, w.explosiveRadius, eff.splashDamage || 60, w.colorHex);
+                                    triggerSingularityBlast(hit.point, w.explosiveRadius, w.splashDamage || 60, w.colorHex);
                                 }
                                 break;
                             }
@@ -2391,7 +2325,7 @@
                                 piercedTargets.add(enemyRef);
                                 damageEnemy(enemyRef, damagePerPellet, hit.point);
                                 if (w.explosiveRadius) {
-                                    triggerSingularityBlast(hit.point, w.explosiveRadius, eff.splashDamage || 60, w.colorHex);
+                                    triggerSingularityBlast(hit.point, w.explosiveRadius, w.splashDamage || 60, w.colorHex);
                                 }
                                 collateralHits++;
                                 hitAny = true;
@@ -2399,7 +2333,7 @@
                                 piercedTargets.add(bossRef);
                                 damageBoss(bossRef, damagePerPellet, hit.point);
                                 if (w.explosiveRadius) {
-                                    triggerSingularityBlast(hit.point, w.explosiveRadius, eff.splashDamage || 60, w.colorHex);
+                                    triggerSingularityBlast(hit.point, w.explosiveRadius, w.splashDamage || 60, w.colorHex);
                                 }
                                 collateralHits++;
                                 hitAny = true;
@@ -2429,11 +2363,11 @@
                                 triggerChainLightning(hit.point, w.chainTargets, w.chainRadius, Math.round(damagePerPellet * 0.75), null);
                             }
                         } else {
-                            spawnParticleBurst(hit.point, w.colorHex, 4, 3);
+                            spawnParticleBurst(hit.point, w.colorHex, 3, 3);
                         }
 
                         if (w.explosiveRadius) {
-                            triggerSingularityBlast(hit.point, w.explosiveRadius, eff.splashDamage || 45, w.colorHex);
+                            triggerSingularityBlast(hit.point, w.explosiveRadius, w.splashDamage || 45, w.colorHex);
                             if (w.id === 'HYDRA') sound.playExplosion();
                         }
                     }
@@ -2451,7 +2385,7 @@
         }
 
         function triggerSingularityBlast(center, radius, splashDamage, colorHex = 0xd946ef) {
-            spawnParticleBurst(center, colorHex, 12, 7);
+            spawnParticleBurst(center, colorHex, 8, 7);
             for (let i = enemies.length - 1; i >= 0; i--) {
                 const en = enemies[i];
                 if (en && en.group.position.distanceTo(center) <= radius) {
@@ -2498,6 +2432,7 @@
             let speed = 8.5 + state.wave * 0.15;
             let color = 0xf43f5e;
             let scoreValue = 100 + state.wave * 10;
+            let xpReward = 20;
             let scale = 1.0;
 
             if (type === 'RANGER') {
@@ -2505,12 +2440,14 @@
                 speed = 6.2 + state.wave * 0.1;
                 color = 0xa855f7;
                 scoreValue = 150 + state.wave * 15;
+                xpReward = 30;
                 scale = 1.15;
             } else if (type === 'TANK') {
                 hp = 200 + state.wave * 35;
                 speed = 4.4 + state.wave * 0.08;
                 color = 0xf97316;
                 scoreValue = 250 + state.wave * 25;
+                xpReward = 45;
                 scale = 1.45;
             }
 
@@ -2521,7 +2458,7 @@
             eyeMesh.position.z = 0.55 * scale;
             group.add(eyeMesh);
 
-            const ringMesh = new THREE.Mesh(new THREE.TorusGeometry(1.05 * scale, 0.07 * scale, 6, 16), new THREE.MeshBasicMaterial({ color: color }));
+            const ringMesh = new THREE.Mesh(new THREE.TorusGeometry(1.05 * scale, 0.07 * scale, 6, 14), new THREE.MeshBasicMaterial({ color: color }));
             ringMesh.rotation.x = Math.PI / 2;
             group.add(ringMesh);
 
@@ -2544,7 +2481,7 @@
             scene.add(group);
 
             enemies.push({
-                group, coreMesh, ringMesh, hpFill, hpBg, type, hp, maxHp: hp, speed, color, scoreValue,
+                group, coreMesh, ringMesh, hpFill, hpBg, type, hp, maxHp: hp, speed, color, scoreValue, xpReward,
                 attackCooldown: 1.5 + Math.random() * 1.5, bobOffset: Math.random() * Math.PI * 2
             });
         }
@@ -2561,7 +2498,7 @@
             coreEye.position.z = 0.8 * scale;
             group.add(coreEye);
 
-            const ringMesh = new THREE.Mesh(new THREE.TorusGeometry(1.8 * scale, 0.12 * scale, 8, 20), new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
+            const ringMesh = new THREE.Mesh(new THREE.TorusGeometry(1.8 * scale, 0.12 * scale, 8, 18), new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
             ringMesh.rotation.x = Math.PI / 2;
             group.add(ringMesh);
 
@@ -2582,7 +2519,7 @@
         function damageEnemy(enemy, amount, hitPoint) {
             if (!enemy || enemy.hp <= 0) return;
             enemy.hp -= amount;
-            spawnParticleBurst(hitPoint, enemy.color, 5, 4);
+            spawnParticleBurst(hitPoint, enemy.color, 3, 4);
             enemy.hpFill.scale.x = Math.max(0.01, enemy.hp / enemy.maxHp);
             if (enemy.hp <= 0) killEnemy(enemy);
         }
@@ -2590,7 +2527,7 @@
         function damageBoss(boss, amount, hitPoint) {
             if (!boss || boss.hp <= 0) return;
             boss.hp -= amount;
-            spawnParticleBurst(hitPoint, 0xf43f5e, 8, 6);
+            spawnParticleBurst(hitPoint, 0xf43f5e, 5, 6);
             updateBossHUD();
             if (boss.hp <= 0) killBoss(boss);
         }
@@ -2607,7 +2544,7 @@
             if (idx === -1) return;
 
             sound.playExplosion();
-            spawnParticleBurst(enemy.group.position, enemy.color, 14, 7);
+            spawnParticleBurst(enemy.group.position, enemy.color, 10, 7);
 
             if (Math.random() < 0.32) spawnMedkitPickup(enemy.group.position);
 
@@ -2622,9 +2559,7 @@
                 playerProfile.bestScore = state.score;
             }
 
-            // Guadagna XP per l'arma che ha eliminato il drone
-            const xpGain = enemy.type === 'TANK' ? 45 : (enemy.type === 'RANGER' ? 30 : 20);
-            addWeaponXP(getCurrentWeapon().id, xpGain);
+            addWeaponXp(getCurrentWeapon().id, enemy.xpReward || 25);
 
             checkSecretUnlock();
             savePlayerProfile();
@@ -2633,7 +2568,7 @@
 
         function killBoss(boss) {
             sound.playExplosion();
-            spawnParticleBurst(boss.group.position, 0xf43f5e, 35, 10);
+            spawnParticleBurst(boss.group.position, 0xf43f5e, 24, 10);
             spawnMedkitPickup(boss.group.position);
             scene.remove(boss.group);
             state.activeBoss = null;
@@ -2651,9 +2586,7 @@
                 playerProfile.maxBossesDefeatedPermanent = state.bossesDefeated;
             }
 
-            // Guadagna un'enorme quantità di XP per l'arma che ha abbattuto il Boss
-            addWeaponXP(getCurrentWeapon().id, 250);
-
+            addWeaponXp(getCurrentWeapon().id, 250);
             sound.playPickup();
 
             const newlyUnlockedWeapon = WEAPONS.find(w => w.unlockType === 'boss' && w.bossLevel === state.bossesDefeated);
@@ -2663,7 +2596,7 @@
                     `Premi [${newlyUnlockedWeapon.key}] o usa la Ruota [Q] per impugnare la nuova arma!`
                 );
             } else {
-                showAnnouncement('BOSS ELIMINATO!', 'Vittoria schiacciante! Progressi salvati nel profilo.');
+                showAnnouncement('BOSS ELIMINATO!', '+250 XP Arma! Vittoria salvata nel profilo.');
             }
 
             checkSecretUnlock();
@@ -2693,8 +2626,9 @@
         }
 
         function spawnParticleBurst(pos, colorHex, count, speedScale) {
+            if (particles.length > 70) return; // Limite sicurezza per mantenere sempre 60 FPS
             for (let i = 0; i < count; i++) {
-                const mesh = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.14, 0.14), new THREE.MeshBasicMaterial({ color: colorHex, transparent: true, opacity: 1 }));
+                const mesh = new THREE.Mesh(sharedParticleGeo, new THREE.MeshBasicMaterial({ color: colorHex, transparent: true, opacity: 1 }));
                 mesh.position.copy(pos);
 
                 const vel = new THREE.Vector3(
@@ -2704,7 +2638,7 @@
                 ).normalize().multiplyScalar(Math.random() * speedScale + 2);
 
                 scene.add(mesh);
-                particles.push({ mesh, vel, life: 0.4, maxLife: 0.4 });
+                particles.push({ mesh, vel, life: 0.35, maxLife: 0.35 });
             }
         }
 
@@ -2826,8 +2760,6 @@
                     state.ammo = eff.maxAmmo;
                     state.weaponClips[state.currentWeaponIndex] = state.ammo;
                     weaponReloadAngle = 0;
-                    hudWeaponStatus.textContent = state.isAiming ? 'MIRA DI PRECISIONE ATTIVA' : 'Modalità Fianco // Tasto DX per Mirare';
-                    hudWeaponStatus.className = 'text-xs text-emerald-400 uppercase font-semibold tracking-wider mt-0.5';
                     updateHUD();
                 }
             }
@@ -2865,6 +2797,8 @@
                 l.mesh.material.opacity = Math.max(0, l.life / l.maxLife);
                 if (l.life <= 0) {
                     scene.remove(l.mesh);
+                    l.mesh.geometry.dispose();
+                    l.mesh.material.dispose();
                     playerLasers.splice(i, 1);
                 }
             }
@@ -2876,6 +2810,7 @@
                 p.mesh.material.opacity = Math.max(0, p.life / p.maxLife);
                 if (p.life <= 0) {
                     scene.remove(p.mesh);
+                    p.mesh.material.dispose();
                     particles.splice(i, 1);
                 }
             }
@@ -2978,6 +2913,7 @@
                 if (proj.mesh.position.distanceTo(camera.position) < 1.15) {
                     applyPlayerDamage(proj.damage);
                     scene.remove(proj.mesh);
+                    proj.mesh.material.dispose();
                     enemyProjectiles.splice(i, 1);
                     continue;
                 }
@@ -2994,13 +2930,14 @@
 
                 if (hitWall || proj.life <= 0) {
                     scene.remove(proj.mesh);
+                    proj.mesh.material.dispose();
                     enemyProjectiles.splice(i, 1);
                 }
             }
         }
 
         function fireEnemyProjectile(en) {
-            const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.22, 6, 6), new THREE.MeshBasicMaterial({ color: en.color }));
+            const mesh = new THREE.Mesh(sharedProjectileGeo, new THREE.MeshBasicMaterial({ color: en.color }));
             mesh.position.copy(en.group.position);
 
             const dir = new THREE.Vector3().subVectors(camera.position, en.group.position).normalize();
@@ -3010,7 +2947,7 @@
 
         function fireBossProjectiles(boss) {
             for (let i = -1; i <= 1; i++) {
-                const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.4, 6, 6), new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
+                const mesh = new THREE.Mesh(sharedBossProjGeo, new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
                 mesh.position.copy(boss.group.position);
 
                 const dir = new THREE.Vector3().subVectors(camera.position, boss.group.position).normalize();
@@ -3035,10 +2972,10 @@
 
             const w = getCurrentWeapon();
             const eff = getEffectiveWeaponStats(w);
-            const wm = getWeaponMastery(w.id);
-            const nextXp = getXpRequiredForNextLevel(wm.level);
+            const st = getWeaponStats(w.id);
+            const reqXp = getXpRequiredForNextLevel(st.level);
 
-            hudWeaponName.textContent = `${w.name} [Lv.${wm.level}]`;
+            hudWeaponName.textContent = w.name;
             hudWeaponName.style.color = w.uiColor;
             hudAmmoMax.textContent = String(eff.maxAmmo).padStart(2, '0');
             hudAmmoClip.textContent = String(state.ammo).padStart(2, '0');
@@ -3046,7 +2983,15 @@
                 ? 'text-3xl sm:text-4xl font-black text-rose-400'
                 : 'text-3xl sm:text-4xl font-black text-white';
 
-            hudSecretProgress.textContent = `XP Arma: ${wm.xp}/${nextXp} • Punti Negozio: ${wm.shopPoints} PN`;
+            if (hudWeaponLvl) hudWeaponLvl.textContent = `LVL ${st.level}`;
+            if (hudWeaponXpBar) hudWeaponXpBar.style.width = `${Math.min(100, Math.round((st.xp / reqXp) * 100))}%`;
+            if (hudWeaponSp) hudWeaponSp.textContent = `${st.shopPoints} PN`;
+
+            const unlockedBossCount = Math.min(3, Math.max(state.bossesDefeated, playerProfile.maxBossesDefeatedPermanent));
+            const omegaStatus = (state.secretUnlocked || playerProfile.secretUnlockedPermanent)
+                ? '★ OMEGA [5]'
+                : `[5] ${Math.min(100, playerProfile.totalKills)}/100 Kill`;
+            hudSecretProgress.textContent = `${omegaStatus} • Boss Armi [6-8]: ${unlockedBossCount}/3`;
         }
 
         function drawRadar() {
@@ -3141,30 +3086,31 @@
 
             updateTelemetry();
 
-            const dt = Math.min(clock.getDelta(), 0.1);
-            const elapsed = clock.getElapsedTime();
-
+            // OTTIMIZZAZIONE CHIAVE: quando sei nel Negozio o nel Menu, non spreca GPU/CPU a ridisegnare il 3D
             if (state.mode === 'PLAYING') {
+                const dt = Math.min(clock.getDelta(), 0.1);
+                const elapsed = clock.getElapsedTime();
+
                 updatePlayerMovement(dt);
                 updateWeaponAndEffects(dt);
                 updateEnemiesAndProjectiles(dt, elapsed);
                 drawRadar();
+                renderer.render(scene, camera);
+            } else if (state.needsStaticRender) {
+                renderer.render(scene, camera);
+                state.needsStaticRender = false;
             }
-
-            renderer.render(scene, camera);
-        }
-
-        function bootGame() {
-            initThreeJS();
-            animate();
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', bootGame);
+            document.addEventListener('DOMContentLoaded', () => {
+                initThreeJS();
+                animate();
+            });
         } else {
-            bootGame();
+            initThreeJS();
+            animate();
         }
-        window.onload = bootGame;
     </script>
 </body>
 </html>
