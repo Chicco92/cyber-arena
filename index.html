@@ -1752,32 +1752,50 @@
             const chRight = document.getElementById('ch-right');
 
             if (aiming) {
-                chTop.setAttribute('y1', '34'); chTop.setAttribute('y2', '43');
-                chBottom.setAttribute('y1', '57'); chBottom.setAttribute('y2', '66');
-                chLeft.setAttribute('x1', '34'); chLeft.setAttribute('x2', '43');
-                chRight.setAttribute('x1', '57'); chRight.setAttribute('x2', '66');
-
                 if (w.isSniper) {
+                    // Attiva il mirino da cecchino
                     sniperScopeOverlay.classList.remove('opacity-0');
                     sniperScopeOverlay.classList.add('opacity-100');
+                    // Nasconde il mirino generico e l'arma 3D
                     crosshair.style.opacity = '0';
                     if (weaponGroup) weaponGroup.visible = false;
                 } else {
+                    // Armi normali: stringe il mirino standard
                     sniperScopeOverlay.classList.add('opacity-0');
                     sniperScopeOverlay.classList.remove('opacity-100');
                     crosshair.style.opacity = '1';
                     if (weaponGroup) weaponGroup.visible = true;
+
+                    if (chTop && chBottom && chLeft && chRight) {
+                        chTop.setAttribute('y1', '34'); chTop.setAttribute('y2', '43');
+                        chBottom.setAttribute('y1', '57'); chBottom.setAttribute('y2', '66');
+                        chLeft.setAttribute('x1', '34'); chLeft.setAttribute('x2', '43');
+                        chRight.setAttribute('x1', '57'); chRight.setAttribute('x2', '66');
+                    }
+                }
+
+                if (!state.isReloading) {
+                    hudWeaponStatus.textContent = `${w.name} // MIRA ATTIVA`;
+                    hudWeaponStatus.className = 'text-xs text-cyan-300 uppercase font-semibold tracking-wider mt-0.5';
                 }
             } else {
-                chTop.setAttribute('y1', '24'); chTop.setAttribute('y2', '38');
-                chBottom.setAttribute('y1', '62'); chBottom.setAttribute('y2', '76');
-                chLeft.setAttribute('x1', '24'); chLeft.setAttribute('x2', '38');
-                chRight.setAttribute('x1', '62'); chRight.setAttribute('x2', '76');
-
+                // Rilascio mira: chiude l'ottica e ripristina mirino e arma
                 sniperScopeOverlay.classList.add('opacity-0');
                 sniperScopeOverlay.classList.remove('opacity-100');
                 crosshair.style.opacity = '1';
                 if (weaponGroup) weaponGroup.visible = true;
+
+                if (chTop && chBottom && chLeft && chRight) {
+                    chTop.setAttribute('y1', '24'); chTop.setAttribute('y2', '38');
+                    chBottom.setAttribute('y1', '62'); chBottom.setAttribute('y2', '76');
+                    chLeft.setAttribute('x1', '24'); chLeft.setAttribute('x2', '38');
+                    chRight.setAttribute('x1', '62'); chRight.setAttribute('x2', '76');
+                }
+
+                if (!state.isReloading) {
+                    hudWeaponStatus.textContent = 'Modalità Fianco // Tasto DX per Mirare';
+                    hudWeaponStatus.className = 'text-xs text-emerald-400 uppercase font-semibold tracking-wider mt-0.5';
+                }
             }
         }
 
