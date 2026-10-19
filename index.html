@@ -1728,44 +1728,50 @@
         }
 
         function setAimingState(aiming) {
-            if (state.isReloading || state.mode !== 'PLAYING' || state.isWheelOpen) aiming = false;
-            state.isAiming = aiming;
-            const w = getCurrentWeapon();
+    if (state.isReloading || state.mode !== 'PLAYING' || state.isWheelOpen) aiming = false;
+    state.isAiming = aiming;
+    const w = getCurrentWeapon();
 
-            const chTop = document.getElementById('ch-top');
-            const chBottom = document.getElementById('ch-bottom');
-            const chLeft = document.getElementById('ch-left');
-            const chRight = document.getElementById('ch-right');
+    const chTop = document.getElementById('ch-top');
+    const chBottom = document.getElementById('ch-bottom');
+    const chLeft = document.getElementById('ch-left');
+    const chRight = document.getElementById('ch-right');
 
-            if (aiming) {
-                chTop.setAttribute('y1', '34'); chTop.setAttribute('y2', '43');
-                chBottom.setAttribute('y1', '57'); chBottom.setAttribute('y2', '66');
-                chLeft.setAttribute('x1', '34'); chLeft.setAttribute('x2', '43');
-                chRight.setAttribute('x1', '57'); chRight.setAttribute('x2', '66');
-
-                if (w.isSniper) {
-                    sniperScopeOverlay.classList.remove('opacity-0');
-                    sniperScopeOverlay.classList.add('opacity-100');
-                    crosshair.style.opacity = '0';
-                    if (weaponGroup) weaponGroup.visible = false;
-                } else {
-                    sniperScopeOverlay.classList.add('opacity-0');
-                    sniperScopeOverlay.classList.remove('opacity-100');
-                    crosshair.style.opacity = '1';
-                    if (weaponGroup) weaponGroup.visible = true;
-                }
-            } else {
-                chTop.setAttribute('y1', '24'); chTop.setAttribute('y2', '38');
-                chBottom.setAttribute('y1', '62'); chBottom.setAttribute('y2', '76');
-                chLeft.setAttribute('x1', '24'); chLeft.setAttribute('x2', '38');
-                chRight.setAttribute('x1', '62'); chRight.setAttribute('x2', '76');
-
-                sniperScopeOverlay.classList.add('opacity-0');
-                sniperScopeOverlay.classList.remove('opacity-100');
-                crosshair.style.opacity = '1';
-                if (weaponGroup) weaponGroup.visible = true;
-            }
+    if (aiming) {
+        // Stringe il mirino centrale verso il centro
+        if (chTop && chBottom && chLeft && chRight) {
+            chTop.setAttribute('y1', '34'); chTop.setAttribute('y2', '43');
+            chBottom.setAttribute('y1', '57'); chBottom.setAttribute('y2', '66');
+            chLeft.setAttribute('x1', '34'); chLeft.setAttribute('x2', '43');
+            chRight.setAttribute('x1', '57'); chRight.setAttribute('x2', '66');
         }
+
+        if (w.isSniper) {
+            sniperScopeOverlay.classList.remove('opacity-0');
+            sniperScopeOverlay.classList.add('opacity-100');
+            crosshair.style.opacity = '1'; // Mantiene il punto centrale
+            if (weaponGroup) weaponGroup.visible = false; // Nasconde il fucile per non coprire la lente
+        } else {
+            sniperScopeOverlay.classList.add('opacity-0');
+            sniperScopeOverlay.classList.remove('opacity-100');
+            crosshair.style.opacity = '1';
+            if (weaponGroup) weaponGroup.visible = true;
+        }
+    } else {
+        // Ripristina l'apertura normale del mirino
+        if (chTop && chBottom && chLeft && chRight) {
+            chTop.setAttribute('y1', '24'); chTop.setAttribute('y2', '38');
+            chBottom.setAttribute('y1', '62'); chBottom.setAttribute('y2', '76');
+            chLeft.setAttribute('x1', '24'); chLeft.setAttribute('x2', '38');
+            chRight.setAttribute('x1', '62'); chRight.setAttribute('x2', '76');
+        }
+
+        sniperScopeOverlay.classList.add('opacity-0');
+        sniperScopeOverlay.classList.remove('opacity-100');
+        crosshair.style.opacity = '1';
+        if (weaponGroup) weaponGroup.visible = true;
+    }
+}
 
         function setupInputListeners() {
             window.addEventListener('resize', () => {
