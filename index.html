@@ -65,7 +65,7 @@
     <!-- OVERLAY DANNO RICEVUTO -->
     <div id="damage-overlay" class="fixed inset-0 pointer-events-none z-10 opacity-0"></div>
 
-    <!-- MIRINO STANDARD SVG (Centratura assoluta, senza cerchi) -->
+    <!-- MIRINO STANDARD SVG (Centratura assoluta, nessun cerchio) -->
     <div id="crosshair" class="screen-center z-30 w-16 h-16 pointer-events-none transition-transform duration-75 flex items-center justify-center">
         <svg id="crosshair-svg" viewBox="0 0 100 100" class="w-full h-full overflow-visible">
             <line id="ch-top" class="ch-line transition-all duration-150" x1="50" y1="24" x2="50" y2="38" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
@@ -76,25 +76,25 @@
         </svg>
     </div>
 
-    <!-- OVERLAY OTTICA DI PRECISIONE CECCHINO (Senza banner, reticolo nitido e trasparente) -->
+    <!-- OVERLAY OTTICA DI PRECISIONE PER IL CECCHINO (Senza scritte/banner, 100% trasparente e perfettamente visibile) -->
     <div id="sniper-scope-overlay" class="fixed inset-0 pointer-events-none z-25 opacity-0 transition-opacity duration-150 flex items-center justify-center">
-        <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(2, 5, 14, 0.98) 33%);"></div>
-        <div class="screen-center w-[480px] h-[480px] sm:w-[560px] sm:h-[560px] flex items-center justify-center">
+        <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 50%, transparent 31%, rgba(2, 5, 14, 0.98) 33%);"></div>
+        <div class="screen-center w-[500px] h-[500px] sm:w-[600px] sm:h-[600px] flex items-center justify-center">
             <svg viewBox="0 0 400 400" class="w-full h-full">
                 <!-- Ghiera ottica esterna -->
                 <circle cx="200" cy="200" r="195" fill="none" stroke="#0f172a" stroke-width="8" />
-                <circle cx="200" cy="200" r="190" fill="none" stroke="#f43f5e" stroke-width="1.8" stroke-opacity="0.85" />
-                <!-- Linee balistiche esterne spesse -->
-                <line x1="10" y1="200" x2="110" y2="200" stroke="#0f172a" stroke-width="6" />
-                <line x1="290" y1="200" x2="390" y2="200" stroke="#0f172a" stroke-width="6" />
-                <line x1="200" y1="290" x2="200" y2="390" stroke="#0f172a" stroke-width="6" />
-                <!-- Fili del reticolo fini -->
-                <line x1="110" y1="200" x2="190" y2="200" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
-                <line x1="210" y1="200" x2="290" y2="200" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
-                <line x1="200" y1="15" x2="200" y2="190" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
-                <line x1="200" y1="210" x2="200" y2="290" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
-                <!-- Tacche Mil-Dot graduate -->
-                <g stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9">
+                <circle cx="200" cy="200" r="190" fill="none" stroke="#f43f5e" stroke-width="2" stroke-opacity="0.85" />
+                <!-- Linee balistiche spesse esterne -->
+                <line x1="8" y1="200" x2="110" y2="200" stroke="#0f172a" stroke-width="6" />
+                <line x1="290" y1="200" x2="392" y2="200" stroke="#0f172a" stroke-width="6" />
+                <line x1="200" y1="290" x2="200" y2="392" stroke="#0f172a" stroke-width="6" />
+                <!-- Linee fini del reticolo -->
+                <line x1="110" y1="200" x2="190" y2="200" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9" />
+                <line x1="210" y1="200" x2="290" y2="200" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9" />
+                <line x1="200" y1="12" x2="200" y2="190" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9" />
+                <line x1="200" y1="210" x2="200" y2="290" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9" />
+                <!-- Tacche graduate Mil-Dot -->
+                <g stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9">
                     <line x1="140" y1="195" x2="140" y2="205" />
                     <line x1="160" y1="196" x2="160" y2="204" />
                     <line x1="180" y1="196" x2="180" y2="204" />
@@ -108,7 +108,7 @@
                     <line x1="196" y1="240" x2="204" y2="240" />
                     <line x1="195" y1="260" x2="205" y2="260" />
                 </g>
-                <!-- Punto laser centrale perfettamente visibile -->
+                <!-- Punto laser rosso centrale -->
                 <circle cx="200" cy="200" r="3" fill="#f43f5e" />
             </svg>
         </div>
@@ -207,7 +207,7 @@
                 </div>
             </div>
 
-            <!-- BANNER ANNUNCI IN ALTO (Zero interferenza con la visuale) -->
+            <!-- BANNER ANNUNCI IN ALTO -->
             <div class="flex flex-col items-center justify-start mt-1 pointer-events-none">
                 <div id="wave-announcement" class="opacity-0 transition-all duration-300 transform -translate-y-2 scale-95 text-center px-6 py-2 rounded-2xl bg-slate-950/95 border border-cyan-400/50">
                     <div id="announcement-title" class="text-lg sm:text-2xl font-cyber font-black text-cyan-300 tracking-wider uppercase">ONDATA 01</div>
@@ -374,7 +374,7 @@
         </div>
     </div>
 
-    <!-- NEGOZIO POTENZIAMENTI ARMI (Completamente Ottimizzato e Fluido) -->
+    <!-- NEGOZIO POTENZIAMENTI ARMI -->
     <div id="shop-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
         <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-amber-400/50 my-auto">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
@@ -424,9 +424,6 @@
     </div>
 
     <script>
-        /**
-         * DEFINIZIONE DELLE 8 ARMI E TIPI DI POTENZIAMENTO
-         */
         const WEAPONS = [
             {
                 id: 'ASSAULT', key: '1', name: "Fucile d'Assalto MK-IV", shortName: "ASSALTO", desc: "Bilanciato Automatico",
@@ -624,19 +621,19 @@
             updateProfileUI();
         }
 
-        let resetConfirmPending = false;
+        let isResetPending = false;
         function resetPlayerProfile() {
             const btn = document.getElementById('btn-reset-profile');
-            if (!resetConfirmPending) {
-                resetConfirmPending = true;
-                if (btn) btn.textContent = '⚠️ CLICCA DI NUOVO PER CONFERMARE RESET';
+            if (!isResetPending) {
+                isResetPending = true;
+                if (btn) btn.textContent = '⚠️ CLICCA DI NUOVO PER CONFERMARE';
                 setTimeout(() => {
-                    resetConfirmPending = false;
+                    isResetPending = false;
                     if (btn) btn.textContent = '🗑️ Azzera Profilo e Record';
                 }, 3500);
                 return;
             }
-            resetConfirmPending = false;
+            isResetPending = false;
             if (btn) btn.textContent = '🗑️ Azzera Profilo e Record';
             try {
                 if (window.localStorage) localStorage.removeItem(PROFILE_STORAGE_KEY);
@@ -684,138 +681,8 @@
             }
         }
 
-        const GAME_CONFIG = {
-            arenaHalfSize: 55,
-            playerHeight: 2.2,
-            playerRadius: 0.9,
-            moveSpeed: 13.0,
-            sprintMultiplier: 1.5,
-            jumpForce: 11.5,
-            gravity: 26.0,
-            baseSensitivity: 0.0022
-        };
-
-        const state = {
-            mode: 'MENU', score: 0, wave: 1, kills: 0,
-            secretUnlocked: false,
-            bossesDefeated: 0,
-            currentWeaponIndex: 0,
-            selectedShopWeaponIdx: 0,
-            weaponClips: WEAPONS.map(w => w.maxAmmo),
-            isWheelOpen: false, hoveredWheelIndex: 0, wheelMouseX: 0, wheelMouseY: 0,
-            health: 100, maxHealth: 100, stamina: 100, maxStamina: 100, ammo: 30,
-            isReloading: false, reloadTimer: 0, fireCooldown: 0, isFiring: false,
-            isAiming: false, adsProgress: 0, sensitivityMultiplier: 1.0,
-            enemiesToSpawn: 0, spawnTimer: 0, waveTransitionTimer: 0, inWaveTransition: false,
-            activeBoss: null,
-            needsStaticRender: true
-        };
-
-        function getCurrentWeapon() { return WEAPONS[state.currentWeaponIndex]; }
-
-        function isWeaponUnlocked(w) {
-            if (!w.secret) return true;
-            if (w.unlockType === 'kills') return state.secretUnlocked || playerProfile.secretUnlockedPermanent;
-            if (w.unlockType === 'boss') return Math.max(state.bossesDefeated, playerProfile.maxBossesDefeatedPermanent) >= w.bossLevel;
-            return false;
-        }
-
-        const canvas = document.getElementById('game-canvas');
-        const radarCanvas = document.getElementById('radar-canvas');
-        const radarCtx = radarCanvas ? radarCanvas.getContext('2d') : null;
-        const menuOverlay = document.getElementById('menu-overlay');
-        const shopOverlay = document.getElementById('shop-overlay');
-        const menuTitle = document.getElementById('menu-title');
-        const menuSubtitle = document.getElementById('menu-subtitle');
-        const gameoverStats = document.getElementById('gameover-stats');
-        const finalScore = document.getElementById('final-score');
-        const finalWave = document.getElementById('final-wave');
-        const finalKills = document.getElementById('final-kills');
-        const btnStartGame = document.getElementById('btn-start-game');
-        const btnOpenShop = document.getElementById('btn-open-shop');
-        const btnCloseShop = document.getElementById('btn-close-shop');
-        const btnPause = document.getElementById('btn-pause');
-        const btnMute = document.getElementById('btn-mute');
-        const sensSlider = document.getElementById('sens-slider');
-        const sensValue = document.getElementById('sens-value');
-        const profileNameInput = document.getElementById('profile-name-input');
-        const btnResetProfile = document.getElementById('btn-reset-profile');
-
-        const hudWave = document.getElementById('hud-wave');
-        const hudScore = document.getElementById('hud-score');
-        const hudEnemies = document.getElementById('hud-enemies');
-        const hudKills = document.getElementById('hud-kills');
-        const hudFps = document.getElementById('hud-fps');
-        const hudPing = document.getElementById('hud-ping');
-        const hudHealthText = document.getElementById('hud-health-text');
-        const hudHealthBar = document.getElementById('hud-health-bar');
-        const hudStaminaText = document.getElementById('hud-stamina-text');
-        const hudStaminaBar = document.getElementById('hud-stamina-bar');
-        const bossHudContainer = document.getElementById('boss-hud-container');
-        const bossHealthText = document.getElementById('boss-health-text');
-        const bossHealthBar = document.getElementById('boss-health-bar');
-        const bossNameLabel = document.getElementById('boss-name-label');
-
-        const hudAmmoClip = document.getElementById('hud-ammo-clip');
-        const hudAmmoMax = document.getElementById('hud-ammo-max');
-        const hudWeaponName = document.getElementById('hud-weapon-name');
-        const hudWeaponLvl = document.getElementById('hud-weapon-lvl');
-        const hudWeaponXpBar = document.getElementById('hud-weapon-xp-bar');
-        const hudWeaponSp = document.getElementById('hud-weapon-sp');
-        const hudSecretProgress = document.getElementById('hud-secret-progress');
-        const reloadPrompt = document.getElementById('reload-prompt');
-        const crosshair = document.getElementById('crosshair');
-        const crosshairDot = document.getElementById('crosshair-dot');
-        const sniperScopeOverlay = document.getElementById('sniper-scope-overlay');
-        const adsZoomLabel = document.getElementById('ads-zoom-label');
-        const weaponWheelOverlay = document.getElementById('weapon-wheel-overlay');
-        const wheelSlotsContainer = document.getElementById('wheel-slots-container');
-        const wheelCenterSlot = document.getElementById('wheel-center-slot');
-        const wheelCenterName = document.getElementById('wheel-center-name');
-        const wheelCenterStats = document.getElementById('wheel-center-stats');
-        const hitMarker = document.getElementById('hit-marker');
-        const damageOverlay = document.getElementById('damage-overlay');
-        const waveAnnouncement = document.getElementById('wave-announcement');
-        const announcementTitle = document.getElementById('announcement-title');
-        const announcementSubtitle = document.getElementById('announcement-subtitle');
-
-        let scene, camera, renderer, clock;
-        let weaponGroup, weaponBarrelTip, muzzleLight, muzzleMesh;
-        const weaponModels = {};
-        let omegaCoreOrb = null;
-        let omegaOuterRings = [];
-        let teslaArcRing = null;
-        let gaussSpinCore = null;
-        let weaponRecoilOffset = 0;
-        let weaponReloadAngle = 0;
-        let headBobTimer = 0;
-
-        let fpsFrameCount = 0;
-        let fpsLastTime = performance.now();
-
-        const playerVelocity = new THREE.Vector3();
-        let isGrounded = true;
-        const cameraEuler = new THREE.Euler(0, 0, 0, 'YXZ');
-
-        const obstacles = [];
-        const enemies = [];
-        const enemyProjectiles = [];
-        const playerLasers = [];
-        const particles = [];
-        const pickups = [];
-
-        const keys = {
-            KeyW: false, KeyA: false, KeyS: false, KeyD: false,
-            ArrowUp: false, ArrowLeft: false, ArrowDown: false, ArrowRight: false,
-            Space: false, ShiftLeft: false, ShiftRight: false
-        };
-
-        let isDraggingMouse = false;
-        let isTouchDevice = false;
-        const touchMoveVector = { x: 0, y: 0 };
-
         /**
-         * LOGICA NEGOZIO ARMI ULTRA VELOCE
+         * LOGICA NEGOZIO ARMI
          */
         let shopDomInitialized = false;
 
@@ -1314,7 +1181,6 @@
             requestAnimationFrame(animate);
             updateTelemetry();
 
-            // Salta il rendering se il giocatore è nei menu o nel negozio per eliminare qualsiasi lag
             if (state.mode === 'PLAYING') {
                 const dt = Math.min(clock.getDelta(), 0.1);
                 const elapsed = clock.getElapsedTime();
