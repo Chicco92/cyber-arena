@@ -2955,16 +2955,24 @@
                 }
 
                 en.attackCooldown -= dt;
-                if (en.type === 'SCOUT') {
-                    if (dist < 2.6 && en.attackCooldown <= 0) {
-                        applyPlayerDamage(12);
-                        en.attackCooldown = 1.1;
+                if (en.type === 'KAMIKAZE') {
+                    // Si fa esplodere a contatto col giocatore
+                    if (dist < 2.5) {
+                        applyPlayerDamage(35);
+                        sound.playExplosion();
+                        killEnemy(en);
+                    }
+                } else if (en.type === 'SCOUT' || en.type === 'PHANTOM') {
+                    if (dist < 2.8 && en.attackCooldown <= 0) {
+                        applyPlayerDamage(en.type === 'PHANTOM' ? 18 : 12);
+                        en.attackCooldown = en.type === 'PHANTOM' ? 0.75 : 1.1;
                     }
                 } else {
-                    if (dist < 36 && en.attackCooldown <= 0) {
+                    if (dist < 40 && en.attackCooldown <= 0) {
                         fireEnemyProjectile(en);
-                        en.attackCooldown = en.type === 'TANK' ? 2.0 : 1.5;
+                        en.attackCooldown = en.type === 'VIPER' ? 2.4 : (en.type === 'GOLIATH' ? 1.6 : 1.5);
                     }
+                }
                 }
             });
 
