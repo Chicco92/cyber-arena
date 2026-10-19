@@ -65,38 +65,36 @@
     <!-- OVERLAY DANNO RICEVUTO -->
     <div id="damage-overlay" class="fixed inset-0 pointer-events-none z-10 opacity-0"></div>
 
-    <!-- MIRINO CENTRALE SEMPRE VISIBILE E PERFETTAMENTE CENTRATO -->
+    <!-- MIRINO STANDARD SVG (Centratura assoluta, senza cerchi) -->
     <div id="crosshair" class="screen-center z-30 w-16 h-16 pointer-events-none transition-transform duration-75 flex items-center justify-center">
         <svg id="crosshair-svg" viewBox="0 0 100 100" class="w-full h-full overflow-visible">
-            <line id="ch-top" class="ch-line transition-all duration-150" x1="50" y1="22" x2="50" y2="38" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
-            <line id="ch-bottom" class="ch-line transition-all duration-150" x1="50" y1="62" x2="50" y2="78" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
-            <line id="ch-left" class="ch-line transition-all duration-150" x1="22" y1="50" x2="38" y2="50" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
-            <line id="ch-right" class="ch-line transition-all duration-150" x1="62" y1="50" x2="78" y2="50" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
+            <line id="ch-top" class="ch-line transition-all duration-150" x1="50" y1="24" x2="50" y2="38" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
+            <line id="ch-bottom" class="ch-line transition-all duration-150" x1="50" y1="62" x2="50" y2="76" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
+            <line id="ch-left" class="ch-line transition-all duration-150" x1="24" y1="50" x2="38" y2="50" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
+            <line id="ch-right" class="ch-line transition-all duration-150" x1="62" y1="50" x2="76" y2="50" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
             <circle id="crosshair-dot" cx="50" cy="50" r="2.6" fill="#22d3ee" />
         </svg>
     </div>
 
-    <!-- OVERLAY OTTICA DI PRECISIONE PER IL CECCHINO (Nessun banner, 100% trasparente al centro) -->
-    <div id="sniper-scope-overlay" class="fixed inset-0 pointer-events-none z-20 opacity-0 transition-opacity duration-150 flex items-center justify-center">
-        <!-- Maschera perimetrale scura -->
-        <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 50%, transparent 33%, rgba(2, 5, 14, 0.98) 35%);"></div>
-        <div class="screen-center w-[500px] h-[500px] sm:w-[600px] sm:h-[600px] flex items-center justify-center">
+    <!-- OVERLAY OTTICA DI PRECISIONE CECCHINO (Senza banner, reticolo nitido e trasparente) -->
+    <div id="sniper-scope-overlay" class="fixed inset-0 pointer-events-none z-25 opacity-0 transition-opacity duration-150 flex items-center justify-center">
+        <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(2, 5, 14, 0.98) 33%);"></div>
+        <div class="screen-center w-[480px] h-[480px] sm:w-[560px] sm:h-[560px] flex items-center justify-center">
             <svg viewBox="0 0 400 400" class="w-full h-full">
                 <!-- Ghiera ottica esterna -->
                 <circle cx="200" cy="200" r="195" fill="none" stroke="#0f172a" stroke-width="8" />
-                <circle cx="200" cy="200" r="190" fill="none" stroke="#f43f5e" stroke-width="1.6" stroke-opacity="0.8" />
-                <circle cx="200" cy="200" r="184" fill="none" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4 6" stroke-opacity="0.4" />
+                <circle cx="200" cy="200" r="190" fill="none" stroke="#f43f5e" stroke-width="1.8" stroke-opacity="0.85" />
                 <!-- Linee balistiche esterne spesse -->
-                <line x1="10" y1="200" x2="110" y2="200" stroke="#0f172a" stroke-width="5" />
-                <line x1="290" y1="200" x2="390" y2="200" stroke="#0f172a" stroke-width="5" />
-                <line x1="200" y1="290" x2="200" y2="390" stroke="#0f172a" stroke-width="5" />
+                <line x1="10" y1="200" x2="110" y2="200" stroke="#0f172a" stroke-width="6" />
+                <line x1="290" y1="200" x2="390" y2="200" stroke="#0f172a" stroke-width="6" />
+                <line x1="200" y1="290" x2="200" y2="390" stroke="#0f172a" stroke-width="6" />
                 <!-- Fili del reticolo fini -->
-                <line x1="110" y1="200" x2="190" y2="200" stroke="#f43f5e" stroke-width="1.3" stroke-opacity="0.85" />
-                <line x1="210" y1="200" x2="290" y2="200" stroke="#f43f5e" stroke-width="1.3" stroke-opacity="0.85" />
-                <line x1="200" y1="15" x2="200" y2="190" stroke="#f43f5e" stroke-width="1.3" stroke-opacity="0.85" />
-                <line x1="200" y1="210" x2="200" y2="290" stroke="#f43f5e" stroke-width="1.3" stroke-opacity="0.85" />
+                <line x1="110" y1="200" x2="190" y2="200" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
+                <line x1="210" y1="200" x2="290" y2="200" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
+                <line x1="200" y1="15" x2="200" y2="190" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
+                <line x1="200" y1="210" x2="200" y2="290" stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9" />
                 <!-- Tacche Mil-Dot graduate -->
-                <g stroke="#f43f5e" stroke-width="1.3" stroke-opacity="0.85">
+                <g stroke="#f43f5e" stroke-width="1.4" stroke-opacity="0.9">
                     <line x1="140" y1="195" x2="140" y2="205" />
                     <line x1="160" y1="196" x2="160" y2="204" />
                     <line x1="180" y1="196" x2="180" y2="204" />
@@ -110,12 +108,13 @@
                     <line x1="196" y1="240" x2="204" y2="240" />
                     <line x1="195" y1="260" x2="205" y2="260" />
                 </g>
+                <!-- Punto laser centrale perfettamente visibile -->
                 <circle cx="200" cy="200" r="3" fill="#f43f5e" />
             </svg>
         </div>
     </div>
 
-    <!-- HITMARKER CENTRATO -->
+    <!-- HITMARKER -->
     <div id="hit-marker" class="screen-center w-9 h-9 z-30 opacity-0 transition-opacity duration-75 flex items-center justify-center">
         <svg viewBox="0 0 100 100" class="w-full h-full">
             <line x1="22" y1="22" x2="40" y2="40" stroke="#f43f5e" stroke-width="5" stroke-linecap="round" />
@@ -208,7 +207,7 @@
                 </div>
             </div>
 
-            <!-- BANNER ANNUNCI IN ALTO -->
+            <!-- BANNER ANNUNCI IN ALTO (Zero interferenza con la visuale) -->
             <div class="flex flex-col items-center justify-start mt-1 pointer-events-none">
                 <div id="wave-announcement" class="opacity-0 transition-all duration-300 transform -translate-y-2 scale-95 text-center px-6 py-2 rounded-2xl bg-slate-950/95 border border-cyan-400/50">
                     <div id="announcement-title" class="text-lg sm:text-2xl font-cyber font-black text-cyan-300 tracking-wider uppercase">ONDATA 01</div>
@@ -292,7 +291,7 @@
                 CYBERSTRIKE <span class="text-cyan-400">3D</span>
             </h1>
             <p id="menu-subtitle" class="text-xs sm:text-sm text-slate-300 mb-4">
-                Nuovi tipi di nemici ad ogni era (Ondate 1-9, 11-19, 21-29, 31+). Batti i Boss ogni 10 ondate per sbloccare armi leggendarie!
+                Nemici unici ogni 10 ondate (Scout, Ranger, Tank, Phantom, Viper, Goliath, Kamikaze, Void Reaper) e Boss speciali!
             </p>
 
             <!-- SEZIONE PROFILO OPERATORE & RECORD SALVATI -->
@@ -375,15 +374,14 @@
         </div>
     </div>
 
-    <!-- NEGOZIO POTENZIAMENTI ARMI (Zero Lag, Standby 3D) -->
+    <!-- NEGOZIO POTENZIAMENTI ARMI (Completamente Ottimizzato e Fluido) -->
     <div id="shop-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
         <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-amber-400/50 my-auto">
-            <!-- Header Negozio -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
                 <div>
                     <div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest">Armeria Tattica CyberStrike</div>
                     <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">NEGOZIO POTENZIAMENTI ARMI</h2>
-                    <p class="text-xs text-slate-400">Elimina i droni con ogni arma per salire di Livello e ottenere <strong class="text-amber-300">+1 Punto Negozio (PN)</strong>.</p>
+                    <p class="text-xs text-slate-400">Elimina i droni con ciascuna arma per guadagnare XP e sbloccare <strong class="text-amber-300">+1 Punto Negozio (PN)</strong> ad ogni livello.</p>
                 </div>
                 <button id="btn-close-shop" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase cursor-pointer">
                     ✕ Torna al Menu
@@ -433,51 +431,51 @@
             {
                 id: 'ASSAULT', key: '1', name: "Fucile d'Assalto MK-IV", shortName: "ASSALTO", desc: "Bilanciato Automatico",
                 maxAmmo: 30, reloadTime: 1.35, fireRate: 0.12, damage: 35, adsDamage: 46, pellets: 1, hipSpread: 0.042, adsSpread: 0.0,
-                adsFov: 48, recoil: 0.12, colorHex: 0x22d3ee, uiColor: '#22d3ee', beamWidth: 0.024,
+                adsFov: 48, zoomLabel: "LOCK // ZOOM 1.6X", recoil: 0.12, colorHex: 0x22d3ee, uiColor: '#22d3ee', beamWidth: 0.024,
                 adsY: -0.155, adsZ: -0.34, tipZ: -0.58, secret: false
             },
             {
                 id: 'SMG', key: '2', name: "Mitraglietta Vector-X", shortName: "MITRAGLIETTA", desc: "Cadenza Estrema",
                 maxAmmo: 48, reloadTime: 1.05, fireRate: 0.062, damage: 21, adsDamage: 27, pellets: 1, hipSpread: 0.068, adsSpread: 0.01,
-                adsFov: 56, recoil: 0.075, colorHex: 0xfacc15, uiColor: '#facc15', beamWidth: 0.018,
+                adsFov: 56, zoomLabel: "REFLEX // ZOOM 1.3X", recoil: 0.075, colorHex: 0xfacc15, uiColor: '#facc15', beamWidth: 0.018,
                 adsY: -0.145, adsZ: -0.32, tipZ: -0.42, secret: false
             },
             {
                 id: 'SHOTGUN', key: '3', name: "Fucile a Pompa Titan-8", shortName: "POMPA", desc: "8 Dardi Plasma",
                 maxAmmo: 8, reloadTime: 1.7, fireRate: 0.65, damage: 26, adsDamage: 32, pellets: 8, hipSpread: 0.125, adsSpread: 0.055,
-                adsFov: 58, recoil: 0.26, colorHex: 0xf97316, uiColor: '#f97316', beamWidth: 0.02,
+                adsFov: 58, zoomLabel: "CHOKE // ZOOM 1.3X", recoil: 0.26, colorHex: 0xf97316, uiColor: '#f97316', beamWidth: 0.02,
                 adsY: -0.14, adsZ: -0.35, tipZ: -0.56, secret: false
             },
             {
                 id: 'SNIPER', key: '4', name: "Cecchino Railgun V9", shortName: "CECCHINO", desc: "Colpo Perforante",
                 maxAmmo: 5, reloadTime: 1.85, fireRate: 0.92, damage: 170, adsDamage: 270, pellets: 1, hipSpread: 0.085, adsSpread: 0.0,
-                adsFov: 24, recoil: 0.32, colorHex: 0xf43f5e, uiColor: '#f43f5e', beamWidth: 0.045,
+                adsFov: 24, zoomLabel: "OPTIC // ZOOM 3.2X", recoil: 0.32, colorHex: 0xf43f5e, uiColor: '#f43f5e', beamWidth: 0.045,
                 adsY: -0.17, adsZ: -0.30, tipZ: -0.88, secret: false, isSniper: true, isPiercing: true
             },
             {
                 id: 'SECRET', key: '5', name: "Singolarità Omega", shortName: "OMEGA-X", desc: "Esplosione Antimateria",
                 maxAmmo: 60, reloadTime: 1.1, fireRate: 0.09, damage: 95, adsDamage: 140, pellets: 3, hipSpread: 0.025, adsSpread: 0.006,
-                adsFov: 42, recoil: 0.1, colorHex: 0xd946ef, uiColor: '#d946ef', beamWidth: 0.055,
+                adsFov: 42, zoomLabel: "OMEGA // ZOOM 1.8X", recoil: 0.1, colorHex: 0xd946ef, uiColor: '#d946ef', beamWidth: 0.055,
                 adsY: -0.155, adsZ: -0.34, tipZ: -0.62, secret: true, unlockType: 'kills', unlockKills: 100, explosiveRadius: 6.5
             },
             {
                 id: 'TESLA', key: '6', name: "Arco Elettromagnetico Tesla", shortName: "ARCO TESLA", desc: "Fulmine a Catena (4x)",
                 maxAmmo: 12, reloadTime: 1.5, fireRate: 0.55, damage: 145, adsDamage: 195, pellets: 1, hipSpread: 0.015, adsSpread: 0.0,
-                adsFov: 46, recoil: 0.16, colorHex: 0x38bdf8, uiColor: '#38bdf8', beamWidth: 0.042,
+                adsFov: 46, zoomLabel: "TESLA // ZOOM 1.6X", recoil: 0.16, colorHex: 0x38bdf8, uiColor: '#38bdf8', beamWidth: 0.042,
                 adsY: -0.15, adsZ: -0.33, tipZ: -0.60, secret: true, unlockType: 'boss', bossLevel: 1, unlockLabel: "BOSS ONDATA 10",
                 singleShot: true, chainTargets: 4, chainRadius: 14.0
             },
             {
                 id: 'HYDRA', key: '7', name: "Lanciarazzi Termico Hydra", shortName: "HYDRA RPG", desc: "Missili Termobarici",
                 maxAmmo: 4, reloadTime: 2.1, fireRate: 0.95, damage: 340, adsDamage: 440, pellets: 1, hipSpread: 0.02, adsSpread: 0.0,
-                adsFov: 44, recoil: 0.38, colorHex: 0x10b981, uiColor: '#10b981', beamWidth: 0.075,
+                adsFov: 44, zoomLabel: "THERMAL // ZOOM 1.7X", recoil: 0.38, colorHex: 0x10b981, uiColor: '#10b981', beamWidth: 0.075,
                 adsY: -0.16, adsZ: -0.30, tipZ: -0.66, secret: true, unlockType: 'boss', bossLevel: 2, unlockLabel: "BOSS ONDATA 20",
                 singleShot: true, explosiveRadius: 9.5, splashDamage: 160
             },
             {
                 id: 'GAUSS', key: '8', name: "Cannone Gauss Quantico", shortName: "GAUSS-Q", desc: "Raggio Quantico Perforante",
                 maxAmmo: 6, reloadTime: 1.8, fireRate: 0.85, damage: 480, adsDamage: 680, pellets: 1, hipSpread: 0.01, adsSpread: 0.0,
-                adsFov: 32, recoil: 0.34, colorHex: 0xfbbf24, uiColor: '#fbbf24', beamWidth: 0.068,
+                adsFov: 32, zoomLabel: "QUANTUM // ZOOM 2.4X", recoil: 0.34, colorHex: 0xfbbf24, uiColor: '#fbbf24', beamWidth: 0.068,
                 adsY: -0.155, adsZ: -0.32, tipZ: -0.84, secret: true, unlockType: 'boss', bossLevel: 3, unlockLabel: "BOSS ONDATA 30",
                 singleShot: true, isPiercing: true, explosiveRadius: 5.0, splashDamage: 90
             }
@@ -686,8 +684,138 @@
             }
         }
 
+        const GAME_CONFIG = {
+            arenaHalfSize: 55,
+            playerHeight: 2.2,
+            playerRadius: 0.9,
+            moveSpeed: 13.0,
+            sprintMultiplier: 1.5,
+            jumpForce: 11.5,
+            gravity: 26.0,
+            baseSensitivity: 0.0022
+        };
+
+        const state = {
+            mode: 'MENU', score: 0, wave: 1, kills: 0,
+            secretUnlocked: false,
+            bossesDefeated: 0,
+            currentWeaponIndex: 0,
+            selectedShopWeaponIdx: 0,
+            weaponClips: WEAPONS.map(w => w.maxAmmo),
+            isWheelOpen: false, hoveredWheelIndex: 0, wheelMouseX: 0, wheelMouseY: 0,
+            health: 100, maxHealth: 100, stamina: 100, maxStamina: 100, ammo: 30,
+            isReloading: false, reloadTimer: 0, fireCooldown: 0, isFiring: false,
+            isAiming: false, adsProgress: 0, sensitivityMultiplier: 1.0,
+            enemiesToSpawn: 0, spawnTimer: 0, waveTransitionTimer: 0, inWaveTransition: false,
+            activeBoss: null,
+            needsStaticRender: true
+        };
+
+        function getCurrentWeapon() { return WEAPONS[state.currentWeaponIndex]; }
+
+        function isWeaponUnlocked(w) {
+            if (!w.secret) return true;
+            if (w.unlockType === 'kills') return state.secretUnlocked || playerProfile.secretUnlockedPermanent;
+            if (w.unlockType === 'boss') return Math.max(state.bossesDefeated, playerProfile.maxBossesDefeatedPermanent) >= w.bossLevel;
+            return false;
+        }
+
+        const canvas = document.getElementById('game-canvas');
+        const radarCanvas = document.getElementById('radar-canvas');
+        const radarCtx = radarCanvas ? radarCanvas.getContext('2d') : null;
+        const menuOverlay = document.getElementById('menu-overlay');
+        const shopOverlay = document.getElementById('shop-overlay');
+        const menuTitle = document.getElementById('menu-title');
+        const menuSubtitle = document.getElementById('menu-subtitle');
+        const gameoverStats = document.getElementById('gameover-stats');
+        const finalScore = document.getElementById('final-score');
+        const finalWave = document.getElementById('final-wave');
+        const finalKills = document.getElementById('final-kills');
+        const btnStartGame = document.getElementById('btn-start-game');
+        const btnOpenShop = document.getElementById('btn-open-shop');
+        const btnCloseShop = document.getElementById('btn-close-shop');
+        const btnPause = document.getElementById('btn-pause');
+        const btnMute = document.getElementById('btn-mute');
+        const sensSlider = document.getElementById('sens-slider');
+        const sensValue = document.getElementById('sens-value');
+        const profileNameInput = document.getElementById('profile-name-input');
+        const btnResetProfile = document.getElementById('btn-reset-profile');
+
+        const hudWave = document.getElementById('hud-wave');
+        const hudScore = document.getElementById('hud-score');
+        const hudEnemies = document.getElementById('hud-enemies');
+        const hudKills = document.getElementById('hud-kills');
+        const hudFps = document.getElementById('hud-fps');
+        const hudPing = document.getElementById('hud-ping');
+        const hudHealthText = document.getElementById('hud-health-text');
+        const hudHealthBar = document.getElementById('hud-health-bar');
+        const hudStaminaText = document.getElementById('hud-stamina-text');
+        const hudStaminaBar = document.getElementById('hud-stamina-bar');
+        const bossHudContainer = document.getElementById('boss-hud-container');
+        const bossHealthText = document.getElementById('boss-health-text');
+        const bossHealthBar = document.getElementById('boss-health-bar');
+        const bossNameLabel = document.getElementById('boss-name-label');
+
+        const hudAmmoClip = document.getElementById('hud-ammo-clip');
+        const hudAmmoMax = document.getElementById('hud-ammo-max');
+        const hudWeaponName = document.getElementById('hud-weapon-name');
+        const hudWeaponLvl = document.getElementById('hud-weapon-lvl');
+        const hudWeaponXpBar = document.getElementById('hud-weapon-xp-bar');
+        const hudWeaponSp = document.getElementById('hud-weapon-sp');
+        const hudSecretProgress = document.getElementById('hud-secret-progress');
+        const reloadPrompt = document.getElementById('reload-prompt');
+        const crosshair = document.getElementById('crosshair');
+        const crosshairDot = document.getElementById('crosshair-dot');
+        const sniperScopeOverlay = document.getElementById('sniper-scope-overlay');
+        const adsZoomLabel = document.getElementById('ads-zoom-label');
+        const weaponWheelOverlay = document.getElementById('weapon-wheel-overlay');
+        const wheelSlotsContainer = document.getElementById('wheel-slots-container');
+        const wheelCenterSlot = document.getElementById('wheel-center-slot');
+        const wheelCenterName = document.getElementById('wheel-center-name');
+        const wheelCenterStats = document.getElementById('wheel-center-stats');
+        const hitMarker = document.getElementById('hit-marker');
+        const damageOverlay = document.getElementById('damage-overlay');
+        const waveAnnouncement = document.getElementById('wave-announcement');
+        const announcementTitle = document.getElementById('announcement-title');
+        const announcementSubtitle = document.getElementById('announcement-subtitle');
+
+        let scene, camera, renderer, clock;
+        let weaponGroup, weaponBarrelTip, muzzleLight, muzzleMesh;
+        const weaponModels = {};
+        let omegaCoreOrb = null;
+        let omegaOuterRings = [];
+        let teslaArcRing = null;
+        let gaussSpinCore = null;
+        let weaponRecoilOffset = 0;
+        let weaponReloadAngle = 0;
+        let headBobTimer = 0;
+
+        let fpsFrameCount = 0;
+        let fpsLastTime = performance.now();
+
+        const playerVelocity = new THREE.Vector3();
+        let isGrounded = true;
+        const cameraEuler = new THREE.Euler(0, 0, 0, 'YXZ');
+
+        const obstacles = [];
+        const enemies = [];
+        const enemyProjectiles = [];
+        const playerLasers = [];
+        const particles = [];
+        const pickups = [];
+
+        const keys = {
+            KeyW: false, KeyA: false, KeyS: false, KeyD: false,
+            ArrowUp: false, ArrowLeft: false, ArrowDown: false, ArrowRight: false,
+            Space: false, ShiftLeft: false, ShiftRight: false
+        };
+
+        let isDraggingMouse = false;
+        let isTouchDevice = false;
+        const touchMoveVector = { x: 0, y: 0 };
+
         /**
-         * LOGICA NEGOZIO ARMI OTTIMIZZATA
+         * LOGICA NEGOZIO ARMI ULTRA VELOCE
          */
         let shopDomInitialized = false;
 
@@ -791,7 +919,7 @@
                 const sub = document.getElementById(`shop-tab-sub-${idx}`);
                 if (btn) {
                     btn.className = `p-2.5 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between ${
-                        active ? 'bg-cyan-950/90 border-cyan-400' : 'bg-slate-900 border-slate-800 hover:border-slate-700'
+                        active ? 'bg-cyan-950 border-cyan-400' : 'bg-slate-900 border-slate-800 hover:border-slate-700'
                     }`;
                 }
                 if (sub) {
@@ -847,12 +975,7 @@
         }
 
         /**
-         * SPAWNING DEI NEMICI - DIVERSI OGNI 10 LIVELLI
-         * Ondate 1-9:   Scout, Ranger, Tank
-         * Ondate 11-19: Phantom Assassin (Ciano ultraveloce), Viper Sniper (Giallo a lungo raggio)
-         * Ondate 21-29: Goliath Colossus (Verde bipiede pesante), Kamikaze Drone (Rosso ad inseguimento esplosivo)
-         * Ondate 31+:   Void Reaper (Viola alieno multi-sparo)
-         * Ondate 10, 20, 30...: Boss Drones unici
+         * GENERAZIONE NEMICI PROGRESSIVI PER ERA (OGNI 10 ONDATE)
          */
         function spawnEnemyDrone() {
             const roll = Math.random();
@@ -905,8 +1028,8 @@
                 meshCore = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), new THREE.MeshBasicMaterial({ color: 0x431407 }));
             } else if (type === 'PHANTOM') {
                 hp = 110 + wave * 18;
-                speed = 13.5; // Assassin agile e rapido
-                color = 0x06b6d4; // Ciano elettrico
+                speed = 13.5;
+                color = 0x06b6d4;
                 scoreValue = 280 + wave * 20;
                 xpReward = 50;
                 scale = 0.9;
@@ -915,7 +1038,7 @@
             } else if (type === 'VIPER') {
                 hp = 130 + wave * 20;
                 speed = 5.0;
-                color = 0xeab308; // Giallo
+                color = 0xeab308;
                 scoreValue = 320 + wave * 25;
                 xpReward = 60;
                 scale = 1.1;
@@ -924,15 +1047,15 @@
             } else if (type === 'GOLIATH') {
                 hp = 380 + wave * 45;
                 speed = 3.6;
-                color = 0x10b981; // Verde smeraldo
+                color = 0x10b981;
                 scoreValue = 450 + wave * 30;
                 xpReward = 85;
                 scale = 1.6;
                 meshCore = new THREE.Mesh(new THREE.DodecahedronGeometry(0.9 * scale, 0), new THREE.MeshBasicMaterial({ color: 0x064e3b }));
             } else if (type === 'KAMIKAZE') {
                 hp = 90 + wave * 14;
-                speed = 15.0; // Inseguimento suicida ultraveloce
-                color = 0xef4444; // Rosso fuoco
+                speed = 15.0;
+                color = 0xef4444;
                 scoreValue = 350 + wave * 20;
                 xpReward = 65;
                 scale = 0.8;
@@ -940,7 +1063,7 @@
             } else if (type === 'VOID_REAPER') {
                 hp = 300 + wave * 40;
                 speed = 7.5;
-                color = 0xd946ef; // Viola cosmico
+                color = 0xd946ef;
                 scoreValue = 550 + wave * 35;
                 xpReward = 110;
                 scale = 1.35;
@@ -1081,8 +1204,8 @@
                 const dist = toPlayer.length();
                 if (dist > 0.01) toPlayer.divideScalar(dist);
 
-                const isMeleeOrKamikaze = (en.type === 'SCOUT' || en.type === 'KAMIKAZE' || en.type === 'PHANTOM');
-                const preferredDist = isMeleeOrKamikaze ? 1.8 : (en.type === 'VIPER' ? 22.0 : 13.0);
+                const isMelee = (en.type === 'SCOUT' || en.type === 'KAMIKAZE' || en.type === 'PHANTOM');
+                const preferredDist = isMelee ? 1.8 : (en.type === 'VIPER' ? 22.0 : 13.0);
 
                 if (dist > preferredDist) {
                     en.group.position.addScaledVector(toPlayer, en.speed * dt);
@@ -1167,109 +1290,6 @@
             }
         }
 
-        function updateHUD() {
-            hudWave.textContent = String(state.wave).padStart(2, '0');
-            hudScore.textContent = state.score;
-            hudEnemies.textContent = enemies.length + state.enemiesToSpawn + (state.activeBoss ? 1 : 0);
-            if (hudKills) hudKills.textContent = state.kills;
-
-            const hudHigh = document.getElementById('hud-highscore');
-            if (hudHigh) hudHigh.textContent = Math.max(playerProfile.bestScore, state.score);
-
-            hudHealthText.textContent = `${Math.round(state.health)}%`;
-            hudHealthBar.style.width = `${state.health}%`;
-
-            const w = getCurrentWeapon();
-            const eff = getEffectiveWeaponStats(w);
-            const st = getWeaponStats(w.id);
-            const reqXp = getXpRequiredForNextLevel(st.level);
-
-            hudWeaponName.textContent = w.name;
-            hudWeaponName.style.color = w.uiColor;
-            hudAmmoMax.textContent = String(eff.maxAmmo).padStart(2, '0');
-            hudAmmoClip.textContent = String(state.ammo).padStart(2, '0');
-            hudAmmoClip.className = state.ammo <= Math.ceil(eff.maxAmmo * 0.2)
-                ? 'text-3xl sm:text-4xl font-black text-rose-400'
-                : 'text-3xl sm:text-4xl font-black text-white';
-
-            if (hudWeaponLvl) hudWeaponLvl.textContent = `LVL ${st.level}`;
-            if (hudWeaponXpBar) hudWeaponXpBar.style.width = `${Math.min(100, Math.round((st.xp / reqXp) * 100))}%`;
-            if (hudWeaponSp) hudWeaponSp.textContent = `${st.shopPoints} PN`;
-
-            const unlockedBossCount = Math.min(3, Math.max(state.bossesDefeated, playerProfile.maxBossesDefeatedPermanent));
-            const omegaStatus = (state.secretUnlocked || playerProfile.secretUnlockedPermanent)
-                ? '★ OMEGA [5]'
-                : `[5] ${Math.min(100, playerProfile.totalKills)}/100 Kill`;
-            hudSecretProgress.textContent = `${omegaStatus} • Boss Armi [6-8]: ${unlockedBossCount}/3`;
-        }
-
-        function drawRadar() {
-            if (!radarCtx) return;
-            const w = radarCanvas.width;
-            const h = radarCanvas.height;
-            const cx = w / 2;
-            const cy = h / 2;
-
-            radarCtx.clearRect(0, 0, w, h);
-
-            radarCtx.fillStyle = 'rgba(5, 10, 25, 0.85)';
-            radarCtx.beginPath();
-            radarCtx.arc(cx, cy, cx - 2, 0, Math.PI * 2);
-            radarCtx.fill();
-
-            radarCtx.strokeStyle = 'rgba(34, 211, 238, 0.35)';
-            radarCtx.lineWidth = 1;
-            radarCtx.beginPath();
-            radarCtx.arc(cx, cy, cx * 0.55, 0, Math.PI * 2);
-            radarCtx.stroke();
-
-            radarCtx.fillStyle = 'rgba(34, 211, 238, 0.15)';
-            radarCtx.beginPath();
-            radarCtx.moveTo(cx, cy);
-            radarCtx.arc(cx, cy, cx - 4, -Math.PI / 2 - 0.4, -Math.PI / 2 + 0.4);
-            radarCtx.closePath();
-            radarCtx.fill();
-
-            radarCtx.fillStyle = '#22d3ee';
-            radarCtx.beginPath();
-            radarCtx.arc(cx, cy, 3, 0, Math.PI * 2);
-            radarCtx.fill();
-
-            const scale = (cx - 6) / GAME_CONFIG.arenaHalfSize;
-            const cosYaw = Math.cos(cameraEuler.y);
-            const sinYaw = Math.sin(cameraEuler.y);
-
-            if (state.activeBoss) {
-                const dx = state.activeBoss.group.position.x - camera.position.x;
-                const dz = state.activeBoss.group.position.z - camera.position.z;
-                const rx = dx * cosYaw - dz * sinYaw;
-                const rz = dx * sinYaw + dz * cosYaw;
-                const px = cx + rx * scale;
-                const py = cy + rz * scale;
-                if (Math.hypot(px - cx, py - cy) < cx - 4) {
-                    radarCtx.fillStyle = '#f43f5e';
-                    radarCtx.beginPath();
-                    radarCtx.arc(px, py, 4.5, 0, Math.PI * 2);
-                    radarCtx.fill();
-                }
-            }
-
-            enemies.forEach(en => {
-                const dx = en.group.position.x - camera.position.x;
-                const dz = en.group.position.z - camera.position.z;
-                const rx = dx * cosYaw - dz * sinYaw;
-                const rz = dx * sinYaw + dz * cosYaw;
-                const px = cx + rx * scale;
-                const py = cy + rz * scale;
-                if (Math.hypot(px - cx, py - cy) < cx - 4) {
-                    radarCtx.fillStyle = `#${en.color.toString(16).padStart(6, '0')}`;
-                    radarCtx.beginPath();
-                    radarCtx.arc(px, py, 2.6, 0, Math.PI * 2);
-                    radarCtx.fill();
-                }
-            });
-        }
-
         function updateTelemetry() {
             fpsFrameCount++;
             const now = performance.now();
@@ -1294,6 +1314,7 @@
             requestAnimationFrame(animate);
             updateTelemetry();
 
+            // Salta il rendering se il giocatore è nei menu o nel negozio per eliminare qualsiasi lag
             if (state.mode === 'PLAYING') {
                 const dt = Math.min(clock.getDelta(), 0.1);
                 const elapsed = clock.getElapsedTime();
