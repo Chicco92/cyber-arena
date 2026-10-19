@@ -65,7 +65,7 @@
     <!-- OVERLAY DANNO RICEVUTO -->
     <div id="damage-overlay" class="fixed inset-0 pointer-events-none z-10 opacity-0"></div>
 
-    <!-- MIRINO STANDARD SVG (Centratura assoluta, nessun cerchio) -->
+    <!-- MIRINO STANDARD SVG (Centratura assoluta, pulito, senza cerchi o scritte) -->
     <div id="crosshair" class="screen-center z-30 w-16 h-16 pointer-events-none transition-transform duration-75 flex items-center justify-center">
         <svg id="crosshair-svg" viewBox="0 0 100 100" class="w-full h-full overflow-visible">
             <line id="ch-top" class="ch-line transition-all duration-150" x1="50" y1="24" x2="50" y2="38" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
@@ -76,24 +76,20 @@
         </svg>
     </div>
 
-    <!-- OVERLAY OTTICA DI PRECISIONE PER IL CECCHINO (Senza scritte/banner, 100% trasparente e perfettamente visibile) -->
+    <!-- OVERLAY OTTICA DI PRECISIONE PER IL CECCHINO (100% trasparente, senza banner) -->
     <div id="sniper-scope-overlay" class="fixed inset-0 pointer-events-none z-25 opacity-0 transition-opacity duration-150 flex items-center justify-center">
         <div class="absolute inset-0" style="background: radial-gradient(circle at 50% 50%, transparent 31%, rgba(2, 5, 14, 0.98) 33%);"></div>
         <div class="screen-center w-[500px] h-[500px] sm:w-[600px] sm:h-[600px] flex items-center justify-center">
             <svg viewBox="0 0 400 400" class="w-full h-full">
-                <!-- Ghiera ottica esterna -->
                 <circle cx="200" cy="200" r="195" fill="none" stroke="#0f172a" stroke-width="8" />
                 <circle cx="200" cy="200" r="190" fill="none" stroke="#f43f5e" stroke-width="2" stroke-opacity="0.85" />
-                <!-- Linee balistiche spesse esterne -->
                 <line x1="8" y1="200" x2="110" y2="200" stroke="#0f172a" stroke-width="6" />
                 <line x1="290" y1="200" x2="392" y2="200" stroke="#0f172a" stroke-width="6" />
                 <line x1="200" y1="290" x2="200" y2="392" stroke="#0f172a" stroke-width="6" />
-                <!-- Linee fini del reticolo -->
                 <line x1="110" y1="200" x2="190" y2="200" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9" />
                 <line x1="210" y1="200" x2="290" y2="200" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9" />
                 <line x1="200" y1="12" x2="200" y2="190" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9" />
                 <line x1="200" y1="210" x2="200" y2="290" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9" />
-                <!-- Tacche graduate Mil-Dot -->
                 <g stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.9">
                     <line x1="140" y1="195" x2="140" y2="205" />
                     <line x1="160" y1="196" x2="160" y2="204" />
@@ -108,7 +104,6 @@
                     <line x1="196" y1="240" x2="204" y2="240" />
                     <line x1="195" y1="260" x2="205" y2="260" />
                 </g>
-                <!-- Punto laser rosso centrale -->
                 <circle cx="200" cy="200" r="3" fill="#f43f5e" />
             </svg>
         </div>
@@ -374,7 +369,7 @@
         </div>
     </div>
 
-    <!-- NEGOZIO POTENZIAMENTI ARMI -->
+    <!-- NEGOZIO POTENZIAMENTI ARMI (Zero Lag, Standby 3D) -->
     <div id="shop-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
         <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-amber-400/50 my-auto">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
@@ -424,6 +419,9 @@
     </div>
 
     <script>
+        /**
+         * DEFINIZIONE DELLE 8 ARMI E TIPI DI POTENZIAMENTO
+         */
         const WEAPONS = [
             {
                 id: 'ASSAULT', key: '1', name: "Fucile d'Assalto MK-IV", shortName: "ASSALTO", desc: "Bilanciato Automatico",
@@ -485,8 +483,6 @@
             { key: 'reload', name: 'Iniettori Rapidi', desc: '-12% Tempo di ricarica per livello', maxTier: 5, icon: '⚙️' }
         ];
 
-        const PROFILE_STORAGE_KEY = 'cyberstrike_3d_player_profile_v2';
-
         function createDefaultWeaponStats() {
             const stats = {};
             WEAPONS.forEach(w => {
@@ -499,18 +495,6 @@
             });
             return stats;
         }
-
-        const playerProfile = {
-            name: 'GHOST-01',
-            bestScore: 0,
-            bestWave: 1,
-            totalKills: 0,
-            gamesPlayed: 0,
-            secretUnlockedPermanent: false,
-            maxBossesDefeatedPermanent: 0,
-            sensitivity: 1.0,
-            weaponStats: createDefaultWeaponStats()
-        };
 
         function getWeaponStats(weaponId) {
             if (!playerProfile.weaponStats[weaponId]) {
@@ -572,112 +556,6 @@
                     `⬆️ ${wObj ? wObj.shortName : weaponId} LIVELLO ${st.level}!`,
                     `+1 Punto Negozio (PN) Sbloccato! Usa il Negozio Armi per potenziarla.`
                 );
-            }
-        }
-
-        function loadPlayerProfile() {
-            try {
-                const raw = window.localStorage ? localStorage.getItem(PROFILE_STORAGE_KEY) : null;
-                if (raw) {
-                    const parsed = JSON.parse(raw);
-                    playerProfile.name = parsed.name || 'GHOST-01';
-                    playerProfile.bestScore = Number(parsed.bestScore) || 0;
-                    playerProfile.bestWave = Number(parsed.bestWave) || 1;
-                    playerProfile.totalKills = Number(parsed.totalKills) || 0;
-                    playerProfile.gamesPlayed = Number(parsed.gamesPlayed) || 0;
-                    playerProfile.secretUnlockedPermanent = Boolean(parsed.secretUnlockedPermanent);
-                    playerProfile.maxBossesDefeatedPermanent = Number(parsed.maxBossesDefeatedPermanent) || 0;
-                    playerProfile.sensitivity = Number(parsed.sensitivity) || 1.0;
-
-                    if (parsed.weaponStats) {
-                        WEAPONS.forEach(w => {
-                            if (parsed.weaponStats[w.id]) {
-                                playerProfile.weaponStats[w.id] = {
-                                    xp: Number(parsed.weaponStats[w.id].xp) || 0,
-                                    level: Number(parsed.weaponStats[w.id].level) || 1,
-                                    shopPoints: Number(parsed.weaponStats[w.id].shopPoints) || 0,
-                                    upgrades: {
-                                        damage: Number(parsed.weaponStats[w.id].upgrades?.damage) || 0,
-                                        fireRate: Number(parsed.weaponStats[w.id].upgrades?.fireRate) || 0,
-                                        ammo: Number(parsed.weaponStats[w.id].upgrades?.ammo) || 0,
-                                        reload: Number(parsed.weaponStats[w.id].upgrades?.reload) || 0
-                                    }
-                                };
-                            }
-                        });
-                    }
-                }
-            } catch (e) {
-                console.warn('Profilo locale non accessibile:', e);
-            }
-        }
-
-        function savePlayerProfile() {
-            try {
-                if (window.localStorage) {
-                    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(playerProfile));
-                }
-            } catch (e) {}
-            updateProfileUI();
-        }
-
-        let isResetPending = false;
-        function resetPlayerProfile() {
-            const btn = document.getElementById('btn-reset-profile');
-            if (!isResetPending) {
-                isResetPending = true;
-                if (btn) btn.textContent = '⚠️ CLICCA DI NUOVO PER CONFERMARE';
-                setTimeout(() => {
-                    isResetPending = false;
-                    if (btn) btn.textContent = '🗑️ Azzera Profilo e Record';
-                }, 3500);
-                return;
-            }
-            isResetPending = false;
-            if (btn) btn.textContent = '🗑️ Azzera Profilo e Record';
-            try {
-                if (window.localStorage) localStorage.removeItem(PROFILE_STORAGE_KEY);
-            } catch (e) {}
-
-            playerProfile.name = 'GHOST-01';
-            playerProfile.bestScore = 0;
-            playerProfile.bestWave = 1;
-            playerProfile.totalKills = 0;
-            playerProfile.gamesPlayed = 0;
-            playerProfile.secretUnlockedPermanent = false;
-            playerProfile.maxBossesDefeatedPermanent = 0;
-            playerProfile.sensitivity = 1.0;
-            playerProfile.weaponStats = createDefaultWeaponStats();
-
-            state.secretUnlocked = false;
-            state.bossesDefeated = 0;
-            savePlayerProfile();
-            refreshWeaponWheelUI();
-            updateHUD();
-        }
-
-        function updateProfileUI() {
-            const nameInput = document.getElementById('profile-name-input');
-            if (nameInput && document.activeElement !== nameInput) {
-                nameInput.value = playerProfile.name;
-            }
-            const hudName = document.getElementById('hud-player-name');
-            if (hudName) hudName.textContent = playerProfile.name;
-
-            const hudHigh = document.getElementById('hud-highscore');
-            if (hudHigh) hudHigh.textContent = Math.max(playerProfile.bestScore, state.score);
-
-            document.getElementById('profile-best-score').textContent = playerProfile.bestScore;
-            document.getElementById('profile-best-wave').textContent = playerProfile.bestWave;
-            document.getElementById('profile-total-kills').textContent = playerProfile.totalKills;
-            document.getElementById('profile-games').textContent = playerProfile.gamesPlayed;
-
-            const unlockedSecretCount = (playerProfile.secretUnlockedPermanent ? 1 : 0) + Math.min(3, playerProfile.maxBossesDefeatedPermanent);
-            document.getElementById('profile-unlocked-weapons').textContent = `${unlockedSecretCount}/4`;
-
-            const shopBadge = document.getElementById('menu-shop-badge');
-            if (shopBadge) {
-                shopBadge.textContent = `${getTotalAvailableShopPoints()} PN`;
             }
         }
 
