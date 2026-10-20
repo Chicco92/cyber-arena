@@ -1,15 +1,34 @@
-Ecco perché probabilmente **non vedevi il cambiamento** quando entravi in mira col cecchino:
+Ho aggiornato **CyberStrike 3D** integrando tutte le modifiche richieste nella tua lista:
 
-1. **Il reticolo nell'immagine era nero (`#000000`) su uno sfondo del gioco quasi nero (`#050711`)**: nel codice precedente avevo disegnato le linee e i numeri `10` e `20` in nero puro come nella tua immagine PNG, ma dato che l'arena di *CyberStrike 3D* ha cielo, nebbia e pavimento scurissimi (`#050711` / `#090d1e`), le linee sottili nere sparivano quasi del tutto contro lo sfondo scuro del gioco!
-2. **La classe Tailwind `z-25` non esiste di default**: nel tuo codice originale `#sniper-scope-overlay` aveva la classe `z-25`, che in Tailwind CSS non è una classe standard (esistono `z-20` e `z-30`), quindi in alcuni browser il livello dell'ottica poteva non sovrapporsi correttamente o restare nascosto.
-3. **Cache del browser o arma selezionata**: ricorda che questo mirino ottico si attiva quando impugni il **Cecchino Railgun V9 (Tasto `4`)** e premi il **Tasto Destro del mouse** (o il tasto `MIRA` su mobile).
+1. **Ottica del Cecchino in Stile Cyber**: Mantiene esattamente la geometria dell'immagine che mi hai inviato (barre spesse laterali/inferiori con punte triangolari, croce centrale staccata e scale graduate `10` e `20`), ma ora è renderizzata in **stile Cyber olografico neon** (ciano/cremisi con bagliore HUD, telemetria laser e anello tecnologico).
+2. **Nuove Tipologie di Nemici (Terrestri + Volanti) e 3 Boss Unici**:
+   - **Cyber-Walker (Bipede Robotico)**: cammina a terra muovendo le gambe meccaniche, insegue il giocatore e salta/scatta.
+   - **Ragno Meccanico Kamikaze (Spider-Bot)**: corre velocissimo rasoterra sulle 6 zampe ed esplode se ti raggiunge.
+   - **Goliath Mech Corazzato**: colosso bipede terrestre con doppio cannone al plasma.
+   - **Drone Cecchino & Drone Scout**: unità aeree di supporto.
+   - **3 Boss Completamente Diversi** (ogni 5 ondate: Ondata 5, 10, 15...):
+     - **Boss 1 (Ondata 5)**: * Aegis Drone-Carrier* (nave madre volante che spara raffiche ed evoca Spider-Bot).
+     - **Boss 2 (Ondata 10)**: * Arachnotron Prime* (gigantesco ragno corazzato terrestre che carica ad alta velocità e spara plasma acido).
+     - **Boss 3 (Ondata 15)**: * Titan-Omega Mech* (colosso umanoide bipede con cannoni sulle spalle, ondate d'urto e sbarramenti laser).
+3. **Mappa con Parkour 3D, Jump-Pad e Cielo Galattico**:
+   - **Cielo Galattico**: nebulosa spaziale, **2200 stelle multicolore**, anello planetario luminoso e pianeta cyber all'orizzonte.
+   - **Parkour Verticale Funzionante**: collisioni 3D complete in altezza (`minY` / `maxY`), rampe inclinate percorribili, **piattaforme sopraelevate**, ponti sospesi e **4 Jump-Pad al Neon Ciano** negli angoli che ti catapultano in aria per fare trickshot e muoverti velocemente tra i tetti.
+4. **Ribilanciamento Armi Segrete e Progressione Sblocco**:
+   - **Tasto `[5]` Arco Tesla** *(Sblocco: 75 Kill totali + Raggiungi Ondata 5)*: fulmine a catena bilanciato.
+   - **Tasto `[6]` Lanciarazzi Hydra** *(Sblocco: Sconfiggi il 1° Boss + 200 Kill)*: danno ad area termobarico.
+   - **Tasto `[7]` Cannone Gauss Quantico** *(Sblocco: Sconfiggi il 2° Boss + 400 Kill)*: raggio perforante ad alto danno.
+   - **Tasto `[8]` Singolarità Omega** *(Sblocco Finale: Sconfiggi tutti e 3 i Boss + 750 Kill)*: ora è la vera arma finale ed è bilanciata per non rompere il gioco subito.
+5. **Sistema di Prestigio Armi & Abilità Prestigio (PN)**:
+   - Quando porti tutti i 4 potenziamenti base di un'arma a **Grado 5/5**, si sblocca il pulsante **★ PRESTIGIO ARMA ★** nel Negozio.
+   - Una volta prestigiata, sblocchi **3 Abilità Prestigio Esclusive** acquistabili coi Punti Negozio (`PN`): **Munizioni Vampiriche** (curi HP a ogni kill), **Innesco Instabile** (i nemici uccisi esplodono), **Riciclo Quantico** (colpi critici e rimborso munizioni).
+6. **Sistema Trofei Stile PlayStation (PSN) fino al Platino 🏆**:
+   - Nuovo pulsante **🏆 Trofei PSN** nel menu con **14 Trofei** (Bronzo, Argento, Oro) + **Trofeo di Platino "Signore di CyberStrike"** che si sblocca automaticamente solo quando hai ottenuto tutti gli altri.
+   - Notifica **Pop-up animata in alto a destra** identica a PlayStation con suono dedicato quando sblocchi un trofeo in partita!
+7. **Gameplay Più Veloce + Perk Temporanei**:
+   - I nemici ora spawnano **a gruppi dinamici** molto più reattivi, con ondate più corte e intense (Boss ogni 5 ondate invece che 10).
+   - Oltre ai Medkit verdi, i nemici possono rilasciare **4 Perk Temporanei fluttuanti**: **⚔️ Danno Doppia Potenza**, **⚡ Velocità Overdrive**, **♾️ Munizioni Infinite**, **🛡️ Scudo Invulnerabile** (con indicatori attivi nell'HUD).
 
-### Cosa ho corretto adesso nel codice qui sotto:
-- **Effetto Lente Visione Diurna/Tattica Illuminata**: all'interno del cerchio dell'ottica ho aggiunto un filtro ottico chiaro (`backdrop-filter: brightness(2.2) contrast(1.15)` + patina chiara della lente) così che dentro la lente del cecchino la scena risulti più chiara e **il reticolo nero con le tacche `10` e `20`, la croce centrale `+` e i 3 puntali con triangolo bianco risaltino alla perfezione** esattamente come nell'immagine che mi hai mandato!
-- **Bordo esterno sfumato + esterno visibile o oscurato**: ho ricreato esattamente l'anello sfumato nero della tua immagine con `radialGradient`, i 3 rettangoli spessi neri a ore 9, 3 e 6 con le punte triangolari bianche (`polygon`), la croce centrale separata e tutte le tacche millimetriche con i numeri `10` e `20`.
-- **Corretto lo `z-index` a `z-30`** per garantire che l'ottica appaia sempre sopra il canvas 3D non appena premi il tasto destro con il Cecchino `[4]`.
-
-Ecco il codice intero corretto:
+Ecco il codice completo:
 
 ```html
 <!DOCTYPE html>
@@ -17,7 +36,7 @@ Ecco il codice intero corretto:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CyberStrike 3D - FPS Web Game</title>
+    <title>CyberStrike 3D - Galaxy & Prestige Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -37,7 +56,7 @@ Ecco il codice intero corretto:
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #050711;
+            background-color: #03040b;
             font-family: 'Inter', sans-serif;
             color: #f8fafc;
         }
@@ -53,11 +72,10 @@ Ecco il codice intero corretto:
             left: 0;
             z-index: 1;
         }
-        /* Rimossi backdrop-filter: blur pesanti per eliminare qualsiasi lag nei menu e nel negozio */
         .cyber-panel {
-            background: rgba(10, 15, 32, 0.92);
+            background: rgba(8, 12, 28, 0.92);
             border: 1px solid rgba(34, 211, 238, 0.35);
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.12);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.14);
         }
         #damage-overlay {
             background: radial-gradient(circle, transparent 45%, rgba(239, 68, 68, 0.65) 100%);
@@ -70,20 +88,21 @@ Ecco il codice intero corretto:
             transform: translate(-50%, -50%);
             pointer-events: none;
         }
-        /* Lente ottica amplificata per rendere nitido il reticolo nero anche sull'arena scura */
-        .scope-lens-circle {
+        /* Lente ottica in stile Cyber basata sul modello richiesto */
+        .scope-lens-cyber {
             border-radius: 9999px;
-            backdrop-filter: brightness(2.3) contrast(1.1);
-            -webkit-backdrop-filter: brightness(2.3) contrast(1.1);
             background: radial-gradient(
                 circle at 50% 50%,
-                rgba(226, 232, 240, 0.28) 0%,
-                rgba(226, 232, 240, 0.25) 72%,
-                rgba(0, 0, 0, 0.45) 85%,
-                rgba(0, 0, 0, 0.92) 95%,
-                #000000 100%
+                rgba(6, 182, 212, 0.06) 0%,
+                rgba(14, 116, 144, 0.12) 70%,
+                rgba(2, 6, 23, 0.65) 85%,
+                rgba(2, 4, 12, 0.95) 95%,
+                #01030a 100%
             );
-            box-shadow: 0 0 0 200vmax rgba(2, 4, 10, 0.94);
+            box-shadow:
+                0 0 0 200vmax rgba(2, 4, 11, 0.95),
+                inset 0 0 40px rgba(34, 211, 238, 0.35),
+                0 0 35px rgba(34, 211, 238, 0.45);
         }
     </style>
 </head>
@@ -95,7 +114,20 @@ Ecco il codice intero corretto:
     <!-- OVERLAY DANNO RICEVUTO -->
     <div id="damage-overlay" class="fixed inset-0 pointer-events-none z-10 opacity-0"></div>
 
-    <!-- MIRINO STANDARD SVG (Senza banner zoom) -->
+    <!-- POPUP NOTIFICA TROFEO STILE PLAYSTATION -->
+    <div id="psn-trophy-toast" class="fixed top-5 right-5 z-50 pointer-events-none transform translate-x-[130%] transition-transform duration-500 flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-slate-950/95 border-2 border-amber-400/80 shadow-[0_0_30px_rgba(251,191,36,0.35)] max-w-xs sm:max-w-sm">
+        <div id="psn-toast-icon" class="w-11 h-11 rounded-xl bg-amber-500/20 border border-amber-400 flex items-center justify-center text-2xl shrink-0">🏆</div>
+        <div>
+            <div class="flex items-center gap-1.5">
+                <span class="text-[9px] font-cyber uppercase tracking-widest text-amber-400 font-bold">Trofeo Sbloccato!</span>
+                <span id="psn-toast-tier" class="text-[9px] font-cyber px-1.5 py-0.5 rounded bg-slate-800 text-cyan-300 uppercase">ORO</span>
+            </div>
+            <div id="psn-toast-title" class="text-xs sm:text-sm font-cyber font-black text-white leading-tight mt-0.5">Cacciatore Cyber</div>
+            <div id="psn-toast-desc" class="text-[10px] text-slate-300 leading-tight mt-0.5">Elimina 50 nemici</div>
+        </div>
+    </div>
+
+    <!-- MIRINO STANDARD SVG -->
     <div id="crosshair" class="screen-center z-30 w-16 h-16 transition-transform duration-75 flex items-center justify-center">
         <svg id="crosshair-svg" viewBox="0 0 100 100" class="w-full h-full overflow-visible">
             <line id="ch-top" class="ch-line transition-all duration-150" x1="50" y1="24" x2="50" y2="38" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" />
@@ -106,121 +138,125 @@ Ecco il codice intero corretto:
         </svg>
     </div>
 
-    <!-- OVERLAY OTTICA SNIPER IDENTICA ALL'IMMAGINE DI RIFERIMENTO -->
+    <!-- OVERLAY OTTICA SNIPER CYBER (Stessa geometria dell'immagine con estetica Cyber Neon) -->
     <div id="sniper-scope-overlay" class="fixed inset-0 pointer-events-none z-30 opacity-0 transition-opacity duration-150 flex items-center justify-center overflow-hidden">
-        <!-- Contenitore circolare della lente (con amplificazione luce per vedere nitidamente il reticolo nero) -->
-        <div id="sniper-scope-reticle" class="screen-center w-[82vmin] h-[82vmin] max-w-[680px] max-h-[680px] scope-lens-circle flex items-center justify-center">
+        <div id="sniper-scope-reticle" class="screen-center w-[82vmin] h-[82vmin] max-w-[680px] max-h-[680px] scope-lens-cyber flex items-center justify-center">
             <svg viewBox="0 0 600 600" class="w-full h-full overflow-visible">
                 <defs>
-                    <!-- Vignettatura interna nera sfumata esattamente come nella foto inviata -->
-                    <radialGradient id="scopeVignetteRing" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                    <!-- Vignettatura interna scura + Anello Neon Cyber -->
+                    <radialGradient id="scopeCyberVignette" cx="50%" cy="50%" r="50%">
                         <stop offset="0%" stop-color="#000000" stop-opacity="0" />
-                        <stop offset="73%" stop-color="#000000" stop-opacity="0" />
-                        <stop offset="84%" stop-color="#000000" stop-opacity="0.38" />
-                        <stop offset="92%" stop-color="#000000" stop-opacity="0.78" />
-                        <stop offset="97.5%" stop-color="#000000" stop-opacity="0.96" />
+                        <stop offset="72%" stop-color="#06b6d4" stop-opacity="0.03" />
+                        <stop offset="84%" stop-color="#020617" stop-opacity="0.45" />
+                        <stop offset="93%" stop-color="#020617" stop-opacity="0.85" />
+                        <stop offset="98%" stop-color="#000000" stop-opacity="0.98" />
                         <stop offset="100%" stop-color="#000000" stop-opacity="1" />
                     </radialGradient>
+                    <filter id="cyberGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="2.2" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
                 </defs>
 
-                <!-- Anello sfumato nero sul bordo interno della lente -->
-                <circle cx="300" cy="300" r="298" fill="url(#scopeVignetteRing)" />
-                <circle cx="300" cy="300" r="298" fill="none" stroke="#000000" stroke-width="6" />
+                <!-- Anello sfumato sul bordo interno della lente -->
+                <circle cx="300" cy="300" r="298" fill="url(#scopeCyberVignette)" />
+                <circle cx="300" cy="300" r="296" fill="none" stroke="#0f172a" stroke-width="8" />
+                <circle cx="300" cy="300" r="292" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-opacity="0.7" />
+                <circle cx="300" cy="300" r="284" fill="none" stroke="#f43f5e" stroke-width="1" stroke-dasharray="18 10 4 10" stroke-opacity="0.45" />
 
-                <!-- 1. BARRE LATERALI E INFERIORE SPESSE CON PUNTA TRIANGOLARE BIANCA -->
-                <!-- Barra Sinistra -->
-                <rect x="4" y="291" width="68" height="18" fill="#000000" />
-                <polygon points="72,292 90,300 72,308" fill="#ffffff" stroke="#000000" stroke-width="2.2" stroke-linejoin="miter" />
-
-                <!-- Barra Destra -->
-                <rect x="528" y="291" width="68" height="18" fill="#000000" />
-                <polygon points="528,292 510,300 528,308" fill="#ffffff" stroke="#000000" stroke-width="2.2" stroke-linejoin="miter" />
-
-                <!-- Barra Inferiore -->
-                <rect x="291" y="528" width="18" height="68" fill="#000000" />
-                <polygon points="292,528 300,510 308,528" fill="#ffffff" stroke="#000000" stroke-width="2.2" stroke-linejoin="miter" />
-
-                <!-- 2. CROCE CENTRALE E SCALE GRADUATE (Aloni bianchi leggeri sotto per contrasto + Nero sopra) -->
-                <g stroke="rgba(255,255,255,0.45)" stroke-width="3.2" stroke-linecap="butt">
-                    <line x1="288" y1="300" x2="312" y2="300" />
-                    <line x1="300" y1="288" x2="300" y2="312" />
-                    <line x1="104" y1="300" x2="282" y2="300" />
-                    <line x1="318" y1="300" x2="496" y2="300" />
-                    <line x1="300" y1="190" x2="300" y2="282" />
-                    <line x1="300" y1="318" x2="300" y2="496" />
+                <!-- Telemetria HUD Cyber laterale nell'ottica -->
+                <g fill="#22d3ee" font-family="Orbitron, monospace" font-size="9" font-weight="700" opacity="0.75">
+                    <text x="150" y="135">ZOOM // 8.0X RAIL-OPTIC</text>
+                    <text x="365" y="135">SYNC // LOCK-ON</text>
+                    <text x="150" y="485">WIND // 0.02 MIL</text>
+                    <text x="365" y="485">CORE // CHARGED</text>
                 </g>
 
-                <g stroke="#000000" stroke-linecap="butt">
+                <!-- 1. BARRE LATERALI E INFERIORE SPESSE CON PUNTA TRIANGOLARE LUMINOSA (Come nell'immagine) -->
+                <!-- Barra Sinistra -->
+                <rect x="6" y="291" width="66" height="18" fill="#090d16" stroke="#22d3ee" stroke-width="1.5" />
+                <polygon points="72,291.5 91,300 72,308.5" fill="#f43f5e" stroke="#67e8f9" stroke-width="1.8" filter="url(#cyberGlow)" />
+
+                <!-- Barra Destra -->
+                <rect x="528" y="291" width="66" height="18" fill="#090d16" stroke="#22d3ee" stroke-width="1.5" />
+                <polygon points="528,291.5 509,300 528,308.5" fill="#f43f5e" stroke="#67e8f9" stroke-width="1.8" filter="url(#cyberGlow)" />
+
+                <!-- Barra Inferiore -->
+                <rect x="291" y="528" width="18" height="66" fill="#090d16" stroke="#22d3ee" stroke-width="1.5" />
+                <polygon points="291.5,528 300,509 308.5,528" fill="#f43f5e" stroke="#67e8f9" stroke-width="1.8" filter="url(#cyberGlow)" />
+
+                <!-- 2. CROCE CENTRALE E SCALE GRADUATE (10 e 20) IN STILE OLOGRAFICO CYBER -->
+                <g stroke="#22d3ee" stroke-linecap="butt" filter="url(#cyberGlow)">
                     <!-- Croce Centrale (+) staccata -->
-                    <line x1="288" y1="300" x2="312" y2="300" stroke-width="1.8" />
-                    <line x1="300" y1="288" x2="300" y2="312" stroke-width="1.8" />
+                    <line x1="288" y1="300" x2="312" y2="300" stroke="#f43f5e" stroke-width="2.0" />
+                    <line x1="300" y1="288" x2="300" y2="312" stroke="#f43f5e" stroke-width="2.0" />
+                    <circle cx="300" cy="300" r="1.8" fill="#ffffff" stroke="none" />
 
                     <!-- ASSI PRINCIPALI DELLE 4 SCALE -->
-                    <!-- Asse Sinistro -->
                     <line x1="104" y1="300" x2="282" y2="300" stroke-width="1.8" />
-                    <!-- Asse Destro -->
                     <line x1="318" y1="300" x2="496" y2="300" stroke-width="1.8" />
-                    <!-- Asse Superiore corto -->
                     <line x1="300" y1="190" x2="300" y2="282" stroke-width="1.8" />
-                    <!-- Asse Inferiore -->
                     <line x1="300" y1="318" x2="300" y2="496" stroke-width="1.8" />
 
                     <!-- TACCHE SCALA SINISTRA -->
                     <line x1="282" y1="290" x2="282" y2="310" stroke-width="1.8" />
-                    <line x1="255" y1="295" x2="255" y2="309" stroke-width="1.7" />
-                    <line x1="211" y1="282" x2="211" y2="318" stroke-width="1.9" />
-                    <line x1="166.5" y1="295" x2="166.5" y2="309" stroke-width="1.7" />
-                    <line x1="122" y1="295" x2="122" y2="309" stroke-width="1.7" />
-                    <line x1="104" y1="290" x2="104" y2="310" stroke-width="1.8" />
+                    <line x1="255" y1="295" x2="255" y2="309" stroke-width="1.6" />
+                    <line x1="211" y1="282" x2="211" y2="318" stroke="#f43f5e" stroke-width="2.0" />
+                    <line x1="166.5" y1="295" x2="166.5" y2="309" stroke-width="1.6" />
+                    <line x1="122" y1="295" x2="122" y2="309" stroke-width="1.6" />
+                    <line x1="104" y1="290" x2="104" y2="310" stroke="#f43f5e" stroke-width="2.0" />
                     <!-- Micro-tacche inferiori sinistra -->
-                    <line x1="273" y1="300" x2="273" y2="306.5" stroke-width="1.4" />
-                    <line x1="264" y1="300" x2="264" y2="306.5" stroke-width="1.4" />
-                    <line x1="246" y1="300" x2="246" y2="306.5" stroke-width="1.4" />
-                    <line x1="237.5" y1="300" x2="237.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="228.5" y1="300" x2="228.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="220" y1="300" x2="220" y2="306.5" stroke-width="1.4" />
-                    <line x1="202" y1="300" x2="202" y2="306.5" stroke-width="1.4" />
-                    <line x1="193" y1="300" x2="193" y2="306.5" stroke-width="1.4" />
-                    <line x1="184" y1="300" x2="184" y2="306.5" stroke-width="1.4" />
-                    <line x1="175.5" y1="300" x2="175.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="157.5" y1="300" x2="157.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="148.5" y1="300" x2="148.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="140" y1="300" x2="140" y2="306.5" stroke-width="1.4" />
-                    <line x1="131" y1="300" x2="131" y2="306.5" stroke-width="1.4" />
-                    <line x1="113" y1="300" x2="113" y2="306.5" stroke-width="1.4" />
+                    <line x1="273" y1="300" x2="273" y2="306" stroke-width="1.3" />
+                    <line x1="264" y1="300" x2="264" y2="306" stroke-width="1.3" />
+                    <line x1="246" y1="300" x2="246" y2="306" stroke-width="1.3" />
+                    <line x1="237.5" y1="300" x2="237.5" y2="306" stroke-width="1.3" />
+                    <line x1="228.5" y1="300" x2="228.5" y2="306" stroke-width="1.3" />
+                    <line x1="220" y1="300" x2="220" y2="306" stroke-width="1.3" />
+                    <line x1="202" y1="300" x2="202" y2="306" stroke-width="1.3" />
+                    <line x1="193" y1="300" x2="193" y2="306" stroke-width="1.3" />
+                    <line x1="184" y1="300" x2="184" y2="306" stroke-width="1.3" />
+                    <line x1="175.5" y1="300" x2="175.5" y2="306" stroke-width="1.3" />
+                    <line x1="157.5" y1="300" x2="157.5" y2="306" stroke-width="1.3" />
+                    <line x1="148.5" y1="300" x2="148.5" y2="306" stroke-width="1.3" />
+                    <line x1="140" y1="300" x2="140" y2="306" stroke-width="1.3" />
+                    <line x1="131" y1="300" x2="131" y2="306" stroke-width="1.3" />
+                    <line x1="113" y1="300" x2="113" y2="306" stroke-width="1.3" />
 
                     <!-- TACCHE SCALA DESTRA -->
                     <line x1="318" y1="290" x2="318" y2="310" stroke-width="1.8" />
-                    <line x1="345" y1="295" x2="345" y2="309" stroke-width="1.7" />
-                    <line x1="389" y1="282" x2="389" y2="318" stroke-width="1.9" />
-                    <line x1="433.5" y1="295" x2="433.5" y2="309" stroke-width="1.7" />
-                    <line x1="478" y1="295" x2="478" y2="309" stroke-width="1.7" />
-                    <line x1="496" y1="290" x2="496" y2="310" stroke-width="1.8" />
+                    <line x1="345" y1="295" x2="345" y2="309" stroke-width="1.6" />
+                    <line x1="389" y1="282" x2="389" y2="318" stroke="#f43f5e" stroke-width="2.0" />
+                    <line x1="433.5" y1="295" x2="433.5" y2="309" stroke-width="1.6" />
+                    <line x1="478" y1="295" x2="478" y2="309" stroke-width="1.6" />
+                    <line x1="496" y1="290" x2="496" y2="310" stroke="#f43f5e" stroke-width="2.0" />
                     <!-- Micro-tacche inferiori destra -->
-                    <line x1="327" y1="300" x2="327" y2="306.5" stroke-width="1.4" />
-                    <line x1="336" y1="300" x2="336" y2="306.5" stroke-width="1.4" />
-                    <line x1="354" y1="300" x2="354" y2="306.5" stroke-width="1.4" />
-                    <line x1="362.5" y1="300" x2="362.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="371.5" y1="300" x2="371.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="380" y1="300" x2="380" y2="306.5" stroke-width="1.4" />
-                    <line x1="398" y1="300" x2="398" y2="306.5" stroke-width="1.4" />
-                    <line x1="407" y1="300" x2="407" y2="306.5" stroke-width="1.4" />
-                    <line x1="416" y1="300" x2="416" y2="306.5" stroke-width="1.4" />
-                    <line x1="424.5" y1="300" x2="424.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="442.5" y1="300" x2="442.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="451.5" y1="300" x2="451.5" y2="306.5" stroke-width="1.4" />
-                    <line x1="460" y1="300" x2="460" y2="306.5" stroke-width="1.4" />
-                    <line x1="469" y1="300" x2="469" y2="306.5" stroke-width="1.4" />
-                    <line x1="487" y1="300" x2="487" y2="306.5" stroke-width="1.4" />
+                    <line x1="327" y1="300" x2="327" y2="306" stroke-width="1.3" />
+                    <line x1="336" y1="300" x2="336" y2="306" stroke-width="1.3" />
+                    <line x1="354" y1="300" x2="354" y2="306" stroke-width="1.3" />
+                    <line x1="362.5" y1="300" x2="362.5" y2="306" stroke-width="1.3" />
+                    <line x1="371.5" y1="300" x2="371.5" y2="306" stroke-width="1.3" />
+                    <line x1="380" y1="300" x2="380" y2="306" stroke-width="1.3" />
+                    <line x1="398" y1="300" x2="398" y2="306" stroke-width="1.3" />
+                    <line x1="407" y1="300" x2="407" y2="306" stroke-width="1.3" />
+                    <line x1="416" y1="300" x2="416" y2="306" stroke-width="1.3" />
+                    <line x1="424.5" y1="300" x2="424.5" y2="306" stroke-width="1.3" />
+                    <line x1="442.5" y1="300" x2="442.5" y2="306" stroke-width="1.3" />
+                    <line x1="451.5" y1="300" x2="451.5" y2="306" stroke-width="1.3" />
+                    <line x1="460" y1="300" x2="460" y2="306" stroke-width="1.3" />
+                    <line x1="469" y1="300" x2="469" y2="306" stroke-width="1.3" />
+                    <line x1="487" y1="300" x2="487" y2="306" stroke-width="1.3" />
 
-                    <!-- TACCHE SCALA SUPERIORE (corta con barra orizzontale finale a T) -->
+                    <!-- TACCHE SCALA SUPERIORE -->
                     <line x1="290" y1="282" x2="310" y2="282" stroke-width="1.8" />
                     <line x1="294.5" y1="266.6" x2="305.5" y2="266.6" stroke-width="1.4" />
                     <line x1="290" y1="251.3" x2="310" y2="251.3" stroke-width="1.8" />
                     <line x1="294.5" y1="236" x2="305.5" y2="236" stroke-width="1.4" />
                     <line x1="294.5" y1="220.6" x2="305.5" y2="220.6" stroke-width="1.4" />
                     <line x1="294.5" y1="205.3" x2="305.5" y2="205.3" stroke-width="1.4" />
-                    <line x1="280" y1="190" x2="320" y2="190" stroke-width="1.9" />
+                    <line x1="280" y1="190" x2="320" y2="190" stroke="#f43f5e" stroke-width="2.0" />
 
                     <!-- TACCHE SCALA INFERIORE -->
                     <line x1="290" y1="318" x2="310" y2="318" stroke-width="1.8" />
@@ -229,28 +265,23 @@ Ecco il codice intero corretto:
                     <line x1="294.5" y1="362.5" x2="305.5" y2="362.5" stroke-width="1.4" />
                     <line x1="294.5" y1="377.3" x2="305.5" y2="377.3" stroke-width="1.4" />
                     <line x1="294.5" y1="392.1" x2="305.5" y2="392.1" stroke-width="1.4" />
-                    <!-- Tacca lunga 10 inferiore -->
-                    <line x1="280" y1="407" x2="320" y2="407" stroke-width="1.9" />
+                    <line x1="280" y1="407" x2="320" y2="407" stroke="#f43f5e" stroke-width="2.0" />
                     <line x1="294.5" y1="421.8" x2="305.5" y2="421.8" stroke-width="1.4" />
                     <line x1="294.5" y1="436.6" x2="305.5" y2="436.6" stroke-width="1.4" />
                     <line x1="294.5" y1="451.5" x2="305.5" y2="451.5" stroke-width="1.4" />
                     <line x1="294.5" y1="466.3" x2="305.5" y2="466.3" stroke-width="1.4" />
                     <line x1="294.5" y1="481.1" x2="305.5" y2="481.1" stroke-width="1.4" />
-                    <!-- Tacca 20 inferiore -->
-                    <line x1="290" y1="496" x2="310" y2="496" stroke-width="1.8" />
+                    <line x1="290" y1="496" x2="310" y2="496" stroke="#f43f5e" stroke-width="2.0" />
                 </g>
 
-                <!-- 3. NUMERI "10" E "20" CON LEGGERO BORDO CHIARO PER MASSIMA VISIBILITÀ -->
-                <g fill="#000000" stroke="rgba(255,255,255,0.55)" stroke-width="2.5" paint-order="stroke" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
-                    <!-- Sinistra -->
+                <!-- 3. NUMERI "10" E "20" IN FONT CYBER NEON -->
+                <g fill="#67e8f9" font-family="Orbitron, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" filter="url(#cyberGlow)">
                     <text x="104" y="278">20</text>
                     <text x="211" y="278">10</text>
-                    <!-- Destra -->
                     <text x="389" y="278">10</text>
                     <text x="496" y="278">20</text>
-                    <!-- Basso -->
-                    <text x="267" y="411">10</text>
-                    <text x="270" y="500">20</text>
+                    <text x="266" y="411">10</text>
+                    <text x="269" y="500">20</text>
                 </g>
             </svg>
         </div>
@@ -271,7 +302,7 @@ Ecco il codice intero corretto:
         <div class="relative w-[360px] h-[360px] sm:w-[430px] sm:h-[430px] flex items-center justify-center">
             <div class="absolute inset-0 rounded-full bg-slate-950/95 border-2 border-cyan-500/45 shadow-[0_0_40px_rgba(6,182,212,0.3)]"></div>
             <div class="absolute inset-6 rounded-full border border-dashed border-cyan-400/25"></div>
-            <div class="relative z-10 w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-slate-900 border border-cyan-400/60 flex flex-col items-center justify-center p-3 text-center">
+            <div class="relative z-10 w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-slate-900 border border-cyan-400/60 flex flex-col items-center justify-center p-3 text-center">
                 <div id="wheel-center-slot" class="text-[10px] font-cyber text-cyan-400 tracking-widest uppercase">ARMI [Q]</div>
                 <div id="wheel-center-name" class="text-xs sm:text-sm font-cyber font-black text-white leading-tight my-1">FUCILE D'ASSALTO</div>
                 <div id="wheel-center-stats" class="text-[10px] text-slate-300 uppercase tracking-wider">30/30 COLPI</div>
@@ -341,7 +372,7 @@ Ecco il codice intero corretto:
             <!-- BARRA SALUTE BOSS -->
             <div id="boss-hud-container" class="hidden w-full max-w-xl mx-auto cyber-panel rounded-xl px-5 py-2.5 border border-rose-500/60">
                 <div class="flex justify-between items-baseline mb-1">
-                    <span id="boss-name-label" class="text-xs font-cyber font-black text-rose-400 tracking-widest uppercase">⚠️ BOSS OMEGA DRONE ⚠️</span>
+                    <span id="boss-name-label" class="text-xs font-cyber font-black text-rose-400 tracking-widest uppercase">⚠️ BOSS OMEGA ⚠️</span>
                     <span id="boss-health-text" class="text-xs font-cyber font-bold text-rose-300">100%</span>
                 </div>
                 <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-rose-500/30">
@@ -349,11 +380,14 @@ Ecco il codice intero corretto:
                 </div>
             </div>
 
+            <!-- CONTENITORE PERK TEMPORANEI ATTIVI -->
+            <div id="active-perks-bar" class="flex flex-wrap justify-center gap-2 pointer-events-none"></div>
+
             <!-- BANNER ANNUNCI IN ALTO -->
             <div class="flex flex-col items-center justify-start mt-1 pointer-events-none">
                 <div id="wave-announcement" class="opacity-0 transition-all duration-300 transform -translate-y-2 scale-95 text-center px-6 py-2 rounded-2xl bg-slate-950/95 border border-cyan-400/50">
                     <div id="announcement-title" class="text-lg sm:text-2xl font-cyber font-black text-cyan-300 tracking-wider uppercase">ONDATA 01</div>
-                    <div id="announcement-subtitle" class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Elimina tutti i droni ostili</div>
+                    <div id="announcement-subtitle" class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Elimina tutte le unità ostili</div>
                 </div>
                 <div id="reload-prompt" class="hidden mt-2 px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-400/60 text-amber-300 text-xs font-cyber uppercase tracking-widest animate-pulse">
                     [R] Ricarica Consigliata
@@ -411,7 +445,7 @@ Ecco il codice intero corretto:
                         </div>
                         <span id="hud-weapon-sp" class="text-[10px] font-cyber font-bold text-emerald-400">0 PN</span>
                     </div>
-                    <div id="hud-secret-progress" class="text-[10px] font-cyber text-fuchsia-400/90 tracking-wider uppercase mt-0.5">Segrete: [5] 100 Kill | [6-8] Boss Ondata 10/20/30</div>
+                    <div id="hud-secret-progress" class="text-[10px] font-cyber text-fuchsia-400/90 tracking-wider uppercase mt-0.5">Boss ogni 5 Ondate • Salta sui Jump-Pad Ciano!</div>
                 </div>
                 <div class="h-10 w-px bg-cyan-500/30"></div>
                 <div class="flex items-baseline gap-1 font-cyber">
@@ -425,15 +459,15 @@ Ecco il codice intero corretto:
 
     <!-- MENU PRINCIPALE OVERLAY -->
     <div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-slate-950/92 overflow-y-auto">
-        <div class="cyber-panel rounded-2xl max-w-lg w-full p-5 sm:p-7 border border-cyan-400/50 text-center relative my-auto">
+        <div class="cyber-panel rounded-2xl max-w-xl w-full p-5 sm:p-7 border border-cyan-400/50 text-center relative my-auto">
             <div class="inline-block px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-[10px] font-cyber tracking-widest uppercase mb-2">
-                Simulazione Tattica WebGL // Profilo Cloud Locale
+                Galaxy Parkour Arena // Prestigio Armi & Trofei PSN
             </div>
             <h1 id="menu-title" class="text-2xl sm:text-4xl font-cyber font-black text-white tracking-wider uppercase mb-1.5">
                 CYBERSTRIKE <span class="text-cyan-400">3D</span>
             </h1>
             <p id="menu-subtitle" class="text-xs sm:text-sm text-slate-300 mb-4">
-                Ogni arma guadagna XP eliminando droni e sblocca Punti Negozio (PN) ad ogni livello!
+                Sfrutta i Jump-Pad per il Parkour, raccogli i Perk Temporanei, fai il Prestigio alle armi e conquista il Trofeo di Platino!
             </p>
 
             <!-- SEZIONE PROFILO OPERATORE & RECORD SALVATI -->
@@ -448,7 +482,7 @@ Ecco il codice intero corretto:
                         <span id="save-badge" class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-[9px] font-cyber text-emerald-300 uppercase">
                             ✓ Profilo Salvato
                         </span>
-                        <div class="text-[10px] text-slate-400 mt-1">Partite: <span id="profile-games" class="text-white font-bold">0</span></div>
+                        <div class="text-[10px] text-slate-400 mt-1">Trofei PSN: <span id="profile-trophies-count" class="text-amber-400 font-bold">0/15</span></div>
                     </div>
                 </div>
 
@@ -483,7 +517,7 @@ Ecco il codice intero corretto:
                     <div id="final-wave" class="text-lg font-cyber font-bold text-cyan-400">1</div>
                 </div>
                 <div>
-                    <div class="text-[10px] font-cyber text-rose-300 uppercase">Droni Eliminati</div>
+                    <div class="text-[10px] font-cyber text-rose-300 uppercase">Unità Eliminate</div>
                     <div id="final-kills" class="text-lg font-cyber font-bold text-emerald-400">0</div>
                 </div>
             </div>
@@ -497,14 +531,18 @@ Ecco il codice intero corretto:
                 <input id="sens-slider" type="range" min="0.3" max="2.5" step="0.1" value="1.0" class="w-full accent-cyan-400 cursor-pointer">
             </div>
 
-            <!-- Pulsanti Azione Principali: Gioca e Negozio Armi -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button id="btn-open-shop" type="button" class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-amber-400/70 text-amber-300 font-cyber font-black text-sm uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2">
-                    <span>🛒 Negozio Armi</span>
+            <!-- Pulsanti Azione Principali: Negozio, Trofei, Gioca -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <button id="btn-open-shop" type="button" class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-amber-400/70 text-amber-300 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5">
+                    <span>🛒 Armeria</span>
                     <span id="menu-shop-badge" class="px-2 py-0.5 text-[10px] rounded-full bg-amber-400 text-slate-950 font-black">0 PN</span>
                 </button>
-                <button id="btn-start-game" type="button" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-sm uppercase tracking-wider transition cursor-pointer">
-                    Inizia Missione
+                <button id="btn-open-trophies" type="button" class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-fuchsia-400/70 text-fuchsia-300 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5">
+                    <span>🏆 Trofei PSN</span>
+                    <span id="menu-trophy-badge" class="px-2 py-0.5 text-[10px] rounded-full bg-fuchsia-400 text-slate-950 font-black">0%</span>
+                </button>
+                <button id="btn-start-game" type="button" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer">
+                    ▶ Inizia Missione
                 </button>
             </div>
 
@@ -516,31 +554,31 @@ Ecco il codice intero corretto:
         </div>
     </div>
 
-    <!-- NEGOZIO POTENZIAMENTI ARMI (Ultra-leggero e reattivo, zero lag) -->
+    <!-- NEGOZIO POTENZIAMENTI ARMI + SISTEMA PRESTIGIO -->
     <div id="shop-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
         <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-amber-400/50 my-auto">
-            <!-- Header Negozio -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
                 <div>
-                    <div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest">Armeria Tattica CyberStrike</div>
-                    <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">NEGOZIO POTENZIAMENTI ARMI</h2>
-                    <p class="text-xs text-slate-400">Accumula XP usando un'arma in battaglia: ogni Livello Arma fornisce <strong class="text-amber-300">+1 Punto Negozio (PN)</strong> per quell'arma.</p>
+                    <div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest">Armeria Tattica & Laboratorio Prestigio</div>
+                    <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">NEGOZIO POTENZIAMENTI & PRESTIGIO</h2>
+                    <p class="text-xs text-slate-400">Porta tutti i 4 moduli al Grado 5/5 per sbloccare il <strong class="text-fuchsia-400">Prestigio Arma</strong> e acquistare le Abilità Speciali coi PN!</p>
                 </div>
                 <button id="btn-close-shop" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase cursor-pointer">
                     ✕ Torna al Menu
                 </button>
             </div>
 
-            <!-- Selettore Armi Orizzontale -->
+            <!-- Selettore Armi -->
             <div id="shop-weapons-tabs" class="grid grid-cols-2 sm:grid-cols-4 gap-2 my-4"></div>
 
             <!-- Dettagli Arma Selezionata e Barra XP -->
             <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 mb-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                     <div>
-                        <div class="flex items-center gap-2">
+                        <div class="flex flex-wrap items-center gap-2">
                             <span id="shop-weapon-title" class="text-lg font-cyber font-black text-cyan-400">Fucile d'Assalto MK-IV</span>
                             <span id="shop-weapon-level-badge" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 font-cyber text-xs font-bold">LIVELLO 1</span>
+                            <span id="shop-weapon-prestige-badge" class="hidden px-2.5 py-0.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-400 text-fuchsia-300 font-cyber text-xs font-black">★ PRESTIGIO 1</span>
                         </div>
                         <p id="shop-weapon-desc" class="text-xs text-slate-400 mt-0.5">Bilanciato Automatico</p>
                     </div>
@@ -550,11 +588,10 @@ Ecco il codice intero corretto:
                     </div>
                 </div>
 
-                <!-- Barra Progressione XP Arma -->
                 <div>
                     <div class="flex justify-between text-[11px] font-cyber mb-1">
                         <span class="text-slate-300">Esperienza Arma (XP)</span>
-                        <span id="shop-weapon-xp-text" class="text-cyan-300">0 / 100 XP</span>
+                        <span id="shop-weapon-xp-text" class="text-cyan-300">0 / 80 XP</span>
                     </div>
                     <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
                         <div id="shop-weapon-xp-bar" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 rounded-full transition-all duration-150" style="width: 0%"></div>
@@ -562,66 +599,116 @@ Ecco il codice intero corretto:
                 </div>
             </div>
 
-            <!-- Griglia dei 4 Potenziamenti dell'Arma -->
-            <div id="shop-upgrades-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            <!-- Griglia dei 4 Potenziamenti Base -->
+            <div id="shop-upgrades-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4"></div>
+
+            <!-- SEZIONE PRESTIGIO E ABILITÀ SPECIALI -->
+            <div id="shop-prestige-section" class="bg-slate-900/95 rounded-xl p-4 border border-fuchsia-500/40">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                    <div>
+                        <div class="text-[10px] font-cyber text-fuchsia-400 uppercase tracking-widest">Protocollo Prestigio Cyber</div>
+                        <h3 id="prestige-status-title" class="text-sm sm:text-base font-cyber font-black text-white">Completa tutti i 4 potenziamenti (Grado 5/5) per attivare il Prestigio</h3>
+                        <p class="text-[11px] text-slate-400">Ogni Prestigio aumenta permanentemente il danno base dell'arma del <strong class="text-fuchsia-300">+15%</strong> e sblocca le Abilità Prestigio qui sotto!</p>
+                    </div>
+                    <button id="btn-do-prestige" type="button" class="px-4 py-2.5 rounded-xl font-cyber text-xs font-black uppercase tracking-wider transition shrink-0">
+                        ★ ATTIVA PRESTIGIO (2 PN)
+                    </button>
+                </div>
+                <div id="shop-prestige-skills-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCHERMATA TROFEI PLAYSTATION (PLATINO) -->
+    <div id="trophies-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
+        <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-fuchsia-400/50 my-auto">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+                <div>
+                    <div class="text-[10px] font-cyber text-fuchsia-400 uppercase tracking-widest">PlayStation Network // Sincronizzazione Trofei</div>
+                    <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">BACHECA TROFEI & PLATINO</h2>
+                    <p id="trophies-summary-text" class="text-xs text-slate-400">Sblocca tutti i 14 trofei di gioco per ottenere il leggendario Trofeo di Platino!</p>
+                </div>
+                <button id="btn-close-trophies" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase cursor-pointer">
+                    ✕ Torna al Menu
+                </button>
+            </div>
+
+            <!-- Barra progresso Platino -->
+            <div class="bg-slate-900 rounded-xl p-3.5 my-4 border border-slate-800">
+                <div class="flex justify-between text-xs font-cyber mb-1.5">
+                    <span class="text-fuchsia-300 font-bold">PROGRESSIONE VERSO IL PLATINO</span>
+                    <span id="trophies-progress-pct" class="text-amber-400 font-black">0% (0/15)</span>
+                </div>
+                <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                    <div id="trophies-progress-bar" class="h-full bg-gradient-to-r from-cyan-500 via-fuchsia-500 to-amber-400 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Griglia Trofei -->
+            <div id="trophies-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[58vh] overflow-y-auto pr-1"></div>
         </div>
     </div>
 
     <script>
         /**
-         * DEFINIZIONE DELLE 8 ARMI E POTENZIAMENTI
+         * DEFINIZIONE DELLE 8 ARMI (Con Armi Segrete Ribilanciate e Sblocchi Progressivi)
          */
         const WEAPONS = [
             {
                 id: 'ASSAULT', key: '1', name: "Fucile d'Assalto MK-IV", shortName: "ASSALTO", desc: "Bilanciato Automatico",
-                maxAmmo: 30, reloadTime: 1.35, fireRate: 0.12, damage: 35, adsDamage: 46, pellets: 1, hipSpread: 0.042, adsSpread: 0.0,
-                adsFov: 48, recoil: 0.12, colorHex: 0x22d3ee, uiColor: '#22d3ee', beamWidth: 0.024,
+                maxAmmo: 32, reloadTime: 1.3, fireRate: 0.115, damage: 36, adsDamage: 47, pellets: 1, hipSpread: 0.04, adsSpread: 0.0,
+                adsFov: 48, recoil: 0.11, colorHex: 0x22d3ee, uiColor: '#22d3ee', beamWidth: 0.024,
                 adsY: -0.155, adsZ: -0.34, tipZ: -0.58, secret: false
             },
             {
                 id: 'SMG', key: '2', name: "Mitraglietta Vector-X", shortName: "MITRAGLIETTA", desc: "Cadenza Estrema",
-                maxAmmo: 48, reloadTime: 1.05, fireRate: 0.062, damage: 21, adsDamage: 27, pellets: 1, hipSpread: 0.068, adsSpread: 0.01,
-                adsFov: 56, recoil: 0.075, colorHex: 0xfacc15, uiColor: '#facc15', beamWidth: 0.018,
+                maxAmmo: 48, reloadTime: 1.0, fireRate: 0.06, damage: 22, adsDamage: 28, pellets: 1, hipSpread: 0.065, adsSpread: 0.008,
+                adsFov: 56, recoil: 0.07, colorHex: 0xfacc15, uiColor: '#facc15', beamWidth: 0.018,
                 adsY: -0.145, adsZ: -0.32, tipZ: -0.42, secret: false
             },
             {
                 id: 'SHOTGUN', key: '3', name: "Fucile a Pompa Titan-8", shortName: "POMPA", desc: "8 Dardi Plasma",
-                maxAmmo: 8, reloadTime: 1.7, fireRate: 0.65, damage: 26, adsDamage: 32, pellets: 8, hipSpread: 0.125, adsSpread: 0.055,
-                adsFov: 58, recoil: 0.26, colorHex: 0xf97316, uiColor: '#f97316', beamWidth: 0.02,
+                maxAmmo: 8, reloadTime: 1.6, fireRate: 0.62, damage: 27, adsDamage: 33, pellets: 8, hipSpread: 0.12, adsSpread: 0.05,
+                adsFov: 58, recoil: 0.25, colorHex: 0xf97316, uiColor: '#f97316', beamWidth: 0.02,
                 adsY: -0.14, adsZ: -0.35, tipZ: -0.56, secret: false
             },
             {
                 id: 'SNIPER', key: '4', name: "Cecchino Railgun V9", shortName: "CECCHINO", desc: "Colpo Perforante",
-                maxAmmo: 5, reloadTime: 1.85, fireRate: 0.92, damage: 170, adsDamage: 270, pellets: 1, hipSpread: 0.085, adsSpread: 0.0,
+                maxAmmo: 5, reloadTime: 1.75, fireRate: 0.88, damage: 175, adsDamage: 280, pellets: 1, hipSpread: 0.08, adsSpread: 0.0,
                 adsFov: 20, recoil: 0.32, colorHex: 0xf43f5e, uiColor: '#f43f5e', beamWidth: 0.045,
                 adsY: -0.17, adsZ: -0.30, tipZ: -0.88, secret: false, isSniper: true, isPiercing: true
             },
             {
-                id: 'SECRET', key: '5', name: "Singolarità Omega", shortName: "OMEGA-X", desc: "Esplosione Antimateria",
-                maxAmmo: 60, reloadTime: 1.1, fireRate: 0.09, damage: 95, adsDamage: 140, pellets: 3, hipSpread: 0.025, adsSpread: 0.006,
-                adsFov: 42, recoil: 0.1, colorHex: 0xd946ef, uiColor: '#d946ef', beamWidth: 0.055,
-                adsY: -0.155, adsZ: -0.34, tipZ: -0.62, secret: true, unlockType: 'kills', unlockKills: 100, explosiveRadius: 6.5
+                id: 'TESLA', key: '5', name: "Arco Elettromagnetico Tesla", shortName: "ARCO TESLA", desc: "Fulmine a Catena (3 Bersagli)",
+                maxAmmo: 14, reloadTime: 1.45, fireRate: 0.42, damage: 95, adsDamage: 125, pellets: 1, hipSpread: 0.015, adsSpread: 0.0,
+                adsFov: 46, recoil: 0.14, colorHex: 0x38bdf8, uiColor: '#38bdf8', beamWidth: 0.04,
+                adsY: -0.15, adsZ: -0.33, tipZ: -0.60, secret: true,
+                reqKills: 75, reqWave: 5, reqBosses: 0, unlockLabel: "75 KILL + ONDATA 5",
+                singleShot: false, chainTargets: 3, chainRadius: 13.0
             },
             {
-                id: 'TESLA', key: '6', name: "Arco Elettromagnetico Tesla", shortName: "ARCO TESLA", desc: "Fulmine a Catena (4x)",
-                maxAmmo: 12, reloadTime: 1.5, fireRate: 0.55, damage: 145, adsDamage: 195, pellets: 1, hipSpread: 0.015, adsSpread: 0.0,
-                adsFov: 46, recoil: 0.16, colorHex: 0x38bdf8, uiColor: '#38bdf8', beamWidth: 0.042,
-                adsY: -0.15, adsZ: -0.33, tipZ: -0.60, secret: true, unlockType: 'boss', bossLevel: 1, unlockLabel: "BOSS ONDATA 10",
-                singleShot: true, chainTargets: 4, chainRadius: 14.0
+                id: 'HYDRA', key: '6', name: "Lanciarazzi Termico Hydra", shortName: "HYDRA RPG", desc: "Missili Termobarici ad Area",
+                maxAmmo: 5, reloadTime: 1.95, fireRate: 0.85, damage: 210, adsDamage: 270, pellets: 1, hipSpread: 0.02, adsSpread: 0.0,
+                adsFov: 44, recoil: 0.34, colorHex: 0x10b981, uiColor: '#10b981', beamWidth: 0.07,
+                adsY: -0.16, adsZ: -0.30, tipZ: -0.66, secret: true,
+                reqKills: 200, reqWave: 5, reqBosses: 1, unlockLabel: "1° BOSS + 200 KILL",
+                singleShot: true, explosiveRadius: 8.5, splashDamage: 115
             },
             {
-                id: 'HYDRA', key: '7', name: "Lanciarazzi Termico Hydra", shortName: "HYDRA RPG", desc: "Missili Termobarici",
-                maxAmmo: 4, reloadTime: 2.1, fireRate: 0.95, damage: 340, adsDamage: 440, pellets: 1, hipSpread: 0.02, adsSpread: 0.0,
-                adsFov: 44, recoil: 0.38, colorHex: 0x10b981, uiColor: '#10b981', beamWidth: 0.075,
-                adsY: -0.16, adsZ: -0.30, tipZ: -0.66, secret: true, unlockType: 'boss', bossLevel: 2, unlockLabel: "BOSS ONDATA 20",
-                singleShot: true, explosiveRadius: 9.5, splashDamage: 160
+                id: 'GAUSS', key: '7', name: "Cannone Gauss Quantico", shortName: "GAUSS-Q", desc: "Raggio Quantico Perforante",
+                maxAmmo: 7, reloadTime: 1.7, fireRate: 0.72, damage: 290, adsDamage: 390, pellets: 1, hipSpread: 0.01, adsSpread: 0.0,
+                adsFov: 32, recoil: 0.30, colorHex: 0xfbbf24, uiColor: '#fbbf24', beamWidth: 0.062,
+                adsY: -0.155, adsZ: -0.32, tipZ: -0.84, secret: true,
+                reqKills: 400, reqWave: 10, reqBosses: 2, unlockLabel: "2° BOSS + 400 KILL",
+                singleShot: true, isPiercing: true, explosiveRadius: 4.5, splashDamage: 75
             },
             {
-                id: 'GAUSS', key: '8', name: "Cannone Gauss Quantico", shortName: "GAUSS-Q", desc: "Raggio Quantico Perforante",
-                maxAmmo: 6, reloadTime: 1.8, fireRate: 0.85, damage: 480, adsDamage: 680, pellets: 1, hipSpread: 0.01, adsSpread: 0.0,
-                adsFov: 32, recoil: 0.34, colorHex: 0xfbbf24, uiColor: '#fbbf24', beamWidth: 0.068,
-                adsY: -0.155, adsZ: -0.32, tipZ: -0.84, secret: true, unlockType: 'boss', bossLevel: 3, unlockLabel: "BOSS ONDATA 30",
-                singleShot: true, isPiercing: true, explosiveRadius: 5.0, splashDamage: 90
+                id: 'SECRET', key: '8', name: "Singolarità Omega", shortName: "OMEGA-X", desc: "Cannone Antimateria Finale",
+                maxAmmo: 36, reloadTime: 1.3, fireRate: 0.14, damage: 68, adsDamage: 92, pellets: 2, hipSpread: 0.025, adsSpread: 0.006,
+                adsFov: 42, recoil: 0.11, colorHex: 0xd946ef, uiColor: '#d946ef', beamWidth: 0.048,
+                adsY: -0.155, adsZ: -0.34, tipZ: -0.62, secret: true,
+                reqKills: 750, reqWave: 15, reqBosses: 3, unlockLabel: "3° BOSS + 750 KILL",
+                explosiveRadius: 5.2, splashDamage: 42
             }
         ];
 
@@ -632,10 +719,41 @@ Ecco il codice intero corretto:
             { key: 'reload', name: 'Iniettori Rapidi', desc: '-12% Tempo di ricarica per livello', maxTier: 5, icon: '⚙️' }
         ];
 
+        const PRESTIGE_SKILLS = [
+            { key: 'vampiric', name: 'Munizioni Vampiriche', desc: 'Rigenera +4 HP per ogni livello ad ogni uccisione con quest\'arma', maxTier: 3, cost: 2, icon: '🩸' },
+            { key: 'nova', name: 'Innesco Instabile', desc: 'I nemici eliminati esplodono infliggendo danno plasma ai vicini', maxTier: 3, cost: 2, icon: '💥' },
+            { key: 'quantum', name: 'Riciclo Quantico', desc: '+20% probabilità per livello di non consumare il colpo e fare Danno Critico 1.5x', maxTier: 3, cost: 2, icon: '💠' }
+        ];
+
+        const PERK_TYPES = [
+            { id: 'DOUBLE_DMG', name: 'DOPPIA POTENZA', duration: 12, colorHex: 0xf43f5e, uiColor: '#f43f5e', icon: '⚔️' },
+            { id: 'HASTE', name: 'OVERDRIVE VELOCITÀ', duration: 12, colorHex: 0x38bdf8, uiColor: '#38bdf8', icon: '⚡' },
+            { id: 'INF_AMMO', name: 'MUNIZIONI INFINITE', duration: 10, colorHex: 0xfacc15, uiColor: '#facc15', icon: '♾️' },
+            { id: 'SHIELD', name: 'SCUDO INVULNERABILE', duration: 9, colorHex: 0xa855f7, uiColor: '#a855f7', icon: '🛡️' }
+        ];
+
         /**
-         * GESTORE PROFILO E PROGRESSI ARMI (localStorage)
+         * DEFINIZIONE DEI 15 TROFEI PLAYSTATION (Incluso il Platino)
          */
-        const PROFILE_STORAGE_KEY = 'cyberstrike_3d_player_profile_v2';
+        const PSN_TROPHIES = [
+            { id: 'FIRST_BLOOD', title: 'Battesimo Cyber', desc: 'Elimina 50 nemici in totale', tier: 'BRONZO', icon: '🥉', check: p => p.totalKills >= 50 },
+            { id: 'EXTERMINATOR', title: 'Sterminatore Meccanico', desc: 'Elimina 500 nemici in totale', tier: 'ARGENTO', icon: '🥈', check: p => p.totalKills >= 500 },
+            { id: 'CYBER_GOD', title: 'Furia Galattica', desc: 'Elimina 1.500 nemici in totale (Grind)', tier: 'ORO', icon: '🥇', check: p => p.totalKills >= 1500 },
+            { id: 'WAVE_10', title: 'Sopravvissuto Orbitale', desc: 'Raggiungi l\'Ondata 10', tier: 'BRONZO', icon: '🥉', check: p => p.bestWave >= 10 },
+            { id: 'WAVE_25', title: 'Veterano del Vuoto', desc: 'Raggiungi l\'Ondata 25', tier: 'ORO', icon: '🥇', check: p => p.bestWave >= 25 },
+            { id: 'BOSS_AEGIS', title: 'Cacciatore di Carrier', desc: 'Sconfiggi il Boss Aegis Drone-Carrier (Ondata 5)', tier: 'BRONZO', icon: '🥉', check: p => p.maxBossesDefeatedPermanent >= 1 },
+            { id: 'BOSS_SPIDER', title: 'Disinfestazione Pesante', desc: 'Sconfiggi il Boss Arachnotron Prime (Ondata 10)', tier: 'ARGENTO', icon: '🥈', check: p => p.maxBossesDefeatedPermanent >= 2 },
+            { id: 'BOSS_TITAN', title: 'Caduta dei Titani', desc: 'Sconfiggi il Boss Titan-Omega Mech (Ondata 15)', tier: 'ORO', icon: '🥇', check: p => p.maxBossesDefeatedPermanent >= 3 },
+            { id: 'PARKOUR_PRO', title: 'Acrobata Galattico', desc: 'Elimina 25 nemici mentre sei in volo sui Jump-Pad', tier: 'ARGENTO', icon: '🥈', check: p => p.airKills >= 25 },
+            { id: 'PERK_HUNTER', title: 'Sovraccarico Tattico', desc: 'Raccogli 25 Perk Temporanei in battaglia', tier: 'BRONZO', icon: '🥉', check: p => p.perksCollected >= 25 },
+            { id: 'FIRST_PRESTIGE', title: 'Oltre il Limite', desc: 'Effettua il Prestigio su almeno 1 arma nell\'Armeria', tier: 'ARGENTO', icon: '🥈', check: p => countPrestigedWeapons(p) >= 1 },
+            { id: 'MASTER_BLACKSMITH', title: 'Maestro Armaiolo', desc: 'Effettua il Prestigio su 4 armi diverse', tier: 'ORO', icon: '🥇', check: p => countPrestigedWeapons(p) >= 4 },
+            { id: 'ARSENAL_COMPLETE', title: 'Collezionista Prohibito', desc: 'Sblocca tutte le 4 Armi Segrete', tier: 'ORO', icon: '🥇', check: p => countUnlockedSecretWeapons(p) >= 4 },
+            { id: 'HIGH_SCORER', title: 'Leggenda dell\'Arena', desc: 'Supera 50.000 Punti in una singola partita', tier: 'ORO', icon: '🥇', check: p => p.bestScore >= 50000 },
+            { id: 'PLATINUM', title: 'Signore di CyberStrike', desc: 'Sblocca tutti gli altri 14 Trofei per platinare il gioco!', tier: 'PLATINO', icon: '💎', isPlatinum: true }
+        ];
+
+        const PROFILE_STORAGE_KEY = 'cyberstrike_3d_player_profile_v3';
 
         function createDefaultWeaponStats() {
             const stats = {};
@@ -644,7 +762,9 @@ Ecco il codice intero corretto:
                     xp: 0,
                     level: 1,
                     shopPoints: 0,
-                    upgrades: { damage: 0, fireRate: 0, ammo: 0, reload: 0 }
+                    prestige: 0,
+                    upgrades: { damage: 0, fireRate: 0, ammo: 0, reload: 0 },
+                    prestigeSkills: { vampiric: 0, nova: 0, quantum: 0 }
                 };
             });
             return stats;
@@ -655,31 +775,67 @@ Ecco il codice intero corretto:
             bestScore: 0,
             bestWave: 1,
             totalKills: 0,
+            airKills: 0,
+            perksCollected: 0,
             gamesPlayed: 0,
-            secretUnlockedPermanent: false,
             maxBossesDefeatedPermanent: 0,
             sensitivity: 1.0,
+            unlockedTrophies: [],
             weaponStats: createDefaultWeaponStats()
         };
 
         function getWeaponStats(weaponId) {
             if (!playerProfile.weaponStats[weaponId]) {
                 playerProfile.weaponStats[weaponId] = {
-                    xp: 0, level: 1, shopPoints: 0,
-                    upgrades: { damage: 0, fireRate: 0, ammo: 0, reload: 0 }
+                    xp: 0, level: 1, shopPoints: 0, prestige: 0,
+                    upgrades: { damage: 0, fireRate: 0, ammo: 0, reload: 0 },
+                    prestigeSkills: { vampiric: 0, nova: 0, quantum: 0 }
                 };
+            }
+            if (!playerProfile.weaponStats[weaponId].prestigeSkills) {
+                playerProfile.weaponStats[weaponId].prestigeSkills = { vampiric: 0, nova: 0, quantum: 0 };
+            }
+            if (typeof playerProfile.weaponStats[weaponId].prestige !== 'number') {
+                playerProfile.weaponStats[weaponId].prestige = 0;
             }
             return playerProfile.weaponStats[weaponId];
         }
 
+        function isWeaponMaxUpgraded(weaponId) {
+            const st = getWeaponStats(weaponId);
+            return UPGRADE_TYPES.every(u => (st.upgrades[u.key] || 0) >= u.maxTier);
+        }
+
+        function countPrestigedWeapons(prof = playerProfile) {
+            let count = 0;
+            WEAPONS.forEach(w => {
+                const st = prof.weaponStats?.[w.id];
+                if (st && st.prestige >= 1) count++;
+            });
+            return count;
+        }
+
+        function isWeaponUnlocked(w) {
+            if (!w.secret) return true;
+            const killsOk = playerProfile.totalKills >= (w.reqKills || 0);
+            const waveOk = playerProfile.bestWave >= (w.reqWave || 1);
+            const bossOk = playerProfile.maxBossesDefeatedPermanent >= (w.reqBosses || 0);
+            return killsOk && waveOk && bossOk;
+        }
+
+        function countUnlockedSecretWeapons() {
+            return WEAPONS.filter(w => w.secret && isWeaponUnlocked(w)).length;
+        }
+
         function getXpRequiredForNextLevel(level) {
-            return 80 + (level - 1) * 50;
+            return 75 + (level - 1) * 45;
         }
 
         function getEffectiveWeaponStats(w) {
             const st = getWeaponStats(w.id);
             const up = st.upgrades;
-            const dmgMult = 1 + up.damage * 0.15;
+            const prestigeBonus = 1 + (st.prestige || 0) * 0.15;
+            const dmgMult = (1 + up.damage * 0.15) * prestigeBonus;
             const rateMult = Math.max(0.35, 1 - up.fireRate * 0.10);
             const ammoMult = 1 + up.ammo * 0.20;
             const reloadMult = Math.max(0.35, 1 - up.reload * 0.12);
@@ -720,9 +876,67 @@ Ecco il codice intero corretto:
                 sound.playPickup();
                 showAnnouncement(
                     `⬆️ ${wObj ? wObj.shortName : weaponId} LIVELLO ${st.level}!`,
-                    `+1 Punto Negozio (PN) Sbloccato! Apri il Negozio Armi nel menu per potenziarla.`
+                    `+1 Punto Negozio (PN) Sbloccato! Apri l'Armeria nel menu per potenziarla.`
                 );
             }
+        }
+
+        /**
+         * SISTEMA CONTROLLO E NOTIFICA TROFEI PLAYSTATION
+         */
+        const trophyQueue = [];
+        let isShowingTrophyToast = false;
+
+        function checkTrophies() {
+            let newlyUnlocked = false;
+            PSN_TROPHIES.forEach(t => {
+                if (t.isPlatinum) return;
+                if (!playerProfile.unlockedTrophies.includes(t.id) && t.check(playerProfile)) {
+                    playerProfile.unlockedTrophies.push(t.id);
+                    trophyQueue.push(t);
+                    newlyUnlocked = true;
+                }
+            });
+
+            // Controlla se tutti i 14 trofei base sono sbloccati per assegnare il PLATINO
+            const nonPlatCount = PSN_TROPHIES.filter(t => !t.isPlatinum).length;
+            const unlockedNonPlat = playerProfile.unlockedTrophies.filter(id => id !== 'PLATINUM').length;
+            if (unlockedNonPlat >= nonPlatCount && !playerProfile.unlockedTrophies.includes('PLATINUM')) {
+                const plat = PSN_TROPHIES.find(t => t.isPlatinum);
+                playerProfile.unlockedTrophies.push('PLATINUM');
+                trophyQueue.push(plat);
+                newlyUnlocked = true;
+            }
+
+            if (newlyUnlocked) {
+                savePlayerProfile();
+                processTrophyToastQueue();
+            }
+        }
+
+        function processTrophyToastQueue() {
+            if (isShowingTrophyToast || trophyQueue.length === 0) return;
+            isShowingTrophyToast = true;
+            const t = trophyQueue.shift();
+
+            const toast = document.getElementById('psn-trophy-toast');
+            document.getElementById('psn-toast-icon').textContent = t.icon;
+            document.getElementById('psn-toast-tier').textContent = t.tier;
+            document.getElementById('psn-toast-title').textContent = t.title;
+            document.getElementById('psn-toast-desc').textContent = t.desc;
+
+            sound.playTrophyUnlock();
+            toast.classList.remove('translate-x-[130%]');
+            toast.classList.add('translate-x-0');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-x-0');
+                toast.classList.add('translate-x-[130%]');
+                setTimeout(() => {
+                    isShowingTrophyToast = false;
+                    processTrophyToastQueue();
+                }, 550);
+            }, 3400);
         }
 
         function loadPlayerProfile() {
@@ -734,23 +948,32 @@ Ecco il codice intero corretto:
                     playerProfile.bestScore = Number(parsed.bestScore) || 0;
                     playerProfile.bestWave = Number(parsed.bestWave) || 1;
                     playerProfile.totalKills = Number(parsed.totalKills) || 0;
+                    playerProfile.airKills = Number(parsed.airKills) || 0;
+                    playerProfile.perksCollected = Number(parsed.perksCollected) || 0;
                     playerProfile.gamesPlayed = Number(parsed.gamesPlayed) || 0;
-                    playerProfile.secretUnlockedPermanent = Boolean(parsed.secretUnlockedPermanent);
                     playerProfile.maxBossesDefeatedPermanent = Number(parsed.maxBossesDefeatedPermanent) || 0;
                     playerProfile.sensitivity = Number(parsed.sensitivity) || 1.0;
+                    playerProfile.unlockedTrophies = Array.isArray(parsed.unlockedTrophies) ? parsed.unlockedTrophies : [];
 
                     if (parsed.weaponStats) {
                         WEAPONS.forEach(w => {
                             if (parsed.weaponStats[w.id]) {
+                                const src = parsed.weaponStats[w.id];
                                 playerProfile.weaponStats[w.id] = {
-                                    xp: Number(parsed.weaponStats[w.id].xp) || 0,
-                                    level: Number(parsed.weaponStats[w.id].level) || 1,
-                                    shopPoints: Number(parsed.weaponStats[w.id].shopPoints) || 0,
+                                    xp: Number(src.xp) || 0,
+                                    level: Number(src.level) || 1,
+                                    shopPoints: Number(src.shopPoints) || 0,
+                                    prestige: Number(src.prestige) || 0,
                                     upgrades: {
-                                        damage: Number(parsed.weaponStats[w.id].upgrades?.damage) || 0,
-                                        fireRate: Number(parsed.weaponStats[w.id].upgrades?.fireRate) || 0,
-                                        ammo: Number(parsed.weaponStats[w.id].upgrades?.ammo) || 0,
-                                        reload: Number(parsed.weaponStats[w.id].upgrades?.reload) || 0
+                                        damage: Number(src.upgrades?.damage) || 0,
+                                        fireRate: Number(src.upgrades?.fireRate) || 0,
+                                        ammo: Number(src.upgrades?.ammo) || 0,
+                                        reload: Number(src.upgrades?.reload) || 0
+                                    },
+                                    prestigeSkills: {
+                                        vampiric: Number(src.prestigeSkills?.vampiric) || 0,
+                                        nova: Number(src.prestigeSkills?.nova) || 0,
+                                        quantum: Number(src.prestigeSkills?.quantum) || 0
                                     }
                                 };
                             }
@@ -793,13 +1016,14 @@ Ecco il codice intero corretto:
             playerProfile.bestScore = 0;
             playerProfile.bestWave = 1;
             playerProfile.totalKills = 0;
+            playerProfile.airKills = 0;
+            playerProfile.perksCollected = 0;
             playerProfile.gamesPlayed = 0;
-            playerProfile.secretUnlockedPermanent = false;
             playerProfile.maxBossesDefeatedPermanent = 0;
             playerProfile.sensitivity = 1.0;
+            playerProfile.unlockedTrophies = [];
             playerProfile.weaponStats = createDefaultWeaponStats();
 
-            state.secretUnlocked = false;
             state.bossesDefeated = 0;
             savePlayerProfile();
             refreshWeaponWheelUI();
@@ -820,10 +1044,16 @@ Ecco il codice intero corretto:
             document.getElementById('profile-best-score').textContent = playerProfile.bestScore;
             document.getElementById('profile-best-wave').textContent = playerProfile.bestWave;
             document.getElementById('profile-total-kills').textContent = playerProfile.totalKills;
-            document.getElementById('profile-games').textContent = playerProfile.gamesPlayed;
 
-            const unlockedSecretCount = (playerProfile.secretUnlockedPermanent ? 1 : 0) + Math.min(3, playerProfile.maxBossesDefeatedPermanent);
+            const unlockedSecretCount = countUnlockedSecretWeapons();
             document.getElementById('profile-unlocked-weapons').textContent = `${unlockedSecretCount}/4`;
+
+            const tCount = playerProfile.unlockedTrophies.length;
+            const tPct = Math.round((tCount / PSN_TROPHIES.length) * 100);
+            const tCountEl = document.getElementById('profile-trophies-count');
+            if (tCountEl) tCountEl.textContent = `${tCount}/${PSN_TROPHIES.length}`;
+            const tBadge = document.getElementById('menu-trophy-badge');
+            if (tBadge) tBadge.textContent = `${tPct}%`;
 
             const shopBadge = document.getElementById('menu-shop-badge');
             if (shopBadge) {
@@ -973,6 +1203,38 @@ Ecco il codice intero corretto:
                 osc.start(now);
                 osc.stop(now + 0.21);
             }
+            playTrophyUnlock() {
+                if (!this.ctx || !this.enabled) return;
+                const now = this.ctx.currentTime;
+                const notes = [587.33, 880, 1174.66];
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+                    gain.gain.setValueAtTime(0.2, now + idx * 0.09);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + idx * 0.09);
+                    osc.stop(now + idx * 0.09 + 0.36);
+                });
+            }
+            playJumpPad() {
+                if (!this.ctx || !this.enabled) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(960, now + 0.28);
+                gain.gain.setValueAtTime(0.24, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.31);
+            }
             playPlayerDamage() {
                 if (!this.ctx || !this.enabled) return;
                 const now = this.ctx.currentTime;
@@ -993,46 +1255,40 @@ Ecco il codice intero corretto:
         const sound = new CyberSoundEngine();
 
         const GAME_CONFIG = {
-            arenaHalfSize: 55,
+            arenaHalfSize: 60,
             playerHeight: 2.2,
             playerRadius: 0.9,
-            moveSpeed: 13.0,
+            moveSpeed: 13.5,
             sprintMultiplier: 1.5,
-            jumpForce: 11.5,
+            jumpForce: 12.2,
             gravity: 26.0,
             baseSensitivity: 0.0022
         };
 
         const state = {
             mode: 'MENU', score: 0, wave: 1, kills: 0,
-            secretUnlocked: false,
             bossesDefeated: 0,
             currentWeaponIndex: 0,
             selectedShopWeaponIdx: 0,
             weaponClips: WEAPONS.map(w => w.maxAmmo),
             isWheelOpen: false, hoveredWheelIndex: 0, wheelMouseX: 0, wheelMouseY: 0,
-            health: 100, maxHealth: 100, stamina: 100, maxStamina: 100, ammo: 30,
+            health: 100, maxHealth: 100, stamina: 100, maxStamina: 100, ammo: 32,
             isReloading: false, reloadTimer: 0, fireCooldown: 0, isFiring: false,
             isAiming: false, adsProgress: 0, sensitivityMultiplier: 1.0,
             enemiesToSpawn: 0, spawnTimer: 0, waveTransitionTimer: 0, inWaveTransition: false,
             activeBoss: null,
+            activePerks: { DOUBLE_DMG: 0, HASTE: 0, INF_AMMO: 0, SHIELD: 0 },
             needsStaticRender: true
         };
 
         function getCurrentWeapon() { return WEAPONS[state.currentWeaponIndex]; }
-
-        function isWeaponUnlocked(w) {
-            if (!w.secret) return true;
-            if (w.unlockType === 'kills') return state.secretUnlocked || playerProfile.secretUnlockedPermanent;
-            if (w.unlockType === 'boss') return Math.max(state.bossesDefeated, playerProfile.maxBossesDefeatedPermanent) >= w.bossLevel;
-            return false;
-        }
 
         const canvas = document.getElementById('game-canvas');
         const radarCanvas = document.getElementById('radar-canvas');
         const radarCtx = radarCanvas ? radarCanvas.getContext('2d') : null;
         const menuOverlay = document.getElementById('menu-overlay');
         const shopOverlay = document.getElementById('shop-overlay');
+        const trophiesOverlay = document.getElementById('trophies-overlay');
         const menuTitle = document.getElementById('menu-title');
         const menuSubtitle = document.getElementById('menu-subtitle');
         const gameoverStats = document.getElementById('gameover-stats');
@@ -1042,6 +1298,8 @@ Ecco il codice intero corretto:
         const btnStartGame = document.getElementById('btn-start-game');
         const btnOpenShop = document.getElementById('btn-open-shop');
         const btnCloseShop = document.getElementById('btn-close-shop');
+        const btnOpenTrophies = document.getElementById('btn-open-trophies');
+        const btnCloseTrophies = document.getElementById('btn-close-trophies');
         const btnPause = document.getElementById('btn-pause');
         const btnMute = document.getElementById('btn-mute');
         const sensSlider = document.getElementById('sens-slider');
@@ -1063,6 +1321,7 @@ Ecco il codice intero corretto:
         const bossHealthText = document.getElementById('boss-health-text');
         const bossHealthBar = document.getElementById('boss-health-bar');
         const bossNameLabel = document.getElementById('boss-name-label');
+        const activePerksBar = document.getElementById('active-perks-bar');
 
         const hudAmmoClip = document.getElementById('hud-ammo-clip');
         const hudAmmoMax = document.getElementById('hud-ammo-max');
@@ -1088,6 +1347,7 @@ Ecco il codice intero corretto:
         const announcementSubtitle = document.getElementById('announcement-subtitle');
 
         let scene, camera, renderer, clock;
+        let galaxyGroup = null;
         let weaponGroup, weaponBarrelTip, muzzleLight, muzzleMesh;
         const weaponModels = {};
         let omegaCoreOrb = null;
@@ -1100,7 +1360,6 @@ Ecco il codice intero corretto:
         let scopeSwayTimer = 0;
         let scopeRecoilKick = 0;
 
-        // Geometrie condivise per azzerare allocazioni di memoria durante il gioco
         let sharedParticleGeo = null;
         let sharedProjectileGeo = null;
         let sharedBossProjGeo = null;
@@ -1113,6 +1372,7 @@ Ecco il codice intero corretto:
         const cameraEuler = new THREE.Euler(0, 0, 0, 'YXZ');
 
         const obstacles = [];
+        const jumpPads = [];
         const enemies = [];
         const enemyProjectiles = [];
         const playerLasers = [];
@@ -1130,7 +1390,7 @@ Ecco il codice intero corretto:
         const touchMoveVector = { x: 0, y: 0 };
 
         /**
-         * LOGICA NEGOZIO ARMI OTTIMIZZATA (Costruzione singola + Event Delegation = Zero Lag)
+         * LOGICA NEGOZIO ARMI + PRESTIGIO
          */
         let shopDomInitialized = false;
 
@@ -1140,6 +1400,8 @@ Ecco il codice intero corretto:
 
             const tabsContainer = document.getElementById('shop-weapons-tabs');
             const grid = document.getElementById('shop-upgrades-grid');
+            const prestigeGrid = document.getElementById('shop-prestige-skills-grid');
+            const btnDoPrestige = document.getElementById('btn-do-prestige');
 
             tabsContainer.innerHTML = '';
             WEAPONS.forEach((w, idx) => {
@@ -1208,6 +1470,57 @@ Ecco il codice intero corretto:
                 refreshWeaponWheelUI();
                 updateHUD();
             });
+
+            btnDoPrestige.addEventListener('click', () => {
+                const w = WEAPONS[state.selectedShopWeaponIdx];
+                const st = getWeaponStats(w.id);
+                if (!isWeaponMaxUpgraded(w.id) || st.shopPoints < 2) return;
+
+                st.shopPoints -= 2;
+                st.prestige = (st.prestige || 0) + 1;
+                sound.playTrophyUnlock();
+                checkTrophies();
+                savePlayerProfile();
+                renderShopUI();
+                refreshWeaponWheelUI();
+                updateHUD();
+            });
+
+            prestigeGrid.innerHTML = '';
+            PRESTIGE_SKILLS.forEach(sk => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-950 rounded-xl p-3 border border-fuchsia-500/30 flex flex-col justify-between gap-2';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-cyber font-bold text-fuchsia-300">${sk.icon} ${sk.name}</span>
+                            <span id="shop-psk-tier-${sk.key}" class="text-[10px] font-cyber text-amber-400">0/${sk.maxTier}</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-1">${sk.desc}</p>
+                    </div>
+                    <button type="button" id="shop-psk-btn-${sk.key}" data-psk="${sk.key}" class="w-full py-1.5 rounded-lg font-cyber text-[11px] font-black uppercase tracking-wider transition">
+                        SBLOCCA (${sk.cost} PN)
+                    </button>
+                `;
+                prestigeGrid.appendChild(card);
+            });
+
+            prestigeGrid.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-psk]');
+                if (!btn || btn.disabled) return;
+                const pskKey = btn.dataset.psk;
+                const w = WEAPONS[state.selectedShopWeaponIdx];
+                const st = getWeaponStats(w.id);
+                const sk = PRESTIGE_SKILLS.find(item => item.key === pskKey);
+                if (!sk || st.prestige < 1 || st.shopPoints < sk.cost || st.prestigeSkills[pskKey] >= sk.maxTier) return;
+
+                st.shopPoints -= sk.cost;
+                st.prestigeSkills[pskKey]++;
+                sound.playPickup();
+                savePlayerProfile();
+                renderShopUI();
+                updateHUD();
+            });
         }
 
         function openShop() {
@@ -1238,9 +1551,10 @@ Ecco il codice intero corretto:
                     }`;
                 }
                 if (sub) {
+                    const pBadge = st.prestige > 0 ? `<span class="text-fuchsia-400 font-black">★P${st.prestige}</span> ` : '';
                     sub.innerHTML = unlocked
-                        ? `LVL ${st.level} ${st.shopPoints > 0 ? `<span class="text-amber-400 font-bold">• ${st.shopPoints} PN</span>` : ''}`
-                        : '🔒 Bloccata';
+                        ? `${pBadge}LVL ${st.level} ${st.shopPoints > 0 ? `<span class="text-amber-400 font-bold">• ${st.shopPoints} PN</span>` : ''}`
+                        : `🔒 ${w.unlockLabel}`;
                 }
             });
 
@@ -1253,6 +1567,15 @@ Ecco il codice intero corretto:
             document.getElementById('shop-weapon-title').textContent = w.name;
             document.getElementById('shop-weapon-title').style.color = w.uiColor;
             document.getElementById('shop-weapon-level-badge').textContent = `LIVELLO ${st.level}`;
+
+            const pBadgeEl = document.getElementById('shop-weapon-prestige-badge');
+            if (st.prestige > 0) {
+                pBadgeEl.textContent = `★ PRESTIGIO ${st.prestige} (+${st.prestige * 15}% DANNO)`;
+                pBadgeEl.classList.remove('hidden');
+            } else {
+                pBadgeEl.classList.add('hidden');
+            }
+
             document.getElementById('shop-weapon-desc').textContent = `${w.desc} — Danno: ${eff.damage} | Caricatore: ${eff.maxAmmo} | Ricarica: ${eff.reloadTime.toFixed(2)}s`;
             document.getElementById('shop-weapon-points').textContent = `${st.shopPoints} PN`;
             document.getElementById('shop-weapon-xp-text').textContent = `${st.xp} / ${reqXp} XP`;
@@ -1287,24 +1610,130 @@ Ecco il codice intero corretto:
                     }`;
                 }
             });
+
+            // Stato Prestigio
+            const allMaxed = isWeaponMaxUpgraded(w.id);
+            const canPrestige = allMaxed && st.shopPoints >= 2;
+            const btnPrestige = document.getElementById('btn-do-prestige');
+            const prestigeTitle = document.getElementById('prestige-status-title');
+
+            if (st.prestige > 0) {
+                prestigeTitle.textContent = `Prestigio Attivo (Grado ★${st.prestige})! Puoi salire ancora di Prestigio o potenziare le Abilità qui sotto:`;
+            } else if (allMaxed) {
+                prestigeTitle.textContent = `Tutti i moduli sono al Massimo! Attiva il Prestigio per sbloccare le Abilità Prestigio!`;
+            } else {
+                prestigeTitle.textContent = `Completa tutti i 4 potenziamenti base al Grado 5/5 per sbloccare il Prestigio Arma`;
+            }
+
+            btnPrestige.disabled = !canPrestige;
+            btnPrestige.textContent = st.prestige > 0 ? `★ PRESTIGIO +1 (2 PN)` : `★ ATTIVA PRESTIGIO (2 PN)`;
+            btnPrestige.className = `px-4 py-2.5 rounded-xl font-cyber text-xs font-black uppercase tracking-wider transition shrink-0 ${
+                canPrestige
+                    ? 'bg-gradient-to-r from-fuchsia-500 to-amber-500 hover:from-fuchsia-400 hover:to-amber-400 text-slate-950 cursor-pointer shadow-[0_0_20px_rgba(217,70,239,0.5)]'
+                    : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+            }`;
+
+            PRESTIGE_SKILLS.forEach(sk => {
+                const cur = st.prestigeSkills[sk.key] || 0;
+                const isMax = cur >= sk.maxTier;
+                const unlockedPrestige = st.prestige >= 1;
+                const canBuy = unlockedPrestige && !isMax && st.shopPoints >= sk.cost;
+
+                const tierEl = document.getElementById(`shop-psk-tier-${sk.key}`);
+                if (tierEl) tierEl.textContent = `GRADO ${cur}/${sk.maxTier}`;
+
+                const btn = document.getElementById(`shop-psk-btn-${sk.key}`);
+                if (btn) {
+                    btn.disabled = !canBuy;
+                    if (!unlockedPrestige) {
+                        btn.textContent = '🔒 RICHIEDE PRESTIGIO';
+                        btn.className = 'w-full py-1.5 rounded-lg font-cyber text-[10px] font-bold bg-slate-900 text-slate-600 cursor-not-allowed';
+                    } else if (isMax) {
+                        btn.textContent = '✓ ABILITÀ MASSIMA';
+                        btn.className = 'w-full py-1.5 rounded-lg font-cyber text-[10px] font-black bg-fuchsia-950/60 border border-fuchsia-400/50 text-fuchsia-300 cursor-default';
+                    } else {
+                        btn.textContent = `POTENZIA (${sk.cost} PN)`;
+                        btn.className = `w-full py-1.5 rounded-lg font-cyber text-[10px] font-black uppercase transition ${
+                            canBuy ? 'bg-fuchsia-500 hover:bg-fuchsia-400 text-slate-950 cursor-pointer' : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                        }`;
+                    }
+                }
+            });
+        }
+
+        /**
+         * BACHECA TROFEI PLAYSTATION
+         */
+        function openTrophiesModal() {
+            checkTrophies();
+            const grid = document.getElementById('trophies-grid');
+            grid.innerHTML = '';
+
+            const unlockedCount = playerProfile.unlockedTrophies.length;
+            const totalCount = PSN_TROPHIES.length;
+            const pct = Math.round((unlockedCount / totalCount) * 100);
+
+            document.getElementById('trophies-progress-pct').textContent = `${pct}% (${unlockedCount}/${totalCount})`;
+            document.getElementById('trophies-progress-bar').style.width = `${pct}%`;
+
+            PSN_TROPHIES.forEach(t => {
+                const isUnlocked = playerProfile.unlockedTrophies.includes(t.id);
+                const card = document.createElement('div');
+                card.className = `p-3.5 rounded-xl border flex items-center gap-3.5 transition ${
+                    isUnlocked
+                        ? (t.isPlatinum ? 'bg-gradient-to-r from-indigo-950/90 via-fuchsia-950/90 to-slate-900 border-amber-300 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : 'bg-slate-900/95 border-cyan-400/60')
+                        : 'bg-slate-950/80 border-slate-800 opacity-60'
+                }`;
+
+                const tierColors = {
+                    'BRONZO': 'text-amber-600 border-amber-600/40 bg-amber-950/40',
+                    'ARGENTO': 'text-slate-200 border-slate-400/40 bg-slate-800/60',
+                    'ORO': 'text-amber-300 border-amber-400/50 bg-amber-500/20',
+                    'PLATINO': 'text-cyan-200 border-cyan-300 bg-cyan-500/30'
+                };
+
+                card.innerHTML = `
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 ${isUnlocked ? 'bg-slate-800 border border-amber-400/50' : 'bg-slate-900 border border-slate-800'}">
+                        ${isUnlocked ? t.icon : '🔒'}
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between gap-1">
+                            <span class="text-[9px] font-cyber font-bold px-1.5 py-0.5 rounded border ${tierColors[t.tier] || ''}">${t.tier}</span>
+                            <span class="text-[9px] font-cyber ${isUnlocked ? 'text-emerald-400 font-bold' : 'text-slate-500'}">${isUnlocked ? '✓ SBLOCCATO' : 'BLOCCATO'}</span>
+                        </div>
+                        <div class="text-xs font-cyber font-black text-white truncate mt-1">${t.title}</div>
+                        <div class="text-[10px] text-slate-400 leading-tight mt-0.5">${t.desc}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            trophiesOverlay.classList.remove('hidden');
+            trophiesOverlay.classList.add('flex');
+        }
+
+        function closeTrophiesModal() {
+            trophiesOverlay.classList.add('hidden');
+            trophiesOverlay.classList.remove('flex');
+            updateProfileUI();
         }
 
         function initThreeJS() {
             loadPlayerProfile();
-            state.secretUnlocked = playerProfile.secretUnlockedPermanent;
             state.bossesDefeated = playerProfile.maxBossesDefeatedPermanent;
             state.sensitivityMultiplier = playerProfile.sensitivity;
             sensSlider.value = playerProfile.sensitivity;
             sensValue.textContent = playerProfile.sensitivity.toFixed(1) + 'x';
             state.weaponClips = WEAPONS.map(w => getEffectiveWeaponStats(w).maxAmmo);
             state.ammo = state.weaponClips[0];
+            checkTrophies();
             updateProfileUI();
 
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x050711);
-            scene.fog = new THREE.FogExp2(0x050711, 0.013);
+            scene.background = new THREE.Color(0x03040c);
+            scene.fog = new THREE.FogExp2(0x040614, 0.0065);
 
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 360);
             camera.position.set(0, GAME_CONFIG.playerHeight, 0);
 
             renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, powerPreference: 'high-performance' });
@@ -1313,20 +1742,21 @@ Ecco il codice intero corretto:
 
             clock = new THREE.Clock();
 
-            sharedParticleGeo = new THREE.BoxGeometry(0.14, 0.14, 0.14);
-            sharedProjectileGeo = new THREE.SphereGeometry(0.22, 6, 6);
-            sharedBossProjGeo = new THREE.SphereGeometry(0.4, 6, 6);
+            sharedParticleGeo = new THREE.BoxGeometry(0.16, 0.16, 0.16);
+            sharedProjectileGeo = new THREE.SphereGeometry(0.24, 6, 6);
+            sharedBossProjGeo = new THREE.SphereGeometry(0.44, 6, 6);
 
-            scene.add(new THREE.AmbientLight(0x1e293b, 1.5));
-            const dirLight = new THREE.DirectionalLight(0x38bdf8, 0.95);
-            dirLight.position.set(30, 50, 20);
+            scene.add(new THREE.AmbientLight(0x2dd4bf, 1.35));
+            const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.0);
+            dirLight.position.set(35, 60, 25);
             scene.add(dirLight);
 
-            const backLight = new THREE.DirectionalLight(0xf43f5e, 0.55);
-            backLight.position.set(-30, 40, -25);
+            const backLight = new THREE.DirectionalLight(0xd946ef, 0.65);
+            backLight.position.set(-35, 50, -30);
             scene.add(backLight);
 
-            buildCyberArena();
+            buildGalaxySky();
+            buildCyberArenaWithParkour();
             buildFirstPersonWeapon();
             buildWeaponWheelUI();
             setupInputListeners();
@@ -1334,22 +1764,133 @@ Ecco il codice intero corretto:
             state.needsStaticRender = true;
         }
 
-        function buildCyberArena() {
+        /**
+         * CIELO GALATTICO CON NEBULOSA, CAMPO STELLARE E PIANETA ANELLATO
+         */
+        function buildGalaxySky() {
+            galaxyGroup = new THREE.Group();
+
+            // 1. 2200 Stelle Multicolore nel cielo profondo
+            const starCount = 2200;
+            const positions = new Float32Array(starCount * 3);
+            const colors = new Float32Array(starCount * 3);
+            const palette = [
+                new THREE.Color(0x67e8f9),
+                new THREE.Color(0xf472b6),
+                new THREE.Color(0xc084fc),
+                new THREE.Color(0xfef08a),
+                new THREE.Color(0xffffff)
+            ];
+
+            for (let i = 0; i < starCount; i++) {
+                const r = 135 + Math.random() * 140;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.random() * Math.PI * 0.62;
+                positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+                positions[i * 3 + 1] = Math.abs(r * Math.cos(phi)) + 6;
+                positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+
+                const col = palette[Math.floor(Math.random() * palette.length)];
+                colors[i * 3] = col.r;
+                colors[i * 3 + 1] = col.g;
+                colors[i * 3 + 2] = col.b;
+            }
+
+            const starGeo = new THREE.BufferGeometry();
+            starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            starGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            const starMat = new THREE.PointsMaterial({ size: 1.35, vertexColors: true, transparent: true, opacity: 0.92, fog: false });
+            galaxyGroup.add(new THREE.Points(starGeo, starMat));
+
+            // 2. Spirale Galattica / Nebulosa sopra l'arena
+            const nebulaCount = 900;
+            const nebPos = new Float32Array(nebulaCount * 3);
+            const nebCol = new Float32Array(nebulaCount * 3);
+            for (let i = 0; i < nebulaCount; i++) {
+                const arm = i % 2;
+                const t = (i / nebulaCount) * Math.PI * 4;
+                const radius = 15 + (i / nebulaCount) * 110;
+                const angle = t + arm * Math.PI + (Math.random() - 0.5) * 0.5;
+                nebPos[i * 3] = Math.cos(angle) * radius;
+                nebPos[i * 3 + 1] = 105 + Math.sin(radius * 0.05) * 12 + (Math.random() - 0.5) * 8;
+                nebPos[i * 3 + 2] = Math.sin(angle) * radius;
+
+                const c = i % 3 === 0 ? new THREE.Color(0xd946ef) : (i % 3 === 1 ? new THREE.Color(0x22d3ee) : new THREE.Color(0x818cf8));
+                nebCol[i * 3] = c.r;
+                nebCol[i * 3 + 1] = c.g;
+                nebCol[i * 3 + 2] = c.b;
+            }
+            const nebGeo = new THREE.BufferGeometry();
+            nebGeo.setAttribute('position', new THREE.BufferAttribute(nebPos, 3));
+            nebGeo.setAttribute('color', new THREE.BufferAttribute(nebCol, 3));
+            const nebMat = new THREE.PointsMaterial({ size: 2.6, vertexColors: true, transparent: true, opacity: 0.78, fog: false });
+            galaxyGroup.add(new THREE.Points(nebGeo, nebMat));
+
+            // 3. Pianeta Gigante Cyber con Anello Luminoso
+            const planetGroup = new THREE.Group();
+            const planetMesh = new THREE.Mesh(
+                new THREE.SphereGeometry(22, 20, 20),
+                new THREE.MeshBasicMaterial({ color: 0x3b0764, fog: false })
+            );
+            planetGroup.add(planetMesh);
+
+            const planetWire = new THREE.Mesh(
+                new THREE.SphereGeometry(22.3, 14, 14),
+                new THREE.MeshBasicMaterial({ color: 0xd946ef, wireframe: true, transparent: true, opacity: 0.35, fog: false })
+            );
+            planetGroup.add(planetWire);
+
+            const ringMesh = new THREE.Mesh(
+                new THREE.RingGeometry(28, 44, 32),
+                new THREE.MeshBasicMaterial({ color: 0x22d3ee, side: THREE.DoubleSide, transparent: true, opacity: 0.5, fog: false })
+            );
+            ringMesh.rotation.x = Math.PI / 2.4;
+            planetGroup.add(ringMesh);
+
+            planetGroup.position.set(-95, 78, -125);
+            galaxyGroup.add(planetGroup);
+
+            scene.add(galaxyGroup);
+        }
+
+        /**
+         * ARENA CON PIATTAFORME PARKOUR, PONTI SOSPESI E JUMP-PAD
+         */
+        function addBlockObstacle(x, minY, z, w, h, d, mat, trimMat) {
+            const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+            mesh.position.set(x, minY + h / 2, z);
+            scene.add(mesh);
+
+            if (trimMat) {
+                const neonTrim = new THREE.Mesh(new THREE.BoxGeometry(w + 0.1, 0.16, d + 0.1), trimMat);
+                neonTrim.position.set(x, minY + h - 0.08, z);
+                scene.add(neonTrim);
+            }
+
+            obstacles.push({
+                mesh,
+                minX: x - w / 2, maxX: x + w / 2,
+                minZ: z - d / 2, maxZ: z + d / 2,
+                minY: minY, maxY: minY + h
+            });
+        }
+
+        function buildCyberArenaWithParkour() {
             const half = GAME_CONFIG.arenaHalfSize;
 
             const floorGeo = new THREE.PlaneGeometry(half * 2, half * 2);
-            const floorMat = new THREE.MeshBasicMaterial({ color: 0x090d1e });
+            const floorMat = new THREE.MeshBasicMaterial({ color: 0x070a18 });
             const floor = new THREE.Mesh(floorGeo, floorMat);
             floor.rotation.x = -Math.PI / 2;
             scene.add(floor);
 
-            const grid = new THREE.GridHelper(half * 2, 44, 0x22d3ee, 0x1e293b);
+            const grid = new THREE.GridHelper(half * 2, 48, 0x22d3ee, 0x1e1b4b);
             grid.position.y = 0.02;
             scene.add(grid);
 
-            const wallHeight = 9;
-            const wallMat = new THREE.MeshBasicMaterial({ color: 0x0f172a });
-            const neonStripMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee });
+            const wallHeight = 12;
+            const wallMat = new THREE.MeshBasicMaterial({ color: 0x090d20 });
+            const neonStripMat = new THREE.MeshBasicMaterial({ color: 0xd946ef });
 
             const wallConfigs = [
                 { x: 0, z: -half, rotY: 0 },
@@ -1364,7 +1905,7 @@ Ecco il codice intero corretto:
                 wallMesh.position.y = wallHeight / 2;
                 wallGroup.add(wallMesh);
 
-                const strip = new THREE.Mesh(new THREE.BoxGeometry(half * 2, 0.25, 1.6), neonStripMat);
+                const strip = new THREE.Mesh(new THREE.BoxGeometry(half * 2, 0.3, 1.6), neonStripMat);
                 strip.position.y = wallHeight - 0.6;
                 wallGroup.add(strip);
 
@@ -1374,27 +1915,64 @@ Ecco il codice intero corretto:
             });
 
             const pillarMat = new THREE.MeshBasicMaterial({ color: 0x1e293b });
-            const accentMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4 });
+            const platMat = new THREE.MeshBasicMaterial({ color: 0x0f172a });
+            const cyanTrim = new THREE.MeshBasicMaterial({ color: 0x22d3ee });
+            const magentaTrim = new THREE.MeshBasicMaterial({ color: 0xd946ef });
+            const amberTrim = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
 
-            const pillarCoords = [
-                [-18, -18, 3.2, 6.5, 3.2], [18, -18, 3.2, 6.5, 3.2],
-                [-18, 18, 3.2, 6.5, 3.2], [18, 18, 3.2, 6.5, 3.2],
-                [0, -28, 6.0, 4.0, 2.5], [0, 28, 6.0, 4.0, 2.5],
-                [-28, 0, 2.5, 4.0, 6.0], [28, 0, 2.5, 4.0, 6.0],
-                [-10, 0, 2.4, 3.2, 2.4], [10, 0, 2.4, 3.2, 2.4],
-                [0, -11, 2.4, 3.2, 2.4], [0, 11, 2.4, 3.2, 2.4]
+            // Torre Centrale Parkour a Gradoni + Ponti Sospesi
+            addBlockObstacle(0, 0, 14, 5.5, 1.2, 4.0, platMat, cyanTrim);
+            addBlockObstacle(0, 0, 10, 5.5, 2.4, 4.0, platMat, cyanTrim);
+            addBlockObstacle(0, 0, 0, 10.0, 3.6, 10.0, pillarMat, magentaTrim); // Piattaforma centrale alta 3.6m
+
+            // 4 Torri Angolari Parkour (altezza 5.0m)
+            const towers = [[-24, -24], [24, -24], [-24, 24], [24, 24]];
+            towers.forEach(([tx, tz]) => {
+                addBlockObstacle(tx, 0, tz, 8.0, 5.0, 8.0, pillarMat, cyanTrim);
+            });
+
+            // Passerelle Sospese (Floating Skybridges) tra il centro e le torri
+            addBlockObstacle(-13, 3.8, -13, 5.0, 0.6, 5.0, platMat, amberTrim);
+            addBlockObstacle(13, 3.8, -13, 5.0, 0.6, 5.0, platMat, amberTrim);
+            addBlockObstacle(-13, 3.8, 13, 5.0, 0.6, 5.0, platMat, amberTrim);
+            addBlockObstacle(13, 3.8, 13, 5.0, 0.6, 5.0, platMat, amberTrim);
+
+            // Piattaforme Laterali Medie
+            addBlockObstacle(0, 0, -28, 10.0, 3.2, 4.5, pillarMat, cyanTrim);
+            addBlockObstacle(-28, 0, 0, 4.5, 3.2, 10.0, pillarMat, cyanTrim);
+            addBlockObstacle(28, 0, 0, 4.5, 3.2, 10.0, pillarMat, cyanTrim);
+
+            // 4 JUMP-PAD ENERGETICI NEON (ti lanciano in alto per il parkour!)
+            const padCoords = [
+                [-18, 0], [18, 0], [0, -18], [0, 22]
             ];
+            padCoords.forEach(([px, pz]) => {
+                const padGroup = new THREE.Group();
+                const base = new THREE.Mesh(
+                    new THREE.CylinderGeometry(1.7, 2.0, 0.3, 12),
+                    new THREE.MeshBasicMaterial({ color: 0x0f172a })
+                );
+                base.position.y = 0.15;
+                padGroup.add(base);
 
-            pillarCoords.forEach(([x, z, w, h, d]) => {
-                const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), pillarMat);
-                mesh.position.set(x, h / 2, z);
-                scene.add(mesh);
+                const glowRing = new THREE.Mesh(
+                    new THREE.TorusGeometry(1.4, 0.14, 8, 18),
+                    new THREE.MeshBasicMaterial({ color: 0x22d3ee })
+                );
+                glowRing.rotation.x = Math.PI / 2;
+                glowRing.position.y = 0.35;
+                padGroup.add(glowRing);
 
-                const neonTrim = new THREE.Mesh(new THREE.BoxGeometry(w + 0.08, 0.2, d + 0.08), accentMat);
-                neonTrim.position.set(x, h - 0.4, z);
-                scene.add(neonTrim);
+                const innerCore = new THREE.Mesh(
+                    new THREE.CylinderGeometry(1.1, 1.1, 0.12, 12),
+                    new THREE.MeshBasicMaterial({ color: 0x67e8f9 })
+                );
+                innerCore.position.y = 0.32;
+                padGroup.add(innerCore);
 
-                obstacles.push({ mesh, minX: x - w / 2, maxX: x + w / 2, minZ: z - d / 2, maxZ: z + d / 2 });
+                padGroup.position.set(px, 0, pz);
+                scene.add(padGroup);
+                jumpPads.push({ x: px, z: pz, radius: 2.0, ring: glowRing, cooldown: 0 });
             });
         }
 
@@ -1688,7 +2266,6 @@ Ecco il codice intero corretto:
             weaponModels['GAUSS'] = gaussGrp;
             weaponGroup.add(gaussGrp);
 
-            // PUNTA DELLA CANNA E FIAMMATA CONDIVISA
             weaponBarrelTip = new THREE.Object3D();
             weaponBarrelTip.position.set(0, 0.04, -0.58);
             weaponGroup.add(weaponBarrelTip);
@@ -1782,18 +2359,15 @@ Ecco il codice intero corretto:
                 btn.className = `absolute left-1/2 top-1/2 w-24 h-16 rounded-xl border transition-all duration-150 flex flex-col items-center justify-center p-1 cursor-pointer select-none ${borderClass}`;
 
                 if (isLocked) {
-                    const reqText = w.unlockType === 'kills'
-                        ? `${Math.min(playerProfile.totalKills, w.unlockKills)}/${w.unlockKills} KILL`
-                        : w.unlockLabel;
                     btn.innerHTML = `
                         <div class="text-[8px] font-cyber text-fuchsia-400 tracking-widest">[${w.key}] ${w.shortName}</div>
-                        <div class="text-[10px] font-cyber font-bold text-slate-400 my-0.5">🔒 BLOCCATA</div>
-                        <div class="text-[8px] font-mono text-fuchsia-300">${reqText}</div>
+                        <div class="text-[9px] font-cyber font-bold text-slate-400 my-0.5">🔒 BLOCCATA</div>
+                        <div class="text-[7px] font-mono text-fuchsia-300 truncate max-w-full">${w.unlockLabel}</div>
                     `;
                 } else {
                     btn.innerHTML = `
                         <div class="text-[9px] font-cyber tracking-widest font-bold" style="color:${w.uiColor}">[${w.key}] ${w.shortName}</div>
-                        <div class="text-[8px] text-amber-300 font-cyber">LVL ${st.level}</div>
+                        <div class="text-[8px] text-amber-300 font-cyber">${st.prestige > 0 ? `★P${st.prestige} ` : ''}LVL ${st.level}</div>
                         <div class="text-[10px] font-cyber font-bold text-white">${clip}/${eff.maxAmmo}</div>
                     `;
                 }
@@ -1802,13 +2376,12 @@ Ecco il codice intero corretto:
             const hoveredW = WEAPONS[state.hoveredWheelIndex] || getCurrentWeapon();
             const hoveredLocked = !isWeaponUnlocked(hoveredW);
             const hoveredEff = getEffectiveWeaponStats(hoveredW);
-            wheelCenterSlot.textContent = hoveredLocked ? '🔒 CLASSIFICATO' : `TASTO [${hoveredW.key}] • LVL ${getWeaponStats(hoveredW.id).level}`;
+            const hSt = getWeaponStats(hoveredW.id);
+            wheelCenterSlot.textContent = hoveredLocked ? '🔒 CLASSIFICATO' : `TASTO [${hoveredW.key}] • ${hSt.prestige > 0 ? `★P${hSt.prestige} ` : ''}LVL ${hSt.level}`;
             wheelCenterName.textContent = hoveredW.name;
             wheelCenterName.style.color = hoveredLocked ? '#f43f5e' : hoveredW.uiColor;
             if (hoveredLocked) {
-                wheelCenterStats.textContent = hoveredW.unlockType === 'kills'
-                    ? `Sblocca a ${hoveredW.unlockKills} Kill (${playerProfile.totalKills}/${hoveredW.unlockKills})`
-                    : `Sconfiggi il ${hoveredW.unlockLabel}`;
+                wheelCenterStats.textContent = `Requisito: ${hoveredW.unlockLabel}`;
             } else {
                 wheelCenterStats.textContent = `${hoveredW.desc} • ${state.weaponClips[state.hoveredWheelIndex]}/${hoveredEff.maxAmmo}`;
             }
@@ -1842,10 +2415,7 @@ Ecco il codice intero corretto:
             const targetWeapon = WEAPONS[index];
 
             if (!isWeaponUnlocked(targetWeapon)) {
-                const msg = targetWeapon.unlockType === 'kills'
-                    ? `Raggiungi ${targetWeapon.unlockKills} eliminazioni (${playerProfile.totalKills}/${targetWeapon.unlockKills})`
-                    : `Sconfiggi il ${targetWeapon.unlockLabel} per sbloccare ${targetWeapon.name}!`;
-                showAnnouncement('ARMA SEGRETA BLOCCATA', msg);
+                showAnnouncement('ARMA SEGRETA BLOCCATA', `Requisito: ${targetWeapon.unlockLabel} (Kill attuali: ${playerProfile.totalKills}, Boss: ${playerProfile.maxBossesDefeatedPermanent})`);
                 sound.playPlayerDamage();
                 return;
             }
@@ -1935,22 +2505,11 @@ Ecco il codice intero corretto:
                 });
             }
 
-            if (btnResetProfile) {
-                btnResetProfile.addEventListener('click', resetPlayerProfile);
-            }
-
-            if (btnOpenShop) {
-                btnOpenShop.addEventListener('click', () => {
-                    sound.init();
-                    openShop();
-                });
-            }
-
-            if (btnCloseShop) {
-                btnCloseShop.addEventListener('click', () => {
-                    closeShop();
-                });
-            }
+            if (btnResetProfile) btnResetProfile.addEventListener('click', resetPlayerProfile);
+            if (btnOpenShop) btnOpenShop.addEventListener('click', () => { sound.init(); openShop(); });
+            if (btnCloseShop) btnCloseShop.addEventListener('click', closeShop);
+            if (btnOpenTrophies) btnOpenTrophies.addEventListener('click', () => { sound.init(); openTrophiesModal(); });
+            if (btnCloseTrophies) btnCloseTrophies.addEventListener('click', closeTrophiesModal);
 
             sensSlider.addEventListener('input', (e) => {
                 state.sensitivityMultiplier = parseFloat(e.target.value);
@@ -2213,7 +2772,6 @@ Ecco il codice intero corretto:
             state.score = 0;
             state.wave = 1;
             state.kills = 0;
-            state.secretUnlocked = playerProfile.secretUnlockedPermanent;
             state.bossesDefeated = playerProfile.maxBossesDefeatedPermanent;
             state.currentWeaponIndex = 0;
             state.weaponClips = WEAPONS.map(w => getEffectiveWeaponStats(w).maxAmmo);
@@ -2224,11 +2782,13 @@ Ecco il codice intero corretto:
             state.reloadTimer = 0;
             state.isFiring = false;
             state.isWheelOpen = false;
+            state.activePerks = { DOUBLE_DMG: 0, HASTE: 0, INF_AMMO: 0, SHIELD: 0 };
+
             weaponWheelOverlay.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
             applyWeaponVisuals(WEAPONS[0]);
             setAimingState(false);
 
-            camera.position.set(0, GAME_CONFIG.playerHeight, 0);
+            camera.position.set(0, GAME_CONFIG.playerHeight, 26);
             cameraEuler.set(0, 0, 0);
             camera.quaternion.setFromEuler(cameraEuler);
             playerVelocity.set(0, 0, 0);
@@ -2238,6 +2798,8 @@ Ecco il codice intero corretto:
             gameoverStats.classList.remove('grid');
             shopOverlay.classList.add('hidden');
             shopOverlay.classList.remove('flex');
+            trophiesOverlay.classList.add('hidden');
+            trophiesOverlay.classList.remove('flex');
             menuOverlay.classList.add('hidden');
 
             state.mode = 'PLAYING';
@@ -2262,14 +2824,16 @@ Ecco il codice intero corretto:
                 try { document.exitPointerLock(); } catch (e) {}
             }
             menuTitle.innerHTML = 'MISSIONE <span class="text-cyan-400">IN PAUSA</span>';
-            menuSubtitle.textContent = 'Approfitta della pausa per potenziare le tue armi nel Negozio Armi!';
-            btnStartGame.textContent = 'Riprendi Missione';
+            menuSubtitle.textContent = 'Approfitta della pausa per fare il Prestigio alle armi o controllare i Trofei PSN!';
+            btnStartGame.textContent = '▶ Riprendi Missione';
             menuOverlay.classList.remove('hidden');
         }
 
         function resumeGame() {
             shopOverlay.classList.add('hidden');
             shopOverlay.classList.remove('flex');
+            trophiesOverlay.classList.add('hidden');
+            trophiesOverlay.classList.remove('flex');
             menuOverlay.classList.add('hidden');
             state.mode = 'PLAYING';
             clock.getDelta();
@@ -2291,6 +2855,7 @@ Ecco il codice intero corretto:
             const isNewRecord = state.score > playerProfile.bestScore;
             if (state.score > playerProfile.bestScore) playerProfile.bestScore = state.score;
             if (state.wave > playerProfile.bestWave) playerProfile.bestWave = state.wave;
+            checkTrophies();
             savePlayerProfile();
 
             menuTitle.innerHTML = isNewRecord
@@ -2298,13 +2863,13 @@ Ecco il codice intero corretto:
                 : 'SISTEMA <span class="text-rose-500">COMPROMESSO</span>';
             menuSubtitle.textContent = isNewRecord
                 ? `Complimenti ${playerProfile.name}! Nuovo record personale! Spendi i tuoi Punti Negozio (PN) prima di ripartire.`
-                : 'La tua corazza ha ceduto. Usa il Negozio Armi per potenziare il tuo arsenale e riprova!';
+                : 'La tua corazza ha ceduto. Potenzia il tuo arsenale nell\'Armeria e riprova!';
             finalScore.textContent = state.score;
             finalWave.textContent = state.wave;
             finalKills.textContent = state.kills;
             gameoverStats.classList.remove('hidden');
             gameoverStats.classList.add('grid');
-            btnStartGame.textContent = 'Nuova Partita';
+            btnStartGame.textContent = '▶ Nuova Partita';
             menuOverlay.classList.remove('hidden');
         }
 
@@ -2319,25 +2884,30 @@ Ecco il codice intero corretto:
             }, 2400);
         }
 
+        /**
+         * SISTEMA ONDATE PIÙ RAPIDO E DINAMICO (Boss ogni 5 Ondate!)
+         */
         function startWave(waveNum) {
             state.wave = waveNum;
             if (waveNum > playerProfile.bestWave) {
                 playerProfile.bestWave = waveNum;
+                checkTrophies();
                 savePlayerProfile();
             }
 
-            const isBossWave = (waveNum % 10 === 0);
+            const isBossWave = (waveNum % 5 === 0);
 
             if (isBossWave) {
-                state.enemiesToSpawn = 0;
-                spawnBossDrone();
-                showAnnouncement(`⚠️ ONDATA BOSS ${waveNum} ⚠️`, `Elimina il Boss per sbloccare una Nuova Arma Segreta e +250 XP Arma!`);
+                state.enemiesToSpawn = 3; // Qualche unità di scorta insieme al boss
+                state.spawnTimer = 0.5;
+                spawnUniqueBoss(waveNum);
             } else {
-                state.enemiesToSpawn = 4 + waveNum * 3;
-                state.spawnTimer = 0.8;
-                showAnnouncement(`ONDATA ${String(waveNum).padStart(2, '0')}`, `${state.enemiesToSpawn} Droni Ostili Rilevati sul Radar`);
+                state.enemiesToSpawn = 5 + waveNum * 2;
+                state.spawnTimer = 0.15; // Spawn immediato di un gruppo iniziale!
+                showAnnouncement(`ONDATA ${String(waveNum).padStart(2, '0')}`, `${state.enemiesToSpawn} Unità Cibernetiche in Assalto Rapido!`);
             }
             state.inWaveTransition = false;
+            refreshWeaponWheelUI();
             updateHUD();
         }
 
@@ -2347,7 +2917,7 @@ Ecco il codice intero corretto:
             if (state.isReloading || state.ammo === eff.maxAmmo) return;
             setAimingState(false);
             state.isReloading = true;
-            state.reloadTimer = eff.reloadTime;
+            state.reloadTimer = state.activePerks.HASTE > 0 ? eff.reloadTime * 0.6 : eff.reloadTime;
             reloadPrompt.classList.add('hidden');
             sound.playReload();
         }
@@ -2374,6 +2944,7 @@ Ecco il codice intero corretto:
 
                 hitSet.add(closestEnemy);
                 const nextPos = closestEnemy.group.position.clone();
+                nextPos.y += 1.0;
                 createLaserBeam(currentSource, nextPos, 0x38bdf8, 0.055);
                 damageEnemy(closestEnemy, chainDmg, nextPos);
                 currentSource.copy(nextPos);
@@ -2384,8 +2955,9 @@ Ecco il codice intero corretto:
             if (state.isReloading || state.fireCooldown > 0 || state.isWheelOpen) return;
             const w = getCurrentWeapon();
             const eff = getEffectiveWeaponStats(w);
+            const st = getWeaponStats(w.id);
 
-            if (state.ammo <= 0) {
+            if (state.ammo <= 0 && state.activePerks.INF_AMMO <= 0) {
                 triggerReload();
                 return;
             }
@@ -2394,9 +2966,17 @@ Ecco il codice intero corretto:
                 state.isFiring = false;
             }
 
-            state.ammo--;
-            state.weaponClips[state.currentWeaponIndex] = state.ammo;
-            state.fireCooldown = eff.fireRate;
+            // Abilità Prestigio: Riciclo Quantico (probabilità di non consumare colpi e fare Danno Critico 1.5x)
+            const quantumTier = st.prestigeSkills?.quantum || 0;
+            const isQuantumCrit = quantumTier > 0 && Math.random() < (quantumTier * 0.20);
+
+            if (state.activePerks.INF_AMMO <= 0 && !isQuantumCrit) {
+                state.ammo--;
+                state.weaponClips[state.currentWeaponIndex] = state.ammo;
+            }
+
+            const hasteRateMult = state.activePerks.HASTE > 0 ? 0.72 : 1.0;
+            state.fireCooldown = eff.fireRate * hasteRateMult;
             sound.playWeaponFire(w.id);
 
             weaponRecoilOffset = state.isAiming ? w.recoil * 0.45 : w.recoil;
@@ -2444,7 +3024,10 @@ Ecco il codice intero corretto:
             obstacles.forEach(ob => hitMeshes.push(ob.mesh));
 
             const spread = state.isAiming ? w.adsSpread : w.hipSpread;
-            const damagePerPellet = state.isAiming ? eff.adsDamage : eff.damage;
+            let damagePerPellet = state.isAiming ? eff.adsDamage : eff.damage;
+            if (state.activePerks.DOUBLE_DMG > 0) damagePerPellet *= 2;
+            if (isQuantumCrit) damagePerPellet = Math.round(damagePerPellet * 1.5);
+
             let hitAny = false;
 
             for (let p = 0; p < w.pellets; p++) {
@@ -2458,7 +3041,7 @@ Ecco il codice intero corretto:
 
                 const intersects = raycaster.intersectObjects(hitMeshes, false);
                 let endPoint = new THREE.Vector3();
-                raycaster.ray.at(95, endPoint);
+                raycaster.ray.at(110, endPoint);
 
                 if (intersects.length > 0) {
                     if (w.isPiercing) {
@@ -2531,7 +3114,7 @@ Ecco il codice intero corretto:
                     }
                 }
 
-                createLaserBeam(startPoint, endPoint, w.colorHex, w.beamWidth);
+                createLaserBeam(startPoint, endPoint, isQuantumCrit ? 0xfbbf24 : w.colorHex, w.beamWidth);
             }
 
             if (hitAny) {
@@ -2579,99 +3162,288 @@ Ecco il codice intero corretto:
             }, 90);
         }
 
-        function spawnEnemyDrone() {
+        /**
+         * NUOVI NEMICI DIVERSIFICATI (Bipedi Robotici, Spider-Bot Kamikaze, Goliath Mech, Droni Cecchino)
+         */
+        function spawnDiverseEnemy(forcedPos = null, forcedType = null) {
             const roll = Math.random();
-            let type = 'SCOUT';
-            if (state.wave >= 2 && roll > 0.52) type = 'RANGER';
-            if (state.wave >= 3 && roll > 0.82) type = 'TANK';
-
-            const group = new THREE.Group();
-            let hp = 70 + state.wave * 14;
-            let speed = 8.5 + state.wave * 0.15;
-            let color = 0xf43f5e;
-            let scoreValue = 100 + state.wave * 10;
-            let xpReward = 20;
-            let scale = 1.0;
-
-            if (type === 'RANGER') {
-                hp = 95 + state.wave * 18;
-                speed = 6.2 + state.wave * 0.1;
-                color = 0xa855f7;
-                scoreValue = 150 + state.wave * 15;
-                xpReward = 30;
-                scale = 1.15;
-            } else if (type === 'TANK') {
-                hp = 200 + state.wave * 35;
-                speed = 4.4 + state.wave * 0.08;
-                color = 0xf97316;
-                scoreValue = 250 + state.wave * 25;
-                xpReward = 45;
-                scale = 1.45;
+            let type = forcedType || 'WALKER'; // Bipede Robotico standard
+            if (!forcedType) {
+                if (roll < 0.30) type = 'WALKER';
+                else if (roll < 0.54) type = 'SPIDER';
+                else if (roll < 0.76) type = 'DRONE';
+                else if (state.wave >= 2 && roll < 0.90) type = 'SNIPER_DRONE';
+                else if (state.wave >= 3) type = 'MECH_GOLIATH';
             }
 
-            const coreMesh = new THREE.Mesh(new THREE.OctahedronGeometry(0.75 * scale, 0), new THREE.MeshBasicMaterial({ color: 0x1e293b }));
-            group.add(coreMesh);
+            const group = new THREE.Group();
+            const darkMat = new THREE.MeshBasicMaterial({ color: 0x1e293b });
+            const metalMat = new THREE.MeshBasicMaterial({ color: 0x334155 });
 
-            const eyeMesh = new THREE.Mesh(new THREE.SphereGeometry(0.32 * scale, 8, 8), new THREE.MeshBasicMaterial({ color: color }));
-            eyeMesh.position.z = 0.55 * scale;
-            group.add(eyeMesh);
+            let hp = 75 + state.wave * 15;
+            let speed = 9.0 + state.wave * 0.18;
+            let color = 0x22d3ee;
+            let scoreValue = 110 + state.wave * 12;
+            let xpReward = 24;
+            let isGround = true;
+            let baseHeight = 0;
+            let hpBarY = 2.6;
+            let leftLeg = null, rightLeg = null, ringMesh = null;
 
-            const ringMesh = new THREE.Mesh(new THREE.TorusGeometry(1.05 * scale, 0.07 * scale, 6, 14), new THREE.MeshBasicMaterial({ color: color }));
-            ringMesh.rotation.x = Math.PI / 2;
-            group.add(ringMesh);
+            if (type === 'WALKER') {
+                // Robot Bipede Android
+                color = 0xf43f5e;
+                const glowMat = new THREE.MeshBasicMaterial({ color });
+                leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.28, 1.1, 0.28), metalMat);
+                leftLeg.position.set(-0.32, 0.55, 0);
+                rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.28, 1.1, 0.28), metalMat);
+                rightLeg.position.set(0.32, 0.55, 0);
+                group.add(leftLeg, rightLeg);
+
+                const torso = new THREE.Mesh(new THREE.BoxGeometry(0.95, 1.05, 0.55), darkMat);
+                torso.position.y = 1.55;
+                group.add(torso);
+
+                const chestCore = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.45, 0.6), glowMat);
+                chestCore.position.y = 1.6;
+                group.add(chestCore);
+
+                const head = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.42, 0.55), metalMat);
+                head.position.y = 2.32;
+                group.add(head);
+
+                const visor = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.14, 0.58), glowMat);
+                visor.position.y = 2.34;
+                group.add(visor);
+
+                const armL = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.85, 0.45), metalMat);
+                armL.position.set(-0.65, 1.55, 0.15);
+                const armR = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.85, 0.45), metalMat);
+                armR.position.set(0.65, 1.55, 0.15);
+                group.add(armL, armR);
+                hpBarY = 2.95;
+
+            } else if (type === 'SPIDER') {
+                // Ragno Meccanico Kamikaze Veloce
+                color = 0x10b981;
+                hp = 50 + state.wave * 10;
+                speed = 13.8 + state.wave * 0.22;
+                scoreValue = 130 + state.wave * 12;
+                xpReward = 26;
+                const glowMat = new THREE.MeshBasicMaterial({ color });
+
+                const abdomen = new THREE.Mesh(new THREE.OctahedronGeometry(0.62, 0), darkMat);
+                abdomen.position.y = 0.65;
+                group.add(abdomen);
+
+                const bombCore = new THREE.Mesh(new THREE.SphereGeometry(0.38, 8, 8), glowMat);
+                bombCore.position.set(0, 0.8, 0);
+                group.add(bombCore);
+
+                for (let i = -1; i <= 1; i++) {
+                    const legL = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.14, 0.14), glowMat);
+                    legL.position.set(-0.65, 0.45, i * 0.38);
+                    legL.rotation.z = 0.45;
+                    const legR = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.14, 0.14), glowMat);
+                    legR.position.set(0.65, 0.45, i * 0.38);
+                    legR.rotation.z = -0.45;
+                    group.add(legL, legR);
+                }
+                hpBarY = 1.65;
+
+            } else if (type === 'MECH_GOLIATH') {
+                // Colosso Bipede Corazzato
+                color = 0xf97316;
+                hp = 230 + state.wave * 40;
+                speed = 5.2 + state.wave * 0.1;
+                scoreValue = 280 + state.wave * 25;
+                xpReward = 50;
+                const glowMat = new THREE.MeshBasicMaterial({ color });
+
+                leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.55, 1.4, 0.55), metalMat);
+                leftLeg.position.set(-0.55, 0.7, 0);
+                rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.55, 1.4, 0.55), metalMat);
+                rightLeg.position.set(0.55, 0.7, 0);
+                group.add(leftLeg, rightLeg);
+
+                const hull = new THREE.Mesh(new THREE.BoxGeometry(1.75, 1.5, 1.1), darkMat);
+                hull.position.y = 2.1;
+                group.add(hull);
+
+                const core = new THREE.Mesh(new THREE.SphereGeometry(0.45, 8, 8), glowMat);
+                core.position.set(0, 2.1, 0.55);
+                group.add(core);
+
+                const cannonL = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 1.3), glowMat);
+                cannonL.position.set(-1.1, 2.5, 0.3);
+                const cannonR = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 1.3), glowMat);
+                cannonR.position.set(1.1, 2.5, 0.3);
+                group.add(cannonL, cannonR);
+                hpBarY = 3.5;
+
+            } else {
+                // Unità Volanti (DRONE / SNIPER_DRONE)
+                isGround = false;
+                baseHeight = type === 'SNIPER_DRONE' ? 4.8 : 2.6;
+                color = type === 'SNIPER_DRONE' ? 0xa855f7 : 0x38bdf8;
+                hp = type === 'SNIPER_DRONE' ? 95 + state.wave * 18 : 75 + state.wave * 14;
+                speed = type === 'SNIPER_DRONE' ? 7.2 : 9.2;
+                scoreValue = 150 + state.wave * 15;
+                xpReward = 30;
+
+                const coreMesh = new THREE.Mesh(new THREE.OctahedronGeometry(0.8, 0), darkMat);
+                group.add(coreMesh);
+                const eyeMesh = new THREE.Mesh(new THREE.SphereGeometry(0.35, 8, 8), new THREE.MeshBasicMaterial({ color }));
+                eyeMesh.position.z = 0.58;
+                group.add(eyeMesh);
+                ringMesh = new THREE.Mesh(new THREE.TorusGeometry(1.1, 0.08, 6, 14), new THREE.MeshBasicMaterial({ color }));
+                ringMesh.rotation.x = Math.PI / 2;
+                group.add(ringMesh);
+                hpBarY = 1.45;
+            }
 
             const hpBg = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.16), new THREE.MeshBasicMaterial({ color: 0x0f172a, side: THREE.DoubleSide }));
-            hpBg.position.y = 1.4 * scale;
+            hpBg.position.y = hpBarY;
             group.add(hpBg);
 
             const hpFill = new THREE.Mesh(new THREE.PlaneGeometry(1.44, 0.11), new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide }));
-            hpFill.position.set(0, 1.4 * scale, 0.01);
+            hpFill.position.set(0, hpBarY, 0.01);
             group.add(hpFill);
 
             const half = GAME_CONFIG.arenaHalfSize - 6;
             let sx = 0, sz = 0;
-            do {
-                sx = (Math.random() * 2 - 1) * half;
-                sz = (Math.random() * 2 - 1) * half;
-            } while (Math.hypot(sx - camera.position.x, sz - camera.position.z) < 20);
+            if (forcedPos) {
+                sx = forcedPos.x;
+                sz = forcedPos.z;
+            } else {
+                do {
+                    sx = (Math.random() * 2 - 1) * half;
+                    sz = (Math.random() * 2 - 1) * half;
+                } while (Math.hypot(sx - camera.position.x, sz - camera.position.z) < 18);
+            }
 
-            group.position.set(sx, 2.3, sz);
+            group.position.set(sx, baseHeight, sz);
             scene.add(group);
 
             enemies.push({
-                group, coreMesh, ringMesh, hpFill, hpBg, type, hp, maxHp: hp, speed, color, scoreValue, xpReward,
-                attackCooldown: 1.5 + Math.random() * 1.5, bobOffset: Math.random() * Math.PI * 2
+                group, ringMesh, leftLeg, rightLeg, hpFill, hpBg,
+                type, isGround, baseHeight, hp, maxHp: hp, speed, color, scoreValue, xpReward,
+                attackCooldown: 1.1 + Math.random() * 1.2,
+                jumpTimer: 2.0 + Math.random() * 3.0,
+                vy: 0,
+                bobOffset: Math.random() * Math.PI * 2
             });
         }
 
-        function spawnBossDrone() {
+        /**
+         * 3 BOSS COMPLETAMENTE DIVERSI (Ondata 5: Carrier, Ondata 10: Arachnotron, Ondata 15: Titan-Omega)
+         */
+        function spawnUniqueBoss(waveNum) {
+            const bossIndex = Math.floor(waveNum / 5);
+            const bossKind = ((bossIndex - 1) % 3) + 1; // 1, 2 o 3
             const group = new THREE.Group();
-            const bossHp = 1200 + state.wave * 180;
-            const scale = 2.8;
+            const bossHp = 1300 + waveNum * 220;
+            const darkMat = new THREE.MeshBasicMaterial({ color: 0x1e1b4b });
+            const metalMat = new THREE.MeshBasicMaterial({ color: 0x334155 });
 
-            const coreMesh = new THREE.Mesh(new THREE.DodecahedronGeometry(1.2 * scale, 0), new THREE.MeshBasicMaterial({ color: 0x330011 }));
-            group.add(coreMesh);
+            let bossTitle = '';
+            let color = 0xf43f5e;
+            let speed = 6.0;
+            let isGround = false;
+            let baseHeight = 4.2;
+            let ringMesh = null;
+            let leftLeg = null, rightLeg = null;
 
-            const coreEye = new THREE.Mesh(new THREE.SphereGeometry(0.5 * scale, 10, 10), new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
-            coreEye.position.z = 0.8 * scale;
-            group.add(coreEye);
+            if (bossKind === 1) {
+                // BOSS 1: AEGIS DRONE-CARRIER (Nave Madre Aerea che genera Spider-Bot)
+                bossTitle = `⚠️ BOSS: AEGIS DRONE-CARRIER (ONDATA ${waveNum}) ⚠️`;
+                color = 0x38bdf8;
+                isGround = false;
+                baseHeight = 5.0;
+                const glowMat = new THREE.MeshBasicMaterial({ color });
 
-            const ringMesh = new THREE.Mesh(new THREE.TorusGeometry(1.8 * scale, 0.12 * scale, 8, 18), new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
-            ringMesh.rotation.x = Math.PI / 2;
-            group.add(ringMesh);
+                const hull = new THREE.Mesh(new THREE.BoxGeometry(5.2, 1.6, 3.6), darkMat);
+                group.add(hull);
+                const bridge = new THREE.Mesh(new THREE.OctahedronGeometry(1.4, 0), glowMat);
+                bridge.position.y = 1.2;
+                group.add(bridge);
 
-            const half = GAME_CONFIG.arenaHalfSize - 10;
-            group.position.set(0, 3.5, -half);
+                ringMesh = new THREE.Mesh(new THREE.TorusGeometry(3.8, 0.22, 8, 24), glowMat);
+                ringMesh.rotation.x = Math.PI / 2;
+                group.add(ringMesh);
+
+            } else if (bossKind === 2) {
+                // BOSS 2: ARACHNOTRON PRIME (Ragno Meccanico Gigante Terrestre che salta e carica)
+                bossTitle = `⚠️ BOSS: ARACHNOTRON PRIME (ONDATA ${waveNum}) ⚠️`;
+                color = 0x10b981;
+                isGround = true;
+                baseHeight = 0;
+                speed = 9.2;
+                const glowMat = new THREE.MeshBasicMaterial({ color });
+
+                const body = new THREE.Mesh(new THREE.SphereGeometry(2.2, 10, 10), darkMat);
+                body.position.y = 2.0;
+                group.add(body);
+
+                const eye = new THREE.Mesh(new THREE.SphereGeometry(0.9, 8, 8), glowMat);
+                eye.position.set(0, 2.2, 1.8);
+                group.add(eye);
+
+                for (let i = -1; i <= 1; i++) {
+                    const legL = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.38, 0.38), glowMat);
+                    legL.position.set(-2.2, 1.4, i * 1.3);
+                    legL.rotation.z = 0.4;
+                    const legR = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.38, 0.38), glowMat);
+                    legR.position.set(2.2, 1.4, i * 1.3);
+                    legR.rotation.z = -0.4;
+                    group.add(legL, legR);
+                }
+
+            } else {
+                // BOSS 3: TITAN-OMEGA MECH (Colosso Bipede Corazzato con Doppio Cannone Laser)
+                bossTitle = `⚠️ BOSS: TITAN-OMEGA MECH (ONDATA ${waveNum}) ⚠️`;
+                color = 0xd946ef;
+                isGround = true;
+                baseHeight = 0;
+                speed = 6.8;
+                const glowMat = new THREE.MeshBasicMaterial({ color });
+
+                leftLeg = new THREE.Mesh(new THREE.BoxGeometry(1.1, 2.8, 1.1), metalMat);
+                leftLeg.position.set(-1.2, 1.4, 0);
+                rightLeg = new THREE.Mesh(new THREE.BoxGeometry(1.1, 2.8, 1.1), metalMat);
+                rightLeg.position.set(1.2, 1.4, 0);
+                group.add(leftLeg, rightLeg);
+
+                const torso = new THREE.Mesh(new THREE.BoxGeometry(3.8, 3.2, 2.2), darkMat);
+                torso.position.y = 4.2;
+                group.add(torso);
+
+                const reactor = new THREE.Mesh(new THREE.OctahedronGeometry(1.1, 0), glowMat);
+                reactor.position.set(0, 4.2, 1.1);
+                group.add(reactor);
+
+                const shoulderL = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.9, 2.6), glowMat);
+                shoulderL.position.set(-2.4, 5.4, 0.5);
+                const shoulderR = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.9, 2.6), glowMat);
+                shoulderR.position.set(2.4, 5.4, 0.5);
+                group.add(shoulderL, shoulderR);
+            }
+
+            const half = GAME_CONFIG.arenaHalfSize - 12;
+            group.position.set(0, baseHeight, -half);
             scene.add(group);
 
             state.activeBoss = {
-                group, ringMesh, hp: bossHp, maxHp: bossHp, speed: 5.2, color: 0xf43f5e,
-                attackCooldown: 1.0, bobOffset: 0
+                group, ringMesh, leftLeg, rightLeg,
+                bossKind, isGround, baseHeight,
+                hp: bossHp, maxHp: bossHp, speed, color,
+                attackCooldown: 1.2, specialCooldown: 4.5
             };
 
-            bossNameLabel.textContent = `⚠️ BOSS OMEGA DRONE (ONDATA ${state.wave}) ⚠️`;
+            bossNameLabel.textContent = bossTitle;
             bossHudContainer.classList.remove('hidden');
             updateBossHUD();
+            showAnnouncement(bossTitle, `Sconfiggilo per ottenere +250 XP Arma e sbloccare Armi Segrete e Trofei!`);
         }
 
         function damageEnemy(enemy, amount, hitPoint) {
@@ -2685,7 +3457,7 @@ Ecco il codice intero corretto:
         function damageBoss(boss, amount, hitPoint) {
             if (!boss || boss.hp <= 0) return;
             boss.hp -= amount;
-            spawnParticleBurst(hitPoint, 0xf43f5e, 5, 6);
+            spawnParticleBurst(hitPoint, boss.color, 5, 6);
             updateBossHUD();
             if (boss.hp <= 0) killBoss(boss);
         }
@@ -2701,33 +3473,64 @@ Ecco il codice intero corretto:
             const idx = enemies.indexOf(enemy);
             if (idx === -1) return;
 
+            const w = getCurrentWeapon();
+            const st = getWeaponStats(w.id);
+
             sound.playExplosion();
-            spawnParticleBurst(enemy.group.position, enemy.color, 10, 7);
+            const deathPos = enemy.group.position.clone();
+            deathPos.y += 1.0;
+            spawnParticleBurst(deathPos, enemy.color, 10, 7);
 
-            if (Math.random() < 0.32) spawnMedkitPickup(enemy.group.position);
+            // Abilità Prestigio 1: Munizioni Vampiriche
+            const vampTier = st.prestigeSkills?.vampiric || 0;
+            if (vampTier > 0 && state.health < state.maxHealth) {
+                state.health = Math.min(state.maxHealth, state.health + vampTier * 4);
+            }
 
-            scene.remove(enemy.group);
-            enemies.splice(idx, 1);
+            // Abilità Prestigio 2: Innesco Instabile (Esplosione Plasma alla morte)
+            const novaTier = st.prestigeSkills?.nova || 0;
+            if (novaTier > 0) {
+                scene.remove(enemy.group);
+                enemies.splice(idx, 1);
+                triggerSingularityBlast(deathPos, 5.5, novaTier * 45, 0xd946ef);
+            } else {
+                scene.remove(enemy.group);
+                enemies.splice(idx, 1);
+            }
+
+            // Drop Medkit oppure Perk Temporaneo!
+            const dropRoll = Math.random();
+            if (dropRoll < 0.14) {
+                spawnTemporaryPerkPickup(deathPos);
+            } else if (dropRoll < 0.34) {
+                spawnMedkitPickup(deathPos);
+            }
 
             state.score += enemy.scoreValue;
             state.kills++;
-
             playerProfile.totalKills++;
+
+            // Controlla se ucciso in volo (Parkour Air-Kill)
+            if (!isGrounded && camera.position.y > GAME_CONFIG.playerHeight + 1.2) {
+                playerProfile.airKills++;
+            }
+
             if (state.score > playerProfile.bestScore) {
                 playerProfile.bestScore = state.score;
             }
 
-            addWeaponXp(getCurrentWeapon().id, enemy.xpReward || 25);
-
-            checkSecretUnlock();
+            addWeaponXp(w.id, enemy.xpReward || 25);
+            checkTrophies();
             savePlayerProfile();
+            refreshWeaponWheelUI();
             updateHUD();
         }
 
         function killBoss(boss) {
             sound.playExplosion();
-            spawnParticleBurst(boss.group.position, 0xf43f5e, 24, 10);
-            spawnMedkitPickup(boss.group.position);
+            const pos = boss.group.position.clone();
+            spawnParticleBurst(pos, boss.color, 26, 11);
+            spawnTemporaryPerkPickup(pos);
             scene.remove(boss.group);
             state.activeBoss = null;
             bossHudContainer.classList.add('hidden');
@@ -2747,30 +3550,12 @@ Ecco il codice intero corretto:
             addWeaponXp(getCurrentWeapon().id, 250);
             sound.playPickup();
 
-            const newlyUnlockedWeapon = WEAPONS.find(w => w.unlockType === 'boss' && w.bossLevel === state.bossesDefeated);
-            if (newlyUnlockedWeapon) {
-                showAnnouncement(
-                    `🔓 SBLOCCATO NEL PROFILO: ${newlyUnlockedWeapon.name}!`,
-                    `Premi [${newlyUnlockedWeapon.key}] o usa la Ruota [Q] per impugnare la nuova arma!`
-                );
-            } else {
-                showAnnouncement('BOSS ELIMINATO!', '+250 XP Arma! Vittoria salvata nel profilo.');
-            }
+            showAnnouncement('🏆 BOSS ELIMINATO!', '+250 XP Arma e Perk Rilasciato! Controlla le Armi Segrete nella Ruota [Q].');
 
-            checkSecretUnlock();
+            checkTrophies();
             savePlayerProfile();
             refreshWeaponWheelUI();
             updateHUD();
-        }
-
-        function checkSecretUnlock() {
-            if (!state.secretUnlocked && (state.kills >= 100 || playerProfile.totalKills >= 100)) {
-                state.secretUnlocked = true;
-                playerProfile.secretUnlockedPermanent = true;
-                sound.playPickup();
-                showAnnouncement('ARMA SEGRETA SBLOCCATA NEL PROFILO!', 'Premi [5] o apri la Ruota [Q] per usare SINGOLARITÀ OMEGA');
-                refreshWeaponWheelUI();
-            }
         }
 
         function spawnMedkitPickup(pos) {
@@ -2780,11 +3565,23 @@ Ecco il codice intero corretto:
             group.add(new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.25, 0.25), mat));
             group.position.set(pos.x, 1.2, pos.z);
             scene.add(group);
-            pickups.push({ mesh: group, life: 16.0 });
+            pickups.push({ mesh: group, pickupType: 'MEDKIT', life: 16.0 });
+        }
+
+        function spawnTemporaryPerkPickup(pos) {
+            const perk = PERK_TYPES[Math.floor(Math.random() * PERK_TYPES.length)];
+            const group = new THREE.Group();
+            const mat = new THREE.MeshBasicMaterial({ color: perk.colorHex });
+            const core = new THREE.Mesh(new THREE.OctahedronGeometry(0.55, 0), mat);
+            const ring = new THREE.Mesh(new THREE.TorusGeometry(0.75, 0.08, 6, 14), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            group.add(core, ring);
+            group.position.set(pos.x, 1.4, pos.z);
+            scene.add(group);
+            pickups.push({ mesh: group, pickupType: 'PERK', perkData: perk, life: 18.0 });
         }
 
         function spawnParticleBurst(pos, colorHex, count, speedScale) {
-            if (particles.length > 70) return; // Limite sicurezza per mantenere sempre 60 FPS
+            if (particles.length > 75) return;
             for (let i = 0; i < count; i++) {
                 const mesh = new THREE.Mesh(sharedParticleGeo, new THREE.MeshBasicMaterial({ color: colorHex, transparent: true, opacity: 1 }));
                 mesh.position.copy(pos);
@@ -2802,6 +3599,10 @@ Ecco il codice intero corretto:
 
         function applyPlayerDamage(amount) {
             if (state.mode !== 'PLAYING') return;
+            if (state.activePerks.SHIELD > 0) {
+                sound.playHit();
+                return;
+            }
             state.health = Math.max(0, state.health - amount);
             sound.playPlayerDamage();
             damageOverlay.style.opacity = '0.85';
@@ -2811,13 +3612,21 @@ Ecco il codice intero corretto:
             if (state.health <= 0) triggerGameOver();
         }
 
-        function resolveObstacleCollisions(pos, radius) {
+        /**
+         * COLLISIONI 3D CON SUPPORTO PARKOUR IN ALTEZZA
+         */
+        function resolveObstacleCollisions3D(pos, radius, isPlayer = false) {
             const limit = GAME_CONFIG.arenaHalfSize - 1.5;
             pos.x = Math.max(-limit, Math.min(limit, pos.x));
             pos.z = Math.max(-limit, Math.min(limit, pos.z));
 
+            const feetY = isPlayer ? pos.y - GAME_CONFIG.playerHeight : pos.y;
+
             for (let i = 0; i < obstacles.length; i++) {
                 const ob = obstacles[i];
+                // Se il giocatore è sopra il blocco o sotto un ponte sospeso, non spingerlo fuori!
+                if (feetY >= ob.maxY - 0.35 || (feetY + 1.9) <= ob.minY) continue;
+
                 const closestX = Math.max(ob.minX, Math.min(pos.x, ob.maxX));
                 const closestZ = Math.max(ob.minZ, Math.min(pos.z, ob.maxZ));
                 const dx = pos.x - closestX;
@@ -2854,14 +3663,17 @@ Ecco il codice intero corretto:
             const canSprint = isTryingToSprint && state.stamina > 5;
 
             if (canSprint) {
-                state.stamina = Math.max(0, state.stamina - dt * 38);
+                state.stamina = Math.max(0, state.stamina - dt * 36);
             } else {
-                state.stamina = Math.min(state.maxStamina, state.stamina + dt * 25);
+                state.stamina = Math.min(state.maxStamina, state.stamina + dt * 26);
             }
 
             const isSprinting = canSprint && state.stamina > 0;
             const aimSpeedPenalty = state.isAiming ? 0.68 : 1.0;
-            const speed = GAME_CONFIG.moveSpeed * (isSprinting ? GAME_CONFIG.sprintMultiplier : 1.0) * aimSpeedPenalty;
+            const perkSpeedBonus = state.activePerks.HASTE > 0 ? 1.38 : 1.0;
+            const speed = GAME_CONFIG.moveSpeed * (isSprinting ? GAME_CONFIG.sprintMultiplier : 1.0) * aimSpeedPenalty * perkSpeedBonus;
+
+            const prevFeetY = camera.position.y - GAME_CONFIG.playerHeight;
 
             camera.position.x += moveDir.x * speed * dt;
             camera.position.z += moveDir.z * speed * dt;
@@ -2871,16 +3683,41 @@ Ecco il codice intero corretto:
                 isGrounded = false;
             }
 
+            // Controllo Jump-Pad per il Parkour
+            jumpPads.forEach(pad => {
+                pad.ring.rotation.z += dt * 4.0;
+                if (pad.cooldown > 0) pad.cooldown -= dt;
+                const d = Math.hypot(camera.position.x - pad.x, camera.position.z - pad.z);
+                if (d < pad.radius && (camera.position.y - GAME_CONFIG.playerHeight) < 1.2 && pad.cooldown <= 0) {
+                    playerVelocity.y = 22.5;
+                    isGrounded = false;
+                    pad.cooldown = 0.55;
+                    sound.playJumpPad();
+                }
+            });
+
             playerVelocity.y -= GAME_CONFIG.gravity * dt;
             camera.position.y += playerVelocity.y * dt;
 
-            if (camera.position.y <= GAME_CONFIG.playerHeight) {
-                camera.position.y = GAME_CONFIG.playerHeight;
+            // Calcolo altezza terreno o piattaforma Parkour sotto i piedi
+            let supportHeight = 0;
+            for (let i = 0; i < obstacles.length; i++) {
+                const ob = obstacles[i];
+                if (camera.position.x >= ob.minX - 0.55 && camera.position.x <= ob.maxX + 0.55 &&
+                    camera.position.z >= ob.minZ - 0.55 && camera.position.z <= ob.maxZ + 0.55) {
+                    if (prevFeetY >= ob.maxY - 0.55 && playerVelocity.y <= 0) {
+                        supportHeight = Math.max(supportHeight, ob.maxY);
+                    }
+                }
+            }
+
+            if (camera.position.y <= supportHeight + GAME_CONFIG.playerHeight) {
+                camera.position.y = supportHeight + GAME_CONFIG.playerHeight;
                 playerVelocity.y = 0;
                 isGrounded = true;
             }
 
-            resolveObstacleCollisions(camera.position, GAME_CONFIG.playerRadius);
+            resolveObstacleCollisions3D(camera.position, GAME_CONFIG.playerRadius, true);
 
             if (moveDir.lengthSq() > 0.1 && isGrounded) {
                 headBobTimer += dt * (isSprinting ? 14 : 10);
@@ -2892,9 +3729,41 @@ Ecco il codice intero corretto:
             hudStaminaBar.style.width = `${(state.stamina / state.maxStamina) * 100}%`;
         }
 
+        function updateActivePerks(dt) {
+            let changed = false;
+            Object.keys(state.activePerks).forEach(k => {
+                if (state.activePerks[k] > 0) {
+                    state.activePerks[k] = Math.max(0, state.activePerks[k] - dt);
+                    changed = true;
+                }
+            });
+            if (changed) renderActivePerksHUD();
+        }
+
+        function renderActivePerksHUD() {
+            if (!activePerksBar) return;
+            let html = '';
+            PERK_TYPES.forEach(p => {
+                const rem = state.activePerks[p.id] || 0;
+                if (rem > 0) {
+                    html += `
+                        <div class="cyber-panel px-3 py-1 rounded-full border flex items-center gap-1.5 text-xs font-cyber font-bold" style="border-color:${p.uiColor}; color:${p.uiColor}">
+                            <span>${p.icon} ${p.name}</span>
+                            <span class="text-white">${rem.toFixed(1)}s</span>
+                        </div>
+                    `;
+                }
+            });
+            activePerksBar.innerHTML = html;
+        }
+
         function updateWeaponAndEffects(dt) {
             const w = getCurrentWeapon();
             const eff = getEffectiveWeaponStats(w);
+
+            if (galaxyGroup) {
+                galaxyGroup.rotation.y += dt * 0.015;
+            }
 
             if (w.id === 'SECRET' && omegaCoreOrb) {
                 omegaCoreOrb.rotation.y += dt * 4.5;
@@ -2939,7 +3808,6 @@ Ecco il codice intero corretto:
             muzzleMesh.material.opacity = Math.max(0, muzzleMesh.material.opacity - dt * 14);
             muzzleLight.intensity = Math.max(0, muzzleLight.intensity - dt * 28);
 
-            // Oscillazione realistica del respiro e rinculo sull'ottica del cecchino
             if (w.isSniper && state.isAiming && sniperScopeReticle) {
                 scopeSwayTimer += dt * 1.7;
                 const moveFactor = headBobTimer > 0 ? 2.4 : 1.0;
@@ -2987,15 +3855,31 @@ Ecco il codice intero corretto:
             for (let i = pickups.length - 1; i >= 0; i--) {
                 const pk = pickups[i];
                 pk.life -= dt;
-                pk.mesh.rotation.y += dt * 2.5;
-                if (pk.mesh.position.distanceTo(camera.position) < 2.2 && state.health < state.maxHealth) {
-                    state.health = Math.min(state.maxHealth, state.health + 30);
-                    sound.playPickup();
-                    updateHUD();
-                    scene.remove(pk.mesh);
-                    pickups.splice(i, 1);
-                    continue;
+                pk.mesh.rotation.y += dt * 2.8;
+
+                if (pk.mesh.position.distanceTo(camera.position) < 2.5) {
+                    if (pk.pickupType === 'PERK') {
+                        const pData = pk.perkData;
+                        state.activePerks[pData.id] = pData.duration;
+                        playerProfile.perksCollected++;
+                        sound.playPickup();
+                        showAnnouncement(`${pData.icon} PERK: ${pData.name}!`, `Attivo per ${pData.duration} secondi!`);
+                        checkTrophies();
+                        savePlayerProfile();
+                        renderActivePerksHUD();
+                        scene.remove(pk.mesh);
+                        pickups.splice(i, 1);
+                        continue;
+                    } else if (state.health < state.maxHealth) {
+                        state.health = Math.min(state.maxHealth, state.health + 32);
+                        sound.playPickup();
+                        updateHUD();
+                        scene.remove(pk.mesh);
+                        pickups.splice(i, 1);
+                        continue;
+                    }
                 }
+
                 if (pk.life <= 0) {
                     scene.remove(pk.mesh);
                     pickups.splice(i, 1);
@@ -3004,17 +3888,21 @@ Ecco il codice intero corretto:
         }
 
         function updateEnemiesAndProjectiles(dt, elapsed) {
+            // Spawn rapido a gruppi per mantenere l'azione sempre intensa
             if (state.enemiesToSpawn > 0) {
                 state.spawnTimer -= dt;
                 if (state.spawnTimer <= 0) {
-                    spawnEnemyDrone();
-                    state.enemiesToSpawn--;
-                    state.spawnTimer = Math.max(0.4, 1.5 - state.wave * 0.08);
+                    const batch = enemies.length < 4 ? Math.min(3, state.enemiesToSpawn) : Math.min(2, state.enemiesToSpawn);
+                    for (let b = 0; b < batch; b++) {
+                        spawnDiverseEnemy();
+                        state.enemiesToSpawn--;
+                    }
+                    state.spawnTimer = Math.max(0.28, 0.85 - state.wave * 0.04);
                     updateHUD();
                 }
             } else if (enemies.length === 0 && !state.activeBoss && !state.inWaveTransition) {
                 state.inWaveTransition = true;
-                state.waveTransitionTimer = 2.5;
+                state.waveTransitionTimer = 1.4; // Transizione rapida tra ondate
             }
 
             if (state.inWaveTransition) {
@@ -3022,16 +3910,23 @@ Ecco il codice intero corretto:
                 if (state.waveTransitionTimer <= 0) startWave(state.wave + 1);
             }
 
+            // Logica dei 3 Boss Unici
             if (state.activeBoss) {
                 const boss = state.activeBoss;
-                boss.ringMesh.rotation.z += dt * 4.0;
-                boss.group.position.y = 3.5 + Math.sin(elapsed * 2.5) * 0.4;
+                if (boss.ringMesh) boss.ringMesh.rotation.z += dt * 4.0;
+                if (boss.leftLeg && boss.rightLeg) {
+                    boss.leftLeg.rotation.x = Math.sin(elapsed * 6) * 0.45;
+                    boss.rightLeg.rotation.x = -Math.sin(elapsed * 6) * 0.45;
+                }
+
+                if (!boss.isGround) {
+                    boss.group.position.y = boss.baseHeight + Math.sin(elapsed * 2.5) * 0.45;
+                }
                 boss.group.lookAt(camera.position.x, boss.group.position.y, camera.position.z);
 
-                const toPlayer = new THREE.Vector3().subVectors(camera.position, boss.group.position);
-                toPlayer.y = 0;
+                const toPlayer = new THREE.Vector3(camera.position.x - boss.group.position.x, 0, camera.position.z - boss.group.position.z);
                 const dist = toPlayer.length();
-                if (dist > 12) {
+                if (dist > 9) {
                     toPlayer.normalize();
                     boss.group.position.addScaledVector(toPlayer, boss.speed * dt);
                 }
@@ -3039,13 +3934,54 @@ Ecco il codice intero corretto:
                 boss.attackCooldown -= dt;
                 if (boss.attackCooldown <= 0) {
                     fireBossProjectiles(boss);
-                    boss.attackCooldown = 1.4;
+                    boss.attackCooldown = boss.bossKind === 2 ? 1.1 : 1.35;
+                }
+
+                boss.specialCooldown -= dt;
+                if (boss.specialCooldown <= 0) {
+                    if (boss.bossKind === 1 && enemies.length < 8) {
+                        // Aegis Carrier genera 2 Spider-Bot
+                        spawnDiverseEnemy(boss.group.position, 'SPIDER');
+                        spawnDiverseEnemy(boss.group.position, 'SPIDER');
+                        boss.specialCooldown = 6.0;
+                    } else if (boss.bossKind === 2) {
+                        // Arachnotron Prime fa un balzo rapido verso il giocatore
+                        boss.group.position.addScaledVector(toPlayer, 7.5);
+                        boss.specialCooldown = 4.5;
+                    } else {
+                        // Titan-Omega spara una raffica circolare
+                        fireBossProjectiles(boss, true);
+                        boss.specialCooldown = 5.0;
+                    }
                 }
             }
 
-            enemies.forEach(en => {
-                en.ringMesh.rotation.z += dt * 3.0;
-                en.group.position.y = 2.2 + Math.sin(elapsed * 3.2 + en.bobOffset) * 0.25;
+            // Logica Nemici Diversificati
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const en = enemies[i];
+                if (en.ringMesh) en.ringMesh.rotation.z += dt * 3.5;
+
+                // Animazione gambe robotiche per Walker e Goliath
+                if (en.leftLeg && en.rightLeg) {
+                    en.leftLeg.rotation.x = Math.sin(elapsed * 10 + en.bobOffset) * 0.55;
+                    en.rightLeg.rotation.x = -Math.sin(elapsed * 10 + en.bobOffset) * 0.55;
+                }
+
+                if (!en.isGround) {
+                    en.group.position.y = en.baseHeight + Math.sin(elapsed * 3.2 + en.bobOffset) * 0.28;
+                } else {
+                    // I Walker possono fare salti cibernetici!
+                    en.jumpTimer -= dt;
+                    if (en.type === 'WALKER' && en.jumpTimer <= 0 && en.group.position.y <= 0.05) {
+                        en.vy = 9.5;
+                        en.jumpTimer = 3.2 + Math.random() * 2.5;
+                    }
+                    if (en.group.position.y > 0 || en.vy > 0) {
+                        en.vy -= 22.0 * dt;
+                        en.group.position.y = Math.max(0, en.group.position.y + en.vy * dt);
+                    }
+                }
+
                 en.group.lookAt(camera.position.x, en.group.position.y, camera.position.z);
                 en.hpBg.lookAt(camera.position);
                 en.hpFill.lookAt(camera.position);
@@ -3054,25 +3990,35 @@ Ecco il codice intero corretto:
                 const dist = toPlayer.length();
                 if (dist > 0.01) toPlayer.divideScalar(dist);
 
-                const preferredDist = en.type === 'SCOUT' ? 2.1 : 14.0;
+                const preferredDist = (en.type === 'SPIDER' || en.type === 'WALKER') ? 1.8 : (en.type === 'SNIPER_DRONE' ? 22.0 : 13.0);
                 if (dist > preferredDist) {
                     en.group.position.addScaledVector(toPlayer, en.speed * dt);
-                    resolveObstacleCollisions(en.group.position, 1.0);
+                    resolveObstacleCollisions3D(en.group.position, 0.9, false);
                 }
 
                 en.attackCooldown -= dt;
-                if (en.type === 'SCOUT') {
-                    if (dist < 2.6 && en.attackCooldown <= 0) {
+                if (en.type === 'SPIDER') {
+                    // Kamikaze: se ti tocca esplode!
+                    if (dist < 2.5 && Math.abs(camera.position.y - en.group.position.y) < 3.2) {
+                        applyPlayerDamage(18);
+                        killEnemy(en);
+                        continue;
+                    }
+                } else if (en.type === 'WALKER') {
+                    if (dist < 2.8 && en.attackCooldown <= 0 && Math.abs(camera.position.y - en.group.position.y) < 3.2) {
                         applyPlayerDamage(12);
-                        en.attackCooldown = 1.1;
+                        en.attackCooldown = 1.0;
+                    } else if (dist < 26 && en.attackCooldown <= 0) {
+                        fireEnemyProjectile(en);
+                        en.attackCooldown = 2.1;
                     }
                 } else {
-                    if (dist < 36 && en.attackCooldown <= 0) {
+                    if (dist < 42 && en.attackCooldown <= 0) {
                         fireEnemyProjectile(en);
-                        en.attackCooldown = en.type === 'TANK' ? 2.0 : 1.5;
+                        en.attackCooldown = en.type === 'MECH_GOLIATH' ? 1.6 : 1.45;
                     }
                 }
-            });
+            }
 
             for (let i = enemyProjectiles.length - 1; i >= 0; i--) {
                 const proj = enemyProjectiles[i];
@@ -3091,7 +4037,8 @@ Ecco il codice intero corretto:
                 for (let j = 0; j < obstacles.length; j++) {
                     const ob = obstacles[j];
                     if (proj.mesh.position.x >= ob.minX && proj.mesh.position.x <= ob.maxX &&
-                        proj.mesh.position.z >= ob.minZ && proj.mesh.position.z <= ob.maxZ) {
+                        proj.mesh.position.z >= ob.minZ && proj.mesh.position.z <= ob.maxZ &&
+                        proj.mesh.position.y >= ob.minY && proj.mesh.position.y <= ob.maxY) {
                         hitWall = true;
                         break;
                     }
@@ -3107,23 +4054,29 @@ Ecco il codice intero corretto:
 
         function fireEnemyProjectile(en) {
             const mesh = new THREE.Mesh(sharedProjectileGeo, new THREE.MeshBasicMaterial({ color: en.color }));
-            mesh.position.copy(en.group.position);
+            const spawnPos = en.group.position.clone();
+            if (en.isGround) spawnPos.y += 1.6;
+            mesh.position.copy(spawnPos);
 
-            const dir = new THREE.Vector3().subVectors(camera.position, en.group.position).normalize();
+            const dir = new THREE.Vector3().subVectors(camera.position, spawnPos).normalize();
+            const projSpeed = en.type === 'SNIPER_DRONE' ? 32 : 23;
             scene.add(mesh);
-            enemyProjectiles.push({ mesh, vel: dir.multiplyScalar(22), damage: en.type === 'TANK' ? 18 : 10, life: 3.5 });
+            enemyProjectiles.push({ mesh, vel: dir.multiplyScalar(projSpeed), damage: en.type === 'MECH_GOLIATH' ? 18 : 11, life: 3.5 });
         }
 
-        function fireBossProjectiles(boss) {
-            for (let i = -1; i <= 1; i++) {
-                const mesh = new THREE.Mesh(sharedBossProjGeo, new THREE.MeshBasicMaterial({ color: 0xf43f5e }));
-                mesh.position.copy(boss.group.position);
+        function fireBossProjectiles(boss, isSpecial = false) {
+            const count = isSpecial ? 3 : 1;
+            for (let i = -count; i <= count; i++) {
+                const mesh = new THREE.Mesh(sharedBossProjGeo, new THREE.MeshBasicMaterial({ color: boss.color }));
+                const spawnPos = boss.group.position.clone();
+                if (boss.isGround) spawnPos.y += 2.6;
+                mesh.position.copy(spawnPos);
 
-                const dir = new THREE.Vector3().subVectors(camera.position, boss.group.position).normalize();
-                dir.applyAxisAngle(new THREE.Vector3(0, 1, 0), i * 0.2);
+                const dir = new THREE.Vector3().subVectors(camera.position, spawnPos).normalize();
+                dir.applyAxisAngle(new THREE.Vector3(0, 1, 0), i * 0.16);
 
                 scene.add(mesh);
-                enemyProjectiles.push({ mesh, vel: dir.multiplyScalar(25), damage: 25, life: 4.0 });
+                enemyProjectiles.push({ mesh, vel: dir.multiplyScalar(26), damage: 22, life: 4.0 });
             }
         }
 
@@ -3144,11 +4097,11 @@ Ecco il codice intero corretto:
             const st = getWeaponStats(w.id);
             const reqXp = getXpRequiredForNextLevel(st.level);
 
-            hudWeaponName.textContent = w.name;
+            hudWeaponName.textContent = `${st.prestige > 0 ? `★P${st.prestige} ` : ''}${w.name}`;
             hudWeaponName.style.color = w.uiColor;
             hudAmmoMax.textContent = String(eff.maxAmmo).padStart(2, '0');
-            hudAmmoClip.textContent = String(state.ammo).padStart(2, '0');
-            hudAmmoClip.className = state.ammo <= Math.ceil(eff.maxAmmo * 0.2)
+            hudAmmoClip.textContent = state.activePerks.INF_AMMO > 0 ? '∞' : String(state.ammo).padStart(2, '0');
+            hudAmmoClip.className = state.ammo <= Math.ceil(eff.maxAmmo * 0.2) && state.activePerks.INF_AMMO <= 0
                 ? 'text-3xl sm:text-4xl font-black text-rose-400'
                 : 'text-3xl sm:text-4xl font-black text-white';
 
@@ -3156,11 +4109,8 @@ Ecco il codice intero corretto:
             if (hudWeaponXpBar) hudWeaponXpBar.style.width = `${Math.min(100, Math.round((st.xp / reqXp) * 100))}%`;
             if (hudWeaponSp) hudWeaponSp.textContent = `${st.shopPoints} PN`;
 
-            const unlockedBossCount = Math.min(3, Math.max(state.bossesDefeated, playerProfile.maxBossesDefeatedPermanent));
-            const omegaStatus = (state.secretUnlocked || playerProfile.secretUnlockedPermanent)
-                ? '★ OMEGA [5]'
-                : `[5] ${Math.min(100, playerProfile.totalKills)}/100 Kill`;
-            hudSecretProgress.textContent = `${omegaStatus} • Boss Armi [6-8]: ${unlockedBossCount}/3`;
+            const unlockedSecrets = countUnlockedSecretWeapons();
+            hudSecretProgress.textContent = `Armi Segrete [5-8]: ${unlockedSecrets}/4 • Trofei PSN: ${playerProfile.unlockedTrophies.length}/${PSN_TROPHIES.length}`;
         }
 
         function drawRadar() {
@@ -3222,7 +4172,7 @@ Ecco il codice intero corretto:
                 const px = cx + rx * scale;
                 const py = cy + rz * scale;
                 if (Math.hypot(px - cx, py - cy) < cx - 4) {
-                    radarCtx.fillStyle = en.type === 'TANK' ? '#f97316' : (en.type === 'RANGER' ? '#a855f7' : '#f43f5e');
+                    radarCtx.fillStyle = en.type === 'MECH_GOLIATH' ? '#f97316' : (en.type === 'SPIDER' ? '#10b981' : '#f43f5e');
                     radarCtx.beginPath();
                     radarCtx.arc(px, py, 2.6, 0, Math.PI * 2);
                     radarCtx.fill();
@@ -3255,11 +4205,11 @@ Ecco il codice intero corretto:
 
             updateTelemetry();
 
-            // OTTIMIZZAZIONE CHIAVE: quando sei nel Negozio o nel Menu, non spreca GPU/CPU a ridisegnare il 3D
             if (state.mode === 'PLAYING') {
                 const dt = Math.min(clock.getDelta(), 0.1);
                 const elapsed = clock.getElapsedTime();
 
+                updateActivePerks(dt);
                 updatePlayerMovement(dt);
                 updateWeaponAndEffects(dt);
                 updateEnemiesAndProjectiles(dt, elapsed);
