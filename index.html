@@ -1,7 +1,9 @@
-Ho aggiornato l'ottica del cecchino (`#sniper-scope-overlay`) per renderla molto più realistica, simile a un vero mirino telescopico militare **First Focal Plane (Mil-Dot / Horus)** con:
-- **Tubo ottico realistico**: vignettatura interna scura, ghiera metallica con viti/torrette di regolazione (alzo e deriva), riflesso curvo della lente (*lens glare*) e leggera tinta ottica ciano/verde.
-- **Reticolo balistico di precisione**: barre esterne spesse (*duplex crosshair*), reticolo centrale sottile con pallini **Mil-Dot** numerati, scala telemetrica a imbuto (*stadiametric rangefinder*) per stimare la distanza, e **albero di compensazione della caduta/vento** (*bullet drop & windage tree*) nel quadrante inferiore, con chevron luminoso centrale.
-- **Oscillazione naturale del respiro (Scope Sway)** e **rinculo visivo dell'ottica** quando spari in modalità mira col cecchino.
+Ho ricreato l'ottica del cecchino in modo fedele all'immagine che hai inviato:
+- **Anello ottico sfumato** lungo il bordo della lente, con l'esterno completamente trasparente/visibile (proprio come nell'immagine di riferimento) oppure con il bordo sfumato interno della lente.
+- **3 Barre spesse nere** (sinistra, destra e basso) con **punta triangolare bianca contornata di nero** rivolta verso il centro.
+- **Croce centrale staccata (`+`)** con le 4 scale graduate:
+  - Scale **Sinistra, Destra e Inferiore** da `0` a `20`, con tacche lunghe e numeri **`10`** e **`20`**, tacche medie su `5` e `15`, e micro-tacche intermedie per ogni unità.
+  - Scala **Superiore** più corta con tacca a T finale e tacca intermedia marcata.
 
 Ecco il codice completo aggiornato:
 
@@ -64,17 +66,6 @@ Ecco il codice completo aggiornato:
             transform: translate(-50%, -50%);
             pointer-events: none;
         }
-        /* Stili ottica di precisione realistica */
-        .scope-mask {
-            background: radial-gradient(
-                circle at 50% 50%,
-                rgba(16, 45, 48, 0.08) 0%,
-                rgba(10, 28, 36, 0.14) 52%,
-                rgba(0, 0, 0, 0.88) 62%,
-                #02040a 64.5%,
-                #010206 100%
-            );
-        }
     </style>
 </head>
 <body class="relative w-screen h-screen overflow-hidden">
@@ -96,176 +87,155 @@ Ecco il codice completo aggiornato:
         </svg>
     </div>
 
-    <!-- OVERLAY OTTICA SNIPER REALISTICA MIL-DOT / HORUS -->
+    <!-- OVERLAY OTTICA SNIPER IDENTICA ALL'IMMAGINE DI RIFERIMENTO -->
     <div id="sniper-scope-overlay" class="fixed inset-0 pointer-events-none z-25 opacity-0 transition-opacity duration-150 flex items-center justify-center overflow-hidden">
-        <!-- Maschera scura esterna al tubo ottico con leggera aberrazione/vignettatura -->
-        <div class="absolute inset-0 scope-mask"></div>
-
-        <!-- Contenitore oscillante del tubo ottico (Scope Sway + Rinculo) -->
-        <div id="sniper-scope-reticle" class="screen-center w-[88vmin] h-[88vmin] max-w-[760px] max-h-[760px] flex items-center justify-center">
+        <!-- Contenitore del mirino ottico (con Scope Sway + Rinculo) -->
+        <div id="sniper-scope-reticle" class="screen-center w-[86vmin] h-[86vmin] max-w-[740px] max-h-[740px] flex items-center justify-center">
             <svg viewBox="0 0 600 600" class="w-full h-full overflow-visible">
                 <defs>
-                    <!-- Gradiente metallico per la ghiera dell'ottica -->
-                    <linearGradient id="scopeBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1e293b" />
-                        <stop offset="50%" stop-color="#090d16" />
-                        <stop offset="100%" stop-color="#020617" />
-                    </linearGradient>
-                    <!-- Riflesso curvo del vetro della lente -->
-                    <linearGradient id="lensGlare" x1="15%" y1="10%" x2="80%" y2="85%">
-                        <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.11" />
-                        <stop offset="28%" stop-color="#ffffff" stop-opacity="0.03" />
-                        <stop offset="55%" stop-color="#000000" stop-opacity="0" />
-                        <stop offset="100%" stop-color="#10b981" stop-opacity="0.06" />
-                    </linearGradient>
-                    <!-- Ombra interna profonda del tubo -->
-                    <radialGradient id="innerTubeShadow" cx="50%" cy="50%" r="50%">
-                        <stop offset="82%" stop-color="#000000" stop-opacity="0" />
-                        <stop offset="95%" stop-color="#000000" stop-opacity="0.65" />
-                        <stop offset="100%" stop-color="#000000" stop-opacity="0.95" />
+                    <!-- Vignettatura interna morbida nera esattamente come nell'immagine -->
+                    <radialGradient id="scopeVignetteRing" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                        <stop offset="0%" stop-color="#000000" stop-opacity="0" />
+                        <stop offset="75%" stop-color="#000000" stop-opacity="0" />
+                        <stop offset="86%" stop-color="#000000" stop-opacity="0.32" />
+                        <stop offset="94%" stop-color="#000000" stop-opacity="0.72" />
+                        <stop offset="98.5%" stop-color="#000000" stop-opacity="0.95" />
+                        <stop offset="100%" stop-color="#000000" stop-opacity="1" />
+                    </radialGradient>
+                    <!-- Leggero bagliore bianco sul vetro per massima leggibilità del reticolo nero anche su sfondi scuri -->
+                    <radialGradient id="scopeGlassClarity" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.16" />
+                        <stop offset="72%" stop-color="#f8fafc" stop-opacity="0.14" />
+                        <stop offset="88%" stop-color="#000000" stop-opacity="0" />
                     </radialGradient>
                 </defs>
 
-                <!-- Maschera nera extra oltre il bordo del tubo per coprire eventuali oscillazioni -->
-                <path d="M -600 -600 H 1200 V 1200 H -600 Z M 300 300 m -278 0 a 278 278 0 1 0 556 0 a 278 278 0 1 0 -556 0" fill="#010308" />
+                <!-- Maschera esterna scura intorno al cerchio dell'ottica -->
+                <path d="M -1200 -1200 H 1800 V 1800 H -1200 Z M 300 300 m -270 0 a 270 270 0 1 0 540 0 a 270 270 0 1 0 -540 0" fill="rgba(2, 4, 10, 0.94)" />
 
-                <!-- Lente interna con riflesso ottico e ombra del tubo -->
-                <circle cx="300" cy="300" r="275" fill="url(#lensGlare)" />
-                <circle cx="300" cy="300" r="275" fill="url(#innerTubeShadow)" />
+                <!-- Chiarore lente interna + Anello sfumato nero sul bordo -->
+                <circle cx="300" cy="300" r="270" fill="url(#scopeGlassClarity)" />
+                <circle cx="300" cy="300" r="270" fill="url(#scopeVignetteRing)" />
+                <circle cx="300" cy="300" r="270" fill="none" stroke="#000000" stroke-width="4" />
 
-                <!-- Riflesso secondario superiore (arco di luce sulla lente) -->
-                <path d="M 110 165 A 235 235 0 0 1 490 165" fill="none" stroke="#e0f2fe" stroke-width="3.5" stroke-opacity="0.07" stroke-linecap="round" />
+                <!-- 1. BARRE LATERALI E INFERIORE SPESSE CON PUNTA TRIANGOLARE BIANCA -->
+                <!-- Barra Sinistra -->
+                <rect x="30" y="292.5" width="56" height="15" fill="#000000" />
+                <polygon points="86,293.5 100,300 86,306.5" fill="#ffffff" stroke="#000000" stroke-width="1.8" stroke-linejoin="miter" />
 
-                <!-- RETICOLO BALISTICO FFP (First Focal Plane) -->
-                <!-- 1. Barre esterne spesse nere (Duplex Post) -->
-                <g stroke="#050811" stroke-width="5.5" stroke-linecap="butt">
-                    <line x1="24" y1="300" x2="150" y2="300" />
-                    <line x1="450" y1="300" x2="576" y2="300" />
-                    <line x1="300" y1="450" x2="300" y2="576" />
-                </g>
-                <!-- Tratto superiore sottile -->
-                <line x1="300" y1="24" x2="300" y2="150" stroke="#050811" stroke-width="2.5" />
+                <!-- Barra Destra -->
+                <rect x="514" y="292.5" width="56" height="15" fill="#000000" />
+                <polygon points="514,293.5 500,300 514,306.5" fill="#ffffff" stroke="#000000" stroke-width="1.8" stroke-linejoin="miter" />
 
-                <!-- 2. Linee sottili incise del reticolo centrale -->
-                <g stroke="#070b14" stroke-width="1.25" stroke-opacity="0.92">
-                    <!-- Orizzontale sinistra/destra -->
-                    <line x1="150" y1="300" x2="288" y2="300" />
-                    <line x1="312" y1="300" x2="450" y2="300" />
-                    <!-- Verticale sopra/sotto -->
-                    <line x1="300" y1="150" x2="300" y2="288" />
-                    <line x1="300" y1="312" x2="300" y2="450" />
-                </g>
+                <!-- Barra Inferiore -->
+                <rect x="292.5" y="514" width="15" height="56" fill="#000000" />
+                <polygon points="293.5,514 300,500 306.5,514" fill="#ffffff" stroke="#000000" stroke-width="1.8" stroke-linejoin="miter" />
 
-                <!-- 3. Tacche Mil-Hash e Pallini Mil-Dot Orizzontali & Verticali -->
-                <g stroke="#070b14" stroke-width="1.2" fill="#070b14">
-                    <!-- Tacche Orizzontali Sinistra (da -1 a -5 MIL) -->
-                    <line x1="275" y1="296" x2="275" y2="304" />
-                    <circle cx="250" cy="300" r="1.7" />
-                    <line x1="225" y1="294" x2="225" y2="306" />
-                    <circle cx="200" cy="300" r="1.7" />
-                    <line x1="175" y1="293" x2="175" y2="307" />
+                <!-- 2. CROCE CENTRALE E SCALE GRADUATE (Aloni chiari sottili + Tratto nero nitido) -->
+                <g stroke="#000000" stroke-linecap="butt">
+                    <!-- Croce Centrale (+) staccata -->
+                    <line x1="289" y1="300" x2="311" y2="300" stroke-width="1.5" />
+                    <line x1="300" y1="289" x2="300" y2="311" stroke-width="1.5" />
 
-                    <!-- Tacche Orizzontali Destra (da +1 a +5 MIL) -->
-                    <line x1="325" y1="296" x2="325" y2="304" />
-                    <circle cx="350" cy="300" r="1.7" />
-                    <line x1="375" y1="294" x2="375" y2="306" />
-                    <circle cx="400" cy="300" r="1.7" />
-                    <line x1="425" y1="293" x2="425" y2="307" />
+                    <!-- ASSI PRINCIPALI DELLE 4 SCALE (1 unità = 8.5px: da 2=17px a 20=170px) -->
+                    <!-- Asse Sinistro (da x=283 a x=113) -->
+                    <line x1="113" y1="300" x2="283" y2="300" stroke-width="1.5" />
+                    <!-- Asse Destro (da x=317 a x=487) -->
+                    <line x1="317" y1="300" x2="487" y2="300" stroke-width="1.5" />
+                    <!-- Asse Superiore corto (da y=283 a y=198, ovvero 10 unità) -->
+                    <line x1="300" y1="198" x2="300" y2="283" stroke-width="1.5" />
+                    <!-- Asse Inferiore (da y=317 a y=487) -->
+                    <line x1="300" y1="317" x2="300" y2="487" stroke-width="1.5" />
 
-                    <!-- Tacche Verticali Superiori -->
-                    <line x1="296" y1="275" x2="304" y2="275" />
-                    <circle cx="300" cy="250" r="1.7" />
-                    <line x1="294" y1="225" x2="306" y2="225" />
-                    <circle cx="300" cy="200" r="1.7" />
-                    <line x1="293" y1="175" x2="307" y2="175" />
+                    <!-- TACCHE SCALA SINISTRA -->
+                    <!-- Tacche principali (2, 10, 20) e intermedie (5, 15) -->
+                    <line x1="283" y1="291" x2="283" y2="309" stroke-width="1.5" />
+                    <line x1="257.5" y1="296" x2="257.5" y2="308" stroke-width="1.5" />
+                    <line x1="215" y1="284" x2="215" y2="316" stroke-width="1.6" />
+                    <line x1="172.5" y1="296" x2="172.5" y2="308" stroke-width="1.5" />
+                    <line x1="113" y1="291" x2="113" y2="309" stroke-width="1.5" />
+                    <!-- Micro-tacche inferiori sinistra (ogni unità: 3,4, 6,7,8,9, 11,12,13,14, 16,17,18,19) -->
+                    <line x1="274.5" y1="300" x2="274.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="266" y1="300" x2="266" y2="305.5" stroke-width="1.2" />
+                    <line x1="249" y1="300" x2="249" y2="305.5" stroke-width="1.2" />
+                    <line x1="240.5" y1="300" x2="240.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="232" y1="300" x2="232" y2="305.5" stroke-width="1.2" />
+                    <line x1="223.5" y1="300" x2="223.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="206.5" y1="300" x2="206.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="198" y1="300" x2="198" y2="305.5" stroke-width="1.2" />
+                    <line x1="189.5" y1="300" x2="189.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="181" y1="300" x2="181" y2="305.5" stroke-width="1.2" />
+                    <line x1="164" y1="300" x2="164" y2="305.5" stroke-width="1.2" />
+                    <line x1="155.5" y1="300" x2="155.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="147" y1="300" x2="147" y2="305.5" stroke-width="1.2" />
+                    <line x1="138.5" y1="300" x2="138.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="130" y1="296" x2="130" y2="308" stroke-width="1.4" />
+                    <line x1="121.5" y1="300" x2="121.5" y2="305.5" stroke-width="1.2" />
 
-                    <!-- Tacche Verticali Inferiori (Caduta proiettile / Bullet Drop) -->
-                    <line x1="295" y1="325" x2="305" y2="325" />
-                    <line x1="292" y1="350" x2="308" y2="350" />
-                    <line x1="294" y1="375" x2="306" y2="375" />
-                    <line x1="289" y1="400" x2="311" y2="400" />
-                    <line x1="294" y1="425" x2="306" y2="425" />
-                </g>
+                    <!-- TACCHE SCALA DESTRA -->
+                    <!-- Tacche principali (2, 10, 20) e intermedie (5, 15) -->
+                    <line x1="317" y1="291" x2="317" y2="309" stroke-width="1.5" />
+                    <line x1="342.5" y1="296" x2="342.5" y2="308" stroke-width="1.5" />
+                    <line x1="385" y1="284" x2="385" y2="316" stroke-width="1.6" />
+                    <line x1="427.5" y1="296" x2="427.5" y2="308" stroke-width="1.5" />
+                    <line x1="487" y1="291" x2="487" y2="309" stroke-width="1.5" />
+                    <!-- Micro-tacche inferiori destra -->
+                    <line x1="325.5" y1="300" x2="325.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="334" y1="300" x2="334" y2="305.5" stroke-width="1.2" />
+                    <line x1="351" y1="300" x2="351" y2="305.5" stroke-width="1.2" />
+                    <line x1="359.5" y1="300" x2="359.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="368" y1="300" x2="368" y2="305.5" stroke-width="1.2" />
+                    <line x1="376.5" y1="300" x2="376.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="393.5" y1="300" x2="393.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="402" y1="300" x2="402" y2="305.5" stroke-width="1.2" />
+                    <line x1="410.5" y1="300" x2="410.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="419" y1="300" x2="419" y2="305.5" stroke-width="1.2" />
+                    <line x1="436" y1="300" x2="436" y2="305.5" stroke-width="1.2" />
+                    <line x1="444.5" y1="300" x2="444.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="453" y1="300" x2="453" y2="305.5" stroke-width="1.2" />
+                    <line x1="461.5" y1="300" x2="461.5" y2="305.5" stroke-width="1.2" />
+                    <line x1="470" y1="296" x2="470" y2="308" stroke-width="1.4" />
+                    <line x1="478.5" y1="300" x2="478.5" y2="305.5" stroke-width="1.2" />
 
-                <!-- 4. Albero Balistico di Compensazione Vento/Caduta (Horus Windage Tree) -->
-                <g fill="#070b14" opacity="0.78">
-                    <!-- Riga 350 (2 MIL Drop) -->
-                    <circle cx="285" cy="350" r="1.2" /><circle cx="270" cy="350" r="1.2" />
-                    <circle cx="315" cy="350" r="1.2" /><circle cx="330" cy="350" r="1.2" />
-                    <!-- Riga 375 (3 MIL Drop) -->
-                    <circle cx="285" cy="375" r="1.2" /><circle cx="270" cy="375" r="1.2" /><circle cx="255" cy="375" r="1.2" />
-                    <circle cx="315" cy="375" r="1.2" /><circle cx="330" cy="375" r="1.2" /><circle cx="345" cy="375" r="1.2" />
-                    <!-- Riga 400 (4 MIL Drop) -->
-                    <circle cx="285" cy="400" r="1.2" /><circle cx="270" cy="400" r="1.2" /><circle cx="255" cy="400" r="1.2" /><circle cx="240" cy="400" r="1.2" />
-                    <circle cx="315" cy="400" r="1.2" /><circle cx="330" cy="400" r="1.2" /><circle cx="345" cy="400" r="1.2" /><circle cx="360" cy="400" r="1.2" />
-                    <!-- Riga 425 (5 MIL Drop) -->
-                    <circle cx="285" cy="425" r="1.2" /><circle cx="270" cy="425" r="1.2" /><circle cx="255" cy="425" r="1.2" /><circle cx="240" cy="425" r="1.2" /><circle cx="225" cy="425" r="1.2" />
-                    <circle cx="315" cy="425" r="1.2" /><circle cx="330" cy="425" r="1.2" /><circle cx="345" cy="425" r="1.2" /><circle cx="360" cy="425" r="1.2" /><circle cx="375" cy="425" r="1.2" />
-                </g>
+                    <!-- TACCHE SCALA SUPERIORE (corta con barra orizzontale finale a T) -->
+                    <line x1="291" y1="283" x2="309" y2="283" stroke-width="1.5" />
+                    <line x1="295" y1="268.8" x2="305" y2="268.8" stroke-width="1.2" />
+                    <line x1="291" y1="254.6" x2="309" y2="254.6" stroke-width="1.5" />
+                    <line x1="295" y1="240.5" x2="305" y2="240.5" stroke-width="1.2" />
+                    <line x1="295" y1="226.3" x2="305" y2="226.3" stroke-width="1.2" />
+                    <line x1="295" y1="212.1" x2="305" y2="212.1" stroke-width="1.2" />
+                    <line x1="282" y1="198" x2="318" y2="198" stroke-width="1.6" />
 
-                <!-- 5. Numerazione Mil-Scale incisa -->
-                <g fill="#070b14" font-family="Orbitron, monospace" font-size="8.5" font-weight="700" text-anchor="middle" opacity="0.82">
-                    <text x="250" y="315">2</text>
-                    <text x="200" y="315">4</text>
-                    <text x="350" y="315">2</text>
-                    <text x="400" y="315">4</text>
-                    <text x="316" y="353">2</text>
-                    <text x="320" y="403">4</text>
-                </g>
-
-                <!-- 6. Telemetro Stadiametrico (Rangefinder in basso a sinistra) -->
-                <g stroke="#070b14" stroke-width="1.1" fill="none" opacity="0.72">
-                    <line x1="150" y1="455" x2="235" y2="455" />
-                    <path d="M 155 455 Q 185 453 230 425" />
-                    <line x1="165" y1="455" x2="165" y2="450" />
-                    <line x1="185" y1="455" x2="185" y2="445" />
-                    <line x1="205" y1="455" x2="205" y2="438" />
-                    <line x1="225" y1="455" x2="225" y2="428" />
-                </g>
-                <g fill="#070b14" font-family="Orbitron, monospace" font-size="7" font-weight="700" opacity="0.72">
-                    <text x="161" y="464">4</text>
-                    <text x="181" y="464">3</text>
-                    <text x="201" y="464">2</text>
-                    <text x="221" y="464">1</text>
-                </g>
-
-                <!-- 7. CENTRO ILLUMINATO AL TRIZIO / FIBRA OTTICA ROSSA (Chevron + Horseshoe) -->
-                <g stroke="#f43f5e" fill="none">
-                    <!-- Anello a ferro di cavallo spezzato per acquisizione rapida -->
-                    <path d="M 284 291 A 18 18 0 0 1 316 291" stroke-width="1.6" stroke-opacity="0.85" />
-                    <path d="M 284 309 A 18 18 0 0 0 316 309" stroke-width="1.6" stroke-opacity="0.85" />
-                    <!-- Micro-croce illuminata e Chevron centrale -->
-                    <path d="M 295.5 303.5 L 300 298.5 L 304.5 303.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                    <circle cx="300" cy="300" r="1.2" fill="#f43f5e" stroke="none" />
-                    <!-- Micro tacche rosse di riferimento rapido -->
-                    <line x1="275" y1="298" x2="275" y2="302" stroke-width="1.2" stroke-opacity="0.8" />
-                    <line x1="325" y1="298" x2="325" y2="302" stroke-width="1.2" stroke-opacity="0.8" />
-                    <line x1="298" y1="325" x2="302" y2="325" stroke-width="1.2" stroke-opacity="0.8" />
+                    <!-- TACCHE SCALA INFERIORE -->
+                    <line x1="291" y1="317" x2="309" y2="317" stroke-width="1.5" />
+                    <line x1="295" y1="331.2" x2="305" y2="331.2" stroke-width="1.2" />
+                    <line x1="295" y1="345.3" x2="305" y2="345.3" stroke-width="1.2" />
+                    <line x1="295" y1="359.5" x2="305" y2="359.5" stroke-width="1.2" />
+                    <line x1="295" y1="373.7" x2="305" y2="373.7" stroke-width="1.2" />
+                    <line x1="295" y1="387.8" x2="305" y2="387.8" stroke-width="1.2" />
+                    <!-- Tacca lunga 10 inferiore -->
+                    <line x1="282" y1="402" x2="318" y2="402" stroke-width="1.6" />
+                    <line x1="295" y1="416.2" x2="305" y2="416.2" stroke-width="1.2" />
+                    <line x1="295" y1="430.3" x2="305" y2="430.3" stroke-width="1.2" />
+                    <line x1="295" y1="444.5" x2="305" y2="444.5" stroke-width="1.2" />
+                    <line x1="295" y1="458.7" x2="305" y2="458.7" stroke-width="1.2" />
+                    <line x1="295" y1="472.8" x2="305" y2="472.8" stroke-width="1.2" />
+                    <!-- Tacca 20 inferiore -->
+                    <line x1="291" y1="487" x2="309" y2="487" stroke-width="1.5" />
                 </g>
 
-                <!-- 8. CORPO METALLICO DELL'OTTICA E GHIERA ESTERNA -->
-                <!-- Bordo interno scuro -->
-                <circle cx="300" cy="300" r="275" fill="none" stroke="#020617" stroke-width="10" />
-                <!-- Ghiera metallica principale -->
-                <circle cx="300" cy="300" r="284" fill="none" stroke="url(#scopeBodyGrad)" stroke-width="16" />
-                <!-- Filettatura interna anodizzata -->
-                <circle cx="300" cy="300" r="271" fill="none" stroke="#334155" stroke-width="1" stroke-opacity="0.5" />
-                <circle cx="300" cy="300" r="292" fill="none" stroke="#1e293b" stroke-width="2" />
-
-                <!-- Torretta superiore (Elevazione) e laterale destra (Deriva) -->
-                <rect x="268" y="2" width="64" height="16" rx="3" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
-                <line x1="278" y1="2" x2="278" y2="18" stroke="#475569" stroke-width="1.5" />
-                <line x1="288" y1="2" x2="288" y2="18" stroke="#475569" stroke-width="1.5" />
-                <line x1="300" y1="2" x2="300" y2="18" stroke="#f43f5e" stroke-width="1.5" />
-                <line x1="312" y1="2" x2="312" y2="18" stroke="#475569" stroke-width="1.5" />
-                <line x1="322" y1="2" x2="322" y2="18" stroke="#475569" stroke-width="1.5" />
-
-                <rect x="582" y="268" width="16" height="64" rx="3" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
-                <line x1="582" y1="280" x2="598" y2="280" stroke="#475569" stroke-width="1.5" />
-                <line x1="582" y1="290" x2="598" y2="290" stroke="#475569" stroke-width="1.5" />
-                <line x1="582" y1="300" x2="598" y2="300" stroke="#f43f5e" stroke-width="1.5" />
-                <line x1="582" y1="310" x2="598" y2="310" stroke="#475569" stroke-width="1.5" />
-                <line x1="582" y1="320" x2="598" y2="320" stroke="#475569" stroke-width="1.5" />
+                <!-- 3. NUMERI "10" E "20" COME NELL'IMMAGINE -->
+                <g fill="#000000" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle">
+                    <!-- Sinistra -->
+                    <text x="113" y="280">20</text>
+                    <text x="215" y="280">10</text>
+                    <!-- Destra -->
+                    <text x="385" y="280">10</text>
+                    <text x="487" y="280">20</text>
+                    <!-- Basso (a sinistra dell'asse verticale) -->
+                    <text x="271" y="405.5">10</text>
+                    <text x="273" y="490.5">20</text>
+                </g>
             </svg>
         </div>
     </div>
