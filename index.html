@@ -1,28 +1,3 @@
-Ho applicato tutte le modifiche richieste mantenendo intatte tutte le funzioni precedenti:
-
-1. **Restyling Architettonico degli Edifici dell'Arena (Zero Affaticamento Visivo)**:
-   - Sostituiti i blocchi piatti `MeshBasicMaterial` (che non avevano ombreggiatura 3D e avevano bordi neon troppo accesi che si sovrapponevano creando *z-fighting*) con veri **edifici sci-fi sfaccettati in `MeshLambertMaterial`**.
-   - Ora ogni struttura ha **volumi leggibili con ombreggiature morbide**, basamenti scuri satinati, anelli architettonici rientranti, pilastri angolari smussati e accenti luminosi tenui e rilassanti per gli occhi, senza alcuno sfarfallio sulle superfici.
-2. **Effetti Sonori (SFX) Completamente Riprogettati e Diversificati**:
-   - Aggiunto un generatore di **rumore bianco filtrato (Noise Buffer) + filtri passa-banda/passa-basso** per dare ad ogni arma e ad ogni evento un timbro realistico e ben distinto:
-     - **Assalto**: raffica meccanica con punch medio-basso.
-     - **Mitraglietta**: scatto rapido ad alta frequenza silenzioso/tattico.
-     - **Pompa**: boom profondo con dispersione d'aria (noise burst).
-     - **Cecchino Railgun**: frustata supersonica metallica + eco magnetica.
-     - **Arco Tesla**: scarica elettrica modulata in frequenza.
-     - **Hydra RPG**: lancio propulsivo grezzo + boato sub-bass.
-     - **Cannone Gauss**: carica armonica + rilascio quantico.
-     - **Singolarità Omega**: implosione gravitazionale bitonale.
-   - Diversificati anche i suoni di **Hitmarker**, **Headshot/Critico**, **Esplosione**, **Ricarica a due stadi** (estrazione + inserimento caricatore), **Medkit**, **Perk Temporaneo** e **Jump-Pad**.
-3. **Colonna Sonora Synthwave / Cyberpunk in Sottofondo + Controlli Separati (Musica / Effetti)**:
-   - Creato un **sequencer musicale procedurale Synthwave a 118 BPM** (basso analogico *arp*, accordi *pad* spaziali morbidi, melodia cyber e percussioni elettroniche leggere).
-   - Nell'HUD in alto a destra (e salvati nel profilo) ora ci sono **due pulsanti indipendenti**:
-     - `🎵 MUSICA` (attiva/muta solo la musica di sottofondo).
-     - `🔊 EFFETTI` (attiva/muta solo gli spari e i suoni di gioco).
-
-Ecco il codice completo aggiornato:
-
-```html
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -4548,6 +4523,3 @@ Ecco la prosecuzione e conclusione del file HTML esattamente da dove si era inte
     </script>
 </body>
 </html>
-```
-
-*(Nota: se preferisci avere il file salvato direttamente nella tua cartella di progetto invece di copiare/incollare i due blocchi, dimmelo pure e te lo salvo subito in un file `.html` pronto da aprire!)*
