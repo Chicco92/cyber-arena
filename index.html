@@ -1,34 +1,26 @@
-Ho aggiornato **CyberStrike 3D** integrando tutte le modifiche richieste nella tua lista:
+Ho applicato tutte le modifiche richieste mantenendo intatte tutte le funzioni precedenti:
 
-1. **Ottica del Cecchino in Stile Cyber**: Mantiene esattamente la geometria dell'immagine che mi hai inviato (barre spesse laterali/inferiori con punte triangolari, croce centrale staccata e scale graduate `10` e `20`), ma ora è renderizzata in **stile Cyber olografico neon** (ciano/cremisi con bagliore HUD, telemetria laser e anello tecnologico).
-2. **Nuove Tipologie di Nemici (Terrestri + Volanti) e 3 Boss Unici**:
-   - **Cyber-Walker (Bipede Robotico)**: cammina a terra muovendo le gambe meccaniche, insegue il giocatore e salta/scatta.
-   - **Ragno Meccanico Kamikaze (Spider-Bot)**: corre velocissimo rasoterra sulle 6 zampe ed esplode se ti raggiunge.
-   - **Goliath Mech Corazzato**: colosso bipede terrestre con doppio cannone al plasma.
-   - **Drone Cecchino & Drone Scout**: unità aeree di supporto.
-   - **3 Boss Completamente Diversi** (ogni 5 ondate: Ondata 5, 10, 15...):
-     - **Boss 1 (Ondata 5)**: * Aegis Drone-Carrier* (nave madre volante che spara raffiche ed evoca Spider-Bot).
-     - **Boss 2 (Ondata 10)**: * Arachnotron Prime* (gigantesco ragno corazzato terrestre che carica ad alta velocità e spara plasma acido).
-     - **Boss 3 (Ondata 15)**: * Titan-Omega Mech* (colosso umanoide bipede con cannoni sulle spalle, ondate d'urto e sbarramenti laser).
-3. **Mappa con Parkour 3D, Jump-Pad e Cielo Galattico**:
-   - **Cielo Galattico**: nebulosa spaziale, **2200 stelle multicolore**, anello planetario luminoso e pianeta cyber all'orizzonte.
-   - **Parkour Verticale Funzionante**: collisioni 3D complete in altezza (`minY` / `maxY`), rampe inclinate percorribili, **piattaforme sopraelevate**, ponti sospesi e **4 Jump-Pad al Neon Ciano** negli angoli che ti catapultano in aria per fare trickshot e muoverti velocemente tra i tetti.
-4. **Ribilanciamento Armi Segrete e Progressione Sblocco**:
-   - **Tasto `[5]` Arco Tesla** *(Sblocco: 75 Kill totali + Raggiungi Ondata 5)*: fulmine a catena bilanciato.
-   - **Tasto `[6]` Lanciarazzi Hydra** *(Sblocco: Sconfiggi il 1° Boss + 200 Kill)*: danno ad area termobarico.
-   - **Tasto `[7]` Cannone Gauss Quantico** *(Sblocco: Sconfiggi il 2° Boss + 400 Kill)*: raggio perforante ad alto danno.
-   - **Tasto `[8]` Singolarità Omega** *(Sblocco Finale: Sconfiggi tutti e 3 i Boss + 750 Kill)*: ora è la vera arma finale ed è bilanciata per non rompere il gioco subito.
-5. **Sistema di Prestigio Armi & Abilità Prestigio (PN)**:
-   - Quando porti tutti i 4 potenziamenti base di un'arma a **Grado 5/5**, si sblocca il pulsante **★ PRESTIGIO ARMA ★** nel Negozio.
-   - Una volta prestigiata, sblocchi **3 Abilità Prestigio Esclusive** acquistabili coi Punti Negozio (`PN`): **Munizioni Vampiriche** (curi HP a ogni kill), **Innesco Instabile** (i nemici uccisi esplodono), **Riciclo Quantico** (colpi critici e rimborso munizioni).
-6. **Sistema Trofei Stile PlayStation (PSN) fino al Platino 🏆**:
-   - Nuovo pulsante **🏆 Trofei PSN** nel menu con **14 Trofei** (Bronzo, Argento, Oro) + **Trofeo di Platino "Signore di CyberStrike"** che si sblocca automaticamente solo quando hai ottenuto tutti gli altri.
-   - Notifica **Pop-up animata in alto a destra** identica a PlayStation con suono dedicato quando sblocchi un trofeo in partita!
-7. **Gameplay Più Veloce + Perk Temporanei**:
-   - I nemici ora spawnano **a gruppi dinamici** molto più reattivi, con ondate più corte e intense (Boss ogni 5 ondate invece che 10).
-   - Oltre ai Medkit verdi, i nemici possono rilasciare **4 Perk Temporanei fluttuanti**: **⚔️ Danno Doppia Potenza**, **⚡ Velocità Overdrive**, **♾️ Munizioni Infinite**, **🛡️ Scudo Invulnerabile** (con indicatori attivi nell'HUD).
+1. **Restyling Architettonico degli Edifici dell'Arena (Zero Affaticamento Visivo)**:
+   - Sostituiti i blocchi piatti `MeshBasicMaterial` (che non avevano ombreggiatura 3D e avevano bordi neon troppo accesi che si sovrapponevano creando *z-fighting*) con veri **edifici sci-fi sfaccettati in `MeshLambertMaterial`**.
+   - Ora ogni struttura ha **volumi leggibili con ombreggiature morbide**, basamenti scuri satinati, anelli architettonici rientranti, pilastri angolari smussati e accenti luminosi tenui e rilassanti per gli occhi, senza alcuno sfarfallio sulle superfici.
+2. **Effetti Sonori (SFX) Completamente Riprogettati e Diversificati**:
+   - Aggiunto un generatore di **rumore bianco filtrato (Noise Buffer) + filtri passa-banda/passa-basso** per dare ad ogni arma e ad ogni evento un timbro realistico e ben distinto:
+     - **Assalto**: raffica meccanica con punch medio-basso.
+     - **Mitraglietta**: scatto rapido ad alta frequenza silenzioso/tattico.
+     - **Pompa**: boom profondo con dispersione d'aria (noise burst).
+     - **Cecchino Railgun**: frustata supersonica metallica + eco magnetica.
+     - **Arco Tesla**: scarica elettrica modulata in frequenza.
+     - **Hydra RPG**: lancio propulsivo grezzo + boato sub-bass.
+     - **Cannone Gauss**: carica armonica + rilascio quantico.
+     - **Singolarità Omega**: implosione gravitazionale bitonale.
+   - Diversificati anche i suoni di **Hitmarker**, **Headshot/Critico**, **Esplosione**, **Ricarica a due stadi** (estrazione + inserimento caricatore), **Medkit**, **Perk Temporaneo** e **Jump-Pad**.
+3. **Colonna Sonora Synthwave / Cyberpunk in Sottofondo + Controlli Separati (Musica / Effetti)**:
+   - Creato un **sequencer musicale procedurale Synthwave a 118 BPM** (basso analogico *arp*, accordi *pad* spaziali morbidi, melodia cyber e percussioni elettroniche leggere).
+   - Nell'HUD in alto a destra (e salvati nel profilo) ora ci sono **due pulsanti indipendenti**:
+     - `🎵 MUSICA` (attiva/muta solo la musica di sottofondo).
+     - `🔊 EFFETTI` (attiva/muta solo gli spari e i suoni di gioco).
 
-Ecco il codice completo:
+Ecco il codice completo aggiornato:
 
 ```html
 <!DOCTYPE html>
@@ -143,7 +135,6 @@ Ecco il codice completo:
         <div id="sniper-scope-reticle" class="screen-center w-[82vmin] h-[82vmin] max-w-[680px] max-h-[680px] scope-lens-cyber flex items-center justify-center">
             <svg viewBox="0 0 600 600" class="w-full h-full overflow-visible">
                 <defs>
-                    <!-- Vignettatura interna scura + Anello Neon Cyber -->
                     <radialGradient id="scopeCyberVignette" cx="50%" cy="50%" r="50%">
                         <stop offset="0%" stop-color="#000000" stop-opacity="0" />
                         <stop offset="72%" stop-color="#06b6d4" stop-opacity="0.03" />
@@ -161,13 +152,11 @@ Ecco il codice completo:
                     </filter>
                 </defs>
 
-                <!-- Anello sfumato sul bordo interno della lente -->
                 <circle cx="300" cy="300" r="298" fill="url(#scopeCyberVignette)" />
                 <circle cx="300" cy="300" r="296" fill="none" stroke="#0f172a" stroke-width="8" />
                 <circle cx="300" cy="300" r="292" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-opacity="0.7" />
                 <circle cx="300" cy="300" r="284" fill="none" stroke="#f43f5e" stroke-width="1" stroke-dasharray="18 10 4 10" stroke-opacity="0.45" />
 
-                <!-- Telemetria HUD Cyber laterale nell'ottica -->
                 <g fill="#22d3ee" font-family="Orbitron, monospace" font-size="9" font-weight="700" opacity="0.75">
                     <text x="150" y="135">ZOOM // 8.0X RAIL-OPTIC</text>
                     <text x="365" y="135">SYNC // LOCK-ON</text>
@@ -175,27 +164,22 @@ Ecco il codice completo:
                     <text x="365" y="485">CORE // CHARGED</text>
                 </g>
 
-                <!-- 1. BARRE LATERALI E INFERIORE SPESSE CON PUNTA TRIANGOLARE LUMINOSA (Come nell'immagine) -->
-                <!-- Barra Sinistra -->
+                <!-- 1. BARRE LATERALI E INFERIORE SPESSE CON PUNTA TRIANGOLARE LUMINOSA -->
                 <rect x="6" y="291" width="66" height="18" fill="#090d16" stroke="#22d3ee" stroke-width="1.5" />
                 <polygon points="72,291.5 91,300 72,308.5" fill="#f43f5e" stroke="#67e8f9" stroke-width="1.8" filter="url(#cyberGlow)" />
 
-                <!-- Barra Destra -->
                 <rect x="528" y="291" width="66" height="18" fill="#090d16" stroke="#22d3ee" stroke-width="1.5" />
                 <polygon points="528,291.5 509,300 528,308.5" fill="#f43f5e" stroke="#67e8f9" stroke-width="1.8" filter="url(#cyberGlow)" />
 
-                <!-- Barra Inferiore -->
                 <rect x="291" y="528" width="18" height="66" fill="#090d16" stroke="#22d3ee" stroke-width="1.5" />
                 <polygon points="291.5,528 300,509 308.5,528" fill="#f43f5e" stroke="#67e8f9" stroke-width="1.8" filter="url(#cyberGlow)" />
 
-                <!-- 2. CROCE CENTRALE E SCALE GRADUATE (10 e 20) IN STILE OLOGRAFICO CYBER -->
+                <!-- 2. CROCE CENTRALE E SCALE GRADUATE (10 e 20) -->
                 <g stroke="#22d3ee" stroke-linecap="butt" filter="url(#cyberGlow)">
-                    <!-- Croce Centrale (+) staccata -->
                     <line x1="288" y1="300" x2="312" y2="300" stroke="#f43f5e" stroke-width="2.0" />
                     <line x1="300" y1="288" x2="300" y2="312" stroke="#f43f5e" stroke-width="2.0" />
                     <circle cx="300" cy="300" r="1.8" fill="#ffffff" stroke="none" />
 
-                    <!-- ASSI PRINCIPALI DELLE 4 SCALE -->
                     <line x1="104" y1="300" x2="282" y2="300" stroke-width="1.8" />
                     <line x1="318" y1="300" x2="496" y2="300" stroke-width="1.8" />
                     <line x1="300" y1="190" x2="300" y2="282" stroke-width="1.8" />
@@ -208,7 +192,6 @@ Ecco il codice completo:
                     <line x1="166.5" y1="295" x2="166.5" y2="309" stroke-width="1.6" />
                     <line x1="122" y1="295" x2="122" y2="309" stroke-width="1.6" />
                     <line x1="104" y1="290" x2="104" y2="310" stroke="#f43f5e" stroke-width="2.0" />
-                    <!-- Micro-tacche inferiori sinistra -->
                     <line x1="273" y1="300" x2="273" y2="306" stroke-width="1.3" />
                     <line x1="264" y1="300" x2="264" y2="306" stroke-width="1.3" />
                     <line x1="246" y1="300" x2="246" y2="306" stroke-width="1.3" />
@@ -232,7 +215,6 @@ Ecco il codice completo:
                     <line x1="433.5" y1="295" x2="433.5" y2="309" stroke-width="1.6" />
                     <line x1="478" y1="295" x2="478" y2="309" stroke-width="1.6" />
                     <line x1="496" y1="290" x2="496" y2="310" stroke="#f43f5e" stroke-width="2.0" />
-                    <!-- Micro-tacche inferiori destra -->
                     <line x1="327" y1="300" x2="327" y2="306" stroke-width="1.3" />
                     <line x1="336" y1="300" x2="336" y2="306" stroke-width="1.3" />
                     <line x1="354" y1="300" x2="354" y2="306" stroke-width="1.3" />
@@ -274,7 +256,6 @@ Ecco il codice completo:
                     <line x1="290" y1="496" x2="310" y2="496" stroke="#f43f5e" stroke-width="2.0" />
                 </g>
 
-                <!-- 3. NUMERI "10" E "20" IN FONT CYBER NEON -->
                 <g fill="#67e8f9" font-family="Orbitron, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle" filter="url(#cyberGlow)">
                     <text x="104" y="278">20</text>
                     <text x="211" y="278">10</text>
@@ -348,9 +329,9 @@ Ecco il codice completo:
                     </div>
                 </div>
 
-                <!-- Telemetria FPS/PING + Controlli Rapidi + Radar -->
-                <div class="flex items-start gap-2.5 pointer-events-auto">
-                    <div class="cyber-panel rounded-xl px-3 py-1.5 flex items-center gap-3 text-right">
+                <!-- Telemetria FPS/PING + Controlli Separati MUSICA e EFFETTI + Radar -->
+                <div class="flex items-start gap-2 pointer-events-auto">
+                    <div class="cyber-panel rounded-xl px-3 py-1.5 hidden md:flex items-center gap-3 text-right">
                         <div>
                             <div class="text-[9px] font-cyber uppercase tracking-widest text-slate-400">FPS</div>
                             <div id="hud-fps" class="text-xs sm:text-sm font-cyber font-bold text-emerald-400">60</div>
@@ -361,8 +342,9 @@ Ecco il codice completo:
                             <div id="hud-ping" class="text-xs sm:text-sm font-cyber font-bold text-cyan-400">12ms</div>
                         </div>
                     </div>
-                    <button id="btn-mute" title="Audio On/Off" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-cyan-300 hover:bg-cyan-500/20 transition cursor-pointer">🔊 AUDIO</button>
-                    <button id="btn-pause" title="Pausa [P]" class="cyber-panel rounded-xl px-3 py-2 text-xs font-cyber text-slate-200 hover:bg-slate-700/40 transition cursor-pointer">⏸ PAUSA</button>
+                    <button id="btn-music" title="Musica di Sottofondo On/Off" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-fuchsia-300 hover:bg-fuchsia-500/20 transition cursor-pointer">🎵 MUSICA</button>
+                    <button id="btn-mute" title="Effetti Sonori On/Off" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-cyan-300 hover:bg-cyan-500/20 transition cursor-pointer">🔊 EFFETTI</button>
+                    <button id="btn-pause" title="Pausa [P]" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-slate-200 hover:bg-slate-700/40 transition cursor-pointer">⏸ PAUSA</button>
                     <div class="cyber-panel rounded-full p-1.5 hidden sm:block">
                         <canvas id="radar-canvas" width="96" height="96" class="rounded-full block"></canvas>
                     </div>
@@ -522,13 +504,22 @@ Ecco il codice completo:
                 </div>
             </div>
 
-            <!-- Regolazione Sensibilità Mouse -->
-            <div class="mb-4 text-left bg-slate-900 rounded-xl px-4 py-2 border border-slate-800">
-                <div class="flex justify-between text-xs mb-1">
-                    <span class="text-slate-300 font-semibold">Sensibilità Puntatore</span>
-                    <span id="sens-value" class="text-cyan-400 font-cyber">1.0x</span>
+            <!-- Regolazione Sensibilità Mouse & Audio Rapido nel Menu -->
+            <div class="mb-4 text-left bg-slate-900 rounded-xl px-4 py-2.5 border border-slate-800 flex flex-col gap-2">
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-slate-300 font-semibold">Sensibilità Puntatore</span>
+                        <span id="sens-value" class="text-cyan-400 font-cyber">1.0x</span>
+                    </div>
+                    <input id="sens-slider" type="range" min="0.3" max="2.5" step="0.1" value="1.0" class="w-full accent-cyan-400 cursor-pointer">
                 </div>
-                <input id="sens-slider" type="range" min="0.3" max="2.5" step="0.1" value="1.0" class="w-full accent-cyan-400 cursor-pointer">
+                <div class="flex items-center justify-between pt-1.5 border-t border-slate-800/80 text-xs">
+                    <span class="text-slate-400">Controllo Canali Audio Indipendenti:</span>
+                    <div class="flex gap-2">
+                        <button id="menu-btn-music" type="button" class="px-2.5 py-1 rounded-lg bg-slate-950 border border-fuchsia-400/50 text-fuchsia-300 font-cyber text-[10px] font-bold cursor-pointer">🎵 MUSICA: ON</button>
+                        <button id="menu-btn-sfx" type="button" class="px-2.5 py-1 rounded-lg bg-slate-950 border border-cyan-400/50 text-cyan-300 font-cyber text-[10px] font-bold cursor-pointer">🔊 EFFETTI: ON</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Pulsanti Azione Principali: Negozio, Trofei, Gioca -->
@@ -591,7 +582,7 @@ Ecco il codice completo:
                 <div>
                     <div class="flex justify-between text-[11px] font-cyber mb-1">
                         <span class="text-slate-300">Esperienza Arma (XP)</span>
-                        <span id="shop-weapon-xp-text" class="text-cyan-300">0 / 80 XP</span>
+                        <span id="shop-weapon-xp-text" class="text-cyan-300">0 / 75 XP</span>
                     </div>
                     <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
                         <div id="shop-weapon-xp-bar" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 rounded-full transition-all duration-150" style="width: 0%"></div>
@@ -780,6 +771,8 @@ Ecco il codice completo:
             gamesPlayed: 0,
             maxBossesDefeatedPermanent: 0,
             sensitivity: 1.0,
+            sfxEnabled: true,
+            musicEnabled: true,
             unlockedTrophies: [],
             weaponStats: createDefaultWeaponStats()
         };
@@ -873,7 +866,7 @@ Ecco il codice completo:
 
             if (leveledUp) {
                 const wObj = WEAPONS.find(w => w.id === weaponId);
-                sound.playPickup();
+                sound.playPerkPickup();
                 showAnnouncement(
                     `⬆️ ${wObj ? wObj.shortName : weaponId} LIVELLO ${st.level}!`,
                     `+1 Punto Negozio (PN) Sbloccato! Apri l'Armeria nel menu per potenziarla.`
@@ -898,7 +891,6 @@ Ecco il codice completo:
                 }
             });
 
-            // Controlla se tutti i 14 trofei base sono sbloccati per assegnare il PLATINO
             const nonPlatCount = PSN_TROPHIES.filter(t => !t.isPlatinum).length;
             const unlockedNonPlat = playerProfile.unlockedTrophies.filter(id => id !== 'PLATINUM').length;
             if (unlockedNonPlat >= nonPlatCount && !playerProfile.unlockedTrophies.includes('PLATINUM')) {
@@ -953,6 +945,8 @@ Ecco il codice completo:
                     playerProfile.gamesPlayed = Number(parsed.gamesPlayed) || 0;
                     playerProfile.maxBossesDefeatedPermanent = Number(parsed.maxBossesDefeatedPermanent) || 0;
                     playerProfile.sensitivity = Number(parsed.sensitivity) || 1.0;
+                    playerProfile.sfxEnabled = parsed.sfxEnabled !== undefined ? Boolean(parsed.sfxEnabled) : true;
+                    playerProfile.musicEnabled = parsed.musicEnabled !== undefined ? Boolean(parsed.musicEnabled) : true;
                     playerProfile.unlockedTrophies = Array.isArray(parsed.unlockedTrophies) ? parsed.unlockedTrophies : [];
 
                     if (parsed.weaponStats) {
@@ -1059,200 +1053,507 @@ Ecco il codice completo:
             if (shopBadge) {
                 shopBadge.textContent = `${getTotalAvailableShopPoints()} PN`;
             }
+
+            syncAudioButtonsUI();
         }
 
         /**
-         * MOTORE AUDIO SINTETIZZATO
+         * MOTORE AUDIO AVANZATO:
+         * - Canali separati per EFFETTI SONORI (sfxEnabled) e MUSICA SYNTHWAVE (musicEnabled)
+         * - Suoni diversificati con Noise Buffer, filtri e sintesi multi-oscillatore
          */
         class CyberSoundEngine {
             constructor() {
                 this.ctx = null;
-                this.enabled = true;
+                this.noiseBuffer = null;
+                this.sfxEnabled = true;
+                this.musicEnabled = true;
+                this.musicTimer = null;
+                this.musicStep = 0;
             }
+
             init() {
                 try {
                     if (!this.ctx) {
                         const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                        if (AudioCtx) this.ctx = new AudioCtx();
+                        if (AudioCtx) {
+                            this.ctx = new AudioCtx();
+                            this.createNoiseBuffer();
+                        }
                     }
-                    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+                    if (this.ctx && this.ctx.state === 'suspended') {
+                        this.ctx.resume();
+                    }
+                    this.startBackgroundMusicLoop();
                 } catch (e) {}
             }
-            toggle() {
-                this.enabled = !this.enabled;
-                return this.enabled;
-            }
-            playWeaponFire(weaponId) {
-                if (!this.ctx || !this.enabled) return;
-                const now = this.ctx.currentTime;
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                if (weaponId === 'SMG') {
-                    osc.type = 'square';
-                    osc.frequency.setValueAtTime(980, now);
-                    osc.frequency.exponentialRampToValueAtTime(220, now + 0.08);
-                    gain.gain.setValueAtTime(0.15, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.085);
-                } else if (weaponId === 'SHOTGUN') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(250, now);
-                    osc.frequency.exponentialRampToValueAtTime(42, now + 0.28);
-                    gain.gain.setValueAtTime(0.32, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.29);
-                } else if (weaponId === 'SNIPER') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(1400, now);
-                    osc.frequency.exponentialRampToValueAtTime(60, now + 0.38);
-                    gain.gain.setValueAtTime(0.34, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.39);
-                } else if (weaponId === 'TESLA') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(1650, now);
-                    osc.frequency.linearRampToValueAtTime(420, now + 0.12);
-                    osc.frequency.linearRampToValueAtTime(1100, now + 0.22);
-                    gain.gain.setValueAtTime(0.28, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-                } else if (weaponId === 'HYDRA') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(140, now);
-                    osc.frequency.exponentialRampToValueAtTime(32, now + 0.42);
-                    gain.gain.setValueAtTime(0.38, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.44);
-                } else if (weaponId === 'GAUSS') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(1950, now);
-                    osc.frequency.exponentialRampToValueAtTime(45, now + 0.44);
-                    gain.gain.setValueAtTime(0.4, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-                } else if (weaponId === 'SECRET') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(520, now);
-                    osc.frequency.linearRampToValueAtTime(1280, now + 0.11);
-                    osc.frequency.exponentialRampToValueAtTime(55, now + 0.44);
-                    gain.gain.setValueAtTime(0.35, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-                } else {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(760, now);
-                    osc.frequency.exponentialRampToValueAtTime(130, now + 0.13);
-                    gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+
+            createNoiseBuffer() {
+                if (!this.ctx) return;
+                const sr = this.ctx.sampleRate;
+                const buffer = this.ctx.createBuffer(1, sr * 1.0, sr);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < data.length; i++) {
+                    data[i] = Math.random() * 2 - 1;
                 }
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.45);
+                this.noiseBuffer = buffer;
             }
+
+            playNoiseBurst(duration, filterType, freq, endFreq, peakGain) {
+                if (!this.ctx || !this.noiseBuffer || !this.sfxEnabled) return;
+                const now = this.ctx.currentTime;
+                const src = this.ctx.createBufferSource();
+                src.buffer = this.noiseBuffer;
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = filterType;
+                filter.frequency.setValueAtTime(freq, now);
+                if (endFreq) filter.frequency.exponentialRampToValueAtTime(endFreq, now + duration);
+
+                const gain = this.ctx.createGain();
+                gain.gain.setValueAtTime(peakGain, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+                src.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.ctx.destination);
+                src.start(now);
+                src.stop(now + duration);
+            }
+
+            toggleSfx() {
+                this.sfxEnabled = !this.sfxEnabled;
+                playerProfile.sfxEnabled = this.sfxEnabled;
+                savePlayerProfile();
+                return this.sfxEnabled;
+            }
+
+            toggleMusic() {
+                this.musicEnabled = !this.musicEnabled;
+                playerProfile.musicEnabled = this.musicEnabled;
+                savePlayerProfile();
+                if (this.musicEnabled) {
+                    this.init();
+                }
+                return this.musicEnabled;
+            }
+
+            // Sequencer procedurale Synthwave / Cyberpunk (118 BPM, sedicesimi = 127ms)
+            startBackgroundMusicLoop() {
+                if (this.musicTimer) return;
+                const bassLine = [
+                    55.0, 55.0, 110.0, 55.0,  55.0, 55.0, 82.41, 98.0,
+                    65.41, 65.41, 130.81, 65.41, 49.0, 49.0, 98.0, 73.42
+                ];
+                const leadNotes = [
+                    220.0, 0, 261.63, 329.63, 293.66, 0, 261.63, 246.94,
+                    196.0, 0, 220.0, 261.63, 329.63, 0, 392.0, 329.63
+                ];
+
+                this.musicTimer = setInterval(() => {
+                    if (!this.ctx || !this.musicEnabled || this.ctx.state !== 'running') return;
+                    const now = this.ctx.currentTime;
+                    const step = this.musicStep % 16;
+                    const bar = Math.floor(this.musicStep / 16) % 4;
+                    this.musicStep++;
+
+                    // Volumi più morbidi nei menu, più energici in partita
+                    const volScale = state.mode === 'PLAYING' ? 1.0 : 0.55;
+
+                    // 1. Basso Synthwave Arpeggiato
+                    const bassFreq = bassLine[step];
+                    if (bassFreq > 0) {
+                        const bOsc = this.ctx.createOscillator();
+                        const bFilter = this.ctx.createBiquadFilter();
+                        const bGain = this.ctx.createGain();
+                        bOsc.type = 'sawtooth';
+                        bOsc.frequency.setValueAtTime(bassFreq, now);
+                        bFilter.type = 'lowpass';
+                        bFilter.frequency.setValueAtTime(520, now);
+                        bFilter.frequency.exponentialRampToValueAtTime(140, now + 0.11);
+
+                        bGain.gain.setValueAtTime(0.055 * volScale, now);
+                        bGain.gain.exponentialRampToValueAtTime(0.001, now + 0.115);
+
+                        bOsc.connect(bFilter);
+                        bFilter.connect(bGain);
+                        bGain.connect(this.ctx.destination);
+                        bOsc.start(now);
+                        bOsc.stop(now + 0.12);
+                    }
+
+                    // 2. Cassa elettronica morbida sui quarti (step 0, 4, 8, 12)
+                    if (step % 4 === 0) {
+                        const kOsc = this.ctx.createOscillator();
+                        const kGain = this.ctx.createGain();
+                        kOsc.type = 'sine';
+                        kOsc.frequency.setValueAtTime(115, now);
+                        kOsc.frequency.exponentialRampToValueAtTime(34, now + 0.11);
+                        kGain.gain.setValueAtTime(0.08 * volScale, now);
+                        kGain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                        kOsc.connect(kGain);
+                        kGain.connect(this.ctx.destination);
+                        kOsc.start(now);
+                        kOsc.stop(now + 0.125);
+                    }
+
+                    // 3. Pad atmosferico spaziale ad inizio battuta
+                    if (step === 0) {
+                        const root = [220.0, 174.61, 261.63, 196.0][bar];
+                        [root, root * 1.25, root * 1.5].forEach(f => {
+                            const pOsc = this.ctx.createOscillator();
+                            const pGain = this.ctx.createGain();
+                            pOsc.type = 'triangle';
+                            pOsc.frequency.setValueAtTime(f, now);
+                            pGain.gain.setValueAtTime(0.001, now);
+                            pGain.gain.linearRampToValueAtTime(0.022 * volScale, now + 0.4);
+                            pGain.gain.exponentialRampToValueAtTime(0.001, now + 1.9);
+                            pOsc.connect(pGain);
+                            pGain.connect(this.ctx.destination);
+                            pOsc.start(now);
+                            pOsc.stop(now + 1.95);
+                        });
+                    }
+
+                    // 4. Melodia Cyber Pluck (nelle battute pari)
+                    if (bar % 2 === 1 && leadNotes[step] > 0) {
+                        const lOsc = this.ctx.createOscillator();
+                        const lGain = this.ctx.createGain();
+                        lOsc.type = 'sine';
+                        lOsc.frequency.setValueAtTime(leadNotes[step] * 2, now);
+                        lGain.gain.setValueAtTime(0.032 * volScale, now);
+                        lGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+                        lOsc.connect(lGain);
+                        lGain.connect(this.ctx.destination);
+                        lOsc.start(now);
+                        lOsc.stop(now + 0.23);
+                    }
+                }, 127);
+            }
+
+            // Suoni di sparo nettamente diversificati per ognuna delle 8 armi
+            playWeaponFire(weaponId) {
+                if (!this.ctx || !this.sfxEnabled) return;
+                const now = this.ctx.currentTime;
+
+                if (weaponId === 'ASSAULT') {
+                    // Punch tattico + scatto meccanico
+                    this.playNoiseBurst(0.075, 'bandpass', 1600, 420, 0.16);
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(340, now);
+                    osc.frequency.exponentialRampToValueAtTime(68, now + 0.11);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.115);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+
+                } else if (weaponId === 'SMG') {
+                    // Cadenza soppressa ad impulsi corti e cristallini
+                    this.playNoiseBurst(0.045, 'highpass', 2400, 900, 0.11);
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(680, now);
+                    osc.frequency.exponentialRampToValueAtTime(160, now + 0.065);
+                    gain.gain.setValueAtTime(0.14, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.075);
+
+                } else if (weaponId === 'SHOTGUN') {
+                    // Esplosione pesante a doppia canna con soffio plasma
+                    this.playNoiseBurst(0.26, 'lowpass', 1100, 140, 0.34);
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(155, now);
+                    osc.frequency.exponentialRampToValueAtTime(34, now + 0.25);
+                    gain.gain.setValueAtTime(0.32, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.27);
+
+                } else if (weaponId === 'SNIPER') {
+                    // Frustata supersonica Railgun + coda metallica
+                    this.playNoiseBurst(0.18, 'bandpass', 2800, 320, 0.25);
+                    const osc1 = this.ctx.createOscillator();
+                    const osc2 = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc1.type = 'sawtooth';
+                    osc2.type = 'sine';
+                    osc1.frequency.setValueAtTime(1850, now);
+                    osc1.frequency.exponentialRampToValueAtTime(52, now + 0.36);
+                    osc2.frequency.setValueAtTime(420, now);
+                    osc2.frequency.exponentialRampToValueAtTime(95, now + 0.36);
+                    gain.gain.setValueAtTime(0.28, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.37);
+                    osc1.connect(gain);
+                    osc2.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc1.start(now);
+                    osc2.start(now);
+                    osc1.stop(now + 0.38);
+                    osc2.stop(now + 0.38);
+
+                } else if (weaponId === 'TESLA') {
+                    // Scarica elettrica modulata ad arco voltaico
+                    this.playNoiseBurst(0.14, 'highpass', 3200, 1200, 0.16);
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(920, now);
+                    osc.frequency.setValueAtTime(1480, now + 0.04);
+                    osc.frequency.setValueAtTime(640, now + 0.08);
+                    osc.frequency.setValueAtTime(1720, now + 0.12);
+                    osc.frequency.exponentialRampToValueAtTime(280, now + 0.22);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.23);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.24);
+
+                } else if (weaponId === 'HYDRA') {
+                    // Propulsore missile termobarico (whoosh + sub-bass)
+                    this.playNoiseBurst(0.38, 'bandpass', 650, 120, 0.35);
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(95, now);
+                    osc.frequency.linearRampToValueAtTime(160, now + 0.09);
+                    osc.frequency.exponentialRampToValueAtTime(28, now + 0.40);
+                    gain.gain.setValueAtTime(0.28, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.41);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.42);
+
+                } else if (weaponId === 'GAUSS') {
+                    // Risonanza quantica dorata ad altissima energia
+                    const osc1 = this.ctx.createOscillator();
+                    const osc2 = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc1.type = 'triangle';
+                    osc2.type = 'sine';
+                    osc1.frequency.setValueAtTime(2400, now);
+                    osc1.frequency.exponentialRampToValueAtTime(70, now + 0.42);
+                    osc2.frequency.setValueAtTime(1200, now);
+                    osc2.frequency.exponentialRampToValueAtTime(180, now + 0.42);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.43);
+                    osc1.connect(gain);
+                    osc2.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc1.start(now);
+                    osc2.start(now);
+                    osc1.stop(now + 0.44);
+                    osc2.stop(now + 0.44);
+
+                } else if (weaponId === 'SECRET') {
+                    // Singolarità Omega: implosione gravitazionale bitonale
+                    const osc = this.ctx.createOscillator();
+                    const sub = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    sub.type = 'triangle';
+                    osc.frequency.setValueAtTime(240, now);
+                    osc.frequency.exponentialRampToValueAtTime(980, now + 0.08);
+                    osc.frequency.exponentialRampToValueAtTime(65, now + 0.24);
+                    sub.frequency.setValueAtTime(120, now);
+                    sub.frequency.exponentialRampToValueAtTime(38, now + 0.24);
+                    gain.gain.setValueAtTime(0.24, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                    osc.connect(gain);
+                    sub.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    sub.start(now);
+                    osc.stop(now + 0.26);
+                    sub.stop(now + 0.26);
+                }
+            }
+
+            // Tick secco e cristallino stile FPS moderno
             playHit() {
-                if (!this.ctx || !this.enabled) return;
-                const now = this.ctx.currentTime;
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(1250, now);
-                osc.frequency.exponentialRampToValueAtTime(420, now + 0.06);
-                gain.gain.setValueAtTime(0.18, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.065);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.07);
-            }
-            playExplosion() {
-                if (!this.ctx || !this.enabled) return;
-                const now = this.ctx.currentTime;
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, now);
-                osc.frequency.exponentialRampToValueAtTime(28, now + 0.35);
-                gain.gain.setValueAtTime(0.28, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.37);
-            }
-            playReload() {
-                if (!this.ctx || !this.enabled) return;
+                if (!this.ctx || !this.sfxEnabled) return;
                 const now = this.ctx.currentTime;
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(320, now);
-                osc.frequency.linearRampToValueAtTime(780, now + 0.25);
-                gain.gain.setValueAtTime(0.14, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.27);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.28);
-            }
-            playPickup() {
-                if (!this.ctx || !this.enabled) return;
-                const now = this.ctx.currentTime;
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(520, now);
-                osc.frequency.setValueAtTime(880, now + 0.07);
+                osc.frequency.setValueAtTime(1950, now);
+                osc.frequency.exponentialRampToValueAtTime(680, now + 0.045);
                 gain.gain.setValueAtTime(0.16, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
                 osc.connect(gain);
                 gain.connect(this.ctx.destination);
                 osc.start(now);
-                osc.stop(now + 0.21);
+                osc.stop(now + 0.055);
             }
-            playTrophyUnlock() {
-                if (!this.ctx || !this.enabled) return;
+
+            playExplosion() {
+                if (!this.ctx || !this.sfxEnabled) return;
                 const now = this.ctx.currentTime;
-                const notes = [587.33, 880, 1174.66];
+                this.playNoiseBurst(0.36, 'lowpass', 720, 55, 0.32);
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(110, now);
+                osc.frequency.exponentialRampToValueAtTime(24, now + 0.34);
+                gain.gain.setValueAtTime(0.28, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.36);
+            }
+
+            // Ricarica meccanica a doppio stadio (sgancio + innesto)
+            playReload() {
+                if (!this.ctx || !this.sfxEnabled) return;
+                const now = this.ctx.currentTime;
+                [0, 0.16].forEach((offset, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(i === 0 ? 440 : 620, now + offset);
+                    osc.frequency.linearRampToValueAtTime(i === 0 ? 280 : 960, now + offset + 0.09);
+                    gain.gain.setValueAtTime(0.13, now + offset);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.1);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + offset);
+                    osc.stop(now + offset + 0.11);
+                });
+            }
+
+            playPickup() {
+                if (!this.ctx || !this.sfxEnabled) return;
+                const now = this.ctx.currentTime;
+                [523.25, 783.99].forEach((f, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + idx * 0.065);
+                    gain.gain.setValueAtTime(0.14, now + idx * 0.065);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.065 + 0.15);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + idx * 0.065);
+                    osc.stop(now + idx * 0.065 + 0.16);
+                });
+            }
+
+            playPerkPickup() {
+                if (!this.ctx || !this.sfxEnabled) return;
+                const now = this.ctx.currentTime;
+                [440, 554.37, 659.25, 880].forEach((f, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now + idx * 0.055);
+                    gain.gain.setValueAtTime(0.16, now + idx * 0.055);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.055 + 0.22);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + idx * 0.055);
+                    osc.stop(now + idx * 0.055 + 0.23);
+                });
+            }
+
+            playTrophyUnlock() {
+                if (!this.ctx || !this.sfxEnabled) return;
+                const now = this.ctx.currentTime;
+                const notes = [587.33, 880, 1174.66, 1567.98];
                 notes.forEach((freq, idx) => {
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(freq, now + idx * 0.09);
-                    gain.gain.setValueAtTime(0.2, now + idx * 0.09);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.35);
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.085);
+                    gain.gain.setValueAtTime(0.2, now + idx * 0.085);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.085 + 0.42);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
-                    osc.start(now + idx * 0.09);
-                    osc.stop(now + idx * 0.09 + 0.36);
+                    osc.start(now + idx * 0.085);
+                    osc.stop(now + idx * 0.085 + 0.43);
                 });
             }
+
             playJumpPad() {
-                if (!this.ctx || !this.enabled) return;
+                if (!this.ctx || !this.sfxEnabled) return;
                 const now = this.ctx.currentTime;
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(220, now);
-                osc.frequency.exponentialRampToValueAtTime(960, now + 0.28);
-                gain.gain.setValueAtTime(0.24, now);
+                osc.frequency.setValueAtTime(190, now);
+                osc.frequency.exponentialRampToValueAtTime(840, now + 0.28);
+                gain.gain.setValueAtTime(0.22, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
                 osc.connect(gain);
                 gain.connect(this.ctx.destination);
                 osc.start(now);
                 osc.stop(now + 0.31);
             }
+
             playPlayerDamage() {
-                if (!this.ctx || !this.enabled) return;
+                if (!this.ctx || !this.sfxEnabled) return;
                 const now = this.ctx.currentTime;
+                this.playNoiseBurst(0.14, 'lowpass', 480, 90, 0.25);
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(190, now);
-                osc.frequency.linearRampToValueAtTime(75, now + 0.18);
-                gain.gain.setValueAtTime(0.25, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+                osc.frequency.setValueAtTime(145, now);
+                osc.frequency.linearRampToValueAtTime(58, now + 0.17);
+                gain.gain.setValueAtTime(0.22, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
                 osc.connect(gain);
                 gain.connect(this.ctx.destination);
                 osc.start(now);
-                osc.stop(now + 0.2);
+                osc.stop(now + 0.19);
             }
         }
 
         const sound = new CyberSoundEngine();
+
+        function syncAudioButtonsUI() {
+            const btnMusic = document.getElementById('btn-music');
+            const btnMute = document.getElementById('btn-mute');
+            const menuBtnMusic = document.getElementById('menu-btn-music');
+            const menuBtnSfx = document.getElementById('menu-btn-sfx');
+
+            if (btnMusic) {
+                btnMusic.textContent = sound.musicEnabled ? '🎵 MUSICA' : '🔇 MUSICA';
+                btnMusic.className = `cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber transition cursor-pointer ${
+                    sound.musicEnabled ? 'text-fuchsia-300 hover:bg-fuchsia-500/20' : 'text-slate-500 hover:bg-slate-800/40'
+                }`;
+            }
+            if (btnMute) {
+                btnMute.textContent = sound.sfxEnabled ? '🔊 EFFETTI' : '🔇 EFFETTI';
+                btnMute.className = `cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber transition cursor-pointer ${
+                    sound.sfxEnabled ? 'text-cyan-300 hover:bg-cyan-500/20' : 'text-slate-500 hover:bg-slate-800/40'
+                }`;
+            }
+            if (menuBtnMusic) {
+                menuBtnMusic.textContent = sound.musicEnabled ? '🎵 MUSICA: ON' : '🔇 MUSICA: OFF';
+                menuBtnMusic.className = `px-2.5 py-1 rounded-lg bg-slate-950 border font-cyber text-[10px] font-bold cursor-pointer ${
+                    sound.musicEnabled ? 'border-fuchsia-400/60 text-fuchsia-300' : 'border-slate-800 text-slate-500'
+                }`;
+            }
+            if (menuBtnSfx) {
+                menuBtnSfx.textContent = sound.sfxEnabled ? '🔊 EFFETTI: ON' : '🔇 EFFETTI: OFF';
+                menuBtnSfx.className = `px-2.5 py-1 rounded-lg bg-slate-950 border font-cyber text-[10px] font-bold cursor-pointer ${
+                    sound.sfxEnabled ? 'border-cyan-400/60 text-cyan-300' : 'border-slate-800 text-slate-500'
+                }`;
+            }
+        }
 
         const GAME_CONFIG = {
             arenaHalfSize: 60,
@@ -1302,6 +1603,9 @@ Ecco il codice completo:
         const btnCloseTrophies = document.getElementById('btn-close-trophies');
         const btnPause = document.getElementById('btn-pause');
         const btnMute = document.getElementById('btn-mute');
+        const btnMusic = document.getElementById('btn-music');
+        const menuBtnMusic = document.getElementById('menu-btn-music');
+        const menuBtnSfx = document.getElementById('menu-btn-sfx');
         const sensSlider = document.getElementById('sens-slider');
         const sensValue = document.getElementById('sens-value');
         const profileNameInput = document.getElementById('profile-name-input');
@@ -1516,7 +1820,7 @@ Ecco il codice completo:
 
                 st.shopPoints -= sk.cost;
                 st.prestigeSkills[pskKey]++;
-                sound.playPickup();
+                sound.playPerkPickup();
                 savePlayerProfile();
                 renderShopUI();
                 updateHUD();
@@ -1611,7 +1915,6 @@ Ecco il codice completo:
                 }
             });
 
-            // Stato Prestigio
             const allMaxed = isWeaponMaxUpgraded(w.id);
             const canPrestige = allMaxed && st.shopPoints >= 2;
             const btnPrestige = document.getElementById('btn-do-prestige');
@@ -1661,9 +1964,6 @@ Ecco il codice completo:
             });
         }
 
-        /**
-         * BACHECA TROFEI PLAYSTATION
-         */
         function openTrophiesModal() {
             checkTrophies();
             const grid = document.getElementById('trophies-grid');
@@ -1720,6 +2020,8 @@ Ecco il codice completo:
 
         function initThreeJS() {
             loadPlayerProfile();
+            sound.sfxEnabled = playerProfile.sfxEnabled;
+            sound.musicEnabled = playerProfile.musicEnabled;
             state.bossesDefeated = playerProfile.maxBossesDefeatedPermanent;
             state.sensitivityMultiplier = playerProfile.sensitivity;
             sensSlider.value = playerProfile.sensitivity;
@@ -1730,11 +2032,11 @@ Ecco il codice completo:
             updateProfileUI();
 
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x03040c);
-            scene.fog = new THREE.FogExp2(0x040614, 0.0065);
+            scene.background = new THREE.Color(0x040611);
+            scene.fog = new THREE.FogExp2(0x040611, 0.006);
 
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 360);
-            camera.position.set(0, GAME_CONFIG.playerHeight, 0);
+            camera.position.set(0, GAME_CONFIG.playerHeight, 26);
 
             renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, powerPreference: 'high-performance' });
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -1746,14 +2048,15 @@ Ecco il codice completo:
             sharedProjectileGeo = new THREE.SphereGeometry(0.24, 6, 6);
             sharedBossProjGeo = new THREE.SphereGeometry(0.44, 6, 6);
 
-            scene.add(new THREE.AmbientLight(0x2dd4bf, 1.35));
-            const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.0);
-            dirLight.position.set(35, 60, 25);
+            // Illuminazione tridimensionale morbida per dare profondità agli edifici senza affaticare la vista
+            scene.add(new THREE.HemisphereLight(0x94a3b8, 0x090d1e, 1.1));
+            const dirLight = new THREE.DirectionalLight(0xe0f2fe, 0.9);
+            dirLight.position.set(45, 75, 35);
             scene.add(dirLight);
 
-            const backLight = new THREE.DirectionalLight(0xd946ef, 0.65);
-            backLight.position.set(-35, 50, -30);
-            scene.add(backLight);
+            const fillLight = new THREE.DirectionalLight(0x818cf8, 0.45);
+            fillLight.position.set(-45, 45, -35);
+            scene.add(fillLight);
 
             buildGalaxySky();
             buildCyberArenaWithParkour();
@@ -1764,13 +2067,9 @@ Ecco il codice completo:
             state.needsStaticRender = true;
         }
 
-        /**
-         * CIELO GALATTICO CON NEBULOSA, CAMPO STELLARE E PIANETA ANELLATO
-         */
         function buildGalaxySky() {
             galaxyGroup = new THREE.Group();
 
-            // 1. 2200 Stelle Multicolore nel cielo profondo
             const starCount = 2200;
             const positions = new Float32Array(starCount * 3);
             const colors = new Float32Array(starCount * 3);
@@ -1802,7 +2101,6 @@ Ecco il codice completo:
             const starMat = new THREE.PointsMaterial({ size: 1.35, vertexColors: true, transparent: true, opacity: 0.92, fog: false });
             galaxyGroup.add(new THREE.Points(starGeo, starMat));
 
-            // 2. Spirale Galattica / Nebulosa sopra l'arena
             const nebulaCount = 900;
             const nebPos = new Float32Array(nebulaCount * 3);
             const nebCol = new Float32Array(nebulaCount * 3);
@@ -1823,26 +2121,19 @@ Ecco il codice completo:
             const nebGeo = new THREE.BufferGeometry();
             nebGeo.setAttribute('position', new THREE.BufferAttribute(nebPos, 3));
             nebGeo.setAttribute('color', new THREE.BufferAttribute(nebCol, 3));
-            const nebMat = new THREE.PointsMaterial({ size: 2.6, vertexColors: true, transparent: true, opacity: 0.78, fog: false });
+            const nebMat = new THREE.PointsMaterial({ size: 2.6, vertexColors: true, transparent: true, opacity: 0.75, fog: false });
             galaxyGroup.add(new THREE.Points(nebGeo, nebMat));
 
-            // 3. Pianeta Gigante Cyber con Anello Luminoso
             const planetGroup = new THREE.Group();
             const planetMesh = new THREE.Mesh(
                 new THREE.SphereGeometry(22, 20, 20),
-                new THREE.MeshBasicMaterial({ color: 0x3b0764, fog: false })
+                new THREE.MeshLambertMaterial({ color: 0x3b0764, fog: false })
             );
             planetGroup.add(planetMesh);
 
-            const planetWire = new THREE.Mesh(
-                new THREE.SphereGeometry(22.3, 14, 14),
-                new THREE.MeshBasicMaterial({ color: 0xd946ef, wireframe: true, transparent: true, opacity: 0.35, fog: false })
-            );
-            planetGroup.add(planetWire);
-
             const ringMesh = new THREE.Mesh(
                 new THREE.RingGeometry(28, 44, 32),
-                new THREE.MeshBasicMaterial({ color: 0x22d3ee, side: THREE.DoubleSide, transparent: true, opacity: 0.5, fog: false })
+                new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide, transparent: true, opacity: 0.42, fog: false })
             );
             ringMesh.rotation.x = Math.PI / 2.4;
             planetGroup.add(ringMesh);
@@ -1854,21 +2145,49 @@ Ecco il codice completo:
         }
 
         /**
-         * ARENA CON PIATTAFORME PARKOUR, PONTI SOSPESI E JUMP-PAD
+         * EDIFICI SCI-FI ARCHITETTONICI CON OMBREGGIATURA MORBIDA E ZERO Z-FIGHTING
          */
-        function addBlockObstacle(x, minY, z, w, h, d, mat, trimMat) {
-            const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
-            mesh.position.set(x, minY + h / 2, z);
-            scene.add(mesh);
+        function addSciFiStructure(x, minY, z, w, h, d, bodyMat, baseMat, accentMat) {
+            const structGroup = new THREE.Group();
 
-            if (trimMat) {
-                const neonTrim = new THREE.Mesh(new THREE.BoxGeometry(w + 0.1, 0.16, d + 0.1), trimMat);
-                neonTrim.position.set(x, minY + h - 0.08, z);
-                scene.add(neonTrim);
+            // Corpo principale ombreggiato (Lambert) per distinguere chiaramente le facce 3D
+            const coreMesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), bodyMat);
+            coreMesh.position.set(x, minY + h / 2, z);
+            scene.add(coreMesh);
+
+            // Basamento e Cornice Superiore (solo per edifici poggiati a terra di altezza > 2m)
+            if (h >= 2.2) {
+                const plinth = new THREE.Mesh(new THREE.BoxGeometry(w + 0.35, 0.35, d + 0.35), baseMat);
+                plinth.position.set(x, minY + 0.175, z);
+                structGroup.add(plinth);
+
+                const roofCap = new THREE.Mesh(new THREE.BoxGeometry(w + 0.25, 0.24, d + 0.25), baseMat);
+                roofCap.position.set(x, minY + h - 0.12, z);
+                structGroup.add(roofCap);
+
+                // Fascia luminosa incassata e morbida sotto il tetto (senza sfarfallio)
+                if (accentMat) {
+                    constvisorBand = new THREE.Mesh(new THREE.BoxGeometry(w + 0.12, 0.12, d + 0.12), accentMat);
+                    constvisorBand.position.set(x, minY + h - 0.55, z);
+                    structGroup.add(constvisorBand);
+                }
+            } else {
+                // Per pedane basse e passerelle sospese: bordo laterale pulito e pedana superiore antiscivolo
+                const topPad = new THREE.Mesh(new THREE.BoxGeometry(w - 0.35, 0.08, d - 0.35), baseMat);
+                topPad.position.set(x, minY + h + 0.02, z);
+                structGroup.add(topPad);
+
+                if (accentMat) {
+                    const edgeStrip = new THREE.Mesh(new THREE.BoxGeometry(w + 0.06, 0.1, d + 0.06), accentMat);
+                    edgeStrip.position.set(x, minY + h / 2, z);
+                    structGroup.add(edgeStrip);
+                }
             }
 
+            scene.add(structGroup);
+
             obstacles.push({
-                mesh,
+                mesh: coreMesh,
                 minX: x - w / 2, maxX: x + w / 2,
                 minZ: z - d / 2, maxZ: z + d / 2,
                 minY: minY, maxY: minY + h
@@ -1878,19 +2197,23 @@ Ecco il codice completo:
         function buildCyberArenaWithParkour() {
             const half = GAME_CONFIG.arenaHalfSize;
 
+            // Pavimento riposante per la vista
             const floorGeo = new THREE.PlaneGeometry(half * 2, half * 2);
-            const floorMat = new THREE.MeshBasicMaterial({ color: 0x070a18 });
+            const floorMat = new THREE.MeshLambertMaterial({ color: 0x080c1a });
             const floor = new THREE.Mesh(floorGeo, floorMat);
             floor.rotation.x = -Math.PI / 2;
             scene.add(floor);
 
-            const grid = new THREE.GridHelper(half * 2, 48, 0x22d3ee, 0x1e1b4b);
+            // Griglia molto più morbida e non abbagliante
+            const grid = new THREE.GridHelper(half * 2, 40, 0x0e7490, 0x111827);
             grid.position.y = 0.02;
             scene.add(grid);
 
+            // Mura perimetrali con pannelli architettonici scuri
             const wallHeight = 12;
-            const wallMat = new THREE.MeshBasicMaterial({ color: 0x090d20 });
-            const neonStripMat = new THREE.MeshBasicMaterial({ color: 0xd946ef });
+            const wallMat = new THREE.MeshLambertMaterial({ color: 0x0b1120 });
+            const wallCapMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+            const softNeonMat = new THREE.MeshBasicMaterial({ color: 0x0284c7 });
 
             const wallConfigs = [
                 { x: 0, z: -half, rotY: 0 },
@@ -1901,12 +2224,16 @@ Ecco il codice completo:
 
             wallConfigs.forEach(cfg => {
                 const wallGroup = new THREE.Group();
-                const wallMesh = new THREE.Mesh(new THREE.BoxGeometry(half * 2, wallHeight, 1.5), wallMat);
+                const wallMesh = new THREE.Mesh(new THREE.BoxGeometry(half * 2, wallHeight, 1.8), wallMat);
                 wallMesh.position.y = wallHeight / 2;
                 wallGroup.add(wallMesh);
 
-                const strip = new THREE.Mesh(new THREE.BoxGeometry(half * 2, 0.3, 1.6), neonStripMat);
-                strip.position.y = wallHeight - 0.6;
+                const baseTrim = new THREE.Mesh(new THREE.BoxGeometry(half * 2, 0.8, 2.1), wallCapMat);
+                baseTrim.position.y = 0.4;
+                wallGroup.add(baseTrim);
+
+                const strip = new THREE.Mesh(new THREE.BoxGeometry(half * 2, 0.16, 1.92), softNeonMat);
+                strip.position.y = wallHeight - 1.2;
                 wallGroup.add(strip);
 
                 wallGroup.position.set(cfg.x, 0, cfg.z);
@@ -1914,60 +2241,64 @@ Ecco il codice completo:
                 scene.add(wallGroup);
             });
 
-            const pillarMat = new THREE.MeshBasicMaterial({ color: 0x1e293b });
-            const platMat = new THREE.MeshBasicMaterial({ color: 0x0f172a });
-            const cyanTrim = new THREE.MeshBasicMaterial({ color: 0x22d3ee });
-            const magentaTrim = new THREE.MeshBasicMaterial({ color: 0xd946ef });
-            const amberTrim = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+            // Materiali architettonici 3D (Lambert con shading direzionale naturale)
+            const towerBodyMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+            const citadelBodyMat = new THREE.MeshLambertMaterial({ color: 0x172554 });
+            const walkwayMat = new THREE.MeshLambertMaterial({ color: 0x334155 });
+            const darkPlinthMat = new THREE.MeshLambertMaterial({ color: 0x0f172a });
 
-            // Torre Centrale Parkour a Gradoni + Ponti Sospesi
-            addBlockObstacle(0, 0, 14, 5.5, 1.2, 4.0, platMat, cyanTrim);
-            addBlockObstacle(0, 0, 10, 5.5, 2.4, 4.0, platMat, cyanTrim);
-            addBlockObstacle(0, 0, 0, 10.0, 3.6, 10.0, pillarMat, magentaTrim); // Piattaforma centrale alta 3.6m
+            const softCyanGlow = new THREE.MeshBasicMaterial({ color: 0x06b6d4 });
+            const softVioletGlow = new THREE.MeshBasicMaterial({ color: 0x8b5cf6 });
+            const softTealGlow = new THREE.MeshBasicMaterial({ color: 0x14b8a6 });
 
-            // 4 Torri Angolari Parkour (altezza 5.0m)
+            // Cittadella Centrale a Gradoni (Rampa Parkour Sud + Terrazza Centrale 3.6m)
+            addSciFiStructure(0, 0, 14, 5.5, 1.2, 4.0, walkwayMat, darkPlinthMat, softCyanGlow);
+            addSciFiStructure(0, 0, 10, 5.5, 2.4, 4.0, walkwayMat, darkPlinthMat, softCyanGlow);
+            addSciFiStructure(0, 0, 0, 10.0, 3.6, 10.0, citadelBodyMat, darkPlinthMat, softVioletGlow);
+
+            // 4 Torri Angolari Tattiche (Altezza 5.0m)
             const towers = [[-24, -24], [24, -24], [-24, 24], [24, 24]];
             towers.forEach(([tx, tz]) => {
-                addBlockObstacle(tx, 0, tz, 8.0, 5.0, 8.0, pillarMat, cyanTrim);
+                addSciFiStructure(tx, 0, tz, 8.0, 5.0, 8.0, towerBodyMat, darkPlinthMat, softCyanGlow);
             });
 
-            // Passerelle Sospese (Floating Skybridges) tra il centro e le torri
-            addBlockObstacle(-13, 3.8, -13, 5.0, 0.6, 5.0, platMat, amberTrim);
-            addBlockObstacle(13, 3.8, -13, 5.0, 0.6, 5.0, platMat, amberTrim);
-            addBlockObstacle(-13, 3.8, 13, 5.0, 0.6, 5.0, platMat, amberTrim);
-            addBlockObstacle(13, 3.8, 13, 5.0, 0.6, 5.0, platMat, amberTrim);
+            // 4 Piattaforme Sospese (Sky-Pads per Parkour aereo a 3.8m)
+            addSciFiStructure(-13, 3.8, -13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow);
+            addSciFiStructure(13, 3.8, -13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow);
+            addSciFiStructure(-13, 3.8, 13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow);
+            addSciFiStructure(13, 3.8, 13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow);
 
-            // Piattaforme Laterali Medie
-            addBlockObstacle(0, 0, -28, 10.0, 3.2, 4.5, pillarMat, cyanTrim);
-            addBlockObstacle(-28, 0, 0, 4.5, 3.2, 10.0, pillarMat, cyanTrim);
-            addBlockObstacle(28, 0, 0, 4.5, 3.2, 10.0, pillarMat, cyanTrim);
+            // 3 Bastioni Perimetrali Medi (Altezza 3.2m)
+            addSciFiStructure(0, 0, -28, 10.0, 3.2, 4.5, towerBodyMat, darkPlinthMat, softCyanGlow);
+            addSciFiStructure(-28, 0, 0, 4.5, 3.2, 10.0, towerBodyMat, darkPlinthMat, softCyanGlow);
+            addSciFiStructure(28, 0, 0, 4.5, 3.2, 10.0, towerBodyMat, darkPlinthMat, softCyanGlow);
 
-            // 4 JUMP-PAD ENERGETICI NEON (ti lanciano in alto per il parkour!)
+            // 4 JUMP-PAD ENERGETICI NEON
             const padCoords = [
                 [-18, 0], [18, 0], [0, -18], [0, 22]
             ];
             padCoords.forEach(([px, pz]) => {
                 const padGroup = new THREE.Group();
                 const base = new THREE.Mesh(
-                    new THREE.CylinderGeometry(1.7, 2.0, 0.3, 12),
-                    new THREE.MeshBasicMaterial({ color: 0x0f172a })
+                    new THREE.CylinderGeometry(1.7, 2.0, 0.28, 16),
+                    darkPlinthMat
                 );
-                base.position.y = 0.15;
+                base.position.y = 0.14;
                 padGroup.add(base);
 
                 const glowRing = new THREE.Mesh(
-                    new THREE.TorusGeometry(1.4, 0.14, 8, 18),
-                    new THREE.MeshBasicMaterial({ color: 0x22d3ee })
+                    new THREE.TorusGeometry(1.35, 0.11, 8, 20),
+                    softCyanGlow
                 );
                 glowRing.rotation.x = Math.PI / 2;
-                glowRing.position.y = 0.35;
+                glowRing.position.y = 0.32;
                 padGroup.add(glowRing);
 
                 const innerCore = new THREE.Mesh(
-                    new THREE.CylinderGeometry(1.1, 1.1, 0.12, 12),
-                    new THREE.MeshBasicMaterial({ color: 0x67e8f9 })
+                    new THREE.CylinderGeometry(1.05, 1.05, 0.1, 16),
+                    new THREE.MeshBasicMaterial({ color: 0x38bdf8 })
                 );
-                innerCore.position.y = 0.32;
+                innerCore.position.y = 0.28;
                 padGroup.add(innerCore);
 
                 padGroup.position.set(px, 0, pz);
@@ -2518,11 +2849,22 @@ Ecco il codice completo:
                 savePlayerProfile();
             });
 
-            btnMute.addEventListener('click', () => {
+            // Pulsanti indipendenti per Musica ed Effetti Sonori (sia nell'HUD che nel Menu)
+            const handleToggleMusic = () => {
                 sound.init();
-                const on = sound.toggle();
-                btnMute.textContent = on ? '🔊 AUDIO' : '🔇 MUTO';
-            });
+                sound.toggleMusic();
+                syncAudioButtonsUI();
+            };
+            const handleToggleSfx = () => {
+                sound.init();
+                sound.toggleSfx();
+                syncAudioButtonsUI();
+            };
+
+            if (btnMusic) btnMusic.addEventListener('click', handleToggleMusic);
+            if (menuBtnMusic) menuBtnMusic.addEventListener('click', handleToggleMusic);
+            if (btnMute) btnMute.addEventListener('click', handleToggleSfx);
+            if (menuBtnSfx) menuBtnSfx.addEventListener('click', handleToggleSfx);
 
             btnPause.addEventListener('click', () => {
                 if (state.mode === 'PLAYING') pauseGame();
@@ -2884,9 +3226,6 @@ Ecco il codice completo:
             }, 2400);
         }
 
-        /**
-         * SISTEMA ONDATE PIÙ RAPIDO E DINAMICO (Boss ogni 5 Ondate!)
-         */
         function startWave(waveNum) {
             state.wave = waveNum;
             if (waveNum > playerProfile.bestWave) {
@@ -2898,12 +3237,12 @@ Ecco il codice completo:
             const isBossWave = (waveNum % 5 === 0);
 
             if (isBossWave) {
-                state.enemiesToSpawn = 3; // Qualche unità di scorta insieme al boss
+                state.enemiesToSpawn = 3;
                 state.spawnTimer = 0.5;
                 spawnUniqueBoss(waveNum);
             } else {
                 state.enemiesToSpawn = 5 + waveNum * 2;
-                state.spawnTimer = 0.15; // Spawn immediato di un gruppo iniziale!
+                state.spawnTimer = 0.15;
                 showAnnouncement(`ONDATA ${String(waveNum).padStart(2, '0')}`, `${state.enemiesToSpawn} Unità Cibernetiche in Assalto Rapido!`);
             }
             state.inWaveTransition = false;
@@ -2966,7 +3305,6 @@ Ecco il codice completo:
                 state.isFiring = false;
             }
 
-            // Abilità Prestigio: Riciclo Quantico (probabilità di non consumare colpi e fare Danno Critico 1.5x)
             const quantumTier = st.prestigeSkills?.quantum || 0;
             const isQuantumCrit = quantumTier > 0 && Math.random() < (quantumTier * 0.20);
 
@@ -3162,12 +3500,9 @@ Ecco il codice completo:
             }, 90);
         }
 
-        /**
-         * NUOVI NEMICI DIVERSIFICATI (Bipedi Robotici, Spider-Bot Kamikaze, Goliath Mech, Droni Cecchino)
-         */
         function spawnDiverseEnemy(forcedPos = null, forcedType = null) {
             const roll = Math.random();
-            let type = forcedType || 'WALKER'; // Bipede Robotico standard
+            let type = forcedType || 'WALKER';
             if (!forcedType) {
                 if (roll < 0.30) type = 'WALKER';
                 else if (roll < 0.54) type = 'SPIDER';
@@ -3177,8 +3512,8 @@ Ecco il codice completo:
             }
 
             const group = new THREE.Group();
-            const darkMat = new THREE.MeshBasicMaterial({ color: 0x1e293b });
-            const metalMat = new THREE.MeshBasicMaterial({ color: 0x334155 });
+            const darkMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+            const metalMat = new THREE.MeshLambertMaterial({ color: 0x475569 });
 
             let hp = 75 + state.wave * 15;
             let speed = 9.0 + state.wave * 0.18;
@@ -3191,7 +3526,6 @@ Ecco il codice completo:
             let leftLeg = null, rightLeg = null, ringMesh = null;
 
             if (type === 'WALKER') {
-                // Robot Bipede Android
                 color = 0xf43f5e;
                 const glowMat = new THREE.MeshBasicMaterial({ color });
                 leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.28, 1.1, 0.28), metalMat);
@@ -3224,7 +3558,6 @@ Ecco il codice completo:
                 hpBarY = 2.95;
 
             } else if (type === 'SPIDER') {
-                // Ragno Meccanico Kamikaze Veloce
                 color = 0x10b981;
                 hp = 50 + state.wave * 10;
                 speed = 13.8 + state.wave * 0.22;
@@ -3252,7 +3585,6 @@ Ecco il codice completo:
                 hpBarY = 1.65;
 
             } else if (type === 'MECH_GOLIATH') {
-                // Colosso Bipede Corazzato
                 color = 0xf97316;
                 hp = 230 + state.wave * 40;
                 speed = 5.2 + state.wave * 0.1;
@@ -3282,7 +3614,6 @@ Ecco il codice completo:
                 hpBarY = 3.5;
 
             } else {
-                // Unità Volanti (DRONE / SNIPER_DRONE)
                 isGround = false;
                 baseHeight = type === 'SNIPER_DRONE' ? 4.8 : 2.6;
                 color = type === 'SNIPER_DRONE' ? 0xa855f7 : 0x38bdf8;
@@ -3335,16 +3666,13 @@ Ecco il codice completo:
             });
         }
 
-        /**
-         * 3 BOSS COMPLETAMENTE DIVERSI (Ondata 5: Carrier, Ondata 10: Arachnotron, Ondata 15: Titan-Omega)
-         */
         function spawnUniqueBoss(waveNum) {
             const bossIndex = Math.floor(waveNum / 5);
-            const bossKind = ((bossIndex - 1) % 3) + 1; // 1, 2 o 3
+            const bossKind = ((bossIndex - 1) % 3) + 1;
             const group = new THREE.Group();
             const bossHp = 1300 + waveNum * 220;
-            const darkMat = new THREE.MeshBasicMaterial({ color: 0x1e1b4b });
-            const metalMat = new THREE.MeshBasicMaterial({ color: 0x334155 });
+            const darkMat = new THREE.MeshLambertMaterial({ color: 0x1e1b4b });
+            const metalMat = new THREE.MeshLambertMaterial({ color: 0x475569 });
 
             let bossTitle = '';
             let color = 0xf43f5e;
@@ -3355,7 +3683,6 @@ Ecco il codice completo:
             let leftLeg = null, rightLeg = null;
 
             if (bossKind === 1) {
-                // BOSS 1: AEGIS DRONE-CARRIER (Nave Madre Aerea che genera Spider-Bot)
                 bossTitle = `⚠️ BOSS: AEGIS DRONE-CARRIER (ONDATA ${waveNum}) ⚠️`;
                 color = 0x38bdf8;
                 isGround = false;
@@ -3373,7 +3700,6 @@ Ecco il codice completo:
                 group.add(ringMesh);
 
             } else if (bossKind === 2) {
-                // BOSS 2: ARACHNOTRON PRIME (Ragno Meccanico Gigante Terrestre che salta e carica)
                 bossTitle = `⚠️ BOSS: ARACHNOTRON PRIME (ONDATA ${waveNum}) ⚠️`;
                 color = 0x10b981;
                 isGround = true;
@@ -3400,7 +3726,6 @@ Ecco il codice completo:
                 }
 
             } else {
-                // BOSS 3: TITAN-OMEGA MECH (Colosso Bipede Corazzato con Doppio Cannone Laser)
                 bossTitle = `⚠️ BOSS: TITAN-OMEGA MECH (ONDATA ${waveNum}) ⚠️`;
                 color = 0xd946ef;
                 isGround = true;
@@ -3481,13 +3806,11 @@ Ecco il codice completo:
             deathPos.y += 1.0;
             spawnParticleBurst(deathPos, enemy.color, 10, 7);
 
-            // Abilità Prestigio 1: Munizioni Vampiriche
             const vampTier = st.prestigeSkills?.vampiric || 0;
             if (vampTier > 0 && state.health < state.maxHealth) {
                 state.health = Math.min(state.maxHealth, state.health + vampTier * 4);
             }
 
-            // Abilità Prestigio 2: Innesco Instabile (Esplosione Plasma alla morte)
             const novaTier = st.prestigeSkills?.nova || 0;
             if (novaTier > 0) {
                 scene.remove(enemy.group);
@@ -3498,7 +3821,6 @@ Ecco il codice completo:
                 enemies.splice(idx, 1);
             }
 
-            // Drop Medkit oppure Perk Temporaneo!
             const dropRoll = Math.random();
             if (dropRoll < 0.14) {
                 spawnTemporaryPerkPickup(deathPos);
@@ -3510,7 +3832,6 @@ Ecco il codice completo:
             state.kills++;
             playerProfile.totalKills++;
 
-            // Controlla se ucciso in volo (Parkour Air-Kill)
             if (!isGrounded && camera.position.y > GAME_CONFIG.playerHeight + 1.2) {
                 playerProfile.airKills++;
             }
@@ -3548,7 +3869,7 @@ Ecco il codice completo:
             }
 
             addWeaponXp(getCurrentWeapon().id, 250);
-            sound.playPickup();
+            sound.playPerkPickup();
 
             showAnnouncement('🏆 BOSS ELIMINATO!', '+250 XP Arma e Perk Rilasciato! Controlla le Armi Segrete nella Ruota [Q].');
 
@@ -3612,9 +3933,6 @@ Ecco il codice completo:
             if (state.health <= 0) triggerGameOver();
         }
 
-        /**
-         * COLLISIONI 3D CON SUPPORTO PARKOUR IN ALTEZZA
-         */
         function resolveObstacleCollisions3D(pos, radius, isPlayer = false) {
             const limit = GAME_CONFIG.arenaHalfSize - 1.5;
             pos.x = Math.max(-limit, Math.min(limit, pos.x));
@@ -3624,7 +3942,6 @@ Ecco il codice completo:
 
             for (let i = 0; i < obstacles.length; i++) {
                 const ob = obstacles[i];
-                // Se il giocatore è sopra il blocco o sotto un ponte sospeso, non spingerlo fuori!
                 if (feetY >= ob.maxY - 0.35 || (feetY + 1.9) <= ob.minY) continue;
 
                 const closestX = Math.max(ob.minX, Math.min(pos.x, ob.maxX));
@@ -3683,7 +4000,6 @@ Ecco il codice completo:
                 isGrounded = false;
             }
 
-            // Controllo Jump-Pad per il Parkour
             jumpPads.forEach(pad => {
                 pad.ring.rotation.z += dt * 4.0;
                 if (pad.cooldown > 0) pad.cooldown -= dt;
@@ -3699,7 +4015,6 @@ Ecco il codice completo:
             playerVelocity.y -= GAME_CONFIG.gravity * dt;
             camera.position.y += playerVelocity.y * dt;
 
-            // Calcolo altezza terreno o piattaforma Parkour sotto i piedi
             let supportHeight = 0;
             for (let i = 0; i < obstacles.length; i++) {
                 const ob = obstacles[i];
@@ -3862,7 +4177,7 @@ Ecco il codice completo:
                         const pData = pk.perkData;
                         state.activePerks[pData.id] = pData.duration;
                         playerProfile.perksCollected++;
-                        sound.playPickup();
+                        sound.playPerkPickup();
                         showAnnouncement(`${pData.icon} PERK: ${pData.name}!`, `Attivo per ${pData.duration} secondi!`);
                         checkTrophies();
                         savePlayerProfile();
@@ -3888,7 +4203,6 @@ Ecco il codice completo:
         }
 
         function updateEnemiesAndProjectiles(dt, elapsed) {
-            // Spawn rapido a gruppi per mantenere l'azione sempre intensa
             if (state.enemiesToSpawn > 0) {
                 state.spawnTimer -= dt;
                 if (state.spawnTimer <= 0) {
@@ -3902,15 +4216,23 @@ Ecco il codice completo:
                 }
             } else if (enemies.length === 0 && !state.activeBoss && !state.inWaveTransition) {
                 state.inWaveTransition = true;
-                state.waveTransitionTimer = 1.4; // Transizione rapida tra ondate
+                state.waveTransitionTimer = 1.4;
             }
 
             if (state.inWaveTransition) {
                 state.waveTransitionTimer -= dt;
                 if (state.waveTransitionTimer <= 0) startWave(state.wave + 1);
+            
+
+Error: Your previous response was cut off because it exceeded the output token limit
+Please continue from where you left off, keeping your response shorter
+Retries remaining: 3 (Error ID: 433a3b11-1941-40fd-a640-1af5041a589c-12)
+
+Ecco la prosecuzione e conclusione del file HTML esattamente da dove si era interrotto (dentro `updateEnemiesAndProjectiles`):
+
+```html
             }
 
-            // Logica dei 3 Boss Unici
             if (state.activeBoss) {
                 const boss = state.activeBoss;
                 if (boss.ringMesh) boss.ringMesh.rotation.z += dt * 4.0;
@@ -3940,28 +4262,23 @@ Ecco il codice completo:
                 boss.specialCooldown -= dt;
                 if (boss.specialCooldown <= 0) {
                     if (boss.bossKind === 1 && enemies.length < 8) {
-                        // Aegis Carrier genera 2 Spider-Bot
                         spawnDiverseEnemy(boss.group.position, 'SPIDER');
                         spawnDiverseEnemy(boss.group.position, 'SPIDER');
                         boss.specialCooldown = 6.0;
                     } else if (boss.bossKind === 2) {
-                        // Arachnotron Prime fa un balzo rapido verso il giocatore
                         boss.group.position.addScaledVector(toPlayer, 7.5);
                         boss.specialCooldown = 4.5;
                     } else {
-                        // Titan-Omega spara una raffica circolare
                         fireBossProjectiles(boss, true);
                         boss.specialCooldown = 5.0;
                     }
                 }
             }
 
-            // Logica Nemici Diversificati
             for (let i = enemies.length - 1; i >= 0; i--) {
                 const en = enemies[i];
                 if (en.ringMesh) en.ringMesh.rotation.z += dt * 3.5;
 
-                // Animazione gambe robotiche per Walker e Goliath
                 if (en.leftLeg && en.rightLeg) {
                     en.leftLeg.rotation.x = Math.sin(elapsed * 10 + en.bobOffset) * 0.55;
                     en.rightLeg.rotation.x = -Math.sin(elapsed * 10 + en.bobOffset) * 0.55;
@@ -3970,7 +4287,6 @@ Ecco il codice completo:
                 if (!en.isGround) {
                     en.group.position.y = en.baseHeight + Math.sin(elapsed * 3.2 + en.bobOffset) * 0.28;
                 } else {
-                    // I Walker possono fare salti cibernetici!
                     en.jumpTimer -= dt;
                     if (en.type === 'WALKER' && en.jumpTimer <= 0 && en.group.position.y <= 0.05) {
                         en.vy = 9.5;
@@ -3998,7 +4314,6 @@ Ecco il codice completo:
 
                 en.attackCooldown -= dt;
                 if (en.type === 'SPIDER') {
-                    // Kamikaze: se ti tocca esplode!
                     if (dist < 2.5 && Math.abs(camera.position.y - en.group.position.y) < 3.2) {
                         applyPlayerDamage(18);
                         killEnemy(en);
@@ -4234,3 +4549,5 @@ Ecco il codice completo:
 </body>
 </html>
 ```
+
+*(Nota: se preferisci avere il file salvato direttamente nella tua cartella di progetto invece di copiare/incollare i due blocchi, dimmelo pure e te lo salvo subito in un file `.html` pronto da aprire!)*
