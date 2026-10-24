@@ -320,6 +320,7 @@ display: none !important;
 <div class="text-left sm:text-right">
 <div class="flex items-center sm:justify-end gap-2">
 <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-[10px] font-cyber text-cyan-300">[Q] Ruota</span>
+<span class="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-[10px] font-cyber text-amber-300">[TAB] Negozio</span>
 <div id="hud-weapon-name" class="text-xs font-cyber uppercase tracking-widest text-cyan-400 font-bold">Fucile d'Assalto MK-IV</div>
 </div>
 <div class="flex items-center sm:justify-end gap-2 mt-1">
@@ -1145,6 +1146,7 @@ enemiesToSpawn: 0, spawnTimer: 0, waveTransitionTimer: 0, inWaveTransition: fals
 activeBoss: null,
 activePerks: { DOUBLE_DMG: 0, HASTE: 0, INF_AMMO: 0, SHIELD: 0 },
 comboCount: 0, comboTimer: 0, comboMaxTime: 5.5, comboMultiplier: 1,
+pausedForShop: false,
 needsStaticRender: true
 };
 function getCurrentWeapon() { return WEAPONS[state.currentWeaponIndex]; }
@@ -1352,9 +1354,24 @@ updateHUD();
 }
 }
 function openShop() {
+sound.init();
 state.selectedShopWeaponIdx = state.currentWeaponIndex;
 initShopDOMOnce();
 renderShopUI();
+if (state.mode === 'PLAYING') {
+state.pausedForShop = true;
+state.mode = 'PAUSED';
+state.isFiring = false;
+Object.keys(keys).forEach(k => { keys[k] = false; });
+closeWeaponWheel();
+setAimingState(false);
+if (document.pointerLockElement === canvas) {
+try { document.exitPointerLock(); } catch (e) {}
+}
+}
+if (btnCloseShop) {
+btnCloseShop.textContent = state.pausedForShop ? '✕ Chiudi [TAB] / Riprendi' : '✕ Torna al Menu';
+}
 shopOverlay.classList.remove('hidden');
 shopOverlay.classList.add('flex');
 }
@@ -1363,6 +1380,14 @@ shopOverlay.classList.add('hidden');
 shopOverlay.classList.remove('flex');
 updateProfileUI();
 updateHUD();
+if (state.pausedForShop) {
+state.pausedForShop = false;
+state.mode = 'PLAYING';
+clock.getDelta();
+if (!isTouchDevice) {
+try { canvas.requestPointerLock(); } catch (err) {}
+}
+}
 }
 function renderShopUI() {
 WEAPONS.forEach((w, idx) => {
@@ -2255,11 +2280,27 @@ selectWeapon(unlockedIndices[nextPos]);
 });
 window.addEventListener('keydown', (e) => {
 if (document.activeElement === profileNameInput) return;
+if (e.code === 'Tab') {
+e.preventDefault();
+if (!shopOverlay.classList.contains('hidden')) {
+closeShop();
+} else if (state.mode === 'PLAYING') {
+openShop();
+}
+return;
+}
+if (!shopOverlay.classList.contains('hidden')) {
+if (e.code === 'Escape') {
+e.preventDefault();
+closeShop();
+return;
+}
+}
 if (e.code in keys) keys[e.code] = true;
 if (state.mode !== 'PLAYING') return;
 if (e.code === 'KeyR') {
 triggerReload();
-} else if (e.code === 'KeyQ' || e.code === 'Tab') {
+} else if (e.code === 'KeyQ') {
 e.preventDefault();
 openWeaponWheel();
 } else if (['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8'].includes(e.code)) {
@@ -2270,7 +2311,7 @@ if (state.isWheelOpen) closeWeaponWheel(); else pauseGame();
 });
 window.addEventListener('keyup', (e) => {
 if (e.code in keys) keys[e.code] = false;
-if (e.code === 'KeyQ' || e.code === 'Tab') closeWeaponWheel();
+if (e.code === 'KeyQ') closeWeaponWheel();
 });
 const touchControls = byId('touch-controls');
 const joystickZone = byId('joystick-zone');
@@ -2438,6 +2479,7 @@ shopOverlay.classList.remove('flex');
 trophiesOverlay.classList.add('hidden');
 trophiesOverlay.classList.remove('flex');
 menuOverlay.classList.add('hidden');
+state.pausedForShop = false;
 state.mode = 'PLAYING';
 clock.getDelta();
 startWave(1);
@@ -2468,6 +2510,7 @@ shopOverlay.classList.remove('flex');
 trophiesOverlay.classList.add('hidden');
 trophiesOverlay.classList.remove('flex');
 menuOverlay.classList.add('hidden');
+state.pausedForShop = false;
 state.mode = 'PLAYING';
 clock.getDelta();
 if (!isTouchDevice) {
