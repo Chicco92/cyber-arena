@@ -487,10 +487,10 @@ class="mt-1 bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded
 <div id="shop-prestige-skills-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-3"></div>
 <div class="mt-4 pt-3 border-t border-slate-800">
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-<span class="text-[10px] font-cyber text-cyan-300 uppercase tracking-widest font-bold">🎨 Skin / Camo Arma Sbloccabili (3D Live)</span>
-<span class="text-[10px] text-slate-400">Oro (Prestigio 1) • Diamante (Prestigio 2) • Materia Oscura Animata (Prestigio 3 o Platino)</span>
+<span class="text-[10px] font-cyber text-cyan-300 uppercase tracking-widest font-bold">🎨 Skin / Camo Arma Sbloccabili (Headshot Mastery)</span>
+<span id="shop-weapon-headshots-count" class="text-[10px] font-cyber text-amber-400 font-bold">Headshot con quest'arma: 0 HS</span>
 </div>
-<div id="shop-camo-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+<div id="shop-camo-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-2"></div>
 </div>
 </div>
 </div>
@@ -590,10 +590,11 @@ const PRESTIGE_SKILLS = [
 { key: 'quantum', name: 'Riciclo Quantico', desc: '+20% probabilità per livello di non consumare il colpo e fare Danno Critico 1.5x', maxTier: 3, cost: 2, icon: '💠' }
 ];
 const CAMO_TYPES = [
-{ id: 'DEFAULT', name: 'Standard Cyber', reqText: 'Sempre Attiva', reqPrestige: 0, badgeColor: '#22d3ee' },
-{ id: 'GOLD', name: '🥇 Camo Oro', reqText: 'Richiede Prestigio 1', reqPrestige: 1, badgeColor: '#fbbf24' },
-{ id: 'DIAMOND', name: '💎 Camo Diamante', reqText: 'Richiede Prestigio 2', reqPrestige: 2, badgeColor: '#67e8f9' },
-{ id: 'DARK_MATTER', name: '🌌 Materia Oscura', reqText: 'Prestigio 3 o Platino', reqPrestige: 3, allowPlatinum: true, badgeColor: '#d946ef' }
+{ id: 'DEFAULT', name: 'Standard Cyber', reqText: 'Sempre Attiva', reqHeadshots: 0, badgeColor: '#22d3ee' },
+{ id: 'RUBY', name: '🔴 Rubino Cyber', reqText: '100 Headshot', reqHeadshots: 100, badgeColor: '#ef4444' },
+{ id: 'EMERALD', name: '🟢 Smeraldo Neon', reqText: '250 Headshot', reqHeadshots: 250, badgeColor: '#10b981' },
+{ id: 'OBSIDIAN', name: '🟣 Ossidiana Vuoto', reqText: '500 Headshot', reqHeadshots: 500, badgeColor: '#a855f7' },
+{ id: 'CHRONO_GOLD', name: '👑 Oro Divino', reqText: '1.000 Headshot', reqHeadshots: 1000, badgeColor: '#fbbf24', animated: true }
 ];
 const PERK_TYPES = [
 { id: 'DOUBLE_DMG', name: 'DOPPIA POTENZA', duration: 12, colorHex: 0xf43f5e, uiColor: '#f43f5e', icon: '⚔️' },
@@ -629,7 +630,7 @@ function createDefaultWeaponStats() {
 const stats = {};
 WEAPONS.forEach(w => {
 stats[w.id] = {
-xp: 0, level: 1, shopPoints: 0, prestige: 0,
+xp: 0, level: 1, shopPoints: 0, prestige: 0, headshots: 0,
 selectedCamo: 'DEFAULT',
 upgrades: { damage: 0, fireRate: 0, ammo: 0, reload: 0 },
 prestigeSkills: { vampiric: 0, nova: 0, quantum: 0 }
@@ -655,7 +656,7 @@ weaponStats: createDefaultWeaponStats()
 function getWeaponStats(weaponId) {
 if (!playerProfile.weaponStats[weaponId]) {
 playerProfile.weaponStats[weaponId] = {
-xp: 0, level: 1, shopPoints: 0, prestige: 0,
+xp: 0, level: 1, shopPoints: 0, prestige: 0, headshots: 0,
 selectedCamo: 'DEFAULT',
 upgrades: { damage: 0, fireRate: 0, ammo: 0, reload: 0 },
 prestigeSkills: { vampiric: 0, nova: 0, quantum: 0 }
@@ -667,6 +668,9 @@ playerProfile.weaponStats[weaponId].prestigeSkills = { vampiric: 0, nova: 0, qua
 if (typeof playerProfile.weaponStats[weaponId].prestige !== 'number') {
 playerProfile.weaponStats[weaponId].prestige = 0;
 }
+if (typeof playerProfile.weaponStats[weaponId].headshots !== 'number') {
+playerProfile.weaponStats[weaponId].headshots = 0;
+}
 if (!playerProfile.weaponStats[weaponId].selectedCamo) {
 playerProfile.weaponStats[weaponId].selectedCamo = 'DEFAULT';
 }
@@ -674,11 +678,20 @@ return playerProfile.weaponStats[weaponId];
 }
 function isCamoUnlocked(weaponId, camoId) {
 const camo = CAMO_TYPES.find(c => c.id === camoId);
-if (!camo || camo.reqPrestige === 0) return true;
+if (!camo || (camo.reqHeadshots || 0) === 0) return true;
 const st = getWeaponStats(weaponId);
-if ((st.prestige || 0) >= camo.reqPrestige) return true;
-if (camo.allowPlatinum && playerProfile.unlockedTrophies.includes('PLATINUM')) return true;
-return false;
+return (st.headshots || 0) >= camo.reqHeadshots;
+}
+function recordWeaponHeadshot(weaponId) {
+const st = getWeaponStats(weaponId);
+st.headshots = (st.headshots || 0) + 1;
+const count = st.headshots;
+const milestone = CAMO_TYPES.find(c => c.reqHeadshots === count);
+if (milestone) {
+sound.playPerkPickup();
+showAnnouncement('🎨 NUOVA SKIN SBLOCCATA!', `${milestone.name} per quest'arma (${count} HS)!`);
+savePlayerProfile();
+}
 }
 function isWeaponMaxUpgraded(weaponId) {
 const st = getWeaponStats(weaponId);
@@ -819,6 +832,7 @@ xp: Number(src.xp) || 0,
 level: Number(src.level) || 1,
 shopPoints: Number(src.shopPoints) || 0,
 prestige: Number(src.prestige) || 0,
+headshots: Number(src.headshots) || 0,
 selectedCamo: src.selectedCamo || 'DEFAULT',
 upgrades: { damage: Number(src.upgrades?.damage) || 0, fireRate: Number(src.upgrades?.fireRate) || 0, ammo: Number(src.upgrades?.ammo) || 0, reload: Number(src.upgrades?.reload) || 0 },
 prestigeSkills: { vampiric: Number(src.prestigeSkills?.vampiric) || 0, nova: Number(src.prestigeSkills?.nova) || 0, quantum: Number(src.prestigeSkills?.quantum) || 0 }
@@ -1443,6 +1457,10 @@ canBuy ? 'bg-fuchsia-500 hover:bg-fuchsia-400 text-slate-950 cursor-pointer' : '
 }
 }
 });
+const hsCountEl = byId('shop-weapon-headshots-count');
+if (hsCountEl) {
+hsCountEl.textContent = `Headshot con quest'arma: ${st.headshots || 0} HS`;
+}
 CAMO_TYPES.forEach(c => {
 const btn = byId(`shop-camo-btn-${c.id}`);
 const statusEl = byId(`shop-camo-status-${c.id}`);
@@ -1450,10 +1468,18 @@ if (!btn || !statusEl) return;
 const unlocked = isCamoUnlocked(w.id, c.id);
 const equipped = (st.selectedCamo || 'DEFAULT') === c.id;
 btn.className = `p-2.5 rounded-xl border text-left transition flex flex-col justify-between gap-1 ${
-equipped ? 'bg-cyan-950/90 border-amber-400 cursor-pointer' : (unlocked ? 'bg-slate-950 border-slate-700 hover:border-cyan-400 cursor-pointer' : 'bg-slate-950/50 border-slate-800/80 opacity-55 cursor-not-allowed')
+equipped ? 'bg-cyan-950/90 border-amber-400 cursor-pointer shadow-[0_0_12px_rgba(251,191,36,0.25)]' : (unlocked ? 'bg-slate-950 border-slate-700 hover:border-cyan-400 cursor-pointer' : 'bg-slate-950/50 border-slate-800/80 opacity-55 cursor-not-allowed')
 }`;
-statusEl.textContent = equipped ? '✓ EQUIPAGGIATA' : (unlocked ? 'SBLOCCATA — USA' : `🔒 ${c.reqText}`);
-statusEl.className = `text-[10px] font-cyber font-bold ${equipped ? 'text-amber-300' : (unlocked ? 'text-emerald-400' : 'text-slate-500')}`;
+if (equipped) {
+statusEl.textContent = '✓ EQUIPAGGIATA';
+statusEl.className = 'text-[10px] font-cyber font-bold text-amber-300';
+} else if (unlocked) {
+statusEl.textContent = 'SBLOCCATA — USA';
+statusEl.className = 'text-[10px] font-cyber font-bold text-emerald-400';
+} else {
+statusEl.textContent = `🔒 ${st.headshots || 0}/${c.reqHeadshots} HS`;
+statusEl.className = 'text-[10px] font-cyber font-bold text-slate-500';
+}
 });
 }
 function openTrophiesModal() {
@@ -1901,9 +1927,10 @@ applyWeaponVisuals(WEAPONS[0]);
 function getActiveWeaponCamoColorHex(w) {
 const st = getWeaponStats(w.id);
 const camo = st.selectedCamo || 'DEFAULT';
-if (camo === 'GOLD') return 0xfbbf24;
-if (camo === 'DIAMOND') return 0x67e8f9;
-if (camo === 'DARK_MATTER') return 0xd946ef;
+if (camo === 'RUBY') return 0xef4444;
+if (camo === 'EMERALD') return 0x10b981;
+if (camo === 'OBSIDIAN') return 0xa855f7;
+if (camo === 'CHRONO_GOLD') return 0xfbbf24;
 return w.colorHex;
 }
 function applyWeaponVisuals(w) {
@@ -1920,12 +1947,14 @@ activeGrp.traverse(child => {
 if (child.isMesh && child.material && child.userData.origColor !== undefined) {
 if (camo === 'DEFAULT') {
 child.material.color.setHex(child.userData.origColor);
-} else if (camo === 'GOLD') {
-child.material.color.setHex(child.userData.isGlow ? 0xfef08a : (child.userData.origColor === 0x0f172a ? 0xb45309 : 0xfbbf24));
-} else if (camo === 'DIAMOND') {
-child.material.color.setHex(child.userData.isGlow ? 0xffffff : (child.userData.origColor === 0x0f172a ? 0x0284c7 : 0x67e8f9));
-} else if (camo === 'DARK_MATTER') {
-child.material.color.setHex(child.userData.isGlow ? 0xf0abfc : 0x2e1065);
+} else if (camo === 'RUBY') {
+child.material.color.setHex(child.userData.isGlow ? 0xfca5a5 : (child.userData.origColor === 0x0f172a ? 0x7f1d1d : 0xef4444));
+} else if (camo === 'EMERALD') {
+child.material.color.setHex(child.userData.isGlow ? 0x6ee7b7 : (child.userData.origColor === 0x0f172a ? 0x064e3b : 0x10b981));
+} else if (camo === 'OBSIDIAN') {
+child.material.color.setHex(child.userData.isGlow ? 0xd8b4fe : (child.userData.origColor === 0x0f172a ? 0x3b0764 : 0xa855f7));
+} else if (camo === 'CHRONO_GOLD') {
+child.material.color.setHex(child.userData.isGlow ? 0xfef08a : (child.userData.origColor === 0x0f172a ? 0x78350f : 0xfbbf24));
 darkMatterDynamicMats.push({ mat: child.material, isGlow: child.userData.isGlow });
 }
 }
@@ -2570,6 +2599,7 @@ let damagePerPellet = state.isAiming ? eff.adsDamage : eff.damage;
 if (state.activePerks.DOUBLE_DMG > 0) damagePerPellet *= 2;
 if (isQuantumCrit) damagePerPellet = Math.round(damagePerPellet * 1.5);
 let hitAny = false, hitCritAny = false;
+const headshottedThisShot = new Set();
 const activeBeamHex = getActiveWeaponCamoColorHex(w);
 for (let p = 0; p < w.pellets; p++) {
 const aimCoords = new THREE.Vector2((Math.random() - 0.5) * spread, (Math.random() - 0.5) * spread);
@@ -2600,7 +2630,13 @@ break;
 }
 if (enemyRef && !piercedTargets.has(enemyRef)) {
 piercedTargets.add(enemyRef);
-if (isWeakspotCrit) hitCritAny = true;
+if (isWeakspotCrit) {
+hitCritAny = true;
+if (!headshottedThisShot.has(enemyRef)) {
+headshottedThisShot.add(enemyRef);
+recordWeaponHeadshot(w.id);
+}
+}
 damageEnemy(enemyRef, pelletDmg, hit.point, isWeakspotCrit || isQuantumCrit);
 if (w.chainTargets) triggerChainLightning(hit.point, w.chainTargets, w.chainRadius, Math.round(pelletDmg * 0.75), enemyRef);
 if (w.explosiveRadius) {
@@ -2611,7 +2647,13 @@ collateralHits++;
 hitAny = true;
 } else if (bossRef && !piercedTargets.has(bossRef)) {
 piercedTargets.add(bossRef);
-if (isWeakspotCrit) hitCritAny = true;
+if (isWeakspotCrit) {
+hitCritAny = true;
+if (!headshottedThisShot.has(bossRef)) {
+headshottedThisShot.add(bossRef);
+recordWeaponHeadshot(w.id);
+}
+}
 damageBoss(bossRef, pelletDmg, hit.point, isWeakspotCrit || isQuantumCrit);
 if (w.chainTargets) triggerChainLightning(hit.point, w.chainTargets, w.chainRadius, Math.round(pelletDmg * 0.75), null);
 if (w.explosiveRadius) {
@@ -3238,11 +3280,14 @@ if (galaxyGroup) {
 galaxyGroup.rotation.y += dt * 0.015;
 }
 if (darkMatterDynamicMats.length > 0) {
-const t = performance.now() * 0.0012;
+const t = performance.now() * 0.0035;
+const pulse = 0.5 + 0.5 * Math.sin(t * 3);
 darkMatterDynamicMats.forEach((item, idx) => {
-const hue = (t + idx * 0.08) % 1.0;
-const mappedHue = 0.74 + Math.sin(hue * Math.PI * 2) * 0.14;
-item.mat.color.setHSL(mappedHue, 0.92, item.isGlow ? 0.64 : 0.24);
+if (item.isGlow) {
+item.mat.color.setRGB(1.0, 0.85 + 0.15 * pulse, 0.35 + 0.35 * pulse);
+} else {
+item.mat.color.setRGB(0.72 + 0.25 * pulse, 0.52 + 0.22 * pulse, 0.08 + 0.12 * pulse);
+}
 });
 }
 for (let i = floatingDamages.length - 1; i >= 0; i--) {
