@@ -892,7 +892,7 @@ const PROFILE_STORAGE_KEY = 'cyberstrike_3d_player_profile_v3';
 const firebaseConfig = {
 apiKey: "AIzaSyD_JQ8dIMHum02twJFpr4fTfyWxPKCsjSE",
 authDomain: "cyber-a.firebaseapp.com",
-databaseURL: "https://cyber-a-default-rtdb.firebaseio.com",
+databaseURL: "https://cyber-a-default-rtdb.europe-west1.firebasedatabase.app",
 projectId: "cyber-a",
 storageBucket: "cyber-a.firebasestorage.app",
 messagingSenderId: "1072782303695",
@@ -2104,6 +2104,13 @@ function leaveCurrentRoom() {
   refreshPublicLobbies();
 }
 
+function withTimeout(promise, ms = 8000, errorMsg = 'Timeout: i server Firebase non rispondono. Controlla la connessione.') {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(errorMsg)), ms))
+  ]);
+}
+
 async function refreshPublicLobbies() {
   if (!fbDb) return;
   const container = byId('mp-lobbies-container');
@@ -2113,7 +2120,7 @@ async function refreshPublicLobbies() {
   container.innerHTML = '<div class="p-4 text-center text-slate-400 font-cyber text-xs">Ricerca stanze attive in corso...</div>';
 
   try {
-    const snap = await fbDb.ref('rooms').limitToLast(25).once('value');
+    const snap = await withTimeout(fbDb.ref('rooms').limitToLast(25).once('value'), 8000, 'Timeout caricamento stanze');
     const roomsVal = snap.val() || {};
     const rooms = [];
 
@@ -2181,8 +2188,11 @@ async function refreshPublicLobbies() {
 }
 
 async function createRoom(roomName, mode, isPrivate) {
-  if (!fbDb) return;
   const feedback = byId('mp-feedback');
+  if (!fbDb) {
+    if (feedback) feedback.textContent = '⚠️ Connessione Firebase non pronta. Ricarica la pagina.';
+    return;
+  }
   if (feedback) feedback.textContent = '⏳ Creazione stanza in corso...';
 
   mpState.myId = getMyPlayerId();
@@ -2196,7 +2206,7 @@ async function createRoom(roomName, mode, isPrivate) {
   const roomId = roomRef.key;
 
   try {
-    await roomRef.child('info').set({
+    await withTimeout(roomRef.child('info').set({
       name: roomName || `Stanza di ${mpState.myName}`,
       code: code,
       hostId: mpState.myId,
@@ -2205,10 +2215,10 @@ async function createRoom(roomName, mode, isPrivate) {
       isPrivate: Boolean(isPrivate),
       status: 'LOBBY',
       createdAt: firebase.database.ServerValue.TIMESTAMP
-    });
+    }), 8000, 'Impossibile creare la stanza (timeout server)');
 
     const playerRef = roomRef.child('players/' + mpState.myId);
-    await playerRef.set({
+    await withTimeout(playerRef.set({
       id: mpState.myId,
       name: mpState.myName,
       isHost: true,
@@ -2220,7 +2230,7 @@ async function createRoom(roomName, mode, isPrivate) {
       y: 0,
       z: 0,
       yaw: 0
-    });
+    }), 8000, 'Impossibile registrare il giocatore');
     playerRef.onDisconnect().remove();
 
     setupRoomListeners(roomId);
@@ -2236,8 +2246,11 @@ async function createRoom(roomName, mode, isPrivate) {
 }
 
 async function joinRoomById(roomId) {
-  if (!fbDb) return;
   const feedback = byId('mp-feedback');
+  if (!fbDb) {
+    if (feedback) feedback.textContent = '⚠️ Connessione Firebase non pronta. Ricarica la pagina.';
+    return;
+  }
   if (feedback) feedback.textContent = '⏳ Connessione alla stanza...';
 
   mpState.myId = getMyPlayerId();
@@ -2246,7 +2259,7 @@ async function joinRoomById(roomId) {
   mpState.myDeaths = 0;
 
   try {
-    const roomSnap = await fbDb.ref('rooms/' + roomId).once('value');
+    const roomSnap = await withTimeout(fbDb.ref('rooms/' + roomId).once('value'), 8000, 'Timeout connessione stanza');
     if (!roomSnap.exists()) {
       if (feedback) feedback.textContent = '⚠️ Stanza non trovata o terminata.';
       return;
@@ -2259,7 +2272,7 @@ async function joinRoomById(roomId) {
     }
 
     const playerRef = fbDb.ref(`rooms/${roomId}/players/${mpState.myId}`);
-    await playerRef.set({
+    await withTimeout(playerRef.set({
       id: mpState.myId,
       name: mpState.myName,
       isHost: false,
@@ -2271,7 +2284,7 @@ async function joinRoomById(roomId) {
       y: 0,
       z: 0,
       yaw: 0
-    });
+    }), 8000, 'Timeout registrazione nella stanza');
     playerRef.onDisconnect().remove();
 
     setupRoomListeners(roomId);
@@ -2297,7 +2310,7 @@ async function joinRoomByCode(code) {
   if (feedback) feedback.textContent = '⏳ Ricerca codice stanza...';
 
   try {
-    const snap = await fbDb.ref('rooms').orderByChild('info/code').equalTo(cleanCode).once('value');
+    const snap = await withTimeout(fbDb.ref('rooms').orderByChild('info/code').equalTo(cleanCode).once('value'), 8000, 'Timeout ricerca codice');
     if (!snap.exists()) {
       if (feedback) feedback.textContent = `⚠️ Nessuna stanza attiva trovata col codice "${cleanCode}".`;
       return;
