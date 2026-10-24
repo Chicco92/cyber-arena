@@ -1614,14 +1614,15 @@ const structGroup = new THREE.Group();
 const coreMesh = boxMesh(w, h, d, bodyMat);
 coreMesh.position.set(x, minY + h / 2, z);
 scene.add(coreMesh);
+const roofMat = lambertMat(0x161e2e);
 if (h >= 2.2) {
 addBox(structGroup, w + 0.35, 0.35, d + 0.35, baseMat, x, minY + 0.175, z);
-addBox(structGroup, w + 0.25, 0.24, d + 0.25, baseMat, x, minY + h - 0.12, z);
+addBox(structGroup, w + 0.25, 0.24, d + 0.25, roofMat, x, minY + h - 0.12, z);
 if (accentMat) {
 addBox(structGroup, w + 0.12, 0.12, d + 0.12, accentMat, x, minY + h - 0.55, z);
 }
 } else {
-addBox(structGroup, w - 0.35, 0.08, d - 0.35, baseMat, x, minY + h + 0.02, z);
+addBox(structGroup, w - 0.35, 0.08, d - 0.35, roofMat, x, minY + h + 0.02, z);
 if (accentMat) {
 addBox(structGroup, w + 0.06, 0.1, d + 0.06, accentMat, x, minY + h / 2, z);
 }
@@ -1665,7 +1666,7 @@ scene.add(wallGroup);
 });
 const towerBodyMat = lambertMat(0x1e293b);
 const citadelBodyMat = lambertMat(0x172554);
-const walkwayMat = lambertMat(0x334155);
+const walkwayMat = lambertMat(0x182030); // Soft dark slate matte surface
 const darkPlinthMat = lambertMat(0x0f172a);
 const softCyanGlow = basicMat(0x06b6d4);
 const softVioletGlow = basicMat(0x8b5cf6);
@@ -2729,11 +2730,9 @@ group.add(chestCore);
 const head = boxMesh(0.55, 0.42, 0.55, metalMat);
 head.position.y = 2.32;
 group.add(head);
-const visor = boxMesh(0.5, 0.14, 0.58, glowMat);
+const visor = boxMesh(0.36, 0.11, 0.57, glowMat);
 visor.position.y = 2.34;
-head.userData.isWeakspot = true;
 visor.userData.isWeakspot = true;
-chestCore.userData.isWeakspot = true;
 group.add(visor);
 const armL = boxMesh(0.24, 0.85, 0.45, metalMat);
 armL.position.set(-0.65, 1.55, 0.15);
@@ -2751,7 +2750,7 @@ const glowMat = new THREE.MeshBasicMaterial({ color });
 const abdomen = new THREE.Mesh(new THREE.OctahedronGeometry(0.62, 0), darkMat);
 abdomen.position.y = 0.65;
 group.add(abdomen);
-const bombCore = new THREE.Mesh(new THREE.SphereGeometry(0.38, 8, 8), glowMat);
+const bombCore = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 8), glowMat);
 bombCore.position.set(0, 0.8, 0);
 bombCore.userData.isWeakspot = true;
 group.add(bombCore);
@@ -2778,7 +2777,7 @@ rightLeg = boxMesh(0.55, 1.4, 0.55, metalMat);
 rightLeg.position.set(0.55, 0.7, 0);
 group.add(leftLeg, rightLeg);
 addBox(group, 1.75, 1.5, 1.1, darkMat, 0, 2.1, 0);
-const core = new THREE.Mesh(new THREE.SphereGeometry(0.45, 8, 8), glowMat);
+const core = new THREE.Mesh(new THREE.SphereGeometry(0.26, 8, 8), glowMat);
 core.position.set(0, 2.1, 0.55);
 core.userData.isWeakspot = true;
 group.add(core);
@@ -2798,7 +2797,7 @@ scoreValue = 150 + state.wave * 15;
 xpReward = 30;
 const coreMesh = new THREE.Mesh(new THREE.OctahedronGeometry(0.8, 0), darkMat);
 group.add(coreMesh);
-const eyeMesh = new THREE.Mesh(new THREE.SphereGeometry(0.35, 8, 8), new THREE.MeshBasicMaterial({ color }));
+const eyeMesh = new THREE.Mesh(new THREE.SphereGeometry(0.20, 8, 8), new THREE.MeshBasicMaterial({ color }));
 eyeMesh.position.z = 0.58;
 eyeMesh.userData.isWeakspot = true;
 group.add(eyeMesh);
@@ -2857,7 +2856,7 @@ baseHeight = 5.0;
 const glowMat = new THREE.MeshBasicMaterial({ color });
 const hull = boxMesh(5.2, 1.6, 3.6, darkMat);
 group.add(hull);
-const bridge = new THREE.Mesh(new THREE.OctahedronGeometry(1.4, 0), glowMat);
+const bridge = new THREE.Mesh(new THREE.OctahedronGeometry(0.85, 0), glowMat);
 bridge.position.y = 1.2;
 bridge.userData.isWeakspot = true;
 group.add(bridge);
@@ -2874,7 +2873,7 @@ const glowMat = new THREE.MeshBasicMaterial({ color });
 const body = new THREE.Mesh(new THREE.SphereGeometry(2.2, 10, 10), darkMat);
 body.position.y = 2.0;
 group.add(body);
-const eye = new THREE.Mesh(new THREE.SphereGeometry(0.9, 8, 8), glowMat);
+const eye = new THREE.Mesh(new THREE.SphereGeometry(0.52, 8, 8), glowMat);
 eye.position.set(0, 2.2, 1.8);
 eye.userData.isWeakspot = true;
 group.add(eye);
@@ -2900,7 +2899,7 @@ rightLeg = boxMesh(1.1, 2.8, 1.1, metalMat);
 rightLeg.position.set(1.2, 1.4, 0);
 group.add(leftLeg, rightLeg);
 addBox(group, 3.8, 3.2, 2.2, darkMat, 0, 4.2, 0);
-const reactor = new THREE.Mesh(new THREE.OctahedronGeometry(1.1, 0), glowMat);
+const reactor = new THREE.Mesh(new THREE.OctahedronGeometry(0.65, 0), glowMat);
 reactor.position.set(0, 4.2, 1.1);
 reactor.userData.isWeakspot = true;
 group.add(reactor);
@@ -3013,9 +3012,9 @@ scene.remove(enemy.group);
 enemies.splice(idx, 1);
 }
 const dropRoll = Math.random();
-if (dropRoll < 0.14) {
+if (dropRoll < 0.05) {
 spawnTemporaryPerkPickup(deathPos);
-} else if (dropRoll < 0.34) {
+} else if (dropRoll < 0.14) {
 spawnMedkitPickup(deathPos);
 }
 registerKillCombo();
