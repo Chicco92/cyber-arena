@@ -4883,17 +4883,23 @@ hitMarker.classList.remove('opacity-100');
 hitMarker.classList.add('opacity-0');
 }, isCrit ? 140 : 90);
 }
-function spawnFloatingDamage(worldPos, amount, isCrit = false) {
+function spawnFloatingDamage(worldPos, amount, isCrit = false, isDrone = false) {
 const container = byId('floating-dmg-container');
 if (!container || !worldPos || floatingDamages.length > 28) return;
 const el = document.createElement('div');
 const w = getCurrentWeapon();
 el.className = `fixed font-cyber font-black pointer-events-none select-none -translate-x-1/2 -translate-y-1/2 ${
-isCrit ? 'text-sm sm:text-base text-amber-300 z-30' : 'text-xs sm:text-sm z-20'
+isCrit ? 'text-sm sm:text-base text-amber-300 z-30' : (isDrone ? 'text-sm text-cyan-300 z-30 font-extrabold' : 'text-xs sm:text-sm z-20')
 }`;
+if (isDrone) {
+el.style.color = '#38bdf8';
+el.style.textShadow = '0 0 10px rgba(56,189,248,0.95), 0 1px 2px #000';
+el.textContent = `🎯 -${Math.round(amount)}`;
+} else {
 if (!isCrit) el.style.color = w.uiColor || '#22d3ee';
 el.style.textShadow = isCrit ? '0 0 10px rgba(251,191,36,0.95), 0 1px 2px #000' : '0 0 6px rgba(6,182,212,0.7), 0 1px 2px #000';
-el.textContent = isCrit ? `⚡CRIT -${Math.round(amount)}!` : `-${Math.round(amount)}`;
+el.textContent = isCrit ? `💥CRIT -${Math.round(amount)}!` : `-${Math.round(amount)}`;
+}
 container.appendChild(el);
 floatingDamages.push({
 el,
@@ -5021,12 +5027,17 @@ ringMesh.rotation.x = Math.PI / 2;
 group.add(ringMesh);
 hpBarY = 1.45;
 }
-const hpBg = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.16), new THREE.MeshBasicMaterial({ color: 0x0f172a, side: THREE.DoubleSide }));
-hpBg.position.y = hpBarY;
-group.add(hpBg);
-const hpFill = new THREE.Mesh(new THREE.PlaneGeometry(1.44, 0.11), new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide }));
-hpFill.position.set(0, hpBarY, 0.01);
-group.add(hpFill);
+const hpBarGroup = new THREE.Group();
+hpBarGroup.position.y = hpBarY;
+const hpBg = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.18), new THREE.MeshBasicMaterial({ color: 0x030712, transparent: true, opacity: 0.9, depthTest: false }));
+hpBg.renderOrder = 998;
+const hpFillGeo = new THREE.PlaneGeometry(1.44, 0.12);
+hpFillGeo.translate(0.72, 0, 0);
+const hpFill = new THREE.Mesh(hpFillGeo, new THREE.MeshBasicMaterial({ color: color, depthTest: false }));
+hpFill.position.set(-0.72, 0, 0.002);
+hpFill.renderOrder = 999;
+hpBarGroup.add(hpBg, hpFill);
+group.add(hpBarGroup);
 const half = GAME_CONFIG.arenaHalfSize - 6;
 let sx = 0, sz = 0;
 if (forcedPos) {
@@ -5041,7 +5052,7 @@ sz = (Math.random() * 2 - 1) * half;
 group.position.set(sx, baseHeight, sz);
 scene.add(group);
 enemies.push({
-group, ringMesh, leftLeg, rightLeg, hpFill, hpBg,
+group, ringMesh, leftLeg, rightLeg, hpBarGroup, hpFill, hpBg,
 type, isGround, baseHeight, hp, maxHp: hp, speed, color, scoreValue, xpReward,
 attackCooldown: 1.1 + Math.random() * 1.2,
 jumpTimer: 2.0 + Math.random() * 3.0,
@@ -5217,27 +5228,27 @@ if (child.isMesh && child.userData.origMat) child.material = child.userData.orig
 }
 }, 75);
 }
-function damageEnemy(enemy, amount, hitPoint, isCrit = false) {
+function damageEnemy(enemy, amount, hitPoint, isCrit = false, isDrone = false) {
 if (!enemy || enemy.hp <= 0) return;
 enemy.hp -= amount;
 flashEnemyHit(enemy);
-spawnParticleBurst(hitPoint, isCrit ? 0xfbbf24 : enemy.color, isCrit ? 6 : 3, isCrit ? 6 : 4);
-spawnFloatingDamage(hitPoint, amount, isCrit);
+spawnParticleBurst(hitPoint, isCrit ? 0xfbbf24 : (isDrone ? 0x38bdf8 : enemy.color), isCrit ? 6 : 4, isCrit ? 6 : 5);
+spawnFloatingDamage(hitPoint, amount, isCrit, isDrone);
 if (enemy.hpFill) {
-const ratio = Math.max(0.01, enemy.hp / enemy.maxHp);
-enemy.hpFill.scale.x = ratio;
+const ratio = Math.max(0, enemy.hp / enemy.maxHp);
+enemy.hpFill.scale.x = Math.max(0.001, ratio);
 if (ratio < 0.35 && enemy.hpFill.material && enemy.hpFill.material.color) {
 enemy.hpFill.material.color.setHex(0xef4444);
 }
 }
 if (enemy.hp <= 0) killEnemy(enemy);
 }
-function damageBoss(boss, amount, hitPoint, isCrit = false) {
+function damageBoss(boss, amount, hitPoint, isCrit = false, isDrone = false) {
 if (!boss || boss.hp <= 0) return;
 boss.hp -= amount;
 flashBossHit(boss);
-spawnParticleBurst(hitPoint, isCrit ? 0xfbbf24 : boss.color, isCrit ? 8 : 5, isCrit ? 8 : 6);
-spawnFloatingDamage(hitPoint, amount, isCrit);
+spawnParticleBurst(hitPoint, isCrit ? 0xfbbf24 : (isDrone ? 0x38bdf8 : boss.color), isCrit ? 8 : 5, isCrit ? 8 : 6);
+spawnFloatingDamage(hitPoint, amount, isCrit, isDrone);
 updateBossHUD();
 if (boss.hp <= 0) killBoss(boss);
 }
@@ -5509,7 +5520,7 @@ sentinelDrone.group.position.lerp(targetPos, Math.min(1.0, dt * 8.0));
 const droneWorldPos = sentinelDrone.group.position.clone();
 let target = null;
 
-// 1. Maintain sticky focus lock on current target until eliminated
+// 1. Maintain sticky focus lock on current target until eliminated or out of range
 if (sentinelDrone.lockedTarget) {
 const lt = sentinelDrone.lockedTarget;
 let stillAlive = false;
@@ -5528,7 +5539,7 @@ targetWorldPos = lt.ref.group.position;
 
 if (stillAlive && targetWorldPos) {
 const d = droneWorldPos.distanceTo(targetWorldPos);
-if (d <= 40.0 && hasLineOfSight(droneWorldPos, targetWorldPos)) {
+if (d <= 38.0) {
 target = { kind: lt.kind, ref: lt.ref, pos: targetWorldPos };
 }
 }
@@ -5537,7 +5548,7 @@ sentinelDrone.lockedTarget = null;
 }
 }
 
-// 2. If no sticky lock, acquire best visible target prioritizing player viewcone
+// 2. If no sticky lock, acquire best target prioritizing crosshair cone, then distance
 if (!target) {
 let bestScore = -Infinity;
 const camDir = new THREE.Vector3();
@@ -5548,7 +5559,7 @@ const en = enemies[i];
 if (en && en.hp > 0 && en.group) {
 const ePos = en.group.position;
 const d = droneWorldPos.distanceTo(ePos);
-if (d <= 38.0 && hasLineOfSight(droneWorldPos, ePos)) {
+if (d <= 36.0) {
 const toEnemy = new THREE.Vector3().subVectors(ePos, camera.position).normalize();
 const dot = camDir.dot(toEnemy);
 const score = dot * 16.0 - d;
@@ -5563,7 +5574,7 @@ target = { kind: 'ENEMY', ref: en, pos: ePos };
 if (state.activeBoss && state.activeBoss.hp > 0 && state.activeBoss.group) {
 const bPos = state.activeBoss.group.position;
 const d = droneWorldPos.distanceTo(bPos);
-if (d <= 42.0 && hasLineOfSight(droneWorldPos, bPos)) {
+if (d <= 40.0) {
 const toBoss = new THREE.Vector3().subVectors(bPos, camera.position).normalize();
 const dot = camDir.dot(toBoss);
 const score = dot * 16.0 - d + 4.0;
@@ -5579,7 +5590,7 @@ Object.values(mpState.remotePlayers).forEach(rp => {
 if (rp && rp.group && rp.currentHp > 0) {
 const pPos = rp.group.position;
 const d = droneWorldPos.distanceTo(pPos);
-if (d <= 38.0 && hasLineOfSight(droneWorldPos, pPos)) {
+if (d <= 36.0) {
 const toP = new THREE.Vector3().subVectors(pPos, camera.position).normalize();
 const dot = camDir.dot(toP);
 const score = dot * 16.0 - d;
@@ -5590,21 +5601,6 @@ target = { kind: 'PLAYER', ref: rp, pos: pPos };
 }
 }
 });
-}
-
-// Fallback: closest enemy without LOS requirement if no direct LOS
-if (!target) {
-let minDist = 28.0;
-for (let i = 0; i < enemies.length; i++) {
-const en = enemies[i];
-if (en && en.hp > 0 && en.group) {
-const d = droneWorldPos.distanceTo(en.group.position);
-if (d < minDist) {
-minDist = d;
-target = { kind: 'ENEMY', ref: en, pos: en.group.position };
-}
-}
-}
 }
 
 if (target) {
@@ -5635,23 +5631,23 @@ sound.playLaser('SMG');
 sound.playHit();
 triggerHitMarker(false);
 
-const droneDmg = 90;
+const droneDmg = 140;
 
 if (target.kind === 'ENEMY') {
-damageEnemy(target.ref, droneDmg, aimTarget);
+damageEnemy(target.ref, droneDmg, aimTarget, false, true);
 } else if (target.kind === 'BOSS') {
-damageBoss(target.ref, droneDmg, aimTarget);
+damageBoss(target.ref, droneDmg, aimTarget, false, true);
 } else if (target.kind === 'PLAYER') {
 emitMpEvent({
 type: 'HIT',
 targetId: target.ref.id,
 attackerId: mpState.myId,
 attackerName: mpState.myName,
-damage: 42,
+damage: 50,
 isHeadshot: false,
 weaponId: 'DRONE'
 });
-spawnFloatingDamage(aimTarget, 42, false);
+spawnFloatingDamage(aimTarget, 50, false, true);
 }
 }
 } else {
@@ -6447,11 +6443,12 @@ en.group.position.y = Math.max(0, en.group.position.y + en.vy * dt);
 }
 }
 en.group.lookAt(camera.position.x, en.group.position.y, camera.position.z);
+if (en.hpBarGroup) {
+en.hpBarGroup.quaternion.copy(camera.quaternion);
+} else {
 en.hpBg.lookAt(camera.position);
 en.hpFill.lookAt(camera.position);
-const isScan = (state.activeKillstreaks && state.activeKillstreaks.scanner > 0);
-en.hpBg.material.depthTest = !isScan;
-en.hpFill.material.depthTest = !isScan;
+}
 const toPlayer = new THREE.Vector3(camera.position.x - en.group.position.x, 0, camera.position.z - en.group.position.z);
 const dist = toPlayer.length();
 if (dist > 0.01) toPlayer.divideScalar(dist);
