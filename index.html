@@ -5027,17 +5027,12 @@ ringMesh.rotation.x = Math.PI / 2;
 group.add(ringMesh);
 hpBarY = 1.45;
 }
-const hpBarGroup = new THREE.Group();
-hpBarGroup.position.y = hpBarY;
-const hpBg = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.18), new THREE.MeshBasicMaterial({ color: 0x030712, transparent: true, opacity: 0.9, depthTest: false }));
-hpBg.renderOrder = 998;
-const hpFillGeo = new THREE.PlaneGeometry(1.44, 0.12);
-hpFillGeo.translate(0.72, 0, 0);
-const hpFill = new THREE.Mesh(hpFillGeo, new THREE.MeshBasicMaterial({ color: color, depthTest: false }));
-hpFill.position.set(-0.72, 0, 0.002);
-hpFill.renderOrder = 999;
-hpBarGroup.add(hpBg, hpFill);
-group.add(hpBarGroup);
+const hpBg = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.16), new THREE.MeshBasicMaterial({ color: 0x0f172a, side: THREE.DoubleSide }));
+hpBg.position.y = hpBarY;
+group.add(hpBg);
+const hpFill = new THREE.Mesh(new THREE.PlaneGeometry(1.44, 0.11), new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide }));
+hpFill.position.set(0, hpBarY, 0.01);
+group.add(hpFill);
 const half = GAME_CONFIG.arenaHalfSize - 6;
 let sx = 0, sz = 0;
 if (forcedPos) {
@@ -5052,7 +5047,7 @@ sz = (Math.random() * 2 - 1) * half;
 group.position.set(sx, baseHeight, sz);
 scene.add(group);
 enemies.push({
-group, ringMesh, leftLeg, rightLeg, hpBarGroup, hpFill, hpBg,
+group, ringMesh, leftLeg, rightLeg, hpFill, hpBg,
 type, isGround, baseHeight, hp, maxHp: hp, speed, color, scoreValue, xpReward,
 attackCooldown: 1.1 + Math.random() * 1.2,
 jumpTimer: 2.0 + Math.random() * 3.0,
@@ -5451,7 +5446,7 @@ const body = new THREE.Mesh(bodyGeo, bodyMat);
 group.add(body);
 
 const eye = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 10), basicMat(0x06b6d4));
-eye.position.set(0, 0, -0.28);
+eye.position.set(0, 0, 0.28);
 group.add(eye);
 
 const wing = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.05, 0.26), lambertMat(0x0f172a));
@@ -5460,7 +5455,7 @@ group.add(wing);
 const podMat = basicMat(0x38bdf8);
 const podL = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.38, 8), podMat);
 podL.rotation.x = Math.PI / 2;
-podL.position.set(-0.42, -0.12, -0.1);
+podL.position.set(-0.42, -0.12, 0.15);
 const podR = podL.clone();
 podR.position.x = 0.42;
 group.add(podL, podR);
@@ -5482,6 +5477,28 @@ fireTimer: 0.15,
 bobAngle: 0,
 lockedTarget: null
 };
+}
+function getEnemyCenter(en) {
+if (!en || !en.group) return new THREE.Vector3();
+const pos = en.group.position.clone();
+if (en.type === 'WALKER') {
+pos.y += 1.65;
+} else if (en.type === 'SPIDER') {
+pos.y += 0.65;
+} else if (en.type === 'MECH_GOLIATH') {
+pos.y += 2.2;
+} else if (en.type === 'DRONE' || en.type === 'SNIPER_DRONE') {
+pos.y += 0.25;
+} else {
+pos.y += 1.4;
+}
+return pos;
+}
+function getBossCenter(boss) {
+if (!boss || !boss.group) return new THREE.Vector3();
+const pos = boss.group.position.clone();
+pos.y += 2.2;
+return pos;
 }
 const droneRaycaster = new THREE.Raycaster();
 function hasLineOfSight(start, targetPos) {
@@ -5609,9 +5626,20 @@ sentinelDrone.lockedTarget = { kind: target.kind, ref: target.ref };
 }
 
 if (target) {
-const aimTarget = target.pos.clone();
-aimTarget.y += 1.0;
-sentinelDrone.group.lookAt(aimTarget);
+let impactPoint = null;
+if (target.kind === 'ENEMY') {
+impactPoint = getEnemyCenter(target.ref);
+} else if (target.kind === 'BOSS') {
+impactPoint = getBossCenter(target.ref);
+} else if (target.kind === 'PLAYER') {
+impactPoint = target.pos.clone();
+impactPoint.y += 1.2;
+} else {
+impactPoint = target.pos.clone();
+impactPoint.y += 1.0;
+}
+
+sentinelDrone.group.lookAt(impactPoint);
 
 sentinelDrone.fireTimer -= dt;
 if (sentinelDrone.fireTimer <= 0) {
@@ -5622,36 +5650,47 @@ const pR = new THREE.Vector3();
 sentinelDrone.podL.getWorldPosition(pL);
 sentinelDrone.podR.getWorldPosition(pR);
 
-createLaserBeam(pL, aimTarget, 0x06b6d4, 0.055);
-createLaserBeam(pR, aimTarget, 0x38bdf8, 0.055);
-spawnParticleBurst(pL, 0x38bdf8, 3, 2);
-spawnParticleBurst(pR, 0x06b6d4, 3, 2);
+createLaserBeam(pL, impactPoint, 0x06b6d4, 0.055);
+createLaserBeam(pR, impactPoint, 0x38bdf8, 0.055);
+spawnParticleBurst(pL, 0x38bdf8, 4, 3);
+spawnParticleBurst(pR, 0x06b6d4, 4, 3);
+
+// Direct impact sparks on the target body
+spawnParticleBurst(impactPoint, 0x38bdf8, 10, 5);
+spawnParticleBurst(impactPoint, 0xffffff, 6, 4);
+
+// Physical recoil push on the enemy model
+if (target.kind === 'ENEMY' && target.ref && target.ref.group) {
+const pushDir = new THREE.Vector3().subVectors(impactPoint, droneWorldPos).setY(0).normalize();
+target.ref.group.position.addScaledVector(pushDir, 0.35);
+}
 
 sound.playLaser('SMG');
 sound.playHit();
+sound.playTone('triangle', 980, 440, 0.08, 0.2);
 triggerHitMarker(false);
 
-const droneDmg = 140;
+const droneDmg = 90;
 
 if (target.kind === 'ENEMY') {
-damageEnemy(target.ref, droneDmg, aimTarget, false, true);
+damageEnemy(target.ref, droneDmg, impactPoint);
 } else if (target.kind === 'BOSS') {
-damageBoss(target.ref, droneDmg, aimTarget, false, true);
+damageBoss(target.ref, droneDmg, impactPoint);
 } else if (target.kind === 'PLAYER') {
 emitMpEvent({
 type: 'HIT',
 targetId: target.ref.id,
 attackerId: mpState.myId,
 attackerName: mpState.myName,
-damage: 50,
+damage: 42,
 isHeadshot: false,
 weaponId: 'DRONE'
 });
-spawnFloatingDamage(aimTarget, 50, false, true);
+spawnFloatingDamage(impactPoint, 42, false);
 }
 }
 } else {
-sentinelDrone.group.rotation.y = cameraEuler.y;
+sentinelDrone.group.rotation.y = cameraEuler.y + Math.PI;
 }
 }
 function triggerOrbitalStrike() {
@@ -6443,12 +6482,11 @@ en.group.position.y = Math.max(0, en.group.position.y + en.vy * dt);
 }
 }
 en.group.lookAt(camera.position.x, en.group.position.y, camera.position.z);
-if (en.hpBarGroup) {
-en.hpBarGroup.quaternion.copy(camera.quaternion);
-} else {
 en.hpBg.lookAt(camera.position);
 en.hpFill.lookAt(camera.position);
-}
+const isScan = (state.activeKillstreaks && state.activeKillstreaks.scanner > 0);
+en.hpBg.material.depthTest = !isScan;
+en.hpFill.material.depthTest = !isScan;
 const toPlayer = new THREE.Vector3(camera.position.x - en.group.position.x, 0, camera.position.z - en.group.position.z);
 const dist = toPlayer.length();
 if (dist > 0.01) toPlayer.divideScalar(dist);
