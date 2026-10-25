@@ -5423,7 +5423,7 @@ state.unlockedKillstreaks.k35 = false;
 state.activeKillstreaks.drone = 40.0;
 spawnSentinelDrone();
 sound.playTrophyUnlock();
-showAnnouncement('🛸 DRONE SENTINEL DISPIEGATO!', 'Supporto aereo laser automatico attivo per 40 secondi!');
+showAnnouncement('🛸 DRONE SENTINEL DISPIEGATO!', 'Supporto aereo laser automatico (140 DMG) attivo per 40 secondi!');
 updateKillstreakHUD();
 } else if (num === 50) {
 if (!state.unlockedKillstreaks.k50) {
@@ -5670,23 +5670,29 @@ sound.playHit();
 sound.playTone('triangle', 980, 440, 0.08, 0.2);
 triggerHitMarker(false);
 
-const droneDmg = 90;
+const droneDmg = 140;
 
 if (target.kind === 'ENEMY') {
-damageEnemy(target.ref, droneDmg, impactPoint);
+  damageEnemy(target.ref, droneDmg, impactPoint, false, true);
 } else if (target.kind === 'BOSS') {
-damageBoss(target.ref, droneDmg, impactPoint);
+  damageBoss(target.ref, droneDmg, impactPoint, false, true);
 } else if (target.kind === 'PLAYER') {
-emitMpEvent({
-type: 'HIT',
-targetId: target.ref.id,
-attackerId: mpState.myId,
-attackerName: mpState.myName,
-damage: 42,
-isHeadshot: false,
-weaponId: 'DRONE'
-});
-spawnFloatingDamage(impactPoint, 42, false);
+  if (target.ref) {
+    target.ref.currentHp = Math.max(0, (target.ref.currentHp || 100) - droneDmg);
+    if (target.ref.sprite) {
+      updateNameplateSprite(target.ref.sprite, target.ref.name, target.ref.currentHp, 100);
+    }
+  }
+  emitMpEvent({
+    type: 'HIT',
+    targetId: target.ref.id,
+    attackerId: mpState.myId,
+    attackerName: mpState.myName,
+    damage: droneDmg,
+    isHeadshot: false,
+    weaponId: 'DRONE'
+  });
+  spawnFloatingDamage(impactPoint, droneDmg, false, true);
 }
 }
 } else {
