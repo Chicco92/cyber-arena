@@ -2771,6 +2771,7 @@ function updateDarkMatterTexture(time) {
   darkMatterTexture.offset.x = (time * 0.15) % 1.0;
   darkMatterTexture.offset.y = (time * 0.08) % 1.0;
 }
+updateDarkMatterTexture(0);
 const keys = {
 KeyW: false, KeyA: false, KeyS: false, KeyD: false,
 ArrowUp: false, ArrowLeft: false, ArrowDown: false, ArrowRight: false,
@@ -3572,9 +3573,6 @@ activeGrp.traverse(child => {
 if (child.isMesh && child.material && child.userData.origColor !== undefined) {
 if (child.material.map === darkMatterTexture) {
 child.material.map = null;
-child.material.emissiveMap = null;
-child.material.emissive.setHex(0x000000);
-child.material.emissiveIntensity = 0;
 child.material.needsUpdate = true;
 }
 if (camo === 'DEFAULT') {
@@ -3585,9 +3583,6 @@ child.material.color.setHex(child.userData.isGlow ? 0xfef08a : (child.userData.o
 child.material.color.setHex(child.userData.isGlow ? 0xffffff : (child.userData.origColor === 0x0f172a ? 0x0284c7 : 0x38bdf8));
 } else if (camo === 'DARK_MATTER') {
 child.material.map = darkMatterTexture;
-child.material.emissiveMap = darkMatterTexture;
-child.material.emissive = new THREE.Color(child.userData.isGlow ? 0xd946ef : 0x3b0764);
-child.material.emissiveIntensity = child.userData.isGlow ? 1.6 : 0.75;
 child.material.color.setHex(child.userData.isGlow ? 0xffffff : 0xdfd8eb);
 child.material.needsUpdate = true;
 darkMatterDynamicMats.push({ mat: child.material, isGlow: child.userData.isGlow, type: 'DARK_MATTER' });
