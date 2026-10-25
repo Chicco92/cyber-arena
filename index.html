@@ -293,6 +293,7 @@ display: none !important;
 <div class="flex gap-2 items-end">
 <button id="btn-touch-wheel" class="w-12 h-12 rounded-full cyber-panel border border-purple-400/80 text-purple-300 font-cyber text-[10px] font-bold active:scale-95">ARMI</button>
 <button id="btn-touch-aim" class="w-12 h-12 rounded-full cyber-panel border border-cyan-400/80 text-cyan-300 font-cyber text-[10px] font-bold active:scale-95">MIRA</button>
+<button id="btn-touch-slide" class="w-12 h-12 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-bold active:scale-95">SCIVOLA</button>
 <button id="btn-touch-reload" class="w-12 h-12 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-bold active:scale-95">RIC</button>
 <button id="btn-touch-jump" class="w-12 h-12 rounded-full cyber-panel border border-emerald-400/80 text-emerald-300 font-cyber text-[10px] font-bold active:scale-95">SALTA</button>
 <button id="btn-touch-fire" class="w-16 h-16 rounded-full bg-rose-600 border-2 border-rose-300 text-white font-cyber text-xs font-black active:scale-95">FUOCO</button>
@@ -317,6 +318,26 @@ display: none !important;
 <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
 <div id="hud-stamina-bar" class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-75" style="width: 100%"></div>
 </div>
+</div>
+</div>
+<div id="hud-killstreak-dock" class="cyber-panel rounded-xl px-3 py-1.5 flex items-center gap-2 pointer-events-auto shrink-0 mb-1 sm:mb-0">
+<div class="flex items-center gap-1.5 pr-2.5 border-r border-slate-700">
+<span class="text-amber-400 text-sm">🔥</span>
+<div>
+<div class="text-[8px] font-cyber uppercase tracking-widest text-slate-400 leading-none">Serie</div>
+<div id="hud-killstreak-count" class="text-xs font-cyber font-black text-amber-300 leading-none mt-0.5">0</div>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<button id="ks-btn-20" type="button" title="Scanner Orbitale [6]" class="px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition">
+<span>[6] 🛰️ 20</span>
+</button>
+<button id="ks-btn-35" type="button" title="Drone Sentinel [7]" class="px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition">
+<span>[7] 🛸 35</span>
+</button>
+<button id="ks-btn-50" type="button" title="Raggio Orbitale [8]" class="px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition">
+<span>[8] ☄️ 50</span>
+</button>
 </div>
 </div>
 <div class="cyber-panel rounded-xl px-5 py-3 flex items-center justify-between sm:justify-end gap-5">
@@ -426,6 +447,20 @@ class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg p
 <button id="menu-btn-music" type="button" class="px-2.5 py-1 rounded-lg bg-slate-950 border border-fuchsia-400/50 text-fuchsia-300 font-cyber text-[10px] font-bold cursor-pointer">🎵 MUSICA: ON</button>
 <button id="menu-btn-sfx" type="button" class="px-2.5 py-1 rounded-lg bg-slate-950 border border-cyan-400/50 text-cyan-300 font-cyber text-[10px] font-bold cursor-pointer">🔊 EFFETTI: ON</button>
 </div>
+</div>
+</div>
+<div class="mb-4 text-left bg-slate-900 rounded-xl px-4 py-2.5 border border-slate-800">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-cyber uppercase tracking-widest text-cyan-400 font-bold">🗺️ Selezione Settore / Mappa</span>
+<span id="map-selected-label" class="text-[10px] font-cyber text-slate-300">Arena Cyber Galattica</span>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<button id="map-btn-arena" type="button" class="px-3 py-2 rounded-lg bg-cyan-950/80 border-2 border-cyan-400 text-cyan-300 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer shadow-[0_0_12px_rgba(34,211,238,0.25)]">
+<span>🌌 Arena Classica</span>
+</button>
+<button id="map-btn-hangar" type="button" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer hover:border-amber-400/50 hover:text-amber-300">
+<span>🛸 Hangar Orbitale</span>
+</button>
 </div>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -589,6 +624,19 @@ Tutti contro tutti nell'arena! Spari, headshot, killfeed in tempo reale e respaw
 <label for="mp-create-is-private" class="text-xs text-slate-300 font-cyber cursor-pointer">
 Stanza Privata (non compare nell'elenco pubblico, richiede il codice a 4 lettere per entrare)
 </label>
+</div>
+<div>
+<label class="block text-[10px] font-cyber uppercase tracking-wider text-slate-400 mb-2">Mappa di Gioco</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="p-2.5 rounded-xl border border-cyan-500/50 bg-cyan-950/20 cursor-pointer flex items-center gap-2 hover:border-cyan-400 transition">
+<input type="radio" name="mp-create-map" value="ARENA" checked class="accent-cyan-400">
+<span class="font-cyber font-bold text-xs text-cyan-300 uppercase">🌌 Arena Galattica</span>
+</label>
+<label class="p-2.5 rounded-xl border border-slate-800 bg-slate-900/40 cursor-pointer flex items-center gap-2 hover:border-amber-400 transition">
+<input type="radio" name="mp-create-map" value="HANGAR" class="accent-amber-400">
+<span class="font-cyber font-bold text-xs text-amber-300 uppercase">🛸 Hangar Orbitale</span>
+</label>
+</div>
 </div>
 <button id="mp-btn-create-submit" type="button" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_20px_rgba(16,185,129,0.3)]">
 🚀 CREA E APRI STANZA
@@ -1787,6 +1835,13 @@ function emitMpEvent(eventData) {
 function triggerPvPDeath(killerId, killerName, weaponId, isHeadshot) {
   mpState.myDeaths = (mpState.myDeaths || 0) + 1;
   state.health = 0;
+  state.killstreak = 0;
+  state.unlockedKillstreaks = { k20: false, k35: false, k50: false };
+  if (sentinelDrone && sentinelDrone.group) {
+    scene.remove(sentinelDrone.group);
+    sentinelDrone = null;
+  }
+  updateKillstreakHUD();
   updateHUD();
 
   if (mpState.roomRef) {
@@ -1921,6 +1976,7 @@ function setupRoomListeners(roomId) {
     }
     mpState.mode = info.mode || 'COOP';
     mpState.roomCode = info.code;
+    mpState.roomMap = info.map || 'ARENA';
     const nameEl = byId('mp-room-name-display');
     const codeEl = byId('mp-room-code-display');
     const badgeMode = byId('mp-room-badge-mode');
@@ -1991,6 +2047,7 @@ function setupRoomListeners(roomId) {
       if (ev.killerId === mpState.myId) {
         state.kills = (state.kills || 0) + 1;
         state.score = (state.score || 0) + (ev.isHeadshot ? 250 : 150);
+        registerKillForKillstreak();
         updateHUD();
         sound.playTrophy();
         showAnnouncement('🎯 ELIMINAZIONE AVVERSARIO', `Hai abbattuto ${ev.victimName}!`);
@@ -2065,6 +2122,9 @@ function startMultiplayerMatch() {
   }
 
   sound.init();
+  if (mpState.roomMap) {
+    state.selectedMap = mpState.roomMap;
+  }
   startNewGame();
 
   if (mpState.mode === 'PVP') {
@@ -2187,7 +2247,7 @@ async function refreshPublicLobbies() {
   }
 }
 
-async function createRoom(roomName, mode, isPrivate) {
+async function createRoom(roomName, mode, isPrivate, mapId) {
   const feedback = byId('mp-feedback');
   if (!fbDb) {
     if (feedback) feedback.textContent = '⚠️ Connessione Firebase non pronta. Ricarica la pagina.';
@@ -2199,6 +2259,8 @@ async function createRoom(roomName, mode, isPrivate) {
   mpState.myName = getMyPlayerName();
   mpState.isHost = true;
   mpState.mode = mode || 'COOP';
+  mpState.roomMap = mapId || 'ARENA';
+  state.selectedMap = mpState.roomMap;
   mpState.myDeaths = 0;
 
   const code = generateRoomCode();
@@ -2212,6 +2274,7 @@ async function createRoom(roomName, mode, isPrivate) {
       hostId: mpState.myId,
       hostName: mpState.myName,
       mode: mode,
+      map: mapId || 'ARENA',
       isPrivate: Boolean(isPrivate),
       status: 'LOBBY',
       createdAt: firebase.database.ServerValue.TIMESTAMP
@@ -2388,8 +2451,10 @@ function initMultiplayerDOM() {
       const name = createNameInput ? createNameInput.value.trim() : '';
       const modeRadio = document.querySelector('input[name="mp-create-mode"]:checked');
       const mode = modeRadio ? modeRadio.value : 'COOP';
+      const mapRadio = document.querySelector('input[name="mp-create-map"]:checked');
+      const map = mapRadio ? mapRadio.value : 'ARENA';
       const isPrivate = byId('mp-create-is-private')?.checked || false;
-      createRoom(name, mode, isPrivate);
+      createRoom(name, mode, isPrivate, map);
     });
   }
 
@@ -2637,6 +2702,16 @@ baseSensitivity: 0.0022
 const state = {
 mode: 'MENU', score: 0, wave: 1, kills: 0,
 bossesDefeated: 0,
+killstreak: 0,
+activeKillstreaks: { scanner: 0, drone: 0, orbital: 0 },
+unlockedKillstreaks: { k20: false, k35: false, k50: false },
+isSliding: false,
+slideTimer: 0,
+slideCooldown: 0,
+slideDir: new THREE.Vector3(),
+slideSpeed: 0,
+currentCameraHeight: 2.2,
+selectedMap: 'ARENA',
 currentWeaponIndex: 0,
 selectedShopWeaponIdx: 0,
 weaponClips: WEAPONS.map(w => w.maxAmmo),
@@ -2704,6 +2779,9 @@ const particles = [];
 const pickups = [];
 const floatingDamages = [];
 const darkMatterDynamicMats = [];
+let currentMapGroup = null;
+let sentinelDrone = null;
+const cosmicBlackHoles = [];
 const dmCanvas = document.createElement('canvas');
 dmCanvas.width = 256;
 dmCanvas.height = 256;
@@ -2716,7 +2794,9 @@ darkMatterTexture.repeat.set(1.0, 1.0);
 function updateDarkMatterTexture(time) {
   if (!dmCtx) return;
   const w = 256, h = 256;
-  const t = time * 0.55;
+  const streak = state.killstreak || 0;
+  const speedMult = streak >= 35 ? 2.4 : (streak >= 16 ? 1.6 : 1.0);
+  const t = time * 0.55 * speedMult;
   
   const angle = t * 0.35;
   const cosA = Math.cos(angle);
@@ -2728,22 +2808,24 @@ function updateDarkMatterTexture(time) {
   
   const grad = dmCtx.createLinearGradient(x1, y1, x2, y2);
   const waveShift = Math.sin(t * 0.9) * 0.1;
-  grad.addColorStop(0.0, '#060012');
-  grad.addColorStop(Math.max(0, 0.25 + waveShift), '#260447');
-  grad.addColorStop(0.50, '#581077');
-  grad.addColorStop(Math.min(1, 0.75 - waveShift), '#9d178d');
-  grad.addColorStop(1.0, '#040010');
+  const coreDark = streak >= 35 ? '#1a0033' : '#060012';
+  grad.addColorStop(0.0, coreDark);
+  grad.addColorStop(Math.max(0, 0.25 + waveShift), streak >= 35 ? '#4c0b78' : '#260447');
+  grad.addColorStop(0.50, streak >= 35 ? '#9333ea' : '#581077');
+  grad.addColorStop(Math.min(1, 0.75 - waveShift), streak >= 35 ? '#c026d3' : '#9d178d');
+  grad.addColorStop(1.0, coreDark);
   
   dmCtx.fillStyle = grad;
   dmCtx.fillRect(0, 0, w, h);
 
   dmCtx.globalCompositeOperation = 'screen';
+  const radiusBoost = streak >= 35 ? 30 : (streak >= 16 ? 15 : 0);
   const clouds = [
-    { freqX: 0.65, freqY: 0.50, phase: 0.0, rBase: 85, color: 'rgba(217, 70, 239, 0.45)' },
-    { freqX: 0.45, freqY: 0.60, phase: 2.1, rBase: 95, color: 'rgba(139, 92, 246, 0.42)' },
-    { freqX: 0.55, freqY: 0.75, phase: 4.2, rBase: 75, color: 'rgba(244, 63, 94, 0.36)' },
-    { freqX: 0.70, freqY: 0.40, phase: 1.5, rBase: 70, color: 'rgba(6, 182, 212, 0.32)' },
-    { freqX: 0.35, freqY: 0.55, phase: 3.3, rBase: 90, color: 'rgba(168, 85, 247, 0.38)' }
+    { freqX: 0.65, freqY: 0.50, phase: 0.0, rBase: 85 + radiusBoost, color: streak >= 35 ? 'rgba(232, 121, 249, 0.75)' : 'rgba(217, 70, 239, 0.45)' },
+    { freqX: 0.45, freqY: 0.60, phase: 2.1, rBase: 95 + radiusBoost, color: streak >= 35 ? 'rgba(192, 132, 252, 0.70)' : 'rgba(139, 92, 246, 0.42)' },
+    { freqX: 0.55, freqY: 0.75, phase: 4.2, rBase: 75 + radiusBoost, color: streak >= 35 ? 'rgba(251, 113, 133, 0.65)' : 'rgba(244, 63, 94, 0.36)' },
+    { freqX: 0.70, freqY: 0.40, phase: 1.5, rBase: 70 + radiusBoost, color: streak >= 35 ? 'rgba(56, 189, 248, 0.65)' : 'rgba(6, 182, 212, 0.32)' },
+    { freqX: 0.35, freqY: 0.55, phase: 3.3, rBase: 90 + radiusBoost, color: streak >= 35 ? 'rgba(216, 180, 254, 0.70)' : 'rgba(168, 85, 247, 0.38)' }
   ];
   clouds.forEach((c) => {
     const cx = (Math.sin(t * c.freqX + c.phase) * 0.35 + 0.5) * w;
@@ -2751,18 +2833,31 @@ function updateDarkMatterTexture(time) {
     const r = c.rBase + Math.sin(t * 1.1 + c.phase) * 20;
     const radGrad = dmCtx.createRadialGradient(cx, cy, 0, cx, cy, r);
     radGrad.addColorStop(0.0, c.color);
-    radGrad.addColorStop(0.5, c.color.replace(/[\d\.]+\)$/, '0.2)'));
+    radGrad.addColorStop(0.5, c.color.replace(/[\d\.]+\)$/, '0.25)'));
     radGrad.addColorStop(1.0, 'rgba(0,0,0,0)');
     dmCtx.fillStyle = radGrad;
     dmCtx.beginPath();
     dmCtx.arc(cx, cy, r, 0, Math.PI * 2);
     dmCtx.fill();
   });
+
+  if (streak >= 35) {
+    for (let k = 0; k < 6; k++) {
+      const sx = (Math.sin(t * 1.7 + k * 1.3) * 0.4 + 0.5) * w;
+      const sy = (Math.cos(t * 1.9 + k * 1.7) * 0.4 + 0.5) * h;
+      const sr = 3.5 + Math.sin(t * 4.0 + k) * 2.0;
+      dmCtx.fillStyle = k % 2 === 0 ? '#38bdf8' : '#f472b6';
+      dmCtx.beginPath();
+      dmCtx.arc(sx, sy, sr, 0, Math.PI * 2);
+      dmCtx.fill();
+    }
+  }
+
   dmCtx.globalCompositeOperation = 'source-over';
 
   darkMatterTexture.needsUpdate = true;
-  darkMatterTexture.offset.x = (time * 0.08) % 1.0;
-  darkMatterTexture.offset.y = (time * 0.05) % 1.0;
+  darkMatterTexture.offset.x = (time * 0.08 * speedMult) % 1.0;
+  darkMatterTexture.offset.y = (time * 0.05 * speedMult) % 1.0;
 }
 updateDarkMatterTexture(0);
 
@@ -2838,7 +2933,8 @@ diamondMetallicTexture.repeat.set(2.0, 2.0);
 const keys = {
 KeyW: false, KeyA: false, KeyS: false, KeyD: false,
 ArrowUp: false, ArrowLeft: false, ArrowDown: false, ArrowRight: false,
-Space: false, ShiftLeft: false, ShiftRight: false
+Space: false, ShiftLeft: false, ShiftRight: false,
+KeyC: false, ControlLeft: false, ControlRight: false
 };
 let isDraggingMouse = false;
 let isTouchDevice = false;
@@ -3238,7 +3334,7 @@ const fillLight = new THREE.DirectionalLight(0x818cf8, 0.45);
 fillLight.position.set(-45, 45, -35);
 scene.add(fillLight);
 buildGalaxySky();
-buildCyberArenaWithParkour();
+loadMap(state.selectedMap || 'ARENA');
 buildFirstPersonWeapon();
 updateHUD();
 state.needsStaticRender = true;
@@ -3309,11 +3405,11 @@ planetGroup.position.set(-95, 78, -125);
 galaxyGroup.add(planetGroup);
 scene.add(galaxyGroup);
 }
-function addSciFiStructure(x, minY, z, w, h, d, bodyMat, baseMat, accentMat) {
+function addSciFiStructure(x, minY, z, w, h, d, bodyMat, baseMat, accentMat, targetGroup = currentMapGroup || scene) {
 const structGroup = new THREE.Group();
 const coreMesh = boxMesh(w, h, d, bodyMat);
 coreMesh.position.set(x, minY + h / 2, z);
-scene.add(coreMesh);
+targetGroup.add(coreMesh);
 const roofMat = lambertMat(0x161e2e);
 if (h >= 2.2) {
 addBox(structGroup, w + 0.35, 0.35, d + 0.35, baseMat, x, minY + 0.175, z);
@@ -3327,7 +3423,7 @@ if (accentMat) {
 addBox(structGroup, w + 0.06, 0.1, d + 0.06, accentMat, x, minY + h / 2, z);
 }
 }
-scene.add(structGroup);
+targetGroup.add(structGroup);
 obstacles.push({
 mesh: coreMesh,
 minX: x - w / 2, maxX: x + w / 2,
@@ -3335,16 +3431,16 @@ minZ: z - d / 2, maxZ: z + d / 2,
 minY: minY, maxY: minY + h
 });
 }
-function buildCyberArenaWithParkour() {
+function buildCyberArenaWithParkour(parentGroup = currentMapGroup || scene) {
 const half = GAME_CONFIG.arenaHalfSize;
 const floorGeo = new THREE.PlaneGeometry(half * 2, half * 2);
 const floorMat = lambertMat(0x080c1a);
 const floor = new THREE.Mesh(floorGeo, floorMat);
 floor.rotation.x = -Math.PI / 2;
-scene.add(floor);
+parentGroup.add(floor);
 const grid = new THREE.GridHelper(half * 2, 40, 0x0e7490, 0x111827);
 grid.position.y = 0.02;
-scene.add(grid);
+parentGroup.add(grid);
 const wallHeight = 12;
 const wallMat = lambertMat(0x0b1120);
 const wallCapMat = lambertMat(0x1e293b);
@@ -3362,7 +3458,7 @@ addBox(wallGroup, half * 2, 0.8, 2.1, wallCapMat, 0, 0.4, 0);
 addBox(wallGroup, half * 2, 0.16, 1.92, softNeonMat, 0, wallHeight - 1.2, 0);
 wallGroup.position.set(cfg.x, 0, cfg.z);
 wallGroup.rotation.y = cfg.rotY;
-scene.add(wallGroup);
+parentGroup.add(wallGroup);
 });
 const towerBodyMat = lambertMat(0x1e293b);
 const citadelBodyMat = lambertMat(0x172554);
@@ -3371,20 +3467,20 @@ const darkPlinthMat = lambertMat(0x0f172a);
 const softCyanGlow = basicMat(0x06b6d4);
 const softVioletGlow = basicMat(0x8b5cf6);
 const softTealGlow = basicMat(0x14b8a6);
-addSciFiStructure(0, 0, 14, 5.5, 1.2, 4.0, walkwayMat, darkPlinthMat, softCyanGlow);
-addSciFiStructure(0, 0, 10, 5.5, 2.4, 4.0, walkwayMat, darkPlinthMat, softCyanGlow);
-addSciFiStructure(0, 0, 0, 10.0, 3.6, 10.0, citadelBodyMat, darkPlinthMat, softVioletGlow);
+addSciFiStructure(0, 0, 14, 5.5, 1.2, 4.0, walkwayMat, darkPlinthMat, softCyanGlow, parentGroup);
+addSciFiStructure(0, 0, 10, 5.5, 2.4, 4.0, walkwayMat, darkPlinthMat, softCyanGlow, parentGroup);
+addSciFiStructure(0, 0, 0, 10.0, 3.6, 10.0, citadelBodyMat, darkPlinthMat, softVioletGlow, parentGroup);
 const towers = [[-24, -24], [24, -24], [-24, 24], [24, 24]];
 towers.forEach(([tx, tz]) => {
-addSciFiStructure(tx, 0, tz, 8.0, 5.0, 8.0, towerBodyMat, darkPlinthMat, softCyanGlow);
+addSciFiStructure(tx, 0, tz, 8.0, 5.0, 8.0, towerBodyMat, darkPlinthMat, softCyanGlow, parentGroup);
 });
-addSciFiStructure(-13, 3.8, -13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow);
-addSciFiStructure(13, 3.8, -13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow);
-addSciFiStructure(-13, 3.8, 13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow);
-addSciFiStructure(13, 3.8, 13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow);
-addSciFiStructure(0, 0, -28, 10.0, 3.2, 4.5, towerBodyMat, darkPlinthMat, softCyanGlow);
-addSciFiStructure(-28, 0, 0, 4.5, 3.2, 10.0, towerBodyMat, darkPlinthMat, softCyanGlow);
-addSciFiStructure(28, 0, 0, 4.5, 3.2, 10.0, towerBodyMat, darkPlinthMat, softCyanGlow);
+addSciFiStructure(-13, 3.8, -13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow, parentGroup);
+addSciFiStructure(13, 3.8, -13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow, parentGroup);
+addSciFiStructure(-13, 3.8, 13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow, parentGroup);
+addSciFiStructure(13, 3.8, 13, 5.0, 0.55, 5.0, walkwayMat, darkPlinthMat, softTealGlow, parentGroup);
+addSciFiStructure(0, 0, -28, 10.0, 3.2, 4.5, towerBodyMat, darkPlinthMat, softCyanGlow, parentGroup);
+addSciFiStructure(-28, 0, 0, 4.5, 3.2, 10.0, towerBodyMat, darkPlinthMat, softCyanGlow, parentGroup);
+addSciFiStructure(28, 0, 0, 4.5, 3.2, 10.0, towerBodyMat, darkPlinthMat, softCyanGlow, parentGroup);
 const padCoords = [[-18, 0], [18, 0], [0, -18], [0, 22]];
 padCoords.forEach(([px, pz]) => {
 const padGroup = new THREE.Group();
@@ -3399,9 +3495,149 @@ const innerCore = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.05, 0.1, 16)
 innerCore.position.y = 0.28;
 padGroup.add(innerCore);
 padGroup.position.set(px, 0, pz);
-scene.add(padGroup);
+parentGroup.add(padGroup);
 jumpPads.push({ x: px, z: pz, radius: 2.0, ring: glowRing, cooldown: 0 });
 });
+}
+function buildHangarOrbitale(parentGroup = currentMapGroup || scene) {
+const half = GAME_CONFIG.arenaHalfSize;
+const floorGeo = new THREE.PlaneGeometry(half * 2, half * 2);
+const floorMat = lambertMat(0x0c121e);
+const floor = new THREE.Mesh(floorGeo, floorMat);
+floor.rotation.x = -Math.PI / 2;
+parentGroup.add(floor);
+
+const grid = new THREE.GridHelper(half * 2, 36, 0xd97706, 0x1e293b);
+grid.position.y = 0.02;
+parentGroup.add(grid);
+
+const wallHeight = 14;
+const steelMat = lambertMat(0x090d16);
+const frameMat = lambertMat(0x1e293b);
+const amberGlow = basicMat(0xf59e0b);
+const cyanGlow = basicMat(0x06b6d4);
+
+const solidWalls = [
+{ x: 0, z: half, rotY: Math.PI },
+{ x: -half, z: 0, rotY: Math.PI / 2 },
+{ x: half, z: 0, rotY: -Math.PI / 2 }
+];
+solidWalls.forEach(cfg => {
+const wallGroup = new THREE.Group();
+addBox(wallGroup, half * 2, wallHeight, 2.0, steelMat, 0, wallHeight / 2, 0);
+addBox(wallGroup, half * 2, 0.9, 2.4, frameMat, 0, 0.45, 0);
+addBox(wallGroup, half * 2, 0.2, 2.2, amberGlow, 0, wallHeight - 1.2, 0);
+for (let px = -half + 12; px <= half - 12; px += 20) {
+addBox(wallGroup, 1.8, wallHeight, 2.5, frameMat, px, wallHeight / 2, 0);
+addBox(wallGroup, 0.25, wallHeight - 3, 2.6, amberGlow, px, wallHeight / 2, 0);
+}
+wallGroup.position.set(cfg.x, 0, cfg.z);
+wallGroup.rotation.y = cfg.rotY;
+parentGroup.add(wallGroup);
+});
+
+const bayGroup = new THREE.Group();
+addBox(bayGroup, half * 2, 2.5, 2.2, frameMat, 0, 1.25, -half);
+addBox(bayGroup, half * 2, 2.5, 2.2, frameMat, 0, wallHeight - 1.25, -half);
+addBox(bayGroup, 6, wallHeight, 2.2, frameMat, -half + 3, wallHeight / 2, -half);
+addBox(bayGroup, 6, wallHeight, 2.2, frameMat, half - 3, wallHeight / 2, -half);
+
+const glassGeo = new THREE.PlaneGeometry(half * 2 - 12, wallHeight - 5);
+const glassMat = new THREE.MeshBasicMaterial({
+color: 0x38bdf8,
+transparent: true,
+opacity: 0.22,
+side: THREE.DoubleSide
+});
+const glassPane = new THREE.Mesh(glassGeo, glassMat);
+glassPane.position.set(0, wallHeight / 2, -half + 0.1);
+bayGroup.add(glassPane);
+
+const stationGroup = new THREE.Group();
+const stationRing = new THREE.Mesh(
+new THREE.TorusGeometry(32, 2.8, 12, 40),
+new THREE.MeshLambertMaterial({ color: 0x334155, fog: false })
+);
+stationRing.rotation.x = Math.PI / 2.8;
+stationGroup.add(stationRing);
+const stationCore = new THREE.Mesh(
+new THREE.SphereGeometry(6, 16, 16),
+new THREE.MeshLambertMaterial({ color: 0x0284c7, fog: false })
+);
+stationGroup.add(stationCore);
+stationGroup.position.set(0, 24, -half - 55);
+bayGroup.add(stationGroup);
+
+const earthMesh = new THREE.Mesh(
+new THREE.SphereGeometry(24, 24, 24),
+new THREE.MeshLambertMaterial({ color: 0x0369a1, fog: false })
+);
+earthMesh.position.set(-60, 42, -half - 90);
+bayGroup.add(earthMesh);
+
+parentGroup.add(bayGroup);
+
+const crateDarkMat = lambertMat(0x111827);
+const cratePlateMat = lambertMat(0x1f2937);
+const walkwayMat = lambertMat(0x182030);
+const darkPlinthMat = lambertMat(0x0a0f1d);
+
+addSciFiStructure(0, 0, 0, 12.0, 4.4, 12.0, cratePlateMat, darkPlinthMat, amberGlow, parentGroup);
+const reactorCore = new THREE.Mesh(
+new THREE.CylinderGeometry(2.4, 2.4, 5.6, 16),
+basicMat(0x06b6d4)
+);
+reactorCore.position.set(0, 5.0, 0);
+parentGroup.add(reactorCore);
+
+addSciFiStructure(-16, 4.2, 0, 5.5, 0.6, 32.0, walkwayMat, darkPlinthMat, amberGlow, parentGroup);
+addSciFiStructure(16, 4.2, 0, 5.5, 0.6, 32.0, walkwayMat, darkPlinthMat, amberGlow, parentGroup);
+addSciFiStructure(0, 4.2, -18, 36.0, 0.6, 5.0, walkwayMat, darkPlinthMat, cyanGlow, parentGroup);
+
+addSciFiStructure(-22, 0, -18, 7.0, 3.4, 4.5, crateDarkMat, darkPlinthMat, amberGlow, parentGroup);
+addSciFiStructure(-22, 3.4, -18, 4.5, 2.5, 3.8, cratePlateMat, darkPlinthMat, cyanGlow, parentGroup);
+addSciFiStructure(22, 0, -18, 7.0, 3.4, 4.5, crateDarkMat, darkPlinthMat, amberGlow, parentGroup);
+addSciFiStructure(22, 3.4, -18, 4.5, 2.5, 3.8, cratePlateMat, darkPlinthMat, cyanGlow, parentGroup);
+addSciFiStructure(-22, 0, 20, 8.0, 3.6, 4.5, cratePlateMat, darkPlinthMat, cyanGlow, parentGroup);
+addSciFiStructure(22, 0, 20, 8.0, 3.6, 4.5, cratePlateMat, darkPlinthMat, cyanGlow, parentGroup);
+addSciFiStructure(0, 0, 24, 10.0, 2.8, 5.5, crateDarkMat, darkPlinthMat, amberGlow, parentGroup);
+
+const hangarPads = [[-16, -10], [16, -10], [-16, 12], [16, 12]];
+hangarPads.forEach(([px, pz]) => {
+const padGroup = new THREE.Group();
+const base = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 2.1, 0.3, 16), darkPlinthMat);
+base.position.y = 0.15;
+padGroup.add(base);
+const glowRing = new THREE.Mesh(new THREE.TorusGeometry(1.4, 0.12, 8, 20), amberGlow);
+glowRing.rotation.x = Math.PI / 2;
+glowRing.position.y = 0.32;
+padGroup.add(glowRing);
+const innerCore = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 0.12, 16), basicMat(0xf59e0b));
+innerCore.position.y = 0.28;
+padGroup.add(innerCore);
+padGroup.position.set(px, 0, pz);
+parentGroup.add(padGroup);
+jumpPads.push({ x: px, z: pz, radius: 2.1, ring: glowRing, cooldown: 0 });
+});
+}
+function loadMap(mapId) {
+state.selectedMap = mapId || 'ARENA';
+if (!scene) return;
+if (currentMapGroup) {
+scene.remove(currentMapGroup);
+}
+obstacles.length = 0;
+jumpPads.length = 0;
+
+currentMapGroup = new THREE.Group();
+scene.add(currentMapGroup);
+
+if (state.selectedMap === 'HANGAR') {
+buildHangarOrbitale(currentMapGroup);
+} else {
+buildCyberArenaWithParkour(currentMapGroup);
+}
+state.needsStaticRender = true;
 }
 function buildFirstPersonWeapon() {
 weaponGroup = new THREE.Group();
@@ -3967,7 +4203,25 @@ triggerReload();
 } else if (e.code === 'KeyQ') {
 e.preventDefault();
 openWeaponWheel();
-} else if (['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8'].includes(e.code)) {
+} else if (e.code === 'Digit6' || e.code === 'Numpad6') {
+if (state.unlockedKillstreaks.k20) {
+activateKillstreak(20);
+} else {
+selectWeapon(5);
+}
+} else if (e.code === 'Digit7' || e.code === 'Numpad7') {
+if (state.unlockedKillstreaks.k35) {
+activateKillstreak(35);
+} else {
+selectWeapon(6);
+}
+} else if (e.code === 'Digit8' || e.code === 'Numpad8') {
+if (state.unlockedKillstreaks.k50) {
+activateKillstreak(50);
+} else {
+selectWeapon(7);
+}
+} else if (['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5'].includes(e.code)) {
 selectWeapon(parseInt(e.code.replace('Digit', '')) - 1);
 } else if (e.code === 'KeyP' || e.code === 'Escape') {
 if (state.isWheelOpen) closeWeaponWheel(); else pauseGame();
@@ -4091,6 +4345,41 @@ playerVelocity.y = GAME_CONFIG.jumpForce;
 isGrounded = false;
 }
 });
+const btnTouchSlide = byId('btn-touch-slide');
+if (btnTouchSlide) {
+btnTouchSlide.addEventListener('touchstart', (e) => {
+e.preventDefault();
+keys.KeyC = true;
+setTimeout(() => { keys.KeyC = false; }, 350);
+});
+}
+const ks20Btn = byId('ks-btn-20');
+const ks35Btn = byId('ks-btn-35');
+const ks50Btn = byId('ks-btn-50');
+if (ks20Btn) ks20Btn.addEventListener('click', () => activateKillstreak(20));
+if (ks35Btn) ks35Btn.addEventListener('click', () => activateKillstreak(35));
+if (ks50Btn) ks50Btn.addEventListener('click', () => activateKillstreak(50));
+
+const mapBtnArena = byId('map-btn-arena');
+const mapBtnHangar = byId('map-btn-hangar');
+const mapLbl = byId('map-selected-label');
+function setMenuMap(mapId) {
+state.selectedMap = mapId;
+if (mapLbl) mapLbl.textContent = mapId === 'HANGAR' ? 'Hangar Orbitale Neon' : 'Arena Cyber Galattica';
+if (mapBtnArena && mapBtnHangar) {
+if (mapId === 'ARENA') {
+mapBtnArena.className = 'px-3 py-2 rounded-lg bg-cyan-950/80 border-2 border-cyan-400 text-cyan-300 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer shadow-[0_0_12px_rgba(34,211,238,0.25)]';
+mapBtnHangar.className = 'px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer hover:border-amber-400/50 hover:text-amber-300';
+} else {
+mapBtnHangar.className = 'px-3 py-2 rounded-lg bg-amber-950/80 border-2 border-amber-400 text-amber-300 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer shadow-[0_0_12px_rgba(245,158,11,0.25)]';
+mapBtnArena.className = 'px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer hover:border-cyan-400/50 hover:text-cyan-300';
+}
+}
+loadMap(mapId);
+sound.playPickup();
+}
+if (mapBtnArena) mapBtnArena.addEventListener('click', () => setMenuMap('ARENA'));
+if (mapBtnHangar) mapBtnHangar.addEventListener('click', () => setMenuMap('HANGAR'));
 }
 function startNewGame() {
 enemies.forEach(en => scene.remove(en.group));
@@ -4109,6 +4398,18 @@ savePlayerProfile();
 state.score = 0;
 state.wave = 1;
 state.kills = 0;
+state.killstreak = 0;
+state.activeKillstreaks = { scanner: 0, drone: 0, orbital: 0 };
+state.unlockedKillstreaks = { k20: false, k35: false, k50: false };
+state.isSliding = false;
+state.slideTimer = 0;
+state.slideCooldown = 0;
+if (sentinelDrone && sentinelDrone.group) {
+scene.remove(sentinelDrone.group);
+sentinelDrone = null;
+}
+updateKillstreakHUD();
+loadMap(state.selectedMap || 'ARENA');
 state.bossesDefeated = playerProfile.maxBossesDefeatedPermanent;
 state.currentWeaponIndex = 0;
 state.weaponClips = WEAPONS.map(w => getEffectiveWeaponStats(w).maxAmmo);
@@ -4192,6 +4493,14 @@ state.isFiring = false;
 closeWeaponWheel();
 setAimingState(false);
 bossHudContainer.classList.add('hidden');
+state.killstreak = 0;
+state.activeKillstreaks = { scanner: 0, drone: 0, orbital: 0 };
+state.unlockedKillstreaks = { k20: false, k35: false, k50: false };
+if (sentinelDrone && sentinelDrone.group) {
+scene.remove(sentinelDrone.group);
+sentinelDrone = null;
+}
+updateKillstreakHUD();
 if (document.pointerLockElement === canvas) {
 try { document.exitPointerLock(); } catch (e) {}
 }
@@ -4831,6 +5140,10 @@ sound.playExplosion();
 const deathPos = enemy.group.position.clone();
 deathPos.y += 1.0;
 spawnParticleBurst(deathPos, enemy.color, 10, 7);
+if (st && st.selectedCamo === 'DARK_MATTER') {
+triggerCosmicBlackHole(deathPos);
+}
+registerKillForKillstreak();
 const vampTier = st.prestigeSkills?.vampiric || 0;
 if (vampTier > 0 && state.health < state.maxHealth) {
 state.health = Math.min(state.maxHealth, state.health + vampTier * 4);
@@ -4870,6 +5183,12 @@ function killBoss(boss) {
 sound.playExplosion();
 const pos = boss.group.position.clone();
 spawnParticleBurst(pos, boss.color, 26, 11);
+const w = getCurrentWeapon();
+const st = getWeaponStats(w.id);
+if (st && st.selectedCamo === 'DARK_MATTER') {
+triggerCosmicBlackHole(pos);
+}
+registerKillForKillstreak();
 spawnTemporaryPerkPickup(pos);
 scene.remove(boss.group);
 state.activeBoss = null;
@@ -4891,6 +5210,452 @@ checkTrophies();
 savePlayerProfile();
 refreshWeaponWheelUI();
 updateHUD();
+}
+function registerKillForKillstreak() {
+state.killstreak = (state.killstreak || 0) + 1;
+const ks = state.killstreak;
+if (ks === 20) {
+state.unlockedKillstreaks.k20 = true;
+sound.playPerkPickup();
+showAnnouncement('🛰️ SCANNER ORBITALE SBLOCCATO!', 'Premi [6] o clicca sull\'icona HUD per rivelare i nemici!');
+} else if (ks === 35) {
+state.unlockedKillstreaks.k35 = true;
+sound.playTrophyUnlock();
+showAnnouncement('🛸 DRONE SENTINEL SBLOCCATO!', 'Premi [7] o clicca per attivare il drone di supporto aereo!');
+} else if (ks === 50) {
+state.unlockedKillstreaks.k50 = true;
+sound.playTrophyUnlock();
+showAnnouncement('☄️ RAGGIO ORBITALE SBLOCCATO!', 'Premi [8] o clicca per scatenare il bombardamento al plasma!');
+}
+updateKillstreakHUD();
+}
+function updateKillstreakHUD() {
+const countEl = byId('hud-killstreak-count');
+if (countEl) countEl.textContent = String(state.killstreak || 0);
+
+const btn20 = byId('ks-btn-20');
+if (btn20) {
+if (state.activeKillstreaks.scanner > 0) {
+btn20.innerHTML = `<span>[6] 🛰️ ${Math.ceil(state.activeKillstreaks.scanner)}s</span>`;
+btn20.className = 'px-2 py-1 rounded-lg bg-cyan-950 border border-cyan-400 text-cyan-300 font-cyber text-[9px] font-bold flex items-center gap-1 transition shadow-[0_0_10px_rgba(34,211,238,0.5)] animate-pulse cursor-pointer';
+} else if (state.unlockedKillstreaks.k20) {
+btn20.innerHTML = `<span>[6] 🛰️ PRONTO!</span>`;
+btn20.className = 'px-2 py-1 rounded-lg bg-cyan-900 border-2 border-cyan-300 text-white font-cyber text-[9px] font-black flex items-center gap-1 transition shadow-[0_0_12px_rgba(34,211,238,0.6)] cursor-pointer animate-bounce';
+} else {
+btn20.innerHTML = `<span>[6] 🛰️ 20</span>`;
+btn20.className = 'px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition opacity-70';
+}
+}
+
+const btn35 = byId('ks-btn-35');
+if (btn35) {
+if (state.activeKillstreaks.drone > 0) {
+btn35.innerHTML = `<span>[7] 🛸 ${Math.ceil(state.activeKillstreaks.drone)}s</span>`;
+btn35.className = 'px-2 py-1 rounded-lg bg-amber-950 border border-amber-400 text-amber-300 font-cyber text-[9px] font-bold flex items-center gap-1 transition shadow-[0_0_10px_rgba(245,158,11,0.5)] animate-pulse cursor-pointer';
+} else if (state.unlockedKillstreaks.k35) {
+btn35.innerHTML = `<span>[7] 🛸 PRONTO!</span>`;
+btn35.className = 'px-2 py-1 rounded-lg bg-amber-900 border-2 border-amber-300 text-white font-cyber text-[9px] font-black flex items-center gap-1 transition shadow-[0_0_12px_rgba(245,158,11,0.6)] cursor-pointer animate-bounce';
+} else {
+btn35.innerHTML = `<span>[7] 🛸 35</span>`;
+btn35.className = 'px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition opacity-70';
+}
+}
+
+const btn50 = byId('ks-btn-50');
+if (btn50) {
+if (state.unlockedKillstreaks.k50) {
+btn50.innerHTML = `<span>[8] ☄️ PRONTO!</span>`;
+btn50.className = 'px-2 py-1 rounded-lg bg-rose-900 border-2 border-rose-300 text-white font-cyber text-[9px] font-black flex items-center gap-1 transition shadow-[0_0_14px_rgba(244,63,94,0.7)] cursor-pointer animate-bounce';
+} else {
+btn50.innerHTML = `<span>[8] ☄️ 50</span>`;
+btn50.className = 'px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition opacity-70';
+}
+}
+}
+function activateKillstreak(num) {
+if (state.mode !== 'PLAYING') return;
+if (num === 20) {
+if (!state.unlockedKillstreaks.k20) {
+showAnnouncement('SERIE 20 NON PRONTA', `Killstreak attuale: ${state.killstreak}/20`);
+return;
+}
+state.unlockedKillstreaks.k20 = false;
+state.activeKillstreaks.scanner = 25.0;
+sound.playTone('sine', 880, 440, 0.45, 0.35);
+showAnnouncement('🛰️ SCANNER ORBITALE ATTIVATO!', 'Tutti i nemici tracciati su minimappa e attraverso i muri!');
+updateKillstreakHUD();
+} else if (num === 35) {
+if (!state.unlockedKillstreaks.k35) {
+showAnnouncement('SERIE 35 NON PRONTA', `Killstreak attuale: ${state.killstreak}/35`);
+return;
+}
+state.unlockedKillstreaks.k35 = false;
+state.activeKillstreaks.drone = 40.0;
+spawnSentinelDrone();
+sound.playTrophyUnlock();
+showAnnouncement('🛸 DRONE SENTINEL DISPIEGATO!', 'Supporto aereo laser automatico attivo per 40 secondi!');
+updateKillstreakHUD();
+} else if (num === 50) {
+if (!state.unlockedKillstreaks.k50) {
+showAnnouncement('SERIE 50 NON PRONTA', `Killstreak attuale: ${state.killstreak}/50`);
+return;
+}
+state.unlockedKillstreaks.k50 = false;
+triggerOrbitalStrike();
+updateKillstreakHUD();
+}
+}
+function spawnSentinelDrone() {
+if (sentinelDrone && sentinelDrone.group) {
+scene.remove(sentinelDrone.group);
+}
+const group = new THREE.Group();
+const bodyGeo = new THREE.SphereGeometry(0.35, 14, 14);
+const bodyMat = lambertMat(0x1e293b);
+const body = new THREE.Mesh(bodyGeo, bodyMat);
+group.add(body);
+
+const eye = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 10), basicMat(0x06b6d4));
+eye.position.set(0, 0, -0.28);
+group.add(eye);
+
+const wing = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.05, 0.26), lambertMat(0x0f172a));
+group.add(wing);
+
+const podMat = basicMat(0x38bdf8);
+const podL = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.38, 8), podMat);
+podL.rotation.x = Math.PI / 2;
+podL.position.set(-0.42, -0.12, -0.1);
+const podR = podL.clone();
+podR.position.x = 0.42;
+group.add(podL, podR);
+
+const repulsor = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.04, 8, 16), basicMat(0x22d3ee));
+repulsor.rotation.x = Math.PI / 2;
+repulsor.position.y = -0.28;
+group.add(repulsor);
+
+group.position.copy(camera.position);
+group.position.y += 2.0;
+scene.add(group);
+
+sentinelDrone = {
+group,
+podL,
+podR,
+fireTimer: 0.3,
+bobAngle: 0
+};
+}
+function updateSentinelDrone(dt) {
+if (!sentinelDrone || !sentinelDrone.group) return;
+if (state.activeKillstreaks.drone <= 0) {
+spawnParticleBurst(sentinelDrone.group.position, 0x38bdf8, 16, 7);
+sound.playTone('sine', 440, 110, 0.3, 0.2);
+scene.remove(sentinelDrone.group);
+sentinelDrone = null;
+return;
+}
+
+sentinelDrone.bobAngle += dt * 3.5;
+const rightOffset = new THREE.Vector3(1.3, 1.6 + Math.sin(sentinelDrone.bobAngle) * 0.18, -0.6)
+.applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraEuler.y);
+const targetPos = camera.position.clone().add(rightOffset);
+sentinelDrone.group.position.lerp(targetPos, Math.min(1.0, dt * 7.0));
+
+let target = null;
+let minDist = 42.0;
+enemies.forEach(en => {
+if (en && en.hp > 0 && en.group) {
+const d = sentinelDrone.group.position.distanceTo(en.group.position);
+if (d < minDist) {
+minDist = d;
+target = en;
+}
+}
+});
+if (!target && state.activeBoss && state.activeBoss.hp > 0) {
+const d = sentinelDrone.group.position.distanceTo(state.activeBoss.group.position);
+if (d < minDist) {
+minDist = d;
+target = state.activeBoss;
+}
+}
+
+if (target) {
+const aimTarget = target.group.position.clone();
+aimTarget.y += 1.0;
+sentinelDrone.group.lookAt(aimTarget);
+
+sentinelDrone.fireTimer -= dt;
+if (sentinelDrone.fireTimer <= 0) {
+sentinelDrone.fireTimer = 0.65;
+const pL = new THREE.Vector3();
+const pR = new THREE.Vector3();
+sentinelDrone.podL.getWorldPosition(pL);
+sentinelDrone.podR.getWorldPosition(pR);
+createLaserBeam(pL, aimTarget, 0x06b6d4, 0.045);
+createLaserBeam(pR, aimTarget, 0x38bdf8, 0.045);
+sound.playLaser('SMG');
+if (target === state.activeBoss) {
+damageBoss(target, 55, aimTarget);
+} else {
+damageEnemy(target, 55, aimTarget);
+}
+}
+} else {
+sentinelDrone.group.rotation.y = cameraEuler.y;
+}
+}
+function triggerOrbitalStrike() {
+const raycaster = new THREE.Raycaster();
+raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+const hitMeshes = [];
+obstacles.forEach(ob => hitMeshes.push(ob.mesh));
+const hits = raycaster.intersectObjects(hitMeshes, true);
+let strikeTarget = new THREE.Vector3();
+if (hits.length > 0 && hits[0].distance < 70) {
+strikeTarget.copy(hits[0].point);
+} else {
+const fwd = new THREE.Vector3(0, 0, -1).applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraEuler.y);
+strikeTarget.copy(camera.position).addScaledVector(fwd, 26);
+strikeTarget.y = 0;
+}
+
+sound.playTone('sawtooth', 320, 840, 0.5, 0.35);
+showAnnouncement('☄️ RAGGIO ORBITALE AGGANCIATO!', 'IMPATTO DEVASTANTE IMMINENTE SULLE COORDINATE!');
+
+const beaconGroup = new THREE.Group();
+beaconGroup.position.copy(strikeTarget);
+beaconGroup.position.y += 0.12;
+const targetRing = new THREE.Mesh(
+new THREE.RingGeometry(1.2, 4.0, 32),
+new THREE.MeshBasicMaterial({ color: 0xef4444, side: THREE.DoubleSide, transparent: true, opacity: 0.9 })
+);
+targetRing.rotation.x = -Math.PI / 2;
+beaconGroup.add(targetRing);
+scene.add(beaconGroup);
+
+let countdown = 0.75;
+const timerId = setInterval(() => {
+countdown -= 0.05;
+targetRing.scale.setScalar(Math.max(0.15, countdown / 0.75));
+if (countdown <= 0) {
+clearInterval(timerId);
+scene.remove(beaconGroup);
+executeOrbitalStrikeImpact(strikeTarget);
+}
+}, 50);
+}
+function executeOrbitalStrikeImpact(pos) {
+const beamHeight = 140;
+const beamGeo = new THREE.CylinderGeometry(3.6, 3.6, beamHeight, 16, 1, true);
+const beamMat = new THREE.MeshBasicMaterial({
+color: 0x38bdf8,
+side: THREE.DoubleSide,
+transparent: true,
+opacity: 0.95,
+blending: THREE.AdditiveBlending
+});
+const beamMesh = new THREE.Mesh(beamGeo, beamMat);
+beamMesh.position.set(pos.x, pos.y + beamHeight / 2, pos.z);
+scene.add(beamMesh);
+
+const coreGeo = new THREE.CylinderGeometry(1.8, 1.8, beamHeight, 12, 1, true);
+const coreMat = new THREE.MeshBasicMaterial({
+color: 0xffffff,
+side: THREE.DoubleSide,
+transparent: true,
+opacity: 0.98,
+blending: THREE.AdditiveBlending
+});
+const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+coreMesh.position.set(pos.x, pos.y + beamHeight / 2, pos.z);
+scene.add(coreMesh);
+
+const shockGeo = new THREE.RingGeometry(1.0, 3.2, 32);
+const shockMat = new THREE.MeshBasicMaterial({
+color: 0x06b6d4,
+side: THREE.DoubleSide,
+transparent: true,
+opacity: 0.9,
+blending: THREE.AdditiveBlending
+});
+const shockMesh = new THREE.Mesh(shockGeo, shockMat);
+shockMesh.rotation.x = -Math.PI / 2;
+shockMesh.position.set(pos.x, pos.y + 0.15, pos.z);
+scene.add(shockMesh);
+
+sound.playExplosion();
+sound.playTone('sawtooth', 75, 25, 1.1, 0.6);
+triggerScreenShake(0.9);
+
+const blastRadius = 38.0;
+enemies.forEach(en => {
+if (en && en.hp > 0 && en.group) {
+const d = en.group.position.distanceTo(pos);
+if (d <= blastRadius) {
+damageEnemy(en, 600, en.group.position);
+}
+}
+});
+if (state.activeBoss && state.activeBoss.hp > 0) {
+const d = state.activeBoss.group.position.distanceTo(pos);
+if (d <= blastRadius) {
+damageBoss(state.activeBoss, 600, state.activeBoss.group.position);
+}
+}
+
+spawnParticleBurst(pos, 0x38bdf8, 30, 14);
+spawnParticleBurst(pos, 0xfbbf24, 25, 12);
+
+let t = 0;
+const animInterval = setInterval(() => {
+t += 0.05;
+const progress = t / 0.7;
+shockMesh.scale.setScalar(1.0 + progress * 11.5);
+shockMat.opacity = Math.max(0, 0.9 * (1.0 - progress));
+beamMat.opacity = Math.max(0, 0.95 * (1.0 - progress));
+coreMat.opacity = Math.max(0, 0.98 * (1.0 - progress));
+beamMesh.scale.x = (1.0 - progress * 0.5);
+beamMesh.scale.z = (1.0 - progress * 0.5);
+
+if (t >= 0.7) {
+clearInterval(animInterval);
+scene.remove(beamMesh);
+scene.remove(coreMesh);
+scene.remove(shockMesh);
+}
+}, 50);
+}
+function triggerCosmicBlackHole(pos) {
+const group = new THREE.Group();
+group.position.copy(pos);
+
+const core = new THREE.Mesh(new THREE.SphereGeometry(0.72, 16, 16), new THREE.MeshBasicMaterial({ color: 0x000000 }));
+group.add(core);
+
+const rim = new THREE.Mesh(
+new THREE.SphereGeometry(0.82, 16, 16),
+new THREE.MeshBasicMaterial({ color: 0xd946ef, wireframe: true, transparent: true, opacity: 0.65 })
+);
+group.add(rim);
+
+const disk = new THREE.Mesh(
+new THREE.RingGeometry(0.88, 2.5, 32),
+new THREE.MeshBasicMaterial({
+color: 0xa855f7,
+side: THREE.DoubleSide,
+transparent: true,
+opacity: 0.85,
+blending: THREE.AdditiveBlending
+})
+);
+disk.rotation.x = Math.PI / 3;
+group.add(disk);
+
+const disk2 = new THREE.Mesh(
+new THREE.RingGeometry(1.5, 3.4, 32),
+new THREE.MeshBasicMaterial({
+color: 0x06b6d4,
+side: THREE.DoubleSide,
+transparent: true,
+opacity: 0.45,
+blending: THREE.AdditiveBlending
+})
+);
+disk2.rotation.x = -Math.PI / 4;
+group.add(disk2);
+
+const pCount = 24;
+const pGeo = new THREE.BufferGeometry();
+const pPos = new Float32Array(pCount * 3);
+const pVels = [];
+for (let i = 0; i < pCount; i++) {
+const angle = (i / pCount) * Math.PI * 2 + Math.random();
+const r = 2.0 + Math.random() * 2.5;
+pPos[i * 3] = Math.cos(angle) * r;
+pPos[i * 3 + 1] = (Math.random() - 0.5) * 1.2;
+pPos[i * 3 + 2] = Math.sin(angle) * r;
+pVels.push({ angle, radius: r, y: pPos[i * 3 + 1], speed: 3.5 + Math.random() * 2.5 });
+}
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+const pMat = new THREE.PointsMaterial({
+size: 0.35,
+color: 0xd946ef,
+transparent: true,
+opacity: 0.95,
+blending: THREE.AdditiveBlending
+});
+const pts = new THREE.Points(pGeo, pMat);
+group.add(pts);
+
+scene.add(group);
+sound.playTone('sine', 190, 42, 0.48, 0.35);
+
+cosmicBlackHoles.push({
+group,
+core,
+disk,
+disk2,
+pts,
+pVels,
+life: 1.25,
+maxLife: 1.25
+});
+}
+function updateCosmicBlackHoles(dt) {
+for (let i = cosmicBlackHoles.length - 1; i >= 0; i--) {
+const bh = cosmicBlackHoles[i];
+bh.life -= dt;
+const progress = 1.0 - (bh.life / bh.maxLife);
+
+bh.disk.rotation.z += dt * 8.0;
+bh.disk2.rotation.z -= dt * 6.0;
+
+const pulse = 1.0 + Math.sin(progress * Math.PI * 6) * 0.15;
+bh.core.scale.setScalar(pulse);
+
+const posAttr = bh.pts.geometry.attributes.position;
+const posArr = posAttr.array;
+for (let j = 0; j < bh.pVels.length; j++) {
+const v = bh.pVels[j];
+v.angle += dt * 7.0;
+v.radius = Math.max(0.08, v.radius - dt * v.speed);
+v.y *= 0.92;
+posArr[j * 3] = Math.cos(v.angle) * v.radius;
+posArr[j * 3 + 1] = v.y;
+posArr[j * 3 + 2] = Math.sin(v.angle) * v.radius;
+}
+posAttr.needsUpdate = true;
+
+if (bh.life <= 0.15) {
+const sc = bh.life / 0.15;
+bh.group.scale.setScalar(Math.max(0.01, sc));
+}
+
+if (bh.life <= 0) {
+spawnParticleBurst(bh.group.position, 0xc084fc, 18, 9);
+spawnParticleBurst(bh.group.position, 0x06b6d4, 12, 7);
+sound.playExplosion();
+scene.remove(bh.group);
+cosmicBlackHoles.splice(i, 1);
+}
+}
+}
+function updateActiveKillstreaks(dt) {
+let changed = false;
+if (state.activeKillstreaks.scanner > 0) {
+state.activeKillstreaks.scanner = Math.max(0, state.activeKillstreaks.scanner - dt);
+changed = true;
+}
+if (state.activeKillstreaks.drone > 0) {
+state.activeKillstreaks.drone = Math.max(0, state.activeKillstreaks.drone - dt);
+changed = true;
+}
+if (changed) {
+updateKillstreakHUD();
+}
 }
 function spawnMedkitPickup(pos) {
 const group = new THREE.Group();
@@ -4962,6 +5727,8 @@ pos.z += (dz / dist) * overlap;
 }
 }
 function updatePlayerMovement(dt) {
+if (state.slideCooldown > 0) state.slideCooldown -= dt;
+
 let moveForward = (keys.KeyW || keys.ArrowUp ? 1 : 0) - (keys.KeyS || keys.ArrowDown ? 1 : 0);
 let moveRight = (keys.KeyD || keys.ArrowRight ? 1 : 0) - (keys.KeyA || keys.ArrowLeft ? 1 : 0);
 if (Math.abs(touchMoveVector.y) > 0.05 || Math.abs(touchMoveVector.x) > 0.05) {
@@ -4974,6 +5741,7 @@ const moveDir = new THREE.Vector3();
 moveDir.addScaledVector(forward, moveForward);
 moveDir.addScaledVector(right, moveRight);
 if (moveDir.lengthSq() > 1) moveDir.normalize();
+
 const isTryingToSprint = (keys.ShiftLeft || keys.ShiftRight) && !state.isAiming && moveForward > 0;
 const canSprint = isTryingToSprint && state.stamina > 5;
 if (canSprint) {
@@ -4985,26 +5753,65 @@ const isSprinting = canSprint && state.stamina > 0;
 const aimSpeedPenalty = state.isAiming ? 0.68 : 1.0;
 const perkSpeedBonus = state.activePerks.HASTE > 0 ? 1.38 : 1.0;
 const speed = GAME_CONFIG.moveSpeed * (isSprinting ? GAME_CONFIG.sprintMultiplier : 1.0) * aimSpeedPenalty * perkSpeedBonus;
-const prevFeetY = camera.position.y - GAME_CONFIG.playerHeight;
+
+const isSlideKey = keys.KeyC || keys.ControlLeft || keys.ControlRight;
+if (isSlideKey && isGrounded && isSprinting && moveForward > 0 && !state.isSliding && state.slideCooldown <= 0) {
+state.isSliding = true;
+state.slideTimer = 0.85;
+state.slideSpeed = speed * 1.55;
+state.slideDir.copy(moveDir.lengthSq() > 0.05 ? moveDir : forward).normalize();
+sound.playTone('sine', 220, 60, 0.28, 0.35);
+}
+
+const prevFeetY = camera.position.y - (state.currentCameraHeight || GAME_CONFIG.playerHeight);
+
+if (state.isSliding) {
+state.slideTimer -= dt;
+state.slideSpeed = Math.max(GAME_CONFIG.moveSpeed * 0.7, state.slideSpeed - dt * 14.0);
+camera.position.x += state.slideDir.x * state.slideSpeed * dt;
+camera.position.z += state.slideDir.z * state.slideSpeed * dt;
+
+if (Math.random() < 0.65) {
+const sp = camera.position.clone();
+sp.y = prevFeetY + 0.12;
+sp.x += (Math.random() - 0.5) * 0.5;
+sp.z += (Math.random() - 0.5) * 0.5;
+spawnParticleBurst(sp, Math.random() > 0.4 ? 0xfbbf24 : 0x06b6d4, 2, 2.5);
+}
+
+if (keys.Space && isGrounded) {
+playerVelocity.y = GAME_CONFIG.jumpForce * 1.08;
+isGrounded = false;
+state.isSliding = false;
+state.slideCooldown = 0.35;
+} else if (state.slideTimer <= 0) {
+state.isSliding = false;
+state.slideCooldown = 0.35;
+}
+} else {
 camera.position.x += moveDir.x * speed * dt;
 camera.position.z += moveDir.z * speed * dt;
 if (keys.Space && isGrounded) {
 playerVelocity.y = GAME_CONFIG.jumpForce;
 isGrounded = false;
 }
+}
+
 jumpPads.forEach(pad => {
 pad.ring.rotation.z += dt * 4.0;
 if (pad.cooldown > 0) pad.cooldown -= dt;
 const d = Math.hypot(camera.position.x - pad.x, camera.position.z - pad.z);
-if (d < pad.radius && (camera.position.y - GAME_CONFIG.playerHeight) < 1.2 && pad.cooldown <= 0) {
+if (d < pad.radius && (camera.position.y - (state.currentCameraHeight || GAME_CONFIG.playerHeight)) < 1.2 && pad.cooldown <= 0) {
 playerVelocity.y = 22.5;
 isGrounded = false;
 pad.cooldown = 0.55;
 sound.playJumpPad();
 }
 });
+
 playerVelocity.y -= GAME_CONFIG.gravity * dt;
 camera.position.y += playerVelocity.y * dt;
+
 let supportHeight = 0;
 for (let i = 0; i < obstacles.length; i++) {
 const ob = obstacles[i];
@@ -5015,13 +5822,19 @@ supportHeight = Math.max(supportHeight, ob.maxY);
 }
 }
 }
-if (camera.position.y <= supportHeight + GAME_CONFIG.playerHeight) {
-camera.position.y = supportHeight + GAME_CONFIG.playerHeight;
+
+const targetCamHeight = state.isSliding ? 1.05 : GAME_CONFIG.playerHeight;
+state.currentCameraHeight = THREE.MathUtils.lerp(state.currentCameraHeight || GAME_CONFIG.playerHeight, targetCamHeight, Math.min(1.0, dt * 15));
+
+if (camera.position.y <= supportHeight + state.currentCameraHeight) {
+camera.position.y = supportHeight + state.currentCameraHeight;
 playerVelocity.y = 0;
 isGrounded = true;
 }
+
 resolveObstacleCollisions3D(camera.position, GAME_CONFIG.playerRadius, true);
-if (moveDir.lengthSq() > 0.1 && isGrounded) {
+
+if (moveDir.lengthSq() > 0.1 && isGrounded && !state.isSliding) {
 headBobTimer += dt * (isSprinting ? 14 : 10);
 } else {
 headBobTimer = 0;
@@ -5065,6 +5878,9 @@ html += `
 activePerksBar.innerHTML = html;
 }
 function updateWeaponAndEffects(dt) {
+updateCosmicBlackHoles(dt);
+updateSentinelDrone(dt);
+updateActiveKillstreaks(dt);
 const w = getCurrentWeapon();
 const eff = getEffectiveWeaponStats(w);
 if (galaxyGroup) {
@@ -5308,6 +6124,9 @@ en.group.position.y = Math.max(0, en.group.position.y + en.vy * dt);
 en.group.lookAt(camera.position.x, en.group.position.y, camera.position.z);
 en.hpBg.lookAt(camera.position);
 en.hpFill.lookAt(camera.position);
+const isScan = (state.activeKillstreaks && state.activeKillstreaks.scanner > 0);
+en.hpBg.material.depthTest = !isScan;
+en.hpFill.material.depthTest = !isScan;
 const toPlayer = new THREE.Vector3(camera.position.x - en.group.position.x, 0, camera.position.z - en.group.position.z);
 const dist = toPlayer.length();
 if (dist > 0.01) toPlayer.divideScalar(dist);
@@ -5421,17 +6240,29 @@ const w = radarCanvas.width;
 const h = radarCanvas.height;
 const cx = w / 2;
 const cy = h / 2;
+const isScannerActive = Boolean(state.activeKillstreaks && state.activeKillstreaks.scanner > 0);
 radarCtx.clearRect(0, 0, w, h);
-radarCtx.fillStyle = 'rgba(5, 10, 25, 0.85)';
+radarCtx.fillStyle = isScannerActive ? 'rgba(5, 20, 38, 0.92)' : 'rgba(5, 10, 25, 0.85)';
 radarCtx.beginPath();
 radarCtx.arc(cx, cy, cx - 2, 0, Math.PI * 2);
 radarCtx.fill();
-radarCtx.strokeStyle = 'rgba(34, 211, 238, 0.35)';
+radarCtx.strokeStyle = isScannerActive ? 'rgba(34, 211, 238, 0.75)' : 'rgba(34, 211, 238, 0.35)';
 radarCtx.lineWidth = 1;
 radarCtx.beginPath();
 radarCtx.arc(cx, cy, cx * 0.55, 0, Math.PI * 2);
 radarCtx.stroke();
-radarCtx.fillStyle = 'rgba(34, 211, 238, 0.15)';
+
+if (isScannerActive) {
+const sweep = (performance.now() * 0.004) % (Math.PI * 2);
+radarCtx.strokeStyle = 'rgba(34, 211, 238, 0.85)';
+radarCtx.lineWidth = 2;
+radarCtx.beginPath();
+radarCtx.moveTo(cx, cy);
+radarCtx.lineTo(cx + Math.cos(sweep) * (cx - 4), cy + Math.sin(sweep) * (cx - 4));
+radarCtx.stroke();
+}
+
+radarCtx.fillStyle = isScannerActive ? 'rgba(34, 211, 238, 0.25)' : 'rgba(34, 211, 238, 0.15)';
 radarCtx.beginPath();
 radarCtx.moveTo(cx, cy);
 radarCtx.arc(cx, cy, cx - 4, -Math.PI / 2 - 0.4, -Math.PI / 2 + 0.4);
@@ -5450,8 +6281,15 @@ const px = cx + (dx * cosYaw - dz * sinYaw) * scale, py = cy + (dx * sinYaw + dz
 if (Math.hypot(px - cx, py - cy) < cx - 4) {
 radarCtx.fillStyle = col;
 radarCtx.beginPath();
-radarCtx.arc(px, py, rad, 0, Math.PI * 2);
+radarCtx.arc(px, py, isScannerActive ? rad * 1.3 : rad, 0, Math.PI * 2);
 radarCtx.fill();
+if (isScannerActive) {
+radarCtx.strokeStyle = '#22d3ee';
+radarCtx.lineWidth = 1;
+radarCtx.beginPath();
+radarCtx.arc(px, py, rad * 2.0, 0, Math.PI * 2);
+radarCtx.stroke();
+}
 }
 };
 if (state.activeBoss) drawBlip(state.activeBoss.group.position, '#f43f5e', 4.5);
