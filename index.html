@@ -2653,6 +2653,9 @@ playHeadshot() {
 this.playTone('triangle', 1480, 1850, 0.085, 0.22, 0);
 this.playTone('triangle', 2240, 2800, 0.09, 0.22, 0.03);
 }
+playHitmarker(isHead = false) {
+if (isHead) this.playHeadshot(); else this.playHit();
+}
 playKillstreak(streakCount) {
 const base = Math.min(880, 440 + streakCount * 45);
 [base, base * 1.25, base * 1.5].forEach((f, idx) => this.playTone('sawtooth', f, f, 0.18, 0.12, idx * 0.045));
@@ -4902,6 +4905,9 @@ maxLife: isCrit ? 0.95 : 0.72,
 isCrit
 });
 }
+function showDamageText(worldPos, amount, isCrit = false) {
+spawnFloatingDamage(worldPos, amount, isCrit);
+}
 function spawnDiverseEnemy(forcedPos = null, forcedType = null) {
 const roll = Math.random();
 let type = forcedType || 'WALKER';
@@ -5176,17 +5182,60 @@ barEl.style.width = `${pct}%`;
 const col = state.comboMultiplier >= 8 ? 'text-fuchsia-400' : (state.comboMultiplier >= 4 ? 'text-amber-400' : (state.comboMultiplier >= 2 ? 'text-cyan-300' : 'text-slate-400'));
 multEl.className = `text-lg sm:text-xl font-cyber font-black ${col} leading-none mt-0.5`;
 }
+const hitFlashMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+function flashEnemyHit(enemy) {
+if (!enemy || !enemy.group) return;
+enemy.group.traverse(child => {
+if (child.isMesh && child.material && child !== enemy.hpBg && child !== enemy.hpFill) {
+if (!child.userData.origMat) child.userData.origMat = child.material;
+child.material = hitFlashMat;
+}
+});
+if (enemy.flashTimer) clearTimeout(enemy.flashTimer);
+enemy.flashTimer = setTimeout(() => {
+if (enemy && enemy.group) {
+enemy.group.traverse(child => {
+if (child.isMesh && child.userData.origMat) child.material = child.userData.origMat;
+});
+}
+}, 75);
+}
+function flashBossHit(boss) {
+if (!boss || !boss.group) return;
+boss.group.traverse(child => {
+if (child.isMesh && child.material) {
+if (!child.userData.origMat) child.userData.origMat = child.material;
+child.material = hitFlashMat;
+}
+});
+if (boss.flashTimer) clearTimeout(boss.flashTimer);
+boss.flashTimer = setTimeout(() => {
+if (boss && boss.group) {
+boss.group.traverse(child => {
+if (child.isMesh && child.userData.origMat) child.material = child.userData.origMat;
+});
+}
+}, 75);
+}
 function damageEnemy(enemy, amount, hitPoint, isCrit = false) {
 if (!enemy || enemy.hp <= 0) return;
 enemy.hp -= amount;
+flashEnemyHit(enemy);
 spawnParticleBurst(hitPoint, isCrit ? 0xfbbf24 : enemy.color, isCrit ? 6 : 3, isCrit ? 6 : 4);
 spawnFloatingDamage(hitPoint, amount, isCrit);
-enemy.hpFill.scale.x = Math.max(0.01, enemy.hp / enemy.maxHp);
+if (enemy.hpFill) {
+const ratio = Math.max(0.01, enemy.hp / enemy.maxHp);
+enemy.hpFill.scale.x = ratio;
+if (ratio < 0.35 && enemy.hpFill.material && enemy.hpFill.material.color) {
+enemy.hpFill.material.color.setHex(0xef4444);
+}
+}
 if (enemy.hp <= 0) killEnemy(enemy);
 }
 function damageBoss(boss, amount, hitPoint, isCrit = false) {
 if (!boss || boss.hp <= 0) return;
 boss.hp -= amount;
+flashBossHit(boss);
 spawnParticleBurst(hitPoint, isCrit ? 0xfbbf24 : boss.color, isCrit ? 8 : 5, isCrit ? 8 : 6);
 spawnFloatingDamage(hitPoint, amount, isCrit);
 updateBossHUD();
@@ -5199,6 +5248,10 @@ bossHealthText.textContent = `${Math.round(ratio * 100)}%`;
 bossHealthBar.style.width = `${ratio * 100}%`;
 }
 function killEnemy(enemy) {
+if (enemy.flashTimer) clearTimeout(enemy.flashTimer);
+if (sentinelDrone && sentinelDrone.lockedTarget && sentinelDrone.lockedTarget.ref === enemy) {
+sentinelDrone.lockedTarget = null;
+}
 const idx = enemies.indexOf(enemy);
 if (idx === -1) return;
 const w = getCurrentWeapon();
@@ -5247,6 +5300,10 @@ refreshWeaponWheelUI();
 updateHUD();
 }
 function killBoss(boss) {
+if (boss.flashTimer) clearTimeout(boss.flashTimer);
+if (sentinelDrone && sentinelDrone.lockedTarget && sentinelDrone.lockedTarget.ref === boss) {
+sentinelDrone.lockedTarget = null;
+}
 sound.playExplosion();
 const pos = boss.group.position.clone();
 spawnParticleBurst(pos, boss.color, 26, 11);
@@ -5410,9 +5467,28 @@ sentinelDrone = {
 group,
 podL,
 podR,
-fireTimer: 0.3,
-bobAngle: 0
+fireTimer: 0.15,
+bobAngle: 0,
+lockedTarget: null
 };
+}
+const droneRaycaster = new THREE.Raycaster();
+function hasLineOfSight(start, targetPos) {
+if (!obstacles || obstacles.length === 0) return true;
+const dir = new THREE.Vector3().subVectors(targetPos, start);
+const dist = dir.length();
+if (dist < 1.0) return true;
+dir.normalize();
+droneRaycaster.set(start, dir);
+droneRaycaster.near = 0.4;
+droneRaycaster.far = Math.max(0.5, dist - 0.6);
+const obstacleMeshes = [];
+for (let i = 0; i < obstacles.length; i++) {
+if (obstacles[i] && obstacles[i].mesh) obstacleMeshes.push(obstacles[i].mesh);
+}
+if (obstacleMeshes.length === 0) return true;
+const hits = droneRaycaster.intersectObjects(obstacleMeshes, false);
+return hits.length === 0;
 }
 function updateSentinelDrone(dt) {
 if (!sentinelDrone || !sentinelDrone.group) return;
@@ -5430,10 +5506,95 @@ const rightOffset = new THREE.Vector3(1.35, 1.7 + Math.sin(sentinelDrone.bobAngl
 const targetPos = camera.position.clone().add(rightOffset);
 sentinelDrone.group.position.lerp(targetPos, Math.min(1.0, dt * 8.0));
 
+const droneWorldPos = sentinelDrone.group.position.clone();
 let target = null;
-let minDist = 40.0;
-const droneWorldPos = sentinelDrone.group.position;
 
+// 1. Maintain sticky focus lock on current target until eliminated
+if (sentinelDrone.lockedTarget) {
+const lt = sentinelDrone.lockedTarget;
+let stillAlive = false;
+let targetWorldPos = null;
+
+if (lt.kind === 'ENEMY' && lt.ref && lt.ref.hp > 0 && lt.ref.group && enemies.indexOf(lt.ref) !== -1) {
+stillAlive = true;
+targetWorldPos = lt.ref.group.position;
+} else if (lt.kind === 'BOSS' && state.activeBoss && state.activeBoss === lt.ref && state.activeBoss.hp > 0 && state.activeBoss.group) {
+stillAlive = true;
+targetWorldPos = state.activeBoss.group.position;
+} else if (lt.kind === 'PLAYER' && mpState.active && mpState.mode === 'PVP' && lt.ref && lt.ref.group && lt.ref.currentHp > 0) {
+stillAlive = true;
+targetWorldPos = lt.ref.group.position;
+}
+
+if (stillAlive && targetWorldPos) {
+const d = droneWorldPos.distanceTo(targetWorldPos);
+if (d <= 40.0 && hasLineOfSight(droneWorldPos, targetWorldPos)) {
+target = { kind: lt.kind, ref: lt.ref, pos: targetWorldPos };
+}
+}
+if (!target) {
+sentinelDrone.lockedTarget = null;
+}
+}
+
+// 2. If no sticky lock, acquire best visible target prioritizing player viewcone
+if (!target) {
+let bestScore = -Infinity;
+const camDir = new THREE.Vector3();
+camera.getWorldDirection(camDir);
+
+for (let i = 0; i < enemies.length; i++) {
+const en = enemies[i];
+if (en && en.hp > 0 && en.group) {
+const ePos = en.group.position;
+const d = droneWorldPos.distanceTo(ePos);
+if (d <= 38.0 && hasLineOfSight(droneWorldPos, ePos)) {
+const toEnemy = new THREE.Vector3().subVectors(ePos, camera.position).normalize();
+const dot = camDir.dot(toEnemy);
+const score = dot * 16.0 - d;
+if (score > bestScore) {
+bestScore = score;
+target = { kind: 'ENEMY', ref: en, pos: ePos };
+}
+}
+}
+}
+
+if (state.activeBoss && state.activeBoss.hp > 0 && state.activeBoss.group) {
+const bPos = state.activeBoss.group.position;
+const d = droneWorldPos.distanceTo(bPos);
+if (d <= 42.0 && hasLineOfSight(droneWorldPos, bPos)) {
+const toBoss = new THREE.Vector3().subVectors(bPos, camera.position).normalize();
+const dot = camDir.dot(toBoss);
+const score = dot * 16.0 - d + 4.0;
+if (score > bestScore) {
+bestScore = score;
+target = { kind: 'BOSS', ref: state.activeBoss, pos: bPos };
+}
+}
+}
+
+if (mpState.active && mpState.mode === 'PVP') {
+Object.values(mpState.remotePlayers).forEach(rp => {
+if (rp && rp.group && rp.currentHp > 0) {
+const pPos = rp.group.position;
+const d = droneWorldPos.distanceTo(pPos);
+if (d <= 38.0 && hasLineOfSight(droneWorldPos, pPos)) {
+const toP = new THREE.Vector3().subVectors(pPos, camera.position).normalize();
+const dot = camDir.dot(toP);
+const score = dot * 16.0 - d;
+if (score > bestScore) {
+bestScore = score;
+target = { kind: 'PLAYER', ref: rp, pos: pPos };
+}
+}
+}
+});
+}
+
+// Fallback: closest enemy without LOS requirement if no direct LOS
+if (!target) {
+let minDist = 28.0;
 for (let i = 0; i < enemies.length; i++) {
 const en = enemies[i];
 if (en && en.hp > 0 && en.group) {
@@ -5444,49 +5605,53 @@ target = { kind: 'ENEMY', ref: en, pos: en.group.position };
 }
 }
 }
-
-if (!target && state.activeBoss && state.activeBoss.hp > 0 && state.activeBoss.group) {
-const d = droneWorldPos.distanceTo(state.activeBoss.group.position);
-if (d < minDist) {
-minDist = d;
-target = { kind: 'BOSS', ref: state.activeBoss, pos: state.activeBoss.group.position };
-}
 }
 
-if (mpState.active && mpState.mode === 'PVP') {
-Object.values(mpState.remotePlayers).forEach(rp => {
-if (rp && rp.group && rp.currentHp > 0) {
-const d = droneWorldPos.distanceTo(rp.group.position);
-if (d < minDist) {
-minDist = d;
-target = { kind: 'PLAYER', ref: rp, pos: rp.group.position };
+if (target) {
+sentinelDrone.lockedTarget = { kind: target.kind, ref: target.ref };
 }
-}
-});
 }
 
 if (target) {
 const aimTarget = target.pos.clone();
-aimTarget.y += 0.9;
+aimTarget.y += 1.0;
 sentinelDrone.group.lookAt(aimTarget);
 
 sentinelDrone.fireTimer -= dt;
 if (sentinelDrone.fireTimer <= 0) {
-sentinelDrone.fireTimer = 0.28;
+sentinelDrone.fireTimer = 0.22;
+sentinelDrone.group.updateMatrixWorld(true);
 const pL = new THREE.Vector3();
 const pR = new THREE.Vector3();
 sentinelDrone.podL.getWorldPosition(pL);
 sentinelDrone.podR.getWorldPosition(pR);
-createLaserBeam(pL, aimTarget, 0x06b6d4, 0.05);
-createLaserBeam(pR, aimTarget, 0x38bdf8, 0.05);
+
+createLaserBeam(pL, aimTarget, 0x06b6d4, 0.055);
+createLaserBeam(pR, aimTarget, 0x38bdf8, 0.055);
+spawnParticleBurst(pL, 0x38bdf8, 3, 2);
+spawnParticleBurst(pR, 0x06b6d4, 3, 2);
+
 sound.playLaser('SMG');
+sound.playHit();
+triggerHitMarker(false);
+
+const droneDmg = 90;
 
 if (target.kind === 'ENEMY') {
-damageEnemy(target.ref, 65, aimTarget);
+damageEnemy(target.ref, droneDmg, aimTarget);
 } else if (target.kind === 'BOSS') {
-damageBoss(target.ref, 65, aimTarget);
+damageBoss(target.ref, droneDmg, aimTarget);
 } else if (target.kind === 'PLAYER') {
-emitMpEvent({ type: 'HIT', targetId: target.ref.id, damage: 32, isHeadshot: false });
+emitMpEvent({
+type: 'HIT',
+targetId: target.ref.id,
+attackerId: mpState.myId,
+attackerName: mpState.myName,
+damage: 42,
+isHeadshot: false,
+weaponId: 'DRONE'
+});
+spawnFloatingDamage(aimTarget, 42, false);
 }
 }
 } else {
