@@ -82,7 +82,7 @@ box-shadow:
 inset 0 0 40px rgba(34, 211, 238, 0.35),
 0 0 35px rgba(34, 211, 238, 0.45);
 }
-#menu-overlay.hidden, #shop-overlay.hidden, #trophies-overlay.hidden, #weapon-wheel-overlay.hidden, #boss-hud-container.hidden, #reload-prompt.hidden, #gameover-stats.hidden, #touch-controls.hidden, #shop-weapon-prestige-badge.hidden, #auth-modal.hidden, #multiplayer-modal.hidden, #mp-scoreboard.hidden, #mp-respawn-overlay.hidden, #portrait-warning.hidden, #hud-gamepad-badge.hidden {
+#menu-overlay.hidden, #shop-overlay.hidden, #trophies-overlay.hidden, #weapon-wheel-overlay.hidden, #boss-hud-container.hidden, #reload-prompt.hidden, #gameover-stats.hidden, #touch-controls.hidden, #shop-weapon-prestige-badge.hidden, #auth-modal.hidden, #install-modal.hidden, #multiplayer-modal.hidden, #mp-scoreboard.hidden, #mp-respawn-overlay.hidden, #portrait-warning.hidden, #hud-gamepad-badge.hidden {
 display: none !important;
 }
 .touch-btn {
@@ -474,7 +474,7 @@ class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg p
 <span>☁️ Cloud Login</span>
 </button>
 <button id="btn-pwa-install" type="button" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-400 text-emerald-300 font-cyber text-[10px] font-bold uppercase transition shrink-0 cursor-pointer flex items-center gap-1 shadow-[0_0_12px_rgba(52,211,153,0.35)] animate-pulse">
-<span>📲 Installa App</span>
+<span>📲 Installa / Scarica</span>
 </button>
 </div>
 <div id="auth-status-bar" class="text-[10px] font-cyber text-slate-400 mt-1.5 flex items-center gap-1.5 hidden">
@@ -660,6 +660,62 @@ ACCEDI AL TUO ACCOUNT
 <div class="mt-4 pt-3 border-t border-slate-800 text-center">
 <button id="btn-auth-cancel" type="button" class="text-[11px] text-slate-400 hover:text-cyan-300 font-cyber uppercase transition cursor-pointer">
 ✕ Continua a Giocare come Ospite Locale
+</button>
+</div>
+</div>
+</div>
+<!-- INSTALL & DOWNLOAD MODAL -->
+<div id="install-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5 bg-slate-950/96 overflow-y-auto">
+<div class="cyber-panel rounded-2xl max-w-lg w-full p-5 sm:p-6 border border-emerald-400/60 my-auto text-left relative shadow-[0_0_40px_rgba(52,211,153,0.25)]">
+<div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+<div>
+<div class="text-[10px] font-cyber text-emerald-400 uppercase tracking-widest">Multi-Piattaforma // PC • Mobile • Tablet</div>
+<h2 class="text-xl font-cyber font-black text-white uppercase">INSTALLA O SCARICA CYBERSTRIKE 3D</h2>
+</div>
+<button id="btn-close-install-modal" type="button" class="p-1 rounded-lg text-slate-400 hover:text-white cursor-pointer text-lg font-bold">✕</button>
+</div>
+
+<div class="flex flex-col gap-3">
+<!-- Opzione 1: Download Diretto PC (.ZIP con Launcher a Tutto Schermo) -->
+<div class="p-3.5 sm:p-4 rounded-xl bg-slate-900/90 border border-cyan-500/40 hover:border-cyan-400/80 transition">
+<div class="flex items-start justify-between gap-2 mb-1.5">
+<div>
+<div class="text-xs font-cyber font-black text-cyan-300 uppercase tracking-wide flex items-center gap-1.5">
+<span>💻 Download Diretto PC Windows (.ZIP)</span>
+<span class="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-400 text-[9px] font-mono">118 KB</span>
+</div>
+<p class="text-[11px] text-slate-300 mt-1 leading-relaxed">
+Scarica subito l'archivio compresso sul tuo PC. Include il file di gioco e il launcher dedicato <strong>AVVIA_CYBERSTRIKE_3D.bat</strong> per giocare a tutto schermo a 60 FPS senza barre del browser.
+</p>
+</div>
+</div>
+<a id="btn-download-pc-zip" href="CyberStrike3D-PC.zip" download="CyberStrike3D-PC.zip" class="w-full mt-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer shadow-md">
+<span>⬇️ SCARICA SUBITO PACCHETTO PC (.ZIP)</span>
+</a>
+</div>
+
+<!-- Opzione 2: Installazione App PWA -->
+<div class="p-3.5 sm:p-4 rounded-xl bg-slate-900/90 border border-emerald-500/40 hover:border-emerald-400/80 transition">
+<div class="flex items-start justify-between gap-2 mb-1.5">
+<div>
+<div class="text-xs font-cyber font-black text-emerald-300 uppercase tracking-wide flex items-center gap-1.5">
+<span>📱 Installazione Rapida App (PWA)</span>
+<span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 text-[9px] font-mono">Zero Spazio</span>
+</div>
+<p class="text-[11px] text-slate-300 mt-1 leading-relaxed">
+Aggiungi CyberStrike 3D direttamente al <strong>Menu Start di Windows</strong> o alla schermata Home del tuo smartphone Android o iPhone. Nessun file da estrarre e aggiornamenti automatici.
+</p>
+</div>
+</div>
+<button id="btn-trigger-pwa-install" type="button" class="w-full mt-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer shadow-md">
+<span>📲 INSTALLA NEL SISTEMA OPERATIVO</span>
+</button>
+</div>
+</div>
+
+<div class="mt-4 pt-3 border-t border-slate-800 text-center">
+<button id="btn-install-cancel" type="button" class="text-[11px] text-slate-400 hover:text-cyan-300 font-cyber uppercase transition cursor-pointer">
+✕ Chiudi
 </button>
 </div>
 </div>
@@ -7315,12 +7371,34 @@ if ('serviceWorker' in navigator && window.location.protocol.startsWith('http'))
   });
 }
 
+const installModal = byId('install-modal');
+const btnCloseInstallModal = byId('btn-close-install-modal');
+const btnInstallCancel = byId('btn-install-cancel');
+const btnTriggerPwa = byId('btn-trigger-pwa-install');
+
+function openInstallModal() {
+  if (installModal) {
+    installModal.classList.remove('hidden');
+    installModal.classList.add('flex');
+  }
+}
+function closeInstallModal() {
+  if (installModal) {
+    installModal.classList.add('hidden');
+    installModal.classList.remove('flex');
+  }
+}
+
+if (pwaInstallBtn) pwaInstallBtn.addEventListener('click', openInstallModal);
+if (btnCloseInstallModal) btnCloseInstallModal.addEventListener('click', closeInstallModal);
+if (btnInstallCancel) btnInstallCancel.addEventListener('click', closeInstallModal);
+
 if (isRunningStandalone && pwaInstallBtn) {
   pwaInstallBtn.classList.add('hidden');
   pwaInstallBtn.classList.remove('flex');
 }
 
-if (!isRunningStandalone && pwaInstallBtn) {
+if (!isRunningStandalone) {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredInstallPrompt = e;
@@ -7328,34 +7406,39 @@ if (!isRunningStandalone && pwaInstallBtn) {
 
   window.addEventListener('appinstalled', () => {
     deferredInstallPrompt = null;
-    pwaInstallBtn.classList.add('hidden');
-    pwaInstallBtn.classList.remove('flex');
+    closeInstallModal();
+    if (pwaInstallBtn) {
+      pwaInstallBtn.classList.add('hidden');
+      pwaInstallBtn.classList.remove('flex');
+    }
   });
 
-  pwaInstallBtn.addEventListener('click', async () => {
-    if (deferredInstallPrompt) {
-      deferredInstallPrompt.prompt();
-      const choice = await deferredInstallPrompt.userChoice;
-      if (choice && choice.outcome === 'accepted') {
-        pwaInstallBtn.classList.add('hidden');
-        pwaInstallBtn.classList.remove('flex');
+  if (btnTriggerPwa) {
+    btnTriggerPwa.addEventListener('click', async () => {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          closeInstallModal();
+          if (pwaInstallBtn) pwaInstallBtn.classList.add('hidden');
+        }
+        deferredInstallPrompt = null;
+        return;
       }
-      deferredInstallPrompt = null;
-      return;
-    }
 
-    if (window.location.protocol === 'file:') {
-      alert("📲 ATTENZIONE (File Locale):\n\nStai aprendo il gioco direttamente dal tuo disco come file:///.\nI browser (Chrome, Edge) consentono l'installazione PWA solo tramite connessione HTTPS protetta (come Vercel o GitHub Pages) oppure tramite server locale (http://localhost).\n\nApri il gioco dal link del tuo sito web per poterlo installare sul PC!");
-      return;
-    }
+      if (window.location.protocol === 'file:') {
+        alert("📲 ATTENZIONE (File Locale):\n\nStai aprendo il gioco direttamente dal tuo disco come file:///.\nI browser (Chrome, Edge) consentono l'installazione PWA solo tramite connessione HTTPS protetta (come Vercel o GitHub Pages).\n\nPuoi però scaricare subito il Pacchetto PC (.ZIP) con il pulsante azzurro!");
+        return;
+      }
 
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    if (isIOS) {
-      alert("📲 INSTALLAZIONE SU IPHONE / IPAD:\n\n1. Tocca l'icona 'Condividi' in basso su Safari (quadrato con freccia verso l'alto).\n2. Scorri e seleziona 'Aggiungi alla schermata Home'.\n3. L'icona di CyberStrike 3D apparirà sulla schermata principale a schermo intero!");
-    } else {
-      alert("📲 COME INSTALLARE SU PC (Chrome / Edge):\n\n1. Guarda nella barra degli indirizzi in alto a destra: troverai l'icona con il monitor e la freccia 'Installa CyberStrike 3D'.\n\n2. In alternativa, clicca sui 3 puntini del browser in alto a destra > 'Installa CyberStrike 3D' > Conferma.");
-    }
-  });
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIOS) {
+        alert("📲 INSTALLAZIONE SU IPHONE / IPAD:\n\n1. Tocca l'icona 'Condividi' in basso su Safari (quadrato con freccia verso l'alto).\n2. Scorri e seleziona 'Aggiungi alla schermata Home'.\n3. L'icona di CyberStrike 3D apparirà sulla schermata principale a schermo intero!");
+      } else {
+        alert("📲 COME INSTALLARE SU PC (Chrome / Edge):\n\n1. Guarda nella barra degli indirizzi in alto a destra: troverai l'icona con il monitor e la freccia 'Installa CyberStrike 3D'.\n\n2. In alternativa, clicca sui 3 puntini del browser in alto a destra > 'Installa CyberStrike 3D' > Conferma.");
+      }
+    });
+  }
 }
 
 if (document.readyState === 'loading') {
