@@ -266,7 +266,10 @@ padding: 0.75rem 1rem !important;
 <div id="hud-top-stats" class="cyber-panel rounded-xl px-2.5 py-1.5 sm:px-4 sm:py-2.5 flex items-center gap-2 sm:gap-5 pointer-events-auto">
 <div class="hidden md:block">
 <div class="text-[9px] font-cyber uppercase tracking-widest text-cyan-400">Operatore</div>
+<div class="flex items-center gap-1.5">
 <div id="hud-player-name" class="text-sm font-cyber font-bold text-white truncate max-w-[110px]">GHOST-01</div>
+<span id="hud-operator-level-badge" class="px-1.5 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-[9px] font-cyber text-cyan-300 font-bold">LVL 1</span>
+</div>
 </div>
 <div class="h-8 w-px bg-cyan-500/30 hidden md:block"></div>
 <div>
@@ -508,8 +511,21 @@ class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg p
 <div id="profile-unlocked-weapons" class="text-sm sm:text-base font-cyber font-black text-emerald-300 mt-0.5">0/4</div>
 </div>
 </div>
+<div class="mt-2.5 pt-2 border-t border-slate-800/80 bg-slate-950/70 rounded-xl p-2.5 border border-cyan-500/20">
+<div class="flex items-center justify-between text-xs font-cyber mb-1">
+<div class="flex items-center gap-1.5 sm:gap-2">
+<span id="menu-operator-level-badge" class="px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 font-black text-[10px]">LIVELLO 1</span>
+<span id="menu-operator-title" class="text-white font-bold text-[11px]">Recluta Cyber</span>
+<span id="menu-operator-suit-badge" class="hidden sm:inline px-1.5 py-0.5 rounded bg-slate-900 text-slate-400 text-[9px] font-cyber border border-slate-800">Tuta: MK-I</span>
 </div>
-<div id="gameover-stats" class="hidden grid-cols-3 gap-2 mb-4 p-3 rounded-xl bg-rose-950/50 border border-rose-500/50">
+<span id="menu-operator-xp-text" class="text-amber-400 font-mono text-[10px] font-bold">0 / 500 XP</span>
+</div>
+<div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800">
+<div id="menu-operator-xp-bar" class="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-fuchsia-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+</div>
+</div>
+</div>
+<div id="gameover-stats" class="hidden grid-cols-2 sm:grid-cols-4 gap-2 mb-4 p-3 rounded-xl bg-rose-950/50 border border-rose-500/50">
 <div>
 <div class="text-[10px] font-cyber text-rose-300 uppercase">Punteggio Partita</div>
 <div id="final-score" class="text-lg font-cyber font-bold text-white">0</div>
@@ -521,6 +537,10 @@ class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg p
 <div>
 <div class="text-[10px] font-cyber text-rose-300 uppercase">Unità Eliminate</div>
 <div id="final-kills" class="text-lg font-cyber font-bold text-emerald-400">0</div>
+</div>
+<div>
+<div class="text-[10px] font-cyber text-amber-300 uppercase">XP Operatore</div>
+<div id="final-operator-xp" class="text-lg font-cyber font-bold text-amber-400">+0 XP</div>
 </div>
 </div>
 <div class="mb-4 text-left bg-slate-900 rounded-xl px-4 py-2.5 border border-slate-800 flex flex-col gap-2">
@@ -921,14 +941,27 @@ ENTRA NELLA STANZA
 <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-amber-400/50 my-auto">
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
 <div>
-<div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest">Armeria Tattica & Laboratorio Prestigio</div>
-<h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">NEGOZIO POTENZIAMENTI & PRESTIGIO</h2>
-<p class="text-xs text-slate-400">Porta tutti i 4 moduli al Grado 5/5 per sbloccare il <strong class="text-fuchsia-400">Prestigio Arma</strong> e acquistare le Abilità Speciali coi PN!</p>
+<div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest">Armeria Tattica & Laboratorio Operatore</div>
+<h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">NEGOZIO POTENZIAMENTI & OPERATORE</h2>
+<p class="text-xs text-slate-400">Potenzia le armi con i PN e sblocca mirini, tute e abilità aumentando il tuo <strong class="text-cyan-400">Livello Operatore</strong>!</p>
 </div>
 <button id="btn-close-shop" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase cursor-pointer">
 ✕ Torna al Menu
 </button>
 </div>
+
+<!-- SHOP TOP TABS -->
+<div class="flex gap-2 my-3 border-b border-slate-800 pb-2">
+<button id="btn-shop-tab-weapons" type="button" class="flex-1 py-2 px-3 rounded-xl font-cyber text-xs font-black uppercase transition cursor-pointer bg-cyan-950/90 border border-cyan-400 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.25)]">
+🔫 Arsenale & Armi
+</button>
+<button id="btn-shop-tab-operator" type="button" class="flex-1 py-2 px-3 rounded-xl font-cyber text-xs font-black uppercase transition cursor-pointer bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400">
+👤 Livello Operatore & Sblocchi
+</button>
+</div>
+
+<!-- WEAPONS PANEL -->
+<div id="shop-weapons-panel">
 <div id="shop-weapons-tabs" class="grid grid-cols-2 sm:grid-cols-4 gap-2 my-4"></div>
 <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 mb-4">
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
@@ -977,6 +1010,83 @@ ENTRA NELLA STANZA
 </div>
 </div>
 </div>
+
+<!-- OPERATOR PANEL -->
+<div id="shop-operator-panel" class="hidden space-y-4">
+<div class="bg-slate-900 rounded-xl p-4 border border-cyan-500/40">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+<div>
+<div class="flex flex-wrap items-center gap-2">
+<span id="shop-operator-title" class="text-lg font-cyber font-black text-cyan-400">Recluta Cyber</span>
+<span id="shop-operator-level-badge" class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold">LIVELLO 1</span>
+<span id="shop-operator-suit-badge" class="px-2.5 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold">Tuta: MK-I</span>
+</div>
+<p class="text-xs text-slate-400 mt-1">Guadagni XP giocando: punteggio, ondate completate, kill e boss eliminati ti fanno salire di livello!</p>
+<div class="text-[10px] text-emerald-400 font-cyber mt-1">✓ I tuoi progressi di gioco storici sono calcolati retroattivamente senza perdite.</div>
+</div>
+<div class="bg-slate-950 px-4 py-2 rounded-xl border border-cyan-400/40 text-right shrink-0">
+<div class="text-[10px] font-cyber text-slate-400 uppercase">XP Totale Operatore</div>
+<div id="shop-operator-total-xp" class="text-xl font-cyber font-black text-amber-400">0 XP</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[11px] font-cyber mb-1">
+<span class="text-slate-300">Progresso Verso il Prossimo Livello</span>
+<span id="shop-operator-xp-progress" class="text-cyan-300">0 / 500 XP (0%)</span>
+</div>
+<div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+<div id="shop-operator-xp-bar" class="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-fuchsia-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+</div>
+</div>
+</div>
+
+<div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800">
+<div class="text-[10px] font-cyber text-cyan-400 uppercase tracking-widest font-bold mb-2">⚡ Bonus Statistiche Personaggio Attive</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+<div class="bg-slate-950 rounded-xl p-3 border border-slate-800">
+<div class="text-[10px] font-cyber text-emerald-400 uppercase font-bold">🛡️ Corazza Massima</div>
+<div id="shop-stat-max-hp" class="text-lg font-cyber font-black text-white mt-0.5">100 HP</div>
+<div id="shop-stat-hp-sub" class="text-[10px] text-slate-400 mt-0.5">+10 HP al Liv. 4, +15 al Liv. 12/20</div>
+</div>
+<div class="bg-slate-950 rounded-xl p-3 border border-cyan-500/30">
+<div class="text-[10px] font-cyber text-cyan-400 uppercase font-bold">🏃 Stamina Massima</div>
+<div id="shop-stat-max-stamina" class="text-lg font-cyber font-black text-cyan-300 mt-0.5">100%</div>
+<div id="shop-stat-stamina-sub" class="text-[10px] text-slate-400 mt-0.5">+15% Stamina al Livello 7</div>
+</div>
+<div class="bg-slate-950 rounded-xl p-3 border border-amber-500/30">
+<div class="text-[10px] font-cyber text-amber-400 uppercase font-bold">⚡ Recupero Stamina</div>
+<div id="shop-stat-stamina-regen" class="text-lg font-cyber font-black text-amber-300 mt-0.5">1.0x (Normale)</div>
+<div id="shop-stat-regen-sub" class="text-[10px] text-slate-400 mt-0.5">+20% Velocità di ricarica al Liv. 14</div>
+</div>
+</div>
+</div>
+
+<div class="bg-slate-900/95 rounded-xl p-4 border border-cyan-500/40">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+<span class="text-[10px] font-cyber text-cyan-300 uppercase tracking-widest font-bold">🎯 Mirini & Ottiche Tattiche (Per Tutte le Armi)</span>
+<span class="text-[10px] text-slate-400">Scegli il mirino da utilizzare durante il puntamento mirato [ADS]</span>
+</div>
+<div id="shop-optics-grid" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2.5"></div>
+</div>
+
+<div class="bg-slate-900/95 rounded-xl p-4 border border-fuchsia-500/40">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+<span class="text-[10px] font-cyber text-fuchsia-300 uppercase tracking-widest font-bold">🥋 Tute & Personalizzazioni Operatore</span>
+<span class="text-[10px] text-slate-400">Personalizza l'armatura del tuo personaggio e i riflessi neon delle armi</span>
+</div>
+<div id="shop-suits-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5"></div>
+</div>
+
+<div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest font-bold">🏆 Tabella Sblocchi Operatore (Livello 1 - 30)</span>
+<span id="shop-rewards-unlocked-count" class="text-[10px] font-cyber text-cyan-400 font-bold">0 / 17 Sbloccati</span>
+</div>
+<div id="shop-rewards-timeline" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1"></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="trophies-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
 <div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-fuchsia-400/50 my-auto">
@@ -1008,25 +1118,25 @@ const WEAPONS = [
 id: 'ASSAULT', key: '1', name: "Fucile d'Assalto MK-IV", shortName: "ASSALTO", desc: "Bilanciato Automatico",
 maxAmmo: 32, reloadTime: 1.3, fireRate: 0.115, damage: 36, adsDamage: 47, pellets: 1, hipSpread: 0.04, adsSpread: 0.0,
 adsFov: 48, recoil: 0.11, colorHex: 0x22d3ee, uiColor: '#22d3ee', beamWidth: 0.024,
-adsY: -0.155, adsZ: -0.34, tipZ: -0.58, secret: false
+adsY: -0.155, adsZ: -0.34, tipZ: -0.58, secret: false, reqLevel: 1, unlockLabel: "LIVELLO OPERATORE 1"
 },
 {
 id: 'SMG', key: '2', name: "Mitraglietta Vector-X", shortName: "MITRAGLIETTA", desc: "Cadenza Estrema",
 maxAmmo: 48, reloadTime: 1.0, fireRate: 0.06, damage: 22, adsDamage: 28, pellets: 1, hipSpread: 0.065, adsSpread: 0.008,
 adsFov: 56, recoil: 0.07, colorHex: 0xfacc15, uiColor: '#facc15', beamWidth: 0.018,
-adsY: -0.145, adsZ: -0.32, tipZ: -0.42, secret: false
+adsY: -0.145, adsZ: -0.32, tipZ: -0.42, secret: false, reqLevel: 3, unlockLabel: "LIVELLO OPERATORE 3"
 },
 {
 id: 'SHOTGUN', key: '3', name: "Fucile a Pompa Titan-8", shortName: "POMPA", desc: "8 Dardi Plasma",
 maxAmmo: 8, reloadTime: 1.6, fireRate: 0.62, damage: 27, adsDamage: 33, pellets: 8, hipSpread: 0.12, adsSpread: 0.05,
 adsFov: 58, recoil: 0.25, colorHex: 0xf97316, uiColor: '#f97316', beamWidth: 0.02,
-adsY: -0.14, adsZ: -0.35, tipZ: -0.56, secret: false
+adsY: -0.14, adsZ: -0.35, tipZ: -0.56, secret: false, reqLevel: 6, unlockLabel: "LIVELLO OPERATORE 6"
 },
 {
 id: 'SNIPER', key: '4', name: "Cecchino Railgun V9", shortName: "CECCHINO", desc: "Colpo Perforante",
 maxAmmo: 5, reloadTime: 1.75, fireRate: 0.88, damage: 175, adsDamage: 280, pellets: 1, hipSpread: 0.08, adsSpread: 0.0,
 adsFov: 20, recoil: 0.32, colorHex: 0xf43f5e, uiColor: '#f43f5e', beamWidth: 0.045,
-adsY: -0.17, adsZ: -0.30, tipZ: -0.88, secret: false, isSniper: true, isPiercing: true
+adsY: -0.17, adsZ: -0.30, tipZ: -0.88, secret: false, isSniper: true, isPiercing: true, reqLevel: 10, unlockLabel: "LIVELLO OPERATORE 10"
 },
 {
 id: 'TESLA', key: '5', name: "Arco Elettromagnetico Tesla", shortName: "ARCO TESLA", desc: "Fulmine a Catena (3 Bersagli)",
@@ -1105,6 +1215,144 @@ const PSN_TROPHIES = [
 { id: 'HIGH_SCORER', title: 'Leggenda dell\'Arena', desc: 'Supera 50.000 Punti in una singola partita', tier: 'ORO', icon: '🥇', check: p => p.bestScore >= 50000 },
 { id: 'PLATINUM', title: 'Signore di CyberStrike', desc: 'Sblocca tutti gli altri 14 Trofei per platinare il gioco!', tier: 'PLATINO', icon: '💎', isPlatinum: true }
 ];
+
+const OPERATOR_OPTICS = [
+{ id: 'STANDARD', name: 'Standard Cyber', reqLevel: 1, color: '#22d3ee', desc: 'Reticolo Cyber a 4 assi ad alta visibilità', icon: '🎯' },
+{ id: 'REFLEX', name: 'Reflex Olografico', reqLevel: 2, color: '#06b6d4', desc: 'Anello circolare ciano e punto centrale', icon: '⭕' },
+{ id: 'RED_DOT', name: 'Red Dot Cyber', reqLevel: 5, color: '#ef4444', desc: 'Punto laser rosso vivo con collimatore sottile', icon: '🔴' },
+{ id: 'ACOG', name: 'Mirino ACOG', reqLevel: 9, color: '#fbbf24', desc: 'Chevron ambra con scala telemetrica e reticolo balistico', icon: '📐' },
+{ id: 'VOID', name: 'Cosmico Void', reqLevel: 16, color: '#d946ef', desc: 'Reticolo quantico fucsia pulsante a diamante', icon: '🌌' }
+];
+
+const OPERATOR_SUITS = [
+{ id: 'DEFAULT', name: 'Ghost Operative MK-I', reqLevel: 1, color: '#22d3ee', badge: 'Standard', desc: 'Armatura da incursione in fibra di carbonio con biosensori ciano.' },
+{ id: 'NEON_RONIN', name: 'Neon Ronin', reqLevel: 8, color: '#10b981', badge: 'Smeraldo', desc: 'Esoscheletro cyber-ninja ad agilità estrema con riflessi smeraldo.' },
+{ id: 'OBSIDIAN_OPS', name: 'Obsidian SpecOps', reqLevel: 18, color: '#f43f5e', badge: 'Stealth', desc: 'Composito polimerico stealth antiradar con reattori cremisi.' },
+{ id: 'SOLARIS_PRIME', name: 'Solaris Prime', reqLevel: 25, color: '#fbbf24', badge: 'Leggenda', desc: 'Armatura cerimoniale in lega dorata con nucleo solare al plasma.' }
+];
+
+const OPERATOR_REWARDS = [
+{ level: 1, type: 'WEAPON', id: 'ASSAULT', title: "Fucile d'Assalto MK-IV", desc: "Arma di base operativa bilanciata", icon: "🔫" },
+{ level: 2, type: 'OPTIC', id: 'REFLEX', title: "Mirino Reflex Ciano", desc: "Ottica olografica ciano a reticolo circolare", icon: "🎯" },
+{ level: 3, type: 'WEAPON', id: 'SMG', title: "Mitraglietta Vector-X", desc: "Cadenza di fuoco devastante per gli scontri ravvicinati", icon: "⚡" },
+{ level: 4, type: 'STAT', id: 'HP_1', title: "+10 Corazza Massima", desc: "Corazza Massima sale permanentemente da 100 a 110 HP", icon: "🛡️" },
+{ level: 5, type: 'OPTIC', id: 'RED_DOT', title: "Mirino Red Dot Cyber", desc: "Collimatore di precisione a punto rosso laser", icon: "🔴" },
+{ level: 6, type: 'WEAPON', id: 'SHOTGUN', title: "Fucile a Pompa Titan-8", desc: "8 dardi al plasma letali a corto raggio", icon: "💥" },
+{ level: 7, type: 'STAT', id: 'STM_1', title: "+15% Stamina Massima", desc: "Stamina Massima estesa da 100% a 115% per scatti più lunghi", icon: "🏃" },
+{ level: 8, type: 'SUIT', id: 'NEON_RONIN', title: "Tuta Neon Ronin", desc: "Corazza d'élite cyber-ninja con riflessi smeraldo", icon: "🥋" },
+{ level: 9, type: 'OPTIC', id: 'ACOG', title: "Mirino Tattico ACOG", desc: "Chevron ottico ambra con scala telemetrica e reticolo balistico", icon: "📐" },
+{ level: 10, type: 'WEAPON', id: 'SNIPER', title: "Cecchino Railgun V9", desc: "Proiettili iper-accelerati perforanti con zoom ottico", icon: "🔭" },
+{ level: 12, type: 'STAT', id: 'HP_2', title: "+15 Corazza Massima", desc: "Placcatura in titanio: Corazza Massima sale a 125 HP", icon: "🛡️" },
+{ level: 14, type: 'STAT', id: 'STM_2', title: "+20% Recupero Stamina", desc: "Batterie ausiliarie per la ricarica ultra-rapida della stamina", icon: "⚡" },
+{ level: 16, type: 'OPTIC', id: 'VOID', title: "Mirino Cosmico Void", desc: "Mirino quantico fucsia pulsante con anello a rotazione", icon: "🌌" },
+{ level: 18, type: 'SUIT', id: 'OBSIDIAN_OPS', title: "Tuta Obsidian SpecOps", desc: "Composito polimerico stealth nero con accenti cremisi", icon: "🖤" },
+{ level: 20, type: 'STAT', id: 'HP_3', title: "+15 Corazza Massima", desc: "Scudo bio-meccanico avanzato: Corazza Massima sale a 140 HP", icon: "🛡️" },
+{ level: 25, type: 'SUIT', id: 'SOLARIS_PRIME', title: "Tuta Solaris Prime", desc: "Armatura suprema in lega dorata con energia solare", icon: "👑" },
+{ level: 30, type: 'STAT', id: 'HP_4', title: "+10 Corazza & Grado Supremo", desc: "Corazza a 150 HP e Rango Leggenda Suprema dell'Arena", icon: "🏆" }
+];
+
+function getOperatorXpForLevel(lvl) {
+if (lvl <= 1) return 0;
+let total = 0;
+for (let i = 2; i <= lvl; i++) {
+total += Math.round(300 + Math.pow(i - 1, 1.45) * 200);
+}
+return total;
+}
+
+function getOperatorLevel(xp = playerProfile.operatorXp || 0) {
+xp = Math.max(0, Number(xp) || 0);
+let lvl = 1;
+while (lvl < 50 && xp >= getOperatorXpForLevel(lvl + 1)) {
+lvl++;
+}
+return lvl;
+}
+
+function getOperatorLevelProgress(xp = playerProfile.operatorXp || 0) {
+const currentLevel = getOperatorLevel(xp);
+const currentLevelBaseXp = getOperatorXpForLevel(currentLevel);
+const nextLevelXp = getOperatorXpForLevel(currentLevel + 1);
+const xpInCurrent = Math.max(0, xp - currentLevelBaseXp);
+const neededInCurrent = Math.max(1, nextLevelXp - currentLevelBaseXp);
+const pct = Math.min(100, Math.round((xpInCurrent / neededInCurrent) * 100));
+return {
+level: currentLevel,
+currentXp: xp,
+xpInCurrent,
+neededInCurrent,
+nextLevelXp,
+pct
+};
+}
+
+function getOperatorTitle(lvl = getOperatorLevel()) {
+if (lvl >= 30) return "Leggenda Suprema";
+if (lvl >= 25) return "Signore della Guerra";
+if (lvl >= 16) return "Comandante dell'Arena";
+if (lvl >= 10) return "Veterano d'Élite";
+if (lvl >= 6) return "Specialista Tattico";
+if (lvl >= 3) return "Operativo d'Assalto";
+return "Recluta Cyber";
+}
+
+function getOperatorMaxHealth() {
+const lvl = getOperatorLevel();
+let bonus = 0;
+if (lvl >= 4) bonus += 10;
+if (lvl >= 12) bonus += 15;
+if (lvl >= 20) bonus += 15;
+if (lvl >= 30) bonus += 10;
+return 100 + bonus;
+}
+
+function getOperatorMaxStamina() {
+const lvl = getOperatorLevel();
+let bonus = 0;
+if (lvl >= 7) bonus += 15;
+return 100 + bonus;
+}
+
+function getOperatorStaminaRegenMult() {
+const lvl = getOperatorLevel();
+let mult = 1.0;
+if (lvl >= 14) mult += 0.20;
+return mult;
+}
+
+function isOpticUnlocked(opticId) {
+const op = OPERATOR_OPTICS.find(o => o.id === opticId);
+if (!op) return true;
+return getOperatorLevel() >= op.reqLevel;
+}
+
+function isSuitUnlocked(suitId) {
+const s = OPERATOR_SUITS.find(st => st.id === suitId);
+if (!s) return true;
+return getOperatorLevel() >= s.reqLevel;
+}
+
+function calculateRetroactiveOperatorXp(profile) {
+let xp = 0;
+xp += (Number(profile.totalKills) || 0) * 25;
+xp += (Number(profile.airKills) || 0) * 15;
+xp += Math.round((Number(profile.bestScore) || 0) * 0.12);
+xp += (Number(profile.bestWave) || 1) * 150;
+xp += (Number(profile.gamesPlayed) || 0) * 100;
+xp += (Number(profile.maxBossesDefeatedPermanent) || 0) * 350;
+xp += (Number(profile.perksCollected) || 0) * 20;
+if (profile.weaponStats) {
+Object.values(profile.weaponStats).forEach(ws => {
+xp += ((Number(ws.level) || 1) - 1) * 80;
+xp += (Number(ws.prestige) || 0) * 500;
+xp += (Number(ws.headshots) || 0) * 25;
+});
+}
+if (Array.isArray(profile.unlockedTrophies)) {
+xp += profile.unlockedTrophies.length * 200;
+}
+return Math.max(0, xp);
+}
 function byId(id) { return document.getElementById(id); }
 function boxMesh(w, h, d, m) { return new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); }
 function addBox(g, w, h, d, m, x = 0, y = 0, z = 0) { const mesh = boxMesh(w, h, d, m); mesh.position.set(x, y, z); g.add(mesh); return mesh; }
@@ -1159,7 +1407,10 @@ sensitivity: 1.0,
 sfxEnabled: true,
 musicEnabled: true,
 unlockedTrophies: [],
-weaponStats: createDefaultWeaponStats()
+weaponStats: createDefaultWeaponStats(),
+operatorXp: 0,
+selectedOptic: 'STANDARD',
+selectedSuit: 'DEFAULT'
 };
 function getWeaponStats(weaponId) {
 if (!playerProfile.weaponStats[weaponId]) {
@@ -1222,7 +1473,10 @@ if (st && st.prestige >= 1) count++;
 return count;
 }
 function isWeaponUnlocked(w) {
-if (!w.secret) return true;
+if (!w.secret) {
+const minLevel = w.reqLevel || 1;
+return getOperatorLevel() >= minLevel;
+}
 const killsOk = playerProfile.totalKills >= (w.reqKills || 0);
 const waveOk = playerProfile.bestWave >= (w.reqWave || 1);
 const bossOk = playerProfile.maxBossesDefeatedPermanent >= (w.reqBosses || 0);
@@ -1364,6 +1618,23 @@ ws.selectedCamo = 'DEFAULT';
 }
 });
 }
+if (typeof parsed.operatorXp === 'number') {
+playerProfile.operatorXp = Math.max(0, parsed.operatorXp);
+} else {
+playerProfile.operatorXp = calculateRetroactiveOperatorXp(playerProfile);
+}
+playerProfile.selectedOptic = parsed.selectedOptic || 'STANDARD';
+playerProfile.selectedSuit = parsed.selectedSuit || 'DEFAULT';
+if (!isOpticUnlocked(playerProfile.selectedOptic)) {
+playerProfile.selectedOptic = 'STANDARD';
+}
+if (!isSuitUnlocked(playerProfile.selectedSuit)) {
+playerProfile.selectedSuit = 'DEFAULT';
+}
+} else {
+playerProfile.operatorXp = 0;
+playerProfile.selectedOptic = 'STANDARD';
+playerProfile.selectedSuit = 'DEFAULT';
 }
 } catch (e) {}
 }
@@ -1398,7 +1669,8 @@ if (window.localStorage) localStorage.removeItem(PROFILE_STORAGE_KEY);
 Object.assign(playerProfile, {
 name: 'GHOST-01', bestScore: 0, bestWave: 1, totalKills: 0, airKills: 0,
 perksCollected: 0, gamesPlayed: 0, maxBossesDefeatedPermanent: 0,
-sensitivity: 1.0, unlockedTrophies: [], weaponStats: createDefaultWeaponStats()
+sensitivity: 1.0, unlockedTrophies: [], weaponStats: createDefaultWeaponStats(),
+operatorXp: 0, selectedOptic: 'STANDARD', selectedSuit: 'DEFAULT'
 });
 state.bossesDefeated = 0;
 savePlayerProfile();
@@ -1429,6 +1701,23 @@ const shopBadge = byId('menu-shop-badge');
 if (shopBadge) {
 shopBadge.textContent = `${getTotalAvailableShopPoints()} PN`;
 }
+const opProg = getOperatorLevelProgress(playerProfile.operatorXp || 0);
+const opTitle = getOperatorTitle(opProg.level);
+const menuLvlBadge = byId('menu-operator-level-badge');
+if (menuLvlBadge) menuLvlBadge.textContent = `LIVELLO ${opProg.level}`;
+const menuOpTitle = byId('menu-operator-title');
+if (menuOpTitle) menuOpTitle.textContent = opTitle;
+const menuXpText = byId('menu-operator-xp-text');
+if (menuXpText) menuXpText.textContent = `${opProg.xpInCurrent.toLocaleString()} / ${opProg.neededInCurrent.toLocaleString()} XP (${opProg.pct}%)`;
+const menuXpBar = byId('menu-operator-xp-bar');
+if (menuXpBar) menuXpBar.style.width = `${opProg.pct}%`;
+const menuSuitBadge = byId('menu-operator-suit-badge');
+if (menuSuitBadge) {
+const curSuit = OPERATOR_SUITS.find(s => s.id === (playerProfile.selectedSuit || 'DEFAULT'));
+menuSuitBadge.textContent = `Tuta: ${curSuit ? curSuit.name.split(' ')[0] : 'MK-I'}`;
+}
+const hudLvlBadge = byId('hud-operator-level-badge');
+if (hudLvlBadge) hudLvlBadge.textContent = `LVL ${opProg.level}`;
 syncAudioButtonsUI();
 updateAuthUI();
 }
@@ -1524,6 +1813,13 @@ lW.prestigeSkills[ps] = Math.max(lW.prestigeSkills[ps] || 0, Number(cW.prestigeS
 }
 });
 }
+if (typeof src.operatorXp === 'number') {
+playerProfile.operatorXp = Math.max(playerProfile.operatorXp || 0, src.operatorXp);
+} else {
+playerProfile.operatorXp = Math.max(playerProfile.operatorXp || 0, calculateRetroactiveOperatorXp(playerProfile));
+}
+if (src.selectedOptic && isOpticUnlocked(src.selectedOptic)) playerProfile.selectedOptic = src.selectedOptic;
+if (src.selectedSuit && isSuitUnlocked(src.selectedSuit)) playerProfile.selectedSuit = src.selectedSuit;
 }
 function updateAuthUI() {
 const openBtn = byId('btn-open-auth-modal');
@@ -2082,6 +2378,8 @@ function respawnPlayerPvP() {
   const pt = spawns[Math.floor(Math.random() * spawns.length)];
   camera.position.set(pt.x, GAME_CONFIG.playerHeight, pt.z);
   playerVelocity.set(0, 0, 0);
+  state.maxHealth = getOperatorMaxHealth();
+  state.maxStamina = getOperatorMaxStamina();
   state.health = state.maxHealth;
   state.ammo = getEffectiveWeaponStats(getCurrentWeapon()).maxAmmo;
   updateHUD();
@@ -3289,6 +3587,55 @@ renderShopUI();
 updateHUD();
 });
 }
+const btnTabWeapons = byId('btn-shop-tab-weapons');
+const btnTabOperator = byId('btn-shop-tab-operator');
+const pnlWeapons = byId('shop-weapons-panel');
+const pnlOperator = byId('shop-operator-panel');
+if (btnTabWeapons && btnTabOperator) {
+btnTabWeapons.onclick = () => {
+btnTabWeapons.className = 'flex-1 py-2 px-3 rounded-xl font-cyber text-xs font-black uppercase transition cursor-pointer bg-cyan-950/90 border border-cyan-400 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.25)]';
+btnTabOperator.className = 'flex-1 py-2 px-3 rounded-xl font-cyber text-xs font-black uppercase transition cursor-pointer bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400';
+if (pnlWeapons) pnlWeapons.classList.remove('hidden');
+if (pnlOperator) pnlOperator.classList.add('hidden');
+renderShopUI();
+};
+btnTabOperator.onclick = () => {
+btnTabOperator.className = 'flex-1 py-2 px-3 rounded-xl font-cyber text-xs font-black uppercase transition cursor-pointer bg-fuchsia-950/90 border border-fuchsia-400 text-fuchsia-300 shadow-[0_0_12px_rgba(217,70,239,0.25)]';
+btnTabWeapons.className = 'flex-1 py-2 px-3 rounded-xl font-cyber text-xs font-black uppercase transition cursor-pointer bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400';
+if (pnlWeapons) pnlWeapons.classList.add('hidden');
+if (pnlOperator) pnlOperator.classList.remove('hidden');
+renderShopUI();
+};
+}
+const opticsGrid = byId('shop-optics-grid');
+if (opticsGrid) {
+opticsGrid.onclick = (e) => {
+const btn = e.target.closest('button[data-optic]');
+if (!btn || btn.disabled) return;
+const opticId = btn.dataset.optic;
+if (!isOpticUnlocked(opticId)) return;
+playerProfile.selectedOptic = opticId;
+sound.playPickup();
+savePlayerProfile();
+applyReticleVisuals();
+renderShopUI();
+};
+}
+const suitsGrid = byId('shop-suits-grid');
+if (suitsGrid) {
+suitsGrid.onclick = (e) => {
+const btn = e.target.closest('button[data-suit]');
+if (!btn || btn.disabled) return;
+const suitId = btn.dataset.suit;
+if (!isSuitUnlocked(suitId)) return;
+playerProfile.selectedSuit = suitId;
+sound.playPerkPickup();
+savePlayerProfile();
+applyWeaponVisuals(getCurrentWeapon());
+renderShopUI();
+updateProfileUI();
+};
+}
 }
 function openShop() {
 sound.init();
@@ -3463,6 +3810,148 @@ statusEl.textContent = `🔒 ${c.reqText}`;
 statusEl.className = 'text-[10px] font-cyber font-bold text-slate-500';
 }
 });
+renderOperatorPanelUI();
+}
+function renderOperatorPanelUI() {
+const opProg = getOperatorLevelProgress(playerProfile.operatorXp || 0);
+const opTitle = getOperatorTitle(opProg.level);
+const curSuit = OPERATOR_SUITS.find(s => s.id === (playerProfile.selectedSuit || 'DEFAULT')) || OPERATOR_SUITS[0];
+
+const titleEl = byId('shop-operator-title');
+if (titleEl) titleEl.textContent = opTitle;
+const lvlBadge = byId('shop-operator-level-badge');
+if (lvlBadge) lvlBadge.textContent = `LIVELLO ${opProg.level}`;
+const suitBadge = byId('shop-operator-suit-badge');
+if (suitBadge) suitBadge.textContent = `Tuta: ${curSuit.name.split(' ')[0]}`;
+const totalXpEl = byId('shop-operator-total-xp');
+if (totalXpEl) totalXpEl.textContent = `${(playerProfile.operatorXp || 0).toLocaleString()} XP`;
+const xpProgEl = byId('shop-operator-xp-progress');
+if (xpProgEl) xpProgEl.textContent = `${opProg.xpInCurrent.toLocaleString()} / ${opProg.neededInCurrent.toLocaleString()} XP (${opProg.pct}%)`;
+const xpBarEl = byId('shop-operator-xp-bar');
+if (xpBarEl) xpBarEl.style.width = `${opProg.pct}%`;
+
+const hpEl = byId('shop-stat-max-hp');
+if (hpEl) hpEl.textContent = `${getOperatorMaxHealth()} HP`;
+const hpSub = byId('shop-stat-hp-sub');
+if (hpSub) {
+const bonus = getOperatorMaxHealth() - 100;
+hpSub.textContent = bonus > 0 ? `+${bonus} HP Corazza attiva (+${bonus}%)` : `Bonus +10 HP al Livello 4`;
+}
+const stmEl = byId('shop-stat-max-stamina');
+if (stmEl) stmEl.textContent = `${getOperatorMaxStamina()}%`;
+const stmSub = byId('shop-stat-stamina-sub');
+if (stmSub) {
+stmSub.textContent = opProg.level >= 7 ? `+15% Stamina Massima attiva` : `Bonus +15% al Livello 7`;
+}
+const regEl = byId('shop-stat-stamina-regen');
+if (regEl) regEl.textContent = opProg.level >= 14 ? `1.2x (+20% Veloce)` : `1.0x (Normale)`;
+const regSub = byId('shop-stat-regen-sub');
+if (regSub) {
+regSub.textContent = opProg.level >= 14 ? `Ricarica accelerata attiva` : `Sblocca +20% al Livello 14`;
+}
+
+const opticsGrid = byId('shop-optics-grid');
+if (opticsGrid) {
+opticsGrid.innerHTML = '';
+OPERATOR_OPTICS.forEach(opt => {
+const unlocked = isOpticUnlocked(opt.id);
+const isEquipped = (playerProfile.selectedOptic || 'STANDARD') === opt.id;
+const card = document.createElement('div');
+card.className = `p-3 rounded-xl border flex flex-col justify-between gap-2.5 transition ${
+isEquipped 
+? 'bg-cyan-950/80 border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.3)]' 
+: (unlocked ? 'bg-slate-950 border-slate-800 hover:border-slate-700' : 'bg-slate-950/40 border-slate-900 opacity-60')
+}`;
+card.innerHTML = `
+<div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-cyber font-black" style="color:${opt.color}">${opt.name}</span>
+<span class="text-[9px] font-cyber ${unlocked ? 'text-emerald-400' : 'text-slate-500'} font-bold">
+${unlocked ? '✓ DISP.' : `🔒 LIV. ${opt.reqLevel}`}
+</span>
+</div>
+<p class="text-[10px] text-slate-400 mt-1">${opt.desc}</p>
+</div>
+<button type="button" data-optic="${opt.id}" ${(!unlocked || isEquipped) ? 'disabled' : ''} class="w-full py-1.5 rounded-lg font-cyber text-[10px] font-black uppercase transition ${
+isEquipped 
+? 'bg-cyan-500 text-slate-950 cursor-default' 
+: (unlocked 
+? 'bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-300 cursor-pointer border border-cyan-500/30' 
+: 'bg-slate-900 text-slate-600 cursor-not-allowed')
+}">
+${isEquipped ? '✓ EQUIPAGGIATO' : (unlocked ? 'EQUIPAGGIA' : `🔒 SBLOCCA AL LIV. ${opt.reqLevel}`)}
+</button>
+`;
+opticsGrid.appendChild(card);
+});
+}
+
+const suitsGrid = byId('shop-suits-grid');
+if (suitsGrid) {
+suitsGrid.innerHTML = '';
+OPERATOR_SUITS.forEach(suit => {
+const unlocked = isSuitUnlocked(suit.id);
+const isEquipped = (playerProfile.selectedSuit || 'DEFAULT') === suit.id;
+const card = document.createElement('div');
+card.className = `p-3 rounded-xl border flex flex-col justify-between gap-2.5 transition ${
+isEquipped 
+? 'bg-fuchsia-950/80 border-fuchsia-400 shadow-[0_0_12px_rgba(217,70,239,0.3)]' 
+: (unlocked ? 'bg-slate-950 border-slate-800 hover:border-slate-700' : 'bg-slate-950/40 border-slate-900 opacity-60')
+}`;
+card.innerHTML = `
+<div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-cyber font-black" style="color:${suit.color}">${suit.name}</span>
+<span class="text-[9px] font-cyber ${unlocked ? 'text-fuchsia-400 font-bold' : 'text-slate-500'}">
+${unlocked ? '✓ DISP.' : `🔒 LIV. ${suit.reqLevel}`}
+</span>
+</div>
+<p class="text-[10px] text-slate-400 mt-1">${suit.desc}</p>
+</div>
+<button type="button" data-suit="${suit.id}" ${(!unlocked || isEquipped) ? 'disabled' : ''} class="w-full py-1.5 rounded-lg font-cyber text-[10px] font-black uppercase transition ${
+isEquipped 
+? 'bg-fuchsia-500 text-slate-950 cursor-default' 
+: (unlocked 
+? 'bg-slate-800 hover:bg-fuchsia-500 hover:text-slate-950 text-fuchsia-300 cursor-pointer border border-fuchsia-500/30' 
+: 'bg-slate-900 text-slate-600 cursor-not-allowed')
+}">
+${isEquipped ? '✓ INDOSSATA' : (unlocked ? 'INDOSSA TUTA' : `🔒 SBLOCCA AL LIV. ${suit.reqLevel}`)}
+</button>
+`;
+suitsGrid.appendChild(card);
+});
+}
+
+const timelineGrid = byId('shop-rewards-timeline');
+const rewardsCountEl = byId('shop-rewards-unlocked-count');
+if (timelineGrid) {
+timelineGrid.innerHTML = '';
+let unlockedRewards = 0;
+OPERATOR_REWARDS.forEach(rew => {
+const isAchieved = opProg.level >= rew.level;
+if (isAchieved) unlockedRewards++;
+const item = document.createElement('div');
+item.className = `p-2.5 rounded-xl border flex items-center justify-between gap-2 ${
+isAchieved ? 'bg-slate-950/90 border-emerald-500/30' : 'bg-slate-950/40 border-slate-800/60 opacity-60'
+}`;
+item.innerHTML = `
+<div class="flex items-center gap-2 min-w-0">
+<span class="px-2 py-0.5 rounded font-cyber text-[9px] font-black shrink-0 ${
+isAchieved ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-400/30' : 'bg-slate-900 text-slate-500 border border-slate-800'
+}">LIV. ${rew.level}</span>
+<div class="min-w-0">
+<div class="text-[11px] font-cyber font-bold text-white truncate">${rew.icon} ${rew.title}</div>
+<div class="text-[9px] text-slate-400 truncate">${rew.desc}</div>
+</div>
+</div>
+<span class="text-[9px] font-cyber font-black shrink-0 ${isAchieved ? 'text-emerald-400' : 'text-slate-500'}">
+${isAchieved ? '✓' : '🔒'}
+</span>
+`;
+timelineGrid.appendChild(item);
+});
+if (rewardsCountEl) rewardsCountEl.textContent = `${unlockedRewards} / ${OPERATOR_REWARDS.length} Sbloccati`;
+}
 }
 function openTrophiesModal() {
 checkTrophies();
@@ -3512,6 +4001,10 @@ updateProfileUI();
 }
 function initThreeJS() {
 loadPlayerProfile();
+state.maxHealth = getOperatorMaxHealth();
+state.maxStamina = getOperatorMaxStamina();
+state.health = state.maxHealth;
+state.stamina = state.maxStamina;
 sound.sfxEnabled = playerProfile.sfxEnabled;
 sound.musicEnabled = playerProfile.musicEnabled;
 state.bossesDefeated = playerProfile.maxBossesDefeatedPermanent;
@@ -4153,7 +4646,14 @@ child.material.map = null;
 child.material.needsUpdate = true;
 }
 if (camo === 'DEFAULT') {
-child.material.color.setHex(child.userData.origColor);
+const suit = playerProfile.selectedSuit || 'DEFAULT';
+let cHex = child.userData.origColor;
+if (child.userData.isGlow) {
+if (suit === 'NEON_RONIN') cHex = 0x10b981;
+else if (suit === 'OBSIDIAN_OPS') cHex = 0xef4444;
+else if (suit === 'SOLARIS_PRIME') cHex = 0xfbbf24;
+}
+child.material.color.setHex(cHex);
 } else if (camo === 'GOLD') {
 child.material.map = goldMetallicTexture;
 if (child.userData.origColor === 0x0f172a) {
@@ -4196,10 +4696,7 @@ const beamHex = getActiveWeaponCamoColorHex(w);
 weaponBarrelTip.position.set(0, 0.04, w.tipZ || -0.55);
 muzzleMesh.material.color.setHex(beamHex);
 muzzleLight.color.setHex(beamHex);
-document.querySelectorAll('.ch-line').forEach(line => {
-line.setAttribute('stroke', w.uiColor);
-});
-if (crosshairDot) crosshairDot.setAttribute('fill', w.uiColor);
+applyReticleVisuals();
 }
 function buildWeaponWheelUI() {
 wheelSlotsContainer.innerHTML = '';
@@ -4296,7 +4793,10 @@ function selectWeapon(index) {
 if (index < 0 || index >= WEAPONS.length) return;
 const targetWeapon = WEAPONS[index];
 if (!isWeaponUnlocked(targetWeapon)) {
-showAnnouncement('ARMA SEGRETA BLOCCATA', `Requisito: ${targetWeapon.unlockLabel} (Kill attuali: ${playerProfile.totalKills}, Boss: ${playerProfile.maxBossesDefeatedPermanent})`);
+const reqDesc = targetWeapon.secret
+? `Requisito: ${targetWeapon.unlockLabel} (Kill attuali: ${playerProfile.totalKills}, Boss: ${playerProfile.maxBossesDefeatedPermanent})`
+: `Richiede Livello Operatore ${targetWeapon.reqLevel || 1} (Il tuo livello attuale: ${getOperatorLevel()})`;
+showAnnouncement(targetWeapon.secret ? 'ARMA SEGRETA BLOCCATA' : 'ARMA BLOCCATA', reqDesc);
 sound.playPlayerDamage();
 return;
 }
@@ -4320,20 +4820,71 @@ reloadPrompt.classList.add('hidden');
 sound.playPickup();
 updateHUD();
 }
+function applyReticleVisuals() {
+const opticId = playerProfile.selectedOptic || 'STANDARD';
+const svg = byId('crosshair-svg');
+if (!svg) return;
+const aiming = state.isAiming;
+const w = (typeof getCurrentWeapon === 'function') ? getCurrentWeapon() : WEAPONS[0];
+const strokeColor = w ? w.uiColor : '#22d3ee';
+
+if (opticId === 'REFLEX') {
+const r = aiming ? 12 : 18;
+svg.innerHTML = `
+<circle cx="50" cy="50" r="${r}" fill="none" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="8 4" opacity="0.9" />
+<line class="ch-line" x1="50" y1="${50 - r - 6}" x2="50" y2="${50 - r}" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" />
+<line class="ch-line" x1="50" y1="${50 + r}" x2="50" y2="${50 + r + 6}" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" />
+<line class="ch-line" x1="${50 - r - 6}" y1="50" x2="${50 - r}" y2="50" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" />
+<line class="ch-line" x1="${50 + r}" y1="50" x2="${50 + r + 6}" y2="50" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" />
+<circle id="crosshair-dot" cx="50" cy="50" r="2.2" fill="#22d3ee" />
+`;
+} else if (opticId === 'RED_DOT') {
+const r = aiming ? 13 : 20;
+svg.innerHTML = `
+<circle cx="50" cy="50" r="${r}" fill="none" stroke="#ef4444" stroke-width="1.2" opacity="0.45" />
+<line class="ch-line" x1="50" y1="${50 - r - 4}" x2="50" y2="${50 - r}" stroke="#ef4444" stroke-width="1.5" />
+<line class="ch-line" x1="50" y1="${50 + r}" x2="50" y2="${50 + r + 4}" stroke="#ef4444" stroke-width="1.5" />
+<line class="ch-line" x1="${50 - r - 4}" y1="50" x2="${50 - r}" y2="50" stroke="#ef4444" stroke-width="1.5" />
+<line class="ch-line" x1="${50 + r}" y1="50" x2="${50 + r + 4}" y2="50" stroke="#ef4444" stroke-width="1.5" />
+<circle id="crosshair-dot" cx="50" cy="50" r="3.2" fill="#ff1e44" style="filter: drop-shadow(0 0 6px #ff0033);" />
+`;
+} else if (opticId === 'ACOG') {
+const spread = aiming ? 0 : 5;
+svg.innerHTML = `
+<polygon points="50,${44 - spread} ${44 - spread},${54 - spread} ${47 - spread},${54 - spread} 50,${49 - spread} ${53 + spread},${54 - spread} ${56 + spread},${54 - spread}" fill="#fbbf24" style="filter: drop-shadow(0 0 4px #f59e0b);" />
+<line x1="50" y1="${55 - spread}" x2="50" y2="${74 + spread}" stroke="#fbbf24" stroke-width="1.6" opacity="0.85" />
+<line x1="43" y1="${62 + spread}" x2="57" y2="${62 + spread}" stroke="#fbbf24" stroke-width="1.2" opacity="0.8" />
+<line x1="45" y1="${68 + spread}" x2="55" y2="${68 + spread}" stroke="#fbbf24" stroke-width="1.2" opacity="0.65" />
+<circle id="crosshair-dot" cx="50" cy="50" r="1.5" fill="#fef08a" />
+`;
+} else if (opticId === 'VOID') {
+const r = aiming ? 10 : 16;
+svg.innerHTML = `
+<circle cx="50" cy="50" r="${r + 4}" fill="none" stroke="#d946ef" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.75" />
+<polygon points="50,${50 - r} ${50 + r},50 50,${50 + r} ${50 - r},50" fill="none" stroke="#ec4899" stroke-width="1.8" />
+<line class="ch-line" x1="50" y1="20" x2="50" y2="${50 - r - 2}" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
+<line class="ch-line" x1="50" y1="${50 + r + 2}" x2="50" y2="80" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
+<line class="ch-line" x1="20" y1="50" x2="${50 - r - 2}" y2="50" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
+<line class="ch-line" x1="${50 + r + 2}" y1="50" x2="80" y2="50" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
+<circle id="crosshair-dot" cx="50" cy="50" r="2.8" fill="#f43f5e" style="filter: drop-shadow(0 0 6px #d946ef);" />
+`;
+} else {
+const c = aiming ? [['34','43'],['57','66']] : [['24','38'],['62','76']];
+svg.innerHTML = `
+<line id="ch-top" class="ch-line transition-all duration-150" x1="50" y1="${c[0][0]}" x2="50" y2="${c[0][1]}" stroke="${strokeColor}" stroke-width="2.5" stroke-linecap="round" />
+<line id="ch-bottom" class="ch-line transition-all duration-150" x1="50" y1="${c[1][0]}" x2="50" y2="${c[1][1]}" stroke="${strokeColor}" stroke-width="2.5" stroke-linecap="round" />
+<line id="ch-left" class="ch-line transition-all duration-150" x1="${c[0][0]}" y1="50" x2="${c[0][1]}" y2="50" stroke="${strokeColor}" stroke-width="2.5" stroke-linecap="round" />
+<line id="ch-right" class="ch-line transition-all duration-150" x1="${c[1][0]}" y1="50" x2="${c[1][1]}" y2="50" stroke="${strokeColor}" stroke-width="2.5" stroke-linecap="round" />
+<circle id="crosshair-dot" cx="50" cy="50" r="2.6" fill="${strokeColor}" />
+`;
+}
+}
 function setAimingState(aiming) {
 if (state.isReloading || state.mode !== 'PLAYING' || state.isWheelOpen) aiming = false;
 state.isAiming = aiming;
 const w = getCurrentWeapon();
-const chTop = byId('ch-top');
-const chBottom = byId('ch-bottom');
-const chLeft = byId('ch-left');
-const chRight = byId('ch-right');
-const c = aiming ? [['34','43'],['57','66']] : [['24','38'],['62','76']];
-chTop.setAttribute('y1', c[0][0]); chTop.setAttribute('y2', c[0][1]);
-chBottom.setAttribute('y1', c[1][0]); chBottom.setAttribute('y2', c[1][1]);
-chLeft.setAttribute('x1', c[0][0]); chLeft.setAttribute('x2', c[0][1]);
-chRight.setAttribute('x1', c[1][0]); chRight.setAttribute('x2', c[1][1]);
-const showScope = Boolean(aiming && w.isSniper);
+applyReticleVisuals();
+const showScope = Boolean(aiming && w && w.isSniper);
 sniperScopeOverlay.classList.toggle('opacity-100', showScope);
 sniperScopeOverlay.classList.toggle('opacity-0', !showScope);
 crosshair.style.opacity = showScope ? '0' : '1';
@@ -5098,6 +5649,8 @@ loadMap(state.selectedMap || 'ARENA');
 state.bossesDefeated = playerProfile.maxBossesDefeatedPermanent;
 state.currentWeaponIndex = 0;
 state.weaponClips = WEAPONS.map(w => getEffectiveWeaponStats(w).maxAmmo);
+state.maxHealth = getOperatorMaxHealth();
+state.maxStamina = getOperatorMaxStamina();
 state.health = state.maxHealth;
 state.stamina = state.maxStamina;
 state.ammo = state.weaponClips[0];
@@ -5201,6 +5754,11 @@ updateKillstreakHUD();
 if (document.pointerLockElement === canvas) {
 try { document.exitPointerLock(); } catch (e) {}
 }
+const oldLvl = getOperatorLevel(playerProfile.operatorXp || 0);
+const matchXp = Math.max(50, Math.round(state.score * 0.12) + (state.wave * 150) + (state.kills * 25) + ((state.bossesDefeated || 0) * 300));
+playerProfile.operatorXp = (playerProfile.operatorXp || 0) + matchXp;
+const newLvl = getOperatorLevel(playerProfile.operatorXp);
+
 const isNewRecord = state.score > playerProfile.bestScore;
 if (state.score > playerProfile.bestScore) playerProfile.bestScore = state.score;
 if (state.wave > playerProfile.bestWave) playerProfile.bestWave = state.wave;
@@ -5215,10 +5773,18 @@ menuSubtitle.textContent = isNewRecord
 finalScore.textContent = state.score;
 finalWave.textContent = state.wave;
 finalKills.textContent = state.kills;
+const finalXpEl = byId('final-operator-xp');
+if (finalXpEl) {
+finalXpEl.innerHTML = `+${matchXp.toLocaleString()} <span class="text-xs text-cyan-300 font-cyber">(Liv. ${newLvl})</span>`;
+}
 gameoverStats.classList.remove('hidden');
 gameoverStats.classList.add('grid');
 btnStartGame.textContent = '▶ Nuova Partita';
 menuOverlay.classList.remove('hidden');
+if (newLvl > oldLvl) {
+sound.playTrophyUnlock();
+showAnnouncement('⭐ LIVELLO OPERATORE AUMENTATO!', `Congratulazioni! Hai raggiunto il LIVELLO ${newLvl}! Nuove ricompense nell'Armeria.`);
+}
 }
 function showAnnouncement(title, subtitle) {
 announcementTitle.textContent = title;
@@ -6878,7 +7444,7 @@ const canSprint = isTryingToSprint && state.stamina > 5;
 if (canSprint) {
 state.stamina = Math.max(0, state.stamina - dt * 36);
 } else {
-state.stamina = Math.min(state.maxStamina, state.stamina + dt * 26);
+state.stamina = Math.min(state.maxStamina, state.stamina + dt * 26 * getOperatorStaminaRegenMult());
 }
 const isSprinting = canSprint && state.stamina > 0;
 const aimSpeedPenalty = state.isAiming ? 0.68 : 1.0;
@@ -7390,8 +7956,11 @@ hudEnemies.textContent = enemies.length + state.enemiesToSpawn + (state.activeBo
 if (hudKills) hudKills.textContent = state.kills;
 const hudHigh = byId('hud-highscore');
 if (hudHigh) hudHigh.textContent = Math.max(playerProfile.bestScore, state.score);
-hudHealthText.textContent = `${Math.round(state.health)}%`;
-hudHealthBar.style.width = `${state.health}%`;
+const hpPct = Math.max(0, Math.min(100, (state.health / (state.maxHealth || 100)) * 100));
+hudHealthText.textContent = `${Math.round(state.health)} / ${state.maxHealth || 100}`;
+hudHealthBar.style.width = `${hpPct}%`;
+const hudLvlBadge = byId('hud-operator-level-badge');
+if (hudLvlBadge) hudLvlBadge.textContent = `LVL ${getOperatorLevel()}`;
 const w = getCurrentWeapon();
 const eff = getEffectiveWeaponStats(w);
 const st = getWeaponStats(w.id);
