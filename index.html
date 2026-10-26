@@ -2633,6 +2633,9 @@ this.playTone('sine', 920, 65, 0.24, 0.22);
 this.playTone('triangle', 120, 38, 0.24, 0.2);
 }
 }
+playLaser(weaponId = 'SMG') {
+this.playWeaponFire(weaponId);
+}
 playMusicNote(type, fStart, fEnd, dur, vol) {
 if (!this.ctx || !this.musicEnabled) return;
 const now = this.ctx.currentTime;
@@ -5665,7 +5668,7 @@ const pushDir = new THREE.Vector3().subVectors(impactPoint, droneWorldPos).setY(
 target.ref.group.position.addScaledVector(pushDir, 0.35);
 }
 
-sound.playLaser('SMG');
+sound.playWeaponFire('SMG');
 sound.playHit();
 sound.playTone('triangle', 980, 440, 0.08, 0.2);
 triggerHitMarker(false);
