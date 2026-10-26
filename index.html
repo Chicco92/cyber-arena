@@ -5515,21 +5515,23 @@ pos.y += 2.2;
 return pos;
 }
 const droneRaycaster = new THREE.Raycaster();
+const droneObstacleMeshes = [];
 function hasLineOfSight(start, targetPos) {
 if (!obstacles || obstacles.length === 0) return true;
 const dir = new THREE.Vector3().subVectors(targetPos, start);
 const dist = dir.length();
-if (dist < 1.0) return true;
+if (dist < 0.5) return true;
 dir.normalize();
 droneRaycaster.set(start, dir);
-droneRaycaster.near = 0.4;
-droneRaycaster.far = Math.max(0.5, dist - 0.6);
-const obstacleMeshes = [];
+droneRaycaster.near = 0.3;
+droneRaycaster.far = Math.max(0.4, dist - 0.4);
+droneObstacleMeshes.length = 0;
 for (let i = 0; i < obstacles.length; i++) {
-if (obstacles[i] && obstacles[i].mesh) obstacleMeshes.push(obstacles[i].mesh);
+const ob = obstacles[i];
+if (ob && ob.mesh) droneObstacleMeshes.push(ob.mesh);
 }
-if (obstacleMeshes.length === 0) return true;
-const hits = droneRaycaster.intersectObjects(obstacleMeshes, false);
+if (droneObstacleMeshes.length === 0) return true;
+const hits = droneRaycaster.intersectObjects(droneObstacleMeshes, false);
 return hits.length === 0;
 }
 function updateSentinelDrone(dt) {
@@ -5551,7 +5553,7 @@ sentinelDrone.group.position.lerp(targetPos, Math.min(1.0, dt * 8.0));
 const droneWorldPos = sentinelDrone.group.position.clone();
 let target = null;
 
-// 1. Maintain sticky focus lock on current target until eliminated or out of range
+// 1. Maintain sticky focus lock on current target until eliminated, out of range, or behind building
 if (sentinelDrone.lockedTarget) {
 const lt = sentinelDrone.lockedTarget;
 let stillAlive = false;
@@ -5559,18 +5561,19 @@ let targetWorldPos = null;
 
 if (lt.kind === 'ENEMY' && lt.ref && lt.ref.hp > 0 && lt.ref.group && enemies.indexOf(lt.ref) !== -1) {
 stillAlive = true;
-targetWorldPos = lt.ref.group.position;
+targetWorldPos = getEnemyCenter(lt.ref);
 } else if (lt.kind === 'BOSS' && state.activeBoss && state.activeBoss === lt.ref && state.activeBoss.hp > 0 && state.activeBoss.group) {
 stillAlive = true;
-targetWorldPos = state.activeBoss.group.position;
+targetWorldPos = getBossCenter(state.activeBoss);
 } else if (lt.kind === 'PLAYER' && mpState.active && mpState.mode === 'PVP' && lt.ref && lt.ref.group && lt.ref.currentHp > 0) {
 stillAlive = true;
-targetWorldPos = lt.ref.group.position;
+targetWorldPos = lt.ref.group.position.clone();
+targetWorldPos.y += 1.2;
 }
 
 if (stillAlive && targetWorldPos) {
 const d = droneWorldPos.distanceTo(targetWorldPos);
-if (d <= 38.0) {
+if (d <= 38.0 && hasLineOfSight(droneWorldPos, targetWorldPos)) {
 target = { kind: lt.kind, ref: lt.ref, pos: targetWorldPos };
 }
 }
@@ -5579,7 +5582,7 @@ sentinelDrone.lockedTarget = null;
 }
 }
 
-// 2. If no sticky lock, acquire best target prioritizing crosshair cone, then distance
+// 2. If no sticky lock, acquire best target with direct line of sight (not obstructed by buildings)
 if (!target) {
 let bestScore = -Infinity;
 const camDir = new THREE.Vector3();
@@ -5588,30 +5591,30 @@ camera.getWorldDirection(camDir);
 for (let i = 0; i < enemies.length; i++) {
 const en = enemies[i];
 if (en && en.hp > 0 && en.group) {
-const ePos = en.group.position;
-const d = droneWorldPos.distanceTo(ePos);
-if (d <= 36.0) {
-const toEnemy = new THREE.Vector3().subVectors(ePos, camera.position).normalize();
+const eCenter = getEnemyCenter(en);
+const d = droneWorldPos.distanceTo(eCenter);
+if (d <= 36.0 && hasLineOfSight(droneWorldPos, eCenter)) {
+const toEnemy = new THREE.Vector3().subVectors(eCenter, camera.position).normalize();
 const dot = camDir.dot(toEnemy);
 const score = dot * 16.0 - d;
 if (score > bestScore) {
 bestScore = score;
-target = { kind: 'ENEMY', ref: en, pos: ePos };
+target = { kind: 'ENEMY', ref: en, pos: eCenter };
 }
 }
 }
 }
 
 if (state.activeBoss && state.activeBoss.hp > 0 && state.activeBoss.group) {
-const bPos = state.activeBoss.group.position;
-const d = droneWorldPos.distanceTo(bPos);
-if (d <= 40.0) {
-const toBoss = new THREE.Vector3().subVectors(bPos, camera.position).normalize();
+const bCenter = getBossCenter(state.activeBoss);
+const d = droneWorldPos.distanceTo(bCenter);
+if (d <= 40.0 && hasLineOfSight(droneWorldPos, bCenter)) {
+const toBoss = new THREE.Vector3().subVectors(bCenter, camera.position).normalize();
 const dot = camDir.dot(toBoss);
 const score = dot * 16.0 - d + 4.0;
 if (score > bestScore) {
 bestScore = score;
-target = { kind: 'BOSS', ref: state.activeBoss, pos: bPos };
+target = { kind: 'BOSS', ref: state.activeBoss, pos: bCenter };
 }
 }
 }
@@ -5619,9 +5622,10 @@ target = { kind: 'BOSS', ref: state.activeBoss, pos: bPos };
 if (mpState.active && mpState.mode === 'PVP') {
 Object.values(mpState.remotePlayers).forEach(rp => {
 if (rp && rp.group && rp.currentHp > 0) {
-const pPos = rp.group.position;
+const pPos = rp.group.position.clone();
+pPos.y += 1.2;
 const d = droneWorldPos.distanceTo(pPos);
-if (d <= 36.0) {
+if (d <= 36.0 && hasLineOfSight(droneWorldPos, pPos)) {
 const toP = new THREE.Vector3().subVectors(pPos, camera.position).normalize();
 const dot = camDir.dot(toP);
 const score = dot * 16.0 - d;
@@ -5647,12 +5651,17 @@ impactPoint = getEnemyCenter(target.ref);
 impactPoint = getBossCenter(target.ref);
 } else if (target.kind === 'PLAYER') {
 impactPoint = target.pos.clone();
-impactPoint.y += 1.2;
 } else {
 impactPoint = target.pos.clone();
 impactPoint.y += 1.0;
 }
 
+// Double check line of sight before aiming and shooting
+if (!hasLineOfSight(droneWorldPos, impactPoint)) {
+sentinelDrone.lockedTarget = null;
+target = null;
+sentinelDrone.group.rotation.y = cameraEuler.y + Math.PI;
+} else {
 sentinelDrone.group.lookAt(impactPoint);
 
 sentinelDrone.fireTimer -= dt;
@@ -5707,6 +5716,7 @@ if (target.kind === 'ENEMY') {
     weaponId: 'DRONE'
   });
   spawnFloatingDamage(impactPoint, droneDmg, false, true);
+}
 }
 }
 } else {
