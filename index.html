@@ -5664,18 +5664,8 @@ scene.add(group);
 enemies.push({
 group, ringMesh, leftLeg, rightLeg, hpFill, hpBg,
 type, isGround, baseHeight, hp, maxHp: hp, speed, color, scoreValue, xpReward,
-radius: (type === 'MECH_GOLIATH' ? 1.6 : (type === 'SPIDER' ? 0.85 : 1.1)),
-preferredDist: (type === 'SPIDER' ? (1.5 + Math.random() * 0.8) :
-               (type === 'WALKER' ? (2.2 + Math.random() * 2.6) :
-               (type === 'MECH_GOLIATH' ? (4.5 + Math.random() * 3.0) :
-               (type === 'SNIPER_DRONE' ? (20.0 + Math.random() * 5.0) : (11.0 + Math.random() * 3.5))))),
-flankAngle: (Math.random() - 0.5) * 0.95,
-strafeTimer: 1.0 + Math.random() * 2.0,
-strafeDir: (Math.random() < 0.5 ? -1 : 1) * (type === 'SPIDER' ? 0.65 : 0.35),
-stuckTimer: 0,
-evadeTimer: 0,
-evadeDir: new THREE.Vector3(),
-lastPos: new THREE.Vector3(sx, baseHeight, sz),
+radius: (type === 'MECH_GOLIATH' ? 1.4 : (type === 'SPIDER' ? 0.75 : 0.95)),
+preferredDist: (type === 'SPIDER' ? 1.6 : (type === 'WALKER' ? 2.2 : (type === 'MECH_GOLIATH' ? 5.0 : (type === 'SNIPER_DRONE' ? 20.0 : 12.0)))),
 attackCooldown: 1.1 + Math.random() * 1.2,
 jumpTimer: 2.0 + Math.random() * 3.0,
 vy: 0,
@@ -7267,88 +7257,46 @@ const toPlayer = new THREE.Vector3(camera.position.x - en.group.position.x, 0, c
 const dist = toPlayer.length();
 if (dist > 0.001) toPlayer.divideScalar(dist);
 
-// 1. Separation force from other enemies (prevents merging & stacking)
-const sepForce = new THREE.Vector3(0, 0, 0);
-const myRad = en.radius || 1.1;
-for (let j = 0; j < enemies.length; j++) {
-if (i === j) continue;
-const other = enemies[j];
-const oRad = other.radius || 1.1;
-const dx = en.group.position.x - other.group.position.x;
-const dz = en.group.position.z - other.group.position.z;
-const distSq = dx * dx + dz * dz;
-const minSep = myRad + oRad + 0.35;
-if (distSq < minSep * minSep && distSq > 0.0001) {
-const d = Math.sqrt(distSq);
-const push = (minSep - d) / minSep;
-sepForce.x += (dx / d) * push;
-sepForce.z += (dz / d) * push;
-}
-}
+const myRad = en.radius || 0.95;
 
-// 2. Anti-stuck watchdog
-if (!en.lastPos) en.lastPos = en.group.position.clone();
-if (!en.evadeDir) en.evadeDir = new THREE.Vector3();
-if (en.evadeTimer > 0) {
-en.evadeTimer -= dt;
-} else {
-const actualMove = Math.hypot(en.group.position.x - en.lastPos.x, en.group.position.z - en.lastPos.z);
-const preferred = en.preferredDist || 1.8;
-if (dist > preferred && actualMove < en.speed * dt * 0.18) {
-en.stuckTimer = (en.stuckTimer || 0) + dt;
-if (en.stuckTimer > 0.28) {
-const sign = Math.random() < 0.5 ? -1 : 1;
-en.evadeDir.set(-toPlayer.z * sign + (Math.random() - 0.5) * 0.4, 0, toPlayer.x * sign + (Math.random() - 0.5) * 0.4).normalize();
-en.evadeTimer = 0.65;
-en.stuckTimer = 0;
-}
-} else {
-en.stuckTimer = 0;
-}
-}
-
-// 3. Pathfinding & individual steering
+// Direct clean pathfinding:
 let desiredMove = new THREE.Vector3();
-if (en.evadeTimer > 0) {
-desiredMove.copy(en.evadeDir);
-} else {
 const blockingOb = findBlockingObstacleBetween(en.group.position, camera.position, myRad + 0.3);
 if (blockingOb) {
-const wp = getBestObstacleWaypoint(en.group.position, camera.position, blockingOb, myRad + 0.7);
+const wp = getBestObstacleWaypoint(en.group.position, camera.position, blockingOb, myRad + 0.6);
 desiredMove.set(wp.x - en.group.position.x, 0, wp.z - en.group.position.z).normalize();
 } else {
-en.strafeTimer = (en.strafeTimer || 1.5) - dt;
-if (en.strafeTimer <= 0) {
-en.strafeTimer = 1.0 + Math.random() * 2.2;
-en.strafeDir = (Math.random() < 0.5 ? -1 : 1) * (en.type === 'SPIDER' ? 0.65 : 0.35);
-}
-const angle = (en.flankAngle || 0) * Math.min(1.0, dist / 22.0);
-const cosA = Math.cos(angle);
-const sinA = Math.sin(angle);
-const fx = toPlayer.x * cosA - toPlayer.z * sinA;
-const fz = toPlayer.x * sinA + toPlayer.z * cosA;
-const sx = -toPlayer.z * (en.strafeDir || 0);
-const sz = toPlayer.x * (en.strafeDir || 0);
-desiredMove.set(fx * 0.85 + sx * 0.35, 0, fz * 0.85 + sz * 0.35).normalize();
-}
+desiredMove.copy(toPlayer);
 }
 
-// 4. Combine with separation force
-if (sepForce.lengthSq() > 0.001) {
-sepForce.normalize();
-desiredMove.addScaledVector(sepForce, 0.85).normalize();
-}
-
-// 5. Wall-sliding projection
+// Wall-sliding projection so they smoothly glide around corners
 computeWallSlidingVector(en.group.position, desiredMove, myRad);
 
-// 6. Execute movement
+// Execute movement
 const prefDist = en.preferredDist || 1.8;
-if (dist > prefDist || en.evadeTimer > 0) {
+if (dist > prefDist) {
 en.group.position.addScaledVector(desiredMove, en.speed * dt);
 resolveObstacleCollisions3D(en.group.position, myRad, false);
 }
-en.lastPos.copy(en.group.position);
+
+// Gentle physical separation between enemies to keep them from overlapping without lateral movements
+for (let j = 0; j < enemies.length; j++) {
+if (i === j) continue;
+const other = enemies[j];
+const oRad = other.radius || 0.95;
+const dx = en.group.position.x - other.group.position.x;
+const dz = en.group.position.z - other.group.position.z;
+const distSq = dx * dx + dz * dz;
+const minSep = myRad + oRad;
+if (distSq < minSep * minSep && distSq > 0.0001) {
+const d = Math.sqrt(distSq);
+const overlap = (minSep - d) * 0.5;
+en.group.position.x += (dx / d) * overlap;
+en.group.position.z += (dz / d) * overlap;
+other.group.position.x -= (dx / d) * overlap;
+other.group.position.z -= (dz / d) * overlap;
+}
+}
 en.attackCooldown -= dt;
 if (en.type === 'SPIDER') {
 if (dist < 2.5 && Math.abs(camera.position.y - en.group.position.y) < 3.2) {
