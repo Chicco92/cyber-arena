@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>CyberStrike 3D - Galaxy & Prestige Edition</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#020617">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CyberStrike 3D">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="alternate icon" type="image/png" href="icons/icon-192.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -464,6 +473,9 @@ class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg p
 <button id="btn-open-auth-modal" type="button" class="px-2.5 py-1 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-400 text-cyan-300 font-cyber text-[10px] font-bold uppercase transition shrink-0 cursor-pointer flex items-center gap-1">
 <span>☁️ Cloud Login</span>
 </button>
+<button id="btn-pwa-install" type="button" class="hidden px-2.5 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-400 text-emerald-300 font-cyber text-[10px] font-bold uppercase transition shrink-0 cursor-pointer items-center gap-1 shadow-[0_0_12px_rgba(52,211,153,0.35)] animate-pulse">
+<span>📲 Installa App</span>
+</button>
 </div>
 <div id="auth-status-bar" class="text-[10px] font-cyber text-slate-400 mt-1.5 flex items-center gap-1.5 hidden">
 <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_#34d399]"></span>
@@ -584,7 +596,10 @@ B: Scivola • Y/RB: Armi • D-Pad: Serie
 <span>🌐 MULTIGIOCATORE ONLINE (CO-OP & PVP)</span>
 <span class="px-2 py-0.5 text-[9px] rounded-full bg-slate-950 text-emerald-300 border border-emerald-400 font-bold uppercase tracking-normal">Novità</span>
 </button>
-<div class="mt-3 flex justify-end">
+<div class="mt-3 flex items-center justify-between">
+<a id="btn-support-dev" href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="text-[10px] font-cyber text-amber-400/90 hover:text-amber-300 uppercase tracking-wider transition flex items-center gap-1.5 cursor-pointer">
+<span>☕ Supporta lo Sviluppatore</span>
+</a>
 <button id="btn-reset-profile" type="button" class="text-[10px] font-cyber text-slate-500 hover:text-rose-400 uppercase tracking-wider transition cursor-pointer">
 🗑️ Azzera Profilo e Record
 </button>
@@ -7285,6 +7300,60 @@ if (renderer) renderer.render(scene, camera);
 state.needsStaticRender = false;
 }
 }
+// --- PWA SERVICE WORKER & INSTALLATION MANAGER ---
+let deferredInstallPrompt = null;
+const pwaInstallBtn = byId('btn-pwa-install');
+const isRunningStandalone = window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || !!window.navigator.standalone;
+
+if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      console.log('[PWA] Service Worker attivo su scope:', reg.scope);
+    }).catch((err) => {
+      console.warn('[PWA] Service Worker errore:', err);
+    });
+  });
+}
+
+if (!isRunningStandalone && pwaInstallBtn) {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    pwaInstallBtn.classList.remove('hidden');
+    pwaInstallBtn.classList.add('flex');
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    pwaInstallBtn.classList.add('hidden');
+    pwaInstallBtn.classList.remove('flex');
+  });
+
+  if (isTouchDevice || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    pwaInstallBtn.classList.remove('hidden');
+    pwaInstallBtn.classList.add('flex');
+  }
+
+  pwaInstallBtn.addEventListener('click', async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      if (choice && choice.outcome === 'accepted') {
+        pwaInstallBtn.classList.add('hidden');
+        pwaInstallBtn.classList.remove('flex');
+      }
+      deferredInstallPrompt = null;
+    } else {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIOS) {
+        alert("📲 INSTALLAZIONE SU IPHONE / IPAD:\n\n1. Tocca l'icona 'Condividi' in basso su Safari (quadrato con freccia verso l'alto).\n2. Scorri e seleziona 'Aggiungi alla schermata Home'.\n3. L'icona di CyberStrike 3D apparirà sulla schermata principale a schermo intero!");
+      } else {
+        alert("📲 INSTALLA CYBERSTRIKE 3D:\n\nApri il menu delle opzioni del browser (i 3 puntini in alto a destra) e tocca 'Installa app' o 'Aggiungi a schermata Home'.");
+      }
+    }
+  });
+}
+
 if (document.readyState === 'loading') {
 document.addEventListener('DOMContentLoaded', () => {
 initThreeJS();

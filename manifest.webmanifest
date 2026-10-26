@@ -1,0 +1,40 @@
+{
+  "name": "CyberStrike 3D - Galaxy & Prestige Edition",
+  "short_name": "CyberStrike 3D",
+  "description": "Sparatutto sci-fi FPS 3D ad alta velocità con parkour, salti orbitali, arsenale ad avanzamento prestigio e serie di uccisioni tattiche.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "theme_color": "#020617",
+  "background_color": "#020617",
+  "lang": "it",
+  "categories": ["games", "action"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
