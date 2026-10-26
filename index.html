@@ -5664,6 +5664,18 @@ scene.add(group);
 enemies.push({
 group, ringMesh, leftLeg, rightLeg, hpFill, hpBg,
 type, isGround, baseHeight, hp, maxHp: hp, speed, color, scoreValue, xpReward,
+radius: (type === 'MECH_GOLIATH' ? 1.6 : (type === 'SPIDER' ? 0.85 : 1.1)),
+preferredDist: (type === 'SPIDER' ? (1.5 + Math.random() * 0.8) :
+               (type === 'WALKER' ? (2.2 + Math.random() * 2.6) :
+               (type === 'MECH_GOLIATH' ? (4.5 + Math.random() * 3.0) :
+               (type === 'SNIPER_DRONE' ? (20.0 + Math.random() * 5.0) : (11.0 + Math.random() * 3.5))))),
+flankAngle: (Math.random() - 0.5) * 0.95,
+strafeTimer: 1.0 + Math.random() * 2.0,
+strafeDir: (Math.random() < 0.5 ? -1 : 1) * (type === 'SPIDER' ? 0.65 : 0.35),
+stuckTimer: 0,
+evadeTimer: 0,
+evadeDir: new THREE.Vector3(),
+lastPos: new THREE.Vector3(sx, baseHeight, sz),
 attackCooldown: 1.1 + Math.random() * 1.2,
 jumpTimer: 2.0 + Math.random() * 3.0,
 vy: 0,
@@ -6728,6 +6740,117 @@ pos.z += (dz / dist) * overlap;
 }
 }
 }
+
+function checkLineSegmentAABB2D(x1, z1, x2, z2, minX, maxX, minZ, maxZ) {
+let t0 = 0.0;
+let t1 = 1.0;
+const dx = x2 - x1;
+const dz = z2 - z1;
+
+if (Math.abs(dx) < 1e-7) {
+if (x1 < minX || x1 > maxX) return false;
+} else {
+let tNear = (minX - x1) / dx;
+let tFar = (maxX - x1) / dx;
+if (tNear > tFar) { const tmp = tNear; tNear = tFar; tFar = tmp; }
+t0 = Math.max(t0, tNear);
+t1 = Math.min(t1, tFar);
+if (t0 > t1) return false;
+}
+
+if (Math.abs(dz) < 1e-7) {
+if (z1 < minZ || z1 > maxZ) return false;
+} else {
+let tNear = (minZ - z1) / dz;
+let tFar = (maxZ - z1) / dz;
+if (tNear > tFar) { const tmp = tNear; tNear = tFar; tFar = tmp; }
+t0 = Math.max(t0, tNear);
+t1 = Math.min(t1, tFar);
+if (t0 > t1) return false;
+}
+
+return t0 <= 1.0 && t1 >= 0.0;
+}
+
+function findBlockingObstacleBetween(p1, p2, margin = 0.6) {
+let closestOb = null;
+let closestDistSq = Infinity;
+const yMin = Math.min(p1.y, p2.y);
+const yMax = Math.max(p1.y, p2.y) + 2.0;
+
+for (let i = 0; i < obstacles.length; i++) {
+const ob = obstacles[i];
+if (yMax < ob.minY || yMin > ob.maxY) continue;
+
+if (checkLineSegmentAABB2D(
+p1.x, p1.z, p2.x, p2.z,
+ob.minX - margin, ob.maxX + margin,
+ob.minZ - margin, ob.maxZ + margin
+)) {
+const cx = (ob.minX + ob.maxX) * 0.5;
+const cz = (ob.minZ + ob.maxZ) * 0.5;
+const distSq = (cx - p1.x) * (cx - p1.x) + (cz - p1.z) * (cz - p1.z);
+if (distSq < closestDistSq) {
+closestDistSq = distSq;
+closestOb = ob;
+}
+}
+}
+return closestOb;
+}
+
+function getBestObstacleWaypoint(enPos, targetPos, ob, clearance = 1.6) {
+const corners = [
+{ x: ob.minX - clearance, z: ob.minZ - clearance },
+{ x: ob.maxX + clearance, z: ob.minZ - clearance },
+{ x: ob.minX - clearance, z: ob.maxZ + clearance },
+{ x: ob.maxX + clearance, z: ob.maxZ + clearance }
+];
+
+let bestCorner = corners[0];
+let minCost = Infinity;
+
+for (let i = 0; i < corners.length; i++) {
+const c = corners[i];
+const d1 = Math.hypot(c.x - enPos.x, c.z - enPos.z);
+const d2 = Math.hypot(targetPos.x - c.x, targetPos.z - c.z);
+const cost = d1 + d2;
+if (cost < minCost) {
+minCost = cost;
+bestCorner = c;
+}
+}
+return bestCorner;
+}
+
+function computeWallSlidingVector(pos, desiredDir, radius = 1.1) {
+for (let i = 0; i < obstacles.length; i++) {
+const ob = obstacles[i];
+if (pos.y >= ob.maxY || pos.y + 1.8 <= ob.minY) continue;
+const closestX = Math.max(ob.minX, Math.min(pos.x, ob.maxX));
+const closestZ = Math.max(ob.minZ, Math.min(pos.z, ob.maxZ));
+const dx = pos.x - closestX;
+const dz = pos.z - closestZ;
+const distSq = dx * dx + dz * dz;
+const threshold = radius + 0.45;
+if (distSq < threshold * threshold && distSq > 0.0001) {
+const dist = Math.sqrt(distSq);
+const nx = dx / dist;
+const nz = dz / dist;
+const dot = desiredDir.x * nx + desiredDir.z * nz;
+if (dot < 0) {
+desiredDir.x -= dot * nx;
+desiredDir.z -= dot * nz;
+const len = Math.hypot(desiredDir.x, desiredDir.z);
+if (len > 0.001) {
+desiredDir.x /= len;
+desiredDir.z /= len;
+}
+}
+}
+}
+return desiredDir;
+}
 function updatePlayerMovement(dt) {
 if (state.slideCooldown > 0) state.slideCooldown -= dt;
 
@@ -7084,7 +7207,15 @@ const toPlayer = new THREE.Vector3(camera.position.x - boss.group.position.x, 0,
 const dist = toPlayer.length();
 if (dist > 9) {
 toPlayer.normalize();
-boss.group.position.addScaledVector(toPlayer, boss.speed * dt);
+let bossMoveDir = toPlayer.clone();
+const blockingOb = findBlockingObstacleBetween(boss.group.position, camera.position, 2.5);
+if (blockingOb) {
+const wp = getBestObstacleWaypoint(boss.group.position, camera.position, blockingOb, 3.2);
+bossMoveDir.set(wp.x - boss.group.position.x, 0, wp.z - boss.group.position.z).normalize();
+}
+computeWallSlidingVector(boss.group.position, bossMoveDir, 2.4);
+boss.group.position.addScaledVector(bossMoveDir, boss.speed * dt);
+resolveObstacleCollisions3D(boss.group.position, 2.2, false);
 }
 boss.attackCooldown -= dt;
 if (boss.attackCooldown <= 0) {
@@ -7134,12 +7265,90 @@ en.hpBg.material.depthTest = !isScan;
 en.hpFill.material.depthTest = !isScan;
 const toPlayer = new THREE.Vector3(camera.position.x - en.group.position.x, 0, camera.position.z - en.group.position.z);
 const dist = toPlayer.length();
-if (dist > 0.01) toPlayer.divideScalar(dist);
-const preferredDist = (en.type === 'SPIDER' || en.type === 'WALKER') ? 1.8 : (en.type === 'SNIPER_DRONE' ? 22.0 : 13.0);
-if (dist > preferredDist) {
-en.group.position.addScaledVector(toPlayer, en.speed * dt);
-resolveObstacleCollisions3D(en.group.position, 0.9, false);
+if (dist > 0.001) toPlayer.divideScalar(dist);
+
+// 1. Separation force from other enemies (prevents merging & stacking)
+const sepForce = new THREE.Vector3(0, 0, 0);
+const myRad = en.radius || 1.1;
+for (let j = 0; j < enemies.length; j++) {
+if (i === j) continue;
+const other = enemies[j];
+const oRad = other.radius || 1.1;
+const dx = en.group.position.x - other.group.position.x;
+const dz = en.group.position.z - other.group.position.z;
+const distSq = dx * dx + dz * dz;
+const minSep = myRad + oRad + 0.35;
+if (distSq < minSep * minSep && distSq > 0.0001) {
+const d = Math.sqrt(distSq);
+const push = (minSep - d) / minSep;
+sepForce.x += (dx / d) * push;
+sepForce.z += (dz / d) * push;
 }
+}
+
+// 2. Anti-stuck watchdog
+if (!en.lastPos) en.lastPos = en.group.position.clone();
+if (!en.evadeDir) en.evadeDir = new THREE.Vector3();
+if (en.evadeTimer > 0) {
+en.evadeTimer -= dt;
+} else {
+const actualMove = Math.hypot(en.group.position.x - en.lastPos.x, en.group.position.z - en.lastPos.z);
+const preferred = en.preferredDist || 1.8;
+if (dist > preferred && actualMove < en.speed * dt * 0.18) {
+en.stuckTimer = (en.stuckTimer || 0) + dt;
+if (en.stuckTimer > 0.28) {
+const sign = Math.random() < 0.5 ? -1 : 1;
+en.evadeDir.set(-toPlayer.z * sign + (Math.random() - 0.5) * 0.4, 0, toPlayer.x * sign + (Math.random() - 0.5) * 0.4).normalize();
+en.evadeTimer = 0.65;
+en.stuckTimer = 0;
+}
+} else {
+en.stuckTimer = 0;
+}
+}
+
+// 3. Pathfinding & individual steering
+let desiredMove = new THREE.Vector3();
+if (en.evadeTimer > 0) {
+desiredMove.copy(en.evadeDir);
+} else {
+const blockingOb = findBlockingObstacleBetween(en.group.position, camera.position, myRad + 0.3);
+if (blockingOb) {
+const wp = getBestObstacleWaypoint(en.group.position, camera.position, blockingOb, myRad + 0.7);
+desiredMove.set(wp.x - en.group.position.x, 0, wp.z - en.group.position.z).normalize();
+} else {
+en.strafeTimer = (en.strafeTimer || 1.5) - dt;
+if (en.strafeTimer <= 0) {
+en.strafeTimer = 1.0 + Math.random() * 2.2;
+en.strafeDir = (Math.random() < 0.5 ? -1 : 1) * (en.type === 'SPIDER' ? 0.65 : 0.35);
+}
+const angle = (en.flankAngle || 0) * Math.min(1.0, dist / 22.0);
+const cosA = Math.cos(angle);
+const sinA = Math.sin(angle);
+const fx = toPlayer.x * cosA - toPlayer.z * sinA;
+const fz = toPlayer.x * sinA + toPlayer.z * cosA;
+const sx = -toPlayer.z * (en.strafeDir || 0);
+const sz = toPlayer.x * (en.strafeDir || 0);
+desiredMove.set(fx * 0.85 + sx * 0.35, 0, fz * 0.85 + sz * 0.35).normalize();
+}
+}
+
+// 4. Combine with separation force
+if (sepForce.lengthSq() > 0.001) {
+sepForce.normalize();
+desiredMove.addScaledVector(sepForce, 0.85).normalize();
+}
+
+// 5. Wall-sliding projection
+computeWallSlidingVector(en.group.position, desiredMove, myRad);
+
+// 6. Execute movement
+const prefDist = en.preferredDist || 1.8;
+if (dist > prefDist || en.evadeTimer > 0) {
+en.group.position.addScaledVector(desiredMove, en.speed * dt);
+resolveObstacleCollisions3D(en.group.position, myRad, false);
+}
+en.lastPos.copy(en.group.position);
 en.attackCooldown -= dt;
 if (en.type === 'SPIDER') {
 if (dist < 2.5 && Math.abs(camera.position.y - en.group.position.y) < 3.2) {
