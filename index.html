@@ -5347,18 +5347,22 @@ updateHUD();
 function registerKillForKillstreak() {
 state.killstreak = (state.killstreak || 0) + 1;
 const ks = state.killstreak;
-if (ks === 20) {
+const cycleStep = ((ks - 1) % 50) + 1;
+const cycleNum = Math.floor((ks - 1) / 50) + 1;
+const cycleBadge = cycleNum > 1 ? ` (Ciclo ${cycleNum})` : '';
+
+if (cycleStep === 20) {
 state.unlockedKillstreaks.k20 = true;
 sound.playPerkPickup();
-showAnnouncement('🛰️ SCANNER ORBITALE SBLOCCATO!', 'Premi [6] o clicca sull\'icona HUD per rivelare i nemici!');
-} else if (ks === 35) {
+showAnnouncement(`🛰️ SCANNER ORBITALE SBLOCCATO!${cycleBadge}`, 'Premi [6] o clicca sull\'icona HUD per rivelare i nemici!');
+} else if (cycleStep === 35) {
 state.unlockedKillstreaks.k35 = true;
 sound.playTrophyUnlock();
-showAnnouncement('🛸 DRONE SENTINEL SBLOCCATO!', 'Premi [7] o clicca per attivare il drone di supporto aereo!');
-} else if (ks === 50) {
+showAnnouncement(`🛸 DRONE SENTINEL SBLOCCATO!${cycleBadge}`, 'Premi [7] o clicca per attivare il drone di supporto aereo!');
+} else if (cycleStep === 50) {
 state.unlockedKillstreaks.k50 = true;
 sound.playTrophyUnlock();
-showAnnouncement('☄️ RAGGIO ORBITALE SBLOCCATO!', 'Premi [8] o clicca per scatenare il bombardamento al plasma!');
+showAnnouncement(`☄️ RAGGIO ORBITALE SBLOCCATO!${cycleBadge}`, 'Premi [8] o clicca per scatenare il bombardamento al plasma!');
 }
 updateKillstreakHUD();
 }
@@ -5405,11 +5409,18 @@ btn50.className = 'px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 tex
 }
 }
 }
+function getNextKillstreakThreshold(tier) {
+const ks = state.killstreak || 0;
+const cycle = Math.floor(ks / 50);
+let target = cycle * 50 + tier;
+if (ks >= target) target += 50;
+return target;
+}
 function activateKillstreak(num) {
 if (state.mode !== 'PLAYING') return;
 if (num === 20) {
 if (!state.unlockedKillstreaks.k20) {
-showAnnouncement('SERIE 20 NON PRONTA', `Killstreak attuale: ${state.killstreak}/20`);
+showAnnouncement('SERIE 20 NON PRONTA', `Killstreak attuale: ${state.killstreak}/${getNextKillstreakThreshold(20)}`);
 return;
 }
 state.unlockedKillstreaks.k20 = false;
@@ -5419,7 +5430,7 @@ showAnnouncement('🛰️ SCANNER ORBITALE ATTIVATO!', 'Tutti i nemici tracciati
 updateKillstreakHUD();
 } else if (num === 35) {
 if (!state.unlockedKillstreaks.k35) {
-showAnnouncement('SERIE 35 NON PRONTA', `Killstreak attuale: ${state.killstreak}/35`);
+showAnnouncement('SERIE 35 NON PRONTA', `Killstreak attuale: ${state.killstreak}/${getNextKillstreakThreshold(35)}`);
 return;
 }
 state.unlockedKillstreaks.k35 = false;
@@ -5430,7 +5441,7 @@ showAnnouncement('🛸 DRONE SENTINEL DISPIEGATO!', 'Supporto aereo laser automa
 updateKillstreakHUD();
 } else if (num === 50) {
 if (!state.unlockedKillstreaks.k50) {
-showAnnouncement('SERIE 50 NON PRONTA', `Killstreak attuale: ${state.killstreak}/50`);
+showAnnouncement('SERIE 50 NON PRONTA', `Killstreak attuale: ${state.killstreak}/${getNextKillstreakThreshold(50)}`);
 return;
 }
 state.unlockedKillstreaks.k50 = false;
@@ -6055,7 +6066,6 @@ if (state.comboCount > 0) { state.comboCount = 0; state.comboTimer = 0; state.co
 if (!mpState.active) {
 if (state.killstreak > 0) {
 state.killstreak = 0;
-state.unlockedKillstreaks = { k20: false, k35: false, k50: false };
 updateKillstreakHUD();
 }
 }
