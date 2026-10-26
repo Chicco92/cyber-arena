@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>CyberStrike 3D - Galaxy & Prestige Edition</title>
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#020617">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -473,7 +473,7 @@ class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg p
 <button id="btn-open-auth-modal" type="button" class="px-2.5 py-1 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-400 text-cyan-300 font-cyber text-[10px] font-bold uppercase transition shrink-0 cursor-pointer flex items-center gap-1">
 <span>☁️ Cloud Login</span>
 </button>
-<button id="btn-pwa-install" type="button" class="hidden px-2.5 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-400 text-emerald-300 font-cyber text-[10px] font-bold uppercase transition shrink-0 cursor-pointer items-center gap-1 shadow-[0_0_12px_rgba(52,211,153,0.35)] animate-pulse">
+<button id="btn-pwa-install" type="button" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-400 text-emerald-300 font-cyber text-[10px] font-bold uppercase transition shrink-0 cursor-pointer flex items-center gap-1 shadow-[0_0_12px_rgba(52,211,153,0.35)] animate-pulse">
 <span>📲 Installa App</span>
 </button>
 </div>
@@ -7315,12 +7315,15 @@ if ('serviceWorker' in navigator && window.location.protocol.startsWith('http'))
   });
 }
 
+if (isRunningStandalone && pwaInstallBtn) {
+  pwaInstallBtn.classList.add('hidden');
+  pwaInstallBtn.classList.remove('flex');
+}
+
 if (!isRunningStandalone && pwaInstallBtn) {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredInstallPrompt = e;
-    pwaInstallBtn.classList.remove('hidden');
-    pwaInstallBtn.classList.add('flex');
   });
 
   window.addEventListener('appinstalled', () => {
@@ -7328,11 +7331,6 @@ if (!isRunningStandalone && pwaInstallBtn) {
     pwaInstallBtn.classList.add('hidden');
     pwaInstallBtn.classList.remove('flex');
   });
-
-  if (isTouchDevice || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-    pwaInstallBtn.classList.remove('hidden');
-    pwaInstallBtn.classList.add('flex');
-  }
 
   pwaInstallBtn.addEventListener('click', async () => {
     if (deferredInstallPrompt) {
@@ -7343,13 +7341,19 @@ if (!isRunningStandalone && pwaInstallBtn) {
         pwaInstallBtn.classList.remove('flex');
       }
       deferredInstallPrompt = null;
+      return;
+    }
+
+    if (window.location.protocol === 'file:') {
+      alert("📲 ATTENZIONE (File Locale):\n\nStai aprendo il gioco direttamente dal tuo disco come file:///.\nI browser (Chrome, Edge) consentono l'installazione PWA solo tramite connessione HTTPS protetta (come Vercel o GitHub Pages) oppure tramite server locale (http://localhost).\n\nApri il gioco dal link del tuo sito web per poterlo installare sul PC!");
+      return;
+    }
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      alert("📲 INSTALLAZIONE SU IPHONE / IPAD:\n\n1. Tocca l'icona 'Condividi' in basso su Safari (quadrato con freccia verso l'alto).\n2. Scorri e seleziona 'Aggiungi alla schermata Home'.\n3. L'icona di CyberStrike 3D apparirà sulla schermata principale a schermo intero!");
     } else {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      if (isIOS) {
-        alert("📲 INSTALLAZIONE SU IPHONE / IPAD:\n\n1. Tocca l'icona 'Condividi' in basso su Safari (quadrato con freccia verso l'alto).\n2. Scorri e seleziona 'Aggiungi alla schermata Home'.\n3. L'icona di CyberStrike 3D apparirà sulla schermata principale a schermo intero!");
-      } else {
-        alert("📲 INSTALLA CYBERSTRIKE 3D:\n\nApri il menu delle opzioni del browser (i 3 puntini in alto a destra) e tocca 'Installa app' o 'Aggiungi a schermata Home'.");
-      }
+      alert("📲 COME INSTALLARE SU PC (Chrome / Edge):\n\n1. Guarda nella barra degli indirizzi in alto a destra: troverai l'icona con il monitor e la freccia 'Installa CyberStrike 3D'.\n\n2. In alternativa, clicca sui 3 puntini del browser in alto a destra > 'Installa CyberStrike 3D' > Conferma.");
     }
   });
 }
