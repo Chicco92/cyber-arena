@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>CyberStrike 3D - Galaxy & Prestige Edition</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -83,11 +83,50 @@ touch-action: none;
 -webkit-touch-callout: none;
 }
 .touch-device-active .hud-bottom-row {
-margin-bottom: 76px;
+margin-bottom: 0px;
 }
-@media (min-width: 640px) {
-.touch-device-active .hud-bottom-row {
-margin-bottom: 24px;
+@media (max-height: 520px), (max-width: 860px) and (pointer: coarse) {
+#game-hud {
+padding: 0.35rem 0.5rem !important;
+}
+#hud-top-stats {
+padding: 0.25rem 0.5rem !important;
+gap: 0.5rem !important;
+}
+#hud-top-stats .text-xl, #hud-top-stats .text-2xl {
+font-size: 1.05rem !important;
+line-height: 1 !important;
+}
+#hud-actions button, #hud-actions div {
+padding: 0.25rem 0.45rem !important;
+font-size: 10px !important;
+}
+#hud-health-container {
+width: 135px !important;
+gap: 0.2rem !important;
+}
+#hud-health-container .cyber-panel {
+padding: 0.2rem 0.45rem !important;
+}
+#hud-weapon-dock {
+padding: 0.25rem 0.5rem !important;
+gap: 0.5rem !important;
+max-width: 190px !important;
+}
+#hud-weapon-name {
+font-size: 9px !important;
+max-width: 95px !important;
+}
+#hud-ammo-clip {
+font-size: 1.5rem !important;
+line-height: 1 !important;
+}
+#hud-ammo-max {
+font-size: 0.85rem !important;
+}
+#menu-overlay > div, #shop-overlay > div, #trophies-overlay > div, #auth-modal > div {
+max-height: 94vh !important;
+padding: 0.75rem 1rem !important;
 }
 }
 </style>
@@ -215,20 +254,20 @@ margin-bottom: 24px;
 <div id="game-hud" class="fixed inset-0 pointer-events-none z-20 flex flex-col justify-between p-3 sm:p-5">
 <div class="flex flex-col gap-2">
 <div class="flex items-start justify-between gap-3">
-<div class="cyber-panel rounded-xl px-4 py-2.5 flex items-center gap-4 sm:gap-5 pointer-events-auto">
+<div id="hud-top-stats" class="cyber-panel rounded-xl px-2.5 py-1.5 sm:px-4 sm:py-2.5 flex items-center gap-2 sm:gap-5 pointer-events-auto">
 <div class="hidden md:block">
 <div class="text-[9px] font-cyber uppercase tracking-widest text-cyan-400">Operatore</div>
 <div id="hud-player-name" class="text-sm font-cyber font-bold text-white truncate max-w-[110px]">GHOST-01</div>
 </div>
 <div class="h-8 w-px bg-cyan-500/30 hidden md:block"></div>
 <div>
-<div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Ondata</div>
-<div id="hud-wave" class="text-xl sm:text-2xl font-cyber font-black text-cyan-400">01</div>
+<div class="text-[9px] sm:text-[10px] font-cyber uppercase tracking-widest text-slate-400">Ondata</div>
+<div id="hud-wave" class="text-base sm:text-2xl font-cyber font-black text-cyan-400">01</div>
 </div>
 <div class="h-8 w-px bg-cyan-500/30"></div>
 <div>
-<div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Punteggio</div>
-<div id="hud-score" class="text-xl sm:text-2xl font-cyber font-black text-white">0</div>
+<div class="text-[9px] sm:text-[10px] font-cyber uppercase tracking-widest text-slate-400">Punteggio</div>
+<div id="hud-score" class="text-base sm:text-2xl font-cyber font-black text-white">0</div>
 </div>
 <div class="h-8 w-px bg-cyan-500/30 hidden sm:block"></div>
 <div class="hidden sm:block">
@@ -237,8 +276,8 @@ margin-bottom: 24px;
 </div>
 <div class="h-8 w-px bg-cyan-500/30"></div>
 <div>
-<div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Ostili</div>
-<div id="hud-enemies" class="text-xl sm:text-2xl font-cyber font-black text-rose-400">0</div>
+<div class="text-[9px] sm:text-[10px] font-cyber uppercase tracking-widest text-slate-400">Ostili</div>
+<div id="hud-enemies" class="text-base sm:text-2xl font-cyber font-black text-rose-400">0</div>
 </div>
 <div class="h-8 w-px bg-cyan-500/30 hidden sm:block"></div>
 <div class="hidden sm:block">
@@ -246,19 +285,19 @@ margin-bottom: 24px;
 <div id="hud-kills" class="text-xl sm:text-2xl font-cyber font-black text-fuchsia-400">0</div>
 </div>
 <div class="h-8 w-px bg-cyan-500/30"></div>
-<div id="combo-hud-box" class="min-w-[80px]">
+<div id="combo-hud-box" class="min-w-[60px] sm:min-w-[80px]">
 <div class="flex items-center justify-between gap-1">
-<span class="text-[9px] font-cyber uppercase tracking-widest text-amber-400">Combo</span>
-<span id="hud-combo-streak" class="text-[9px] font-cyber font-bold text-fuchsia-300">0x</span>
+<span class="text-[8px] sm:text-[9px] font-cyber uppercase tracking-widest text-amber-400">Combo</span>
+<span id="hud-combo-streak" class="text-[8px] sm:text-[9px] font-cyber font-bold text-fuchsia-300">0x</span>
 </div>
-<div id="hud-combo-mult" class="text-lg sm:text-xl font-cyber font-black text-slate-400 leading-none mt-0.5">x1</div>
+<div id="hud-combo-mult" class="text-sm sm:text-xl font-cyber font-black text-slate-400 leading-none mt-0.5">x1</div>
 <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden mt-1">
 <div id="hud-combo-bar" class="h-full bg-gradient-to-r from-amber-400 via-fuchsia-500 to-cyan-400 transition-all duration-75" style="width: 0%"></div>
 </div>
 </div>
 </div>
-<div class="flex items-start gap-2 pointer-events-auto">
-<div class="cyber-panel rounded-xl px-3 py-1.5 hidden md:flex items-center gap-3 text-right">
+<div id="hud-actions" class="flex items-start gap-1 sm:gap-2 pointer-events-auto">
+<div class="cyber-panel rounded-xl px-2.5 py-1.5 hidden md:flex items-center gap-3 text-right">
 <div>
 <div class="text-[9px] font-cyber uppercase tracking-widest text-slate-400">FPS</div>
 <div id="hud-fps" class="text-xs sm:text-sm font-cyber font-bold text-emerald-400">60</div>
@@ -269,14 +308,14 @@ margin-bottom: 24px;
 <div id="hud-ping" class="text-xs sm:text-sm font-cyber font-bold text-cyan-400">12ms</div>
 </div>
 </div>
-<div id="hud-gamepad-badge" title="Controller Gamepad Connesso" class="hidden cyber-panel rounded-xl px-2.5 py-1.5 text-[11px] font-cyber text-emerald-300 items-center gap-1.5 border border-emerald-400/50 shadow-[0_0_10px_rgba(52,211,153,0.3)]">
+<div id="hud-gamepad-badge" title="Controller Gamepad Connesso" class="hidden cyber-panel rounded-xl px-2 py-1.5 sm:px-2.5 sm:py-1.5 text-[10px] sm:text-[11px] font-cyber text-emerald-300 items-center gap-1.5 border border-emerald-400/50 shadow-[0_0_10px_rgba(52,211,153,0.3)]">
 <span class="animate-pulse">🎮</span>
 <span class="hidden sm:inline">PAD</span>
 </div>
-<button id="btn-fullscreen" title="Schermo Intero [F11]" type="button" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-amber-300 hover:bg-amber-500/20 transition cursor-pointer">⛶ SCHERMO</button>
-<button id="btn-music" title="Musica di Sottofondo On/Off" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-fuchsia-300 hover:bg-fuchsia-500/20 transition cursor-pointer">🎵 MUSICA</button>
-<button id="btn-mute" title="Effetti Sonori On/Off" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-cyan-300 hover:bg-cyan-500/20 transition cursor-pointer">🔊 EFFETTI</button>
-<button id="btn-pause" title="Pausa [P]" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-slate-200 hover:bg-slate-700/40 transition cursor-pointer">⏸ PAUSA</button>
+<button id="btn-fullscreen" title="Schermo Intero [F11]" type="button" class="cyber-panel rounded-xl px-2 py-1.5 sm:px-2.5 sm:py-2 text-[10px] sm:text-[11px] font-cyber text-amber-300 hover:bg-amber-500/20 transition cursor-pointer"><span>⛶</span><span class="hidden sm:inline"> SCHERMO</span></button>
+<button id="btn-music" title="Musica di Sottofondo On/Off" class="cyber-panel rounded-xl px-2 py-1.5 sm:px-2.5 sm:py-2 text-[10px] sm:text-[11px] font-cyber text-fuchsia-300 hover:bg-fuchsia-500/20 transition cursor-pointer"><span>🎵</span><span class="hidden sm:inline"> MUSICA</span></button>
+<button id="btn-mute" title="Effetti Sonori On/Off" class="cyber-panel rounded-xl px-2 py-1.5 sm:px-2.5 sm:py-2 text-[10px] sm:text-[11px] font-cyber text-cyan-300 hover:bg-cyan-500/20 transition cursor-pointer"><span>🔊</span><span class="hidden sm:inline"> EFFETTI</span></button>
+<button id="btn-pause" title="Pausa [P]" class="cyber-panel rounded-xl px-2 py-1.5 sm:px-2.5 sm:py-2 text-[10px] sm:text-[11px] font-cyber text-slate-200 hover:bg-slate-700/40 transition cursor-pointer"><span>⏸</span><span class="hidden sm:inline"> PAUSA</span></button>
 <div class="cyber-panel rounded-full p-1.5 hidden sm:block">
 <canvas id="radar-canvas" width="96" height="96" class="rounded-full block"></canvas>
 </div>
@@ -305,68 +344,68 @@ margin-bottom: 24px;
 </div>
 </div>
 </div>
-<div id="hud-bottom-row" class="hud-bottom-row flex flex-col sm:flex-row items-stretch sm:items-end justify-between gap-3 mt-auto">
-<div class="flex flex-col gap-2 w-full sm:w-72">
-<div class="cyber-panel rounded-xl px-4 py-2.5">
-<div class="flex justify-between items-baseline mb-1">
-<span class="text-[11px] font-cyber uppercase tracking-widest text-slate-300">Integrità Corazza</span>
-<span id="hud-health-text" class="text-lg font-cyber font-bold text-emerald-400">100%</span>
+<div id="hud-bottom-row" class="hud-bottom-row flex flex-row items-end justify-between gap-2 sm:gap-4 mt-auto w-full pointer-events-none">
+<div id="hud-health-container" class="flex flex-col gap-1 sm:gap-2 w-32 sm:w-72 pointer-events-auto">
+<div class="cyber-panel rounded-xl px-2.5 py-1.5 sm:px-4 sm:py-2.5">
+<div class="flex justify-between items-baseline mb-0.5 sm:mb-1">
+<span class="text-[9px] sm:text-[11px] font-cyber uppercase tracking-widest text-slate-300">Corazza</span>
+<span id="hud-health-text" class="text-sm sm:text-lg font-cyber font-bold text-emerald-400">100%</span>
 </div>
-<div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden p-0.5">
+<div class="w-full h-1.5 sm:h-2 bg-slate-800 rounded-full overflow-hidden p-0.5">
 <div id="hud-health-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 rounded-full transition-all duration-200" style="width: 100%"></div>
 </div>
 </div>
-<div class="cyber-panel rounded-xl px-4 py-2">
-<div class="flex justify-between items-baseline mb-1">
-<span class="text-[10px] font-cyber uppercase tracking-widest text-slate-400">Stamina Scatto</span>
-<span id="hud-stamina-text" class="text-xs font-cyber font-bold text-cyan-400">100%</span>
+<div class="cyber-panel rounded-xl px-2.5 py-1 sm:px-4 sm:py-2">
+<div class="flex justify-between items-baseline mb-0.5 sm:mb-1">
+<span class="text-[8px] sm:text-[10px] font-cyber uppercase tracking-widest text-slate-400">Stamina</span>
+<span id="hud-stamina-text" class="text-[10px] sm:text-xs font-cyber font-bold text-cyan-400">100%</span>
 </div>
-<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
+<div class="w-full h-1 sm:h-1.5 bg-slate-800 rounded-full overflow-hidden p-0.5">
 <div id="hud-stamina-bar" class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-75" style="width: 100%"></div>
 </div>
 </div>
 </div>
-<div id="hud-killstreak-dock" class="cyber-panel rounded-xl px-3 py-1.5 flex items-center gap-2 pointer-events-auto shrink-0 mb-1 sm:mb-0">
-<div class="flex items-center gap-1.5 pr-2.5 border-r border-slate-700">
-<span class="text-amber-400 text-sm">🔥</span>
+<div id="hud-killstreak-dock" class="cyber-panel rounded-xl px-2 py-1 sm:px-3 sm:py-1.5 flex items-center gap-1.5 sm:gap-2 pointer-events-auto shrink-0 mb-0.5 sm:mb-0">
+<div class="flex items-center gap-1 sm:gap-1.5 pr-1.5 sm:pr-2.5 border-r border-slate-700">
+<span class="text-amber-400 text-xs sm:text-sm">🔥</span>
 <div>
-<div class="text-[8px] font-cyber uppercase tracking-widest text-slate-400 leading-none">Serie</div>
-<div id="hud-killstreak-count" class="text-xs font-cyber font-black text-amber-300 leading-none mt-0.5">0</div>
+<div class="text-[7px] sm:text-[8px] font-cyber uppercase tracking-widest text-slate-400 leading-none">Serie</div>
+<div id="hud-killstreak-count" class="text-[10px] sm:text-xs font-cyber font-black text-amber-300 leading-none mt-0.5">0</div>
 </div>
 </div>
-<div class="flex items-center gap-1.5">
-<button id="ks-btn-20" type="button" title="Scanner Orbitale [6]" class="px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition">
-<span>[6] 🛰️ 20</span>
+<div class="flex items-center gap-1 sm:gap-1.5">
+<button id="ks-btn-20" type="button" title="Scanner Orbitale [6]" class="px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[8px] sm:text-[9px] font-bold flex items-center gap-0.5 sm:gap-1 transition">
+<span>🛰️ 20</span>
 </button>
-<button id="ks-btn-35" type="button" title="Drone Sentinel [7]" class="px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition">
-<span>[7] 🛸 35</span>
+<button id="ks-btn-35" type="button" title="Drone Sentinel [7]" class="px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[8px] sm:text-[9px] font-bold flex items-center gap-0.5 sm:gap-1 transition">
+<span>🛸 35</span>
 </button>
-<button id="ks-btn-50" type="button" title="Raggio Orbitale [8]" class="px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[9px] font-bold flex items-center gap-1 transition">
-<span>[8] ☄️ 50</span>
+<button id="ks-btn-50" type="button" title="Raggio Orbitale [8]" class="px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 font-cyber text-[8px] sm:text-[9px] font-bold flex items-center gap-0.5 sm:gap-1 transition">
+<span>☄️ 50</span>
 </button>
 </div>
 </div>
-<div class="cyber-panel rounded-xl px-5 py-3 flex items-center justify-between sm:justify-end gap-5">
-<div class="text-left sm:text-right">
-<div class="flex items-center sm:justify-end gap-2">
-<span class="px-1.5 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-[10px] font-cyber text-cyan-300">[Q] Ruota</span>
-<span class="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-[10px] font-cyber text-amber-300">[TAB] Negozio</span>
-<div id="hud-weapon-name" class="text-xs font-cyber uppercase tracking-widest text-cyan-400 font-bold">Fucile d'Assalto MK-IV</div>
+<div id="hud-weapon-dock" class="cyber-panel rounded-xl px-2.5 py-1.5 sm:px-5 sm:py-3 flex items-center justify-end gap-2.5 sm:gap-5 pointer-events-auto max-w-[210px] sm:max-w-none">
+<div class="text-right">
+<div class="flex items-center justify-end gap-1.5 sm:gap-2">
+<span class="hidden sm:inline px-1.5 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-[10px] font-cyber text-cyan-300">[Q]</span>
+<span class="hidden sm:inline px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-[10px] font-cyber text-amber-300">[TAB]</span>
+<div id="hud-weapon-name" class="text-[10px] sm:text-xs font-cyber uppercase tracking-widest text-cyan-400 font-bold truncate max-w-[100px] sm:max-w-none">Fucile d'Assalto MK-IV</div>
 </div>
-<div class="flex items-center sm:justify-end gap-2 mt-1">
-<span id="hud-weapon-lvl" class="text-[10px] font-cyber font-bold text-amber-400">LVL 1</span>
-<div class="w-24 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+<div class="flex items-center justify-end gap-1.5 sm:gap-2 mt-0.5 sm:mt-1">
+<span id="hud-weapon-lvl" class="text-[9px] sm:text-[10px] font-cyber font-bold text-amber-400">LVL 1</span>
+<div class="w-14 sm:w-24 h-1 sm:h-1.5 bg-slate-800 rounded-full overflow-hidden">
 <div id="hud-weapon-xp-bar" class="h-full bg-amber-400 transition-all duration-150" style="width: 0%"></div>
 </div>
-<span id="hud-weapon-sp" class="text-[10px] font-cyber font-bold text-emerald-400">0 PN</span>
+<span id="hud-weapon-sp" class="text-[9px] sm:text-[10px] font-cyber font-bold text-emerald-400">0 PN</span>
 </div>
-<div id="hud-secret-progress" class="text-[10px] font-cyber text-fuchsia-400/90 tracking-wider uppercase mt-0.5">Boss ogni 5 Ondate • Salta sui Jump-Pad Ciano!</div>
+<div id="hud-secret-progress" class="hidden md:block text-[10px] font-cyber text-fuchsia-400/90 tracking-wider uppercase mt-0.5">Boss ogni 5 Ondate • Salta sui Jump-Pad Ciano!</div>
 </div>
-<div class="h-10 w-px bg-cyan-500/30"></div>
-<div class="flex items-baseline gap-1 font-cyber">
-<span id="hud-ammo-clip" class="text-3xl sm:text-4xl font-black text-white">30</span>
-<span class="text-lg text-slate-400">/</span>
-<span id="hud-ammo-max" class="text-lg text-cyan-400 font-bold">30</span>
+<div class="h-6 sm:h-10 w-px bg-cyan-500/30"></div>
+<div class="flex items-baseline gap-0.5 sm:gap-1 font-cyber">
+<span id="hud-ammo-clip" class="text-2xl sm:text-4xl font-black text-white">30</span>
+<span class="text-xs sm:text-lg text-slate-400">/</span>
+<span id="hud-ammo-max" class="text-xs sm:text-lg text-cyan-400 font-bold">30</span>
 </div>
 </div>
 </div>
@@ -374,25 +413,25 @@ margin-bottom: 24px;
 <!-- TOUCH CONTROLS OVERLAY FOR SMARTPHONES & TABLETS -->
 <div id="touch-controls" class="fixed inset-0 pointer-events-none z-30 hidden select-none">
 <!-- Left Thumb: Floating Virtual Joystick -->
-<div id="joystick-container" class="absolute bottom-5 left-5 pointer-events-auto">
-<div id="joystick-zone" class="relative w-32 h-32 rounded-full bg-slate-950/75 border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center justify-center touch-none">
-<div class="absolute inset-3 rounded-full border border-dashed border-cyan-400/25 pointer-events-none"></div>
-<div id="joystick-knob" class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 shadow-[0_0_15px_rgba(34,211,238,0.8)] border border-white pointer-events-none transition-transform duration-75"></div>
+<div id="joystick-container" class="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 pointer-events-auto">
+<div id="joystick-zone" class="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-slate-950/75 border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center justify-center touch-none">
+<div class="absolute inset-2 sm:inset-3 rounded-full border border-dashed border-cyan-400/25 pointer-events-none"></div>
+<div id="joystick-knob" class="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 shadow-[0_0_15px_rgba(34,211,238,0.8)] border border-white pointer-events-none transition-transform duration-75"></div>
 </div>
 </div>
 <!-- Right Thumb: Ergonomic Action Cluster -->
-<div id="touch-action-cluster" class="absolute bottom-5 right-5 pointer-events-auto flex flex-col items-end gap-2.5">
+<div id="touch-action-cluster" class="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 pointer-events-auto flex flex-col items-end gap-1.5 sm:gap-2.5">
 <!-- Utility Arc: ARMI, RIC, SCIVOLA -->
-<div class="flex items-center gap-2">
-<button id="btn-touch-wheel" type="button" title="Tocca: Cambia Arma | Tieni: Ruota Armi" class="touch-btn w-11 h-11 rounded-full cyber-panel border border-purple-400/80 text-purple-300 font-cyber text-[10px] font-black active:scale-90 shadow-md">ARMI</button>
-<button id="btn-touch-reload" type="button" title="Ricarica Arma" class="touch-btn w-11 h-11 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-black active:scale-90 shadow-md">RIC</button>
-<button id="btn-touch-slide" type="button" title="Scivola / Accovacciati" class="touch-btn w-11 h-11 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[9px] font-black active:scale-90 shadow-md">SCIV</button>
+<div class="flex items-center gap-1.5 sm:gap-2">
+<button id="btn-touch-wheel" type="button" title="Tocca: Cambia Arma | Tieni: Ruota Armi" class="touch-btn w-9 h-9 sm:w-11 sm:h-11 rounded-full cyber-panel border border-purple-400/80 text-purple-300 font-cyber text-[8px] sm:text-[10px] font-black active:scale-90 shadow-md">ARMI</button>
+<button id="btn-touch-reload" type="button" title="Ricarica Arma" class="touch-btn w-9 h-9 sm:w-11 sm:h-11 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[8px] sm:text-[10px] font-black active:scale-90 shadow-md">RIC</button>
+<button id="btn-touch-slide" type="button" title="Scivola / Accovacciati" class="touch-btn w-9 h-9 sm:w-11 sm:h-11 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[8px] sm:text-[9px] font-black active:scale-90 shadow-md">SCIV</button>
 </div>
 <!-- Main Combat Arc: SALTA, MIRA, FUOCO -->
-<div class="flex items-center gap-2.5">
-<button id="btn-touch-jump" type="button" title="Salta" class="touch-btn w-12 h-12 rounded-full cyber-panel border-2 border-emerald-400/80 text-emerald-300 font-cyber text-xs font-black active:scale-90 shadow-[0_0_15px_rgba(52,211,153,0.3)]">SALTA</button>
-<button id="btn-touch-aim" type="button" title="Mira di Precisione (ADS)" class="touch-btn w-12 h-12 rounded-full cyber-panel border-2 border-cyan-400/80 text-cyan-300 font-cyber text-xs font-black active:scale-90 shadow-[0_0_15px_rgba(34,211,238,0.3)]">MIRA</button>
-<button id="btn-touch-fire" type="button" title="Fuoco (Tieni e trascina per mirare mentre spari)" class="touch-btn w-16 h-16 rounded-full bg-gradient-to-br from-rose-500 to-red-600 border-2 border-white/80 text-white font-cyber text-xs font-black active:scale-90 shadow-[0_0_25px_rgba(244,63,94,0.6)]">FUOCO</button>
+<div class="flex items-center gap-1.5 sm:gap-2.5">
+<button id="btn-touch-jump" type="button" title="Salta" class="touch-btn w-10 h-10 sm:w-12 sm:h-12 rounded-full cyber-panel border-2 border-emerald-400/80 text-emerald-300 font-cyber text-[10px] sm:text-xs font-black active:scale-90 shadow-[0_0_15px_rgba(52,211,153,0.3)]">SALTA</button>
+<button id="btn-touch-aim" type="button" title="Mira di Precisione (ADS)" class="touch-btn w-10 h-10 sm:w-12 sm:h-12 rounded-full cyber-panel border-2 border-cyan-400/80 text-cyan-300 font-cyber text-[10px] sm:text-xs font-black active:scale-90 shadow-[0_0_15px_rgba(34,211,238,0.3)]">MIRA</button>
+<button id="btn-touch-fire" type="button" title="Fuoco (Tieni e trascina per mirare mentre spari)" class="touch-btn w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-rose-500 to-red-600 border-2 border-white/80 text-white font-cyber text-xs sm:text-sm font-black active:scale-90 shadow-[0_0_25px_rgba(244,63,94,0.6)]">FUOCO</button>
 </div>
 </div>
 </div>
@@ -404,15 +443,15 @@ margin-bottom: 24px;
 <h2 class="text-xl sm:text-2xl font-cyber font-black text-cyan-300 uppercase tracking-widest mb-2">RUOTA IL DISPOSITIVO</h2>
 <p class="text-xs sm:text-sm text-slate-300 max-w-sm">Per un'esperienza ottimale su smartphone o tablet, gioca in modalità <strong>Orizzontale (Landscape)</strong>.</p>
 </div>
-<div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-slate-950/92 overflow-y-auto">
-<div class="cyber-panel rounded-2xl max-w-xl w-full p-5 sm:p-7 border border-cyan-400/50 text-center relative my-auto">
-<div class="inline-block px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-[10px] font-cyber tracking-widest uppercase mb-2">
+<div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-3 sm:p-4 bg-slate-950/92 overflow-y-auto">
+<div class="cyber-panel rounded-2xl max-w-xl w-full p-3.5 sm:p-6 border border-cyan-400/50 text-center relative my-auto max-h-[94vh] overflow-y-auto">
+<div class="inline-block px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-[9px] sm:text-[10px] font-cyber tracking-widest uppercase mb-1.5 sm:mb-2">
 Galaxy Parkour Arena // Prestigio Armi & Trofei PSN
 </div>
-<h1 id="menu-title" class="text-2xl sm:text-4xl font-cyber font-black text-white tracking-wider uppercase mb-1.5">
+<h1 id="menu-title" class="text-xl sm:text-4xl font-cyber font-black text-white tracking-wider uppercase mb-1 sm:mb-1.5">
 CYBERSTRIKE <span class="text-cyan-400">3D</span>
 </h1>
-<p id="menu-subtitle" class="text-xs sm:text-sm text-slate-300 mb-4">
+<p id="menu-subtitle" class="text-[10px] sm:text-sm text-slate-300 mb-2.5 sm:mb-4">
 Sfrutta i Jump-Pad per il Parkour, raccogli i Perk Temporanei, fai il Prestigio alle armi e conquista il Trofeo di Platino!
 </p>
 <div class="bg-slate-900 rounded-xl p-3.5 mb-4 border border-cyan-500/35 text-left">
@@ -502,7 +541,7 @@ class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg p
 </button>
 </div>
 </div>
-<div class="mb-3.5 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-left text-xs">
+<div class="menu-guide-box mb-3 p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-left text-xs hidden sm:block">
 <div class="flex items-center justify-between font-cyber text-[10px] uppercase text-cyan-400 font-bold mb-1.5">
 <span>🎮 Supporto Multi-Dispositivo</span>
 <span class="text-slate-400">PC • Mobile • Gamepad</span>
@@ -528,20 +567,20 @@ B: Scivola • Y/RB: Armi • D-Pad: Serie
 </div>
 </div>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-<button id="btn-open-shop" type="button" class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-amber-400/70 text-amber-300 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
+<button id="btn-open-shop" type="button" class="w-full py-2.5 sm:py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-amber-400/70 text-amber-300 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5">
 <span>🛒 Armeria</span>
 <span id="menu-shop-badge" class="px-2 py-0.5 text-[10px] rounded-full bg-amber-400 text-slate-950 font-black">0 PN</span>
 </button>
-<button id="btn-open-trophies" type="button" class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-fuchsia-400/70 text-fuchsia-300 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5">
+<button id="btn-open-trophies" type="button" class="w-full py-2.5 sm:py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-fuchsia-400/70 text-fuchsia-300 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5">
 <span>🏆 Trofei PSN</span>
 <span id="menu-trophy-badge" class="px-2 py-0.5 text-[10px] rounded-full bg-fuchsia-400 text-slate-950 font-black">0%</span>
 </button>
-<button id="btn-start-game" type="button" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer">
+<button id="btn-start-game" type="button" class="w-full py-2.5 sm:py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer">
 ▶ Inizia Missione Solo
 </button>
 </div>
-<button id="btn-open-multiplayer" type="button" class="w-full mt-2.5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_25px_rgba(16,185,129,0.35)] flex items-center justify-center gap-2">
+<button id="btn-open-multiplayer" type="button" class="w-full mt-2 sm:mt-2.5 py-2.5 sm:py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_25px_rgba(16,185,129,0.35)] flex items-center justify-center gap-2">
 <span>🌐 MULTIGIOCATORE ONLINE (CO-OP & PVP)</span>
 <span class="px-2 py-0.5 text-[9px] rounded-full bg-slate-950 text-emerald-300 border border-emerald-400 font-bold uppercase tracking-normal">Novità</span>
 </button>
@@ -3022,6 +3061,15 @@ const touchMoveVector = { x: 0, y: 0 };
 let touchSprintActive = false;
 const gamepadMoveVector = { x: 0, y: 0 };
 let gamepadSprintActive = false;
+let gamepadFiringActive = false;
+let gamepadAimActive = false;
+let joyTouchId = null;
+let fireTouchId = null;
+let lookTouchId = null;
+let lastLookX = 0;
+let lastLookY = 0;
+let lastFireX = 0;
+let lastFireY = 0;
 let shopDomInitialized = false;
 function initShopDOMOnce() {
 if (shopDomInitialized) return;
@@ -4388,16 +4436,30 @@ camera.quaternion.setFromEuler(cameraEuler);
 
 // RT / R2 (7): Shoot
 const isFiringGamepad = isDown(7);
-if (isFiringGamepad && !state.isFiring) {
+if (isFiringGamepad) {
+if (!state.isFiring) {
 state.isFiring = true;
-} else if (!isFiringGamepad && state.isFiring && !isDraggingMouse && joyTouchId === null && fireTouchId === null) {
+gamepadFiringActive = true;
+}
+} else if (gamepadFiringActive) {
+gamepadFiringActive = false;
+if (!isDraggingMouse && fireTouchId === null) {
 state.isFiring = false;
+}
 }
 
 // LT / L2 (6): Aim Down Sights (ADS)
 const isAimingGamepad = isDown(6);
-if (isAimingGamepad !== state.isAiming && !isDraggingMouse) {
-setAimingState(isAimingGamepad);
+if (isAimingGamepad) {
+if (!state.isAiming) {
+setAimingState(true);
+gamepadAimActive = true;
+}
+} else if (gamepadAimActive) {
+gamepadAimActive = false;
+if (!isDraggingMouse) {
+setAimingState(false);
+}
 }
 
 // A / Cross (0): Jump
@@ -4641,13 +4703,9 @@ window.addEventListener('resize', checkDeviceOrientation);
 window.addEventListener('orientationchange', checkDeviceOrientation);
 
 // --- TOUCH CONTROLS MANAGER ---
-let joyTouchId = null;
-let lookTouchId = null;
-let lastLookX = 0;
-let lastLookY = 0;
-let fireTouchId = null;
-let lastFireX = 0;
-let lastFireY = 0;
+joyTouchId = null;
+lookTouchId = null;
+fireTouchId = null;
 
 window.addEventListener('touchstart', () => {
 if (!isTouchDevice) {
@@ -7201,7 +7259,9 @@ requestAnimationFrame(animate);
 updateTelemetry();
 const dt = Math.min(clock.getDelta(), 0.1);
 const elapsed = clock.getElapsedTime();
+try {
 updateGamepad(dt);
+} catch (gpErr) {}
 if (state.mode === 'PLAYING') {
 updateActivePerks(dt);
 updatePlayerMovement(dt);
