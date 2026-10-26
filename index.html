@@ -73,8 +73,22 @@ box-shadow:
 inset 0 0 40px rgba(34, 211, 238, 0.35),
 0 0 35px rgba(34, 211, 238, 0.45);
 }
-#menu-overlay.hidden, #shop-overlay.hidden, #trophies-overlay.hidden, #weapon-wheel-overlay.hidden, #boss-hud-container.hidden, #reload-prompt.hidden, #gameover-stats.hidden, #touch-controls.hidden, #shop-weapon-prestige-badge.hidden, #auth-modal.hidden, #multiplayer-modal.hidden, #mp-scoreboard.hidden, #mp-respawn-overlay.hidden {
+#menu-overlay.hidden, #shop-overlay.hidden, #trophies-overlay.hidden, #weapon-wheel-overlay.hidden, #boss-hud-container.hidden, #reload-prompt.hidden, #gameover-stats.hidden, #touch-controls.hidden, #shop-weapon-prestige-badge.hidden, #auth-modal.hidden, #multiplayer-modal.hidden, #mp-scoreboard.hidden, #mp-respawn-overlay.hidden, #portrait-warning.hidden, #hud-gamepad-badge.hidden {
 display: none !important;
+}
+.touch-btn {
+-webkit-user-select: none;
+user-select: none;
+touch-action: none;
+-webkit-touch-callout: none;
+}
+.touch-device-active .hud-bottom-row {
+margin-bottom: 76px;
+}
+@media (min-width: 640px) {
+.touch-device-active .hud-bottom-row {
+margin-bottom: 24px;
+}
 }
 </style>
 </head>
@@ -255,6 +269,11 @@ display: none !important;
 <div id="hud-ping" class="text-xs sm:text-sm font-cyber font-bold text-cyan-400">12ms</div>
 </div>
 </div>
+<div id="hud-gamepad-badge" title="Controller Gamepad Connesso" class="hidden cyber-panel rounded-xl px-2.5 py-1.5 text-[11px] font-cyber text-emerald-300 items-center gap-1.5 border border-emerald-400/50 shadow-[0_0_10px_rgba(52,211,153,0.3)]">
+<span class="animate-pulse">🎮</span>
+<span class="hidden sm:inline">PAD</span>
+</div>
+<button id="btn-fullscreen" title="Schermo Intero [F11]" type="button" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-amber-300 hover:bg-amber-500/20 transition cursor-pointer">⛶ SCHERMO</button>
 <button id="btn-music" title="Musica di Sottofondo On/Off" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-fuchsia-300 hover:bg-fuchsia-500/20 transition cursor-pointer">🎵 MUSICA</button>
 <button id="btn-mute" title="Effetti Sonori On/Off" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-cyan-300 hover:bg-cyan-500/20 transition cursor-pointer">🔊 EFFETTI</button>
 <button id="btn-pause" title="Pausa [P]" class="cyber-panel rounded-xl px-2.5 py-2 text-[11px] font-cyber text-slate-200 hover:bg-slate-700/40 transition cursor-pointer">⏸ PAUSA</button>
@@ -286,20 +305,7 @@ display: none !important;
 </div>
 </div>
 </div>
-<div id="touch-controls" class="hidden justify-between items-end w-full mb-3 pointer-events-auto sm:hidden mt-auto">
-<div id="joystick-zone" class="relative w-28 h-28 rounded-full bg-slate-900/80 border border-cyan-400/40 flex items-center justify-center touch-none">
-<div id="joystick-knob" class="w-11 h-11 rounded-full bg-cyan-400/80"></div>
-</div>
-<div class="flex gap-2 items-end">
-<button id="btn-touch-wheel" class="w-12 h-12 rounded-full cyber-panel border border-purple-400/80 text-purple-300 font-cyber text-[10px] font-bold active:scale-95">ARMI</button>
-<button id="btn-touch-aim" class="w-12 h-12 rounded-full cyber-panel border border-cyan-400/80 text-cyan-300 font-cyber text-[10px] font-bold active:scale-95">MIRA</button>
-<button id="btn-touch-slide" class="w-12 h-12 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-bold active:scale-95">SCIVOLA</button>
-<button id="btn-touch-reload" class="w-12 h-12 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-bold active:scale-95">RIC</button>
-<button id="btn-touch-jump" class="w-12 h-12 rounded-full cyber-panel border border-emerald-400/80 text-emerald-300 font-cyber text-[10px] font-bold active:scale-95">SALTA</button>
-<button id="btn-touch-fire" class="w-16 h-16 rounded-full bg-rose-600 border-2 border-rose-300 text-white font-cyber text-xs font-black active:scale-95">FUOCO</button>
-</div>
-</div>
-<div class="flex flex-col sm:flex-row items-stretch sm:items-end justify-between gap-3 mt-auto">
+<div id="hud-bottom-row" class="hud-bottom-row flex flex-col sm:flex-row items-stretch sm:items-end justify-between gap-3 mt-auto">
 <div class="flex flex-col gap-2 w-full sm:w-72">
 <div class="cyber-panel rounded-xl px-4 py-2.5">
 <div class="flex justify-between items-baseline mb-1">
@@ -364,6 +370,39 @@ display: none !important;
 </div>
 </div>
 </div>
+</div>
+<!-- TOUCH CONTROLS OVERLAY FOR SMARTPHONES & TABLETS -->
+<div id="touch-controls" class="fixed inset-0 pointer-events-none z-30 hidden select-none">
+<!-- Left Thumb: Floating Virtual Joystick -->
+<div id="joystick-container" class="absolute bottom-5 left-5 pointer-events-auto">
+<div id="joystick-zone" class="relative w-32 h-32 rounded-full bg-slate-950/75 border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center justify-center touch-none">
+<div class="absolute inset-3 rounded-full border border-dashed border-cyan-400/25 pointer-events-none"></div>
+<div id="joystick-knob" class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 shadow-[0_0_15px_rgba(34,211,238,0.8)] border border-white pointer-events-none transition-transform duration-75"></div>
+</div>
+</div>
+<!-- Right Thumb: Ergonomic Action Cluster -->
+<div id="touch-action-cluster" class="absolute bottom-5 right-5 pointer-events-auto flex flex-col items-end gap-2.5">
+<!-- Utility Arc: ARMI, RIC, SCIVOLA -->
+<div class="flex items-center gap-2">
+<button id="btn-touch-wheel" type="button" title="Tocca: Cambia Arma | Tieni: Ruota Armi" class="touch-btn w-11 h-11 rounded-full cyber-panel border border-purple-400/80 text-purple-300 font-cyber text-[10px] font-black active:scale-90 shadow-md">ARMI</button>
+<button id="btn-touch-reload" type="button" title="Ricarica Arma" class="touch-btn w-11 h-11 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[10px] font-black active:scale-90 shadow-md">RIC</button>
+<button id="btn-touch-slide" type="button" title="Scivola / Accovacciati" class="touch-btn w-11 h-11 rounded-full cyber-panel border border-amber-400/80 text-amber-300 font-cyber text-[9px] font-black active:scale-90 shadow-md">SCIV</button>
+</div>
+<!-- Main Combat Arc: SALTA, MIRA, FUOCO -->
+<div class="flex items-center gap-2.5">
+<button id="btn-touch-jump" type="button" title="Salta" class="touch-btn w-12 h-12 rounded-full cyber-panel border-2 border-emerald-400/80 text-emerald-300 font-cyber text-xs font-black active:scale-90 shadow-[0_0_15px_rgba(52,211,153,0.3)]">SALTA</button>
+<button id="btn-touch-aim" type="button" title="Mira di Precisione (ADS)" class="touch-btn w-12 h-12 rounded-full cyber-panel border-2 border-cyan-400/80 text-cyan-300 font-cyber text-xs font-black active:scale-90 shadow-[0_0_15px_rgba(34,211,238,0.3)]">MIRA</button>
+<button id="btn-touch-fire" type="button" title="Fuoco (Tieni e trascina per mirare mentre spari)" class="touch-btn w-16 h-16 rounded-full bg-gradient-to-br from-rose-500 to-red-600 border-2 border-white/80 text-white font-cyber text-xs font-black active:scale-90 shadow-[0_0_25px_rgba(244,63,94,0.6)]">FUOCO</button>
+</div>
+</div>
+</div>
+<!-- PORTRAIT ORIENTATION WARNING (SMARTPHONES/TABLETS) -->
+<div id="portrait-warning" class="fixed inset-0 z-50 hidden flex-col items-center justify-center p-6 bg-slate-950/95 text-center pointer-events-auto">
+<div class="w-16 h-16 rounded-2xl bg-cyan-500/15 border-2 border-cyan-400 flex items-center justify-center text-3xl mb-4 animate-bounce">
+📱🔄
+</div>
+<h2 class="text-xl sm:text-2xl font-cyber font-black text-cyan-300 uppercase tracking-widest mb-2">RUOTA IL DISPOSITIVO</h2>
+<p class="text-xs sm:text-sm text-slate-300 max-w-sm">Per un'esperienza ottimale su smartphone o tablet, gioca in modalità <strong>Orizzontale (Landscape)</strong>.</p>
 </div>
 <div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-slate-950/92 overflow-y-auto">
 <div class="cyber-panel rounded-2xl max-w-xl w-full p-5 sm:p-7 border border-cyan-400/50 text-center relative my-auto">
@@ -461,6 +500,32 @@ class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg p
 <button id="map-btn-hangar" type="button" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer hover:border-amber-400/50 hover:text-amber-300">
 <span>🛸 Hangar Orbitale</span>
 </button>
+</div>
+</div>
+<div class="mb-3.5 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-left text-xs">
+<div class="flex items-center justify-between font-cyber text-[10px] uppercase text-cyan-400 font-bold mb-1.5">
+<span>🎮 Supporto Multi-Dispositivo</span>
+<span class="text-slate-400">PC • Mobile • Gamepad</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] text-slate-300 font-mono leading-relaxed">
+<div class="p-1.5 rounded bg-slate-950/70 border border-slate-800/80">
+<span class="text-cyan-300 font-bold block mb-0.5">💻 Mouse & Tastiera</span>
+WASD: Muoviti • Spazio: Salta<br>
+C: Scivola • Click SX: Spara<br>
+Click DX: Mira • Q: Armi • 6-7-8: Serie
+</div>
+<div class="p-1.5 rounded bg-slate-950/70 border border-slate-800/80">
+<span class="text-emerald-300 font-bold block mb-0.5">📱 Smartphone & Tablet</span>
+Joystick SX: Movimento<br>
+Trascina Schermo: Mira<br>
+FUOCO: Tieni e Mira • ARMI: Cicla
+</div>
+<div class="p-1.5 rounded bg-slate-950/70 border border-slate-800/80">
+<span class="text-amber-300 font-bold block mb-0.5">🎮 Gamepad USB/Bluetooth</span>
+Levette: Muovi & Visuale<br>
+RT: Fuoco • LT: Mira • A: Salta<br>
+B: Scivola • Y/RB: Armi • D-Pad: Serie
+</div>
 </div>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -2755,6 +2820,8 @@ const weaponWheelOverlay = byId('weapon-wheel-overlay'), wheelSlotsContainer = b
 const wheelCenterSlot = byId('wheel-center-slot'), wheelCenterName = byId('wheel-center-name'), wheelCenterStats = byId('wheel-center-stats');
 const hitMarker = byId('hit-marker'), damageOverlay = byId('damage-overlay'), waveAnnouncement = byId('wave-announcement');
 const announcementTitle = byId('announcement-title'), announcementSubtitle = byId('announcement-subtitle');
+const touchControls = byId('touch-controls'), joystickZone = byId('joystick-zone'), joystickKnob = byId('joystick-knob');
+const portraitWarning = byId('portrait-warning'), hudGamepadBadge = byId('hud-gamepad-badge'), btnFullscreen = byId('btn-fullscreen');
 let scene, camera, renderer, clock;
 let galaxyGroup = null;
 let weaponGroup, weaponBarrelTip, muzzleLight, muzzleMesh;
@@ -2947,8 +3014,14 @@ Space: false, ShiftLeft: false, ShiftRight: false,
 KeyC: false, ControlLeft: false, ControlRight: false
 };
 let isDraggingMouse = false;
-let isTouchDevice = false;
+let isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+if (isTouchDevice && document.body) {
+  document.body.classList.add('touch-device-active');
+}
 const touchMoveVector = { x: 0, y: 0 };
+let touchSprintActive = false;
+const gamepadMoveVector = { x: 0, y: 0 };
+let gamepadSprintActive = false;
 let shopDomInitialized = false;
 function initShopDOMOnce() {
 if (shopDomInitialized) return;
@@ -4135,6 +4208,266 @@ crosshair.style.opacity = showScope ? '0' : '1';
 if (weaponGroup) weaponGroup.visible = !showScope;
 if (!aiming && sniperScopeReticle) sniperScopeReticle.style.transform = 'translate(-50%, -50%)';
 }
+
+// --- MULTI-DEVICE HELPERS & GAMEPAD ENGINE ---
+function cycleWeapon(dir = 1) {
+const unlockedIndices = WEAPONS.map((w, idx) => isWeaponUnlocked(w) ? idx : -1).filter(idx => idx !== -1);
+if (unlockedIndices.length === 0) return;
+const curPos = unlockedIndices.indexOf(state.currentWeaponIndex);
+const nextPos = (curPos + dir + unlockedIndices.length) % unlockedIndices.length;
+selectWeapon(unlockedIndices[nextPos]);
+}
+
+function toggleFullscreen() {
+if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+const el = document.documentElement;
+if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+} else {
+if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+}
+}
+
+function checkDeviceOrientation() {
+const portraitWarning = byId('portrait-warning');
+if (!portraitWarning) return;
+const isPortrait = window.innerHeight > window.innerWidth;
+if (isTouchDevice && isPortrait) {
+portraitWarning.classList.remove('hidden');
+portraitWarning.classList.add('flex');
+} else {
+portraitWarning.classList.add('hidden');
+portraitWarning.classList.remove('flex');
+}
+}
+
+const gamepadState = {
+connected: false,
+index: null,
+id: '',
+prevButtons: {},
+lastVibrated: 0,
+};
+
+function rumbleGamepad(weak = 0.2, strong = 0.4, duration = 120) {
+try {
+const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+for (let i = 0; i < gamepads.length; i++) {
+const gp = gamepads[i];
+if (gp && gp.vibrationActuator && typeof gp.vibrationActuator.playEffect === 'function') {
+gp.vibrationActuator.playEffect('dual-rumble', {
+startDelay: 0,
+duration: duration,
+weakMagnitude: Math.min(1.0, Math.max(0, weak)),
+strongMagnitude: Math.min(1.0, Math.max(0, strong))
+}).catch(() => {});
+}
+}
+} catch (err) {}
+}
+
+function updateGamepad(dt) {
+if (!navigator.getGamepads) return;
+const gamepads = navigator.getGamepads();
+let gp = null;
+for (let i = 0; i < gamepads.length; i++) {
+if (gamepads[i] && gamepads[i].connected) {
+gp = gamepads[i];
+break;
+}
+}
+
+const badge = byId('hud-gamepad-badge');
+if (!gp) {
+if (gamepadState.connected) {
+gamepadState.connected = false;
+if (badge) { badge.classList.add('hidden'); badge.classList.remove('flex'); }
+}
+gamepadMoveVector.x = 0;
+gamepadMoveVector.y = 0;
+gamepadSprintActive = false;
+return;
+}
+
+if (!gamepadState.connected) {
+gamepadState.connected = true;
+gamepadState.index = gp.index;
+if (badge) { badge.classList.remove('hidden'); badge.classList.add('flex'); }
+}
+
+const isDown = (btnIdx) => {
+const b = gp.buttons[btnIdx];
+if (!b) return false;
+return typeof b === 'object' ? (b.pressed || b.value > 0.3) : b > 0.3;
+};
+const wasJustPressed = (btnIdx) => {
+const down = isDown(btnIdx);
+const was = !!gamepadState.prevButtons[btnIdx];
+return down && !was;
+};
+
+// Menu / UI Handling when PAUSED or on MENU or GAMEOVER
+if (state.mode === 'PAUSED' || state.mode === 'MENU' || state.mode === 'GAMEOVER') {
+if (wasJustPressed(9) || wasJustPressed(0)) {
+sound.init();
+if (state.mode === 'PAUSED') resumeGame();
+else startNewGame();
+}
+if (wasJustPressed(2) && !shopOverlay.classList.contains('flex')) {
+openShop();
+}
+if (wasJustPressed(3) && !trophiesOverlay.classList.contains('flex')) {
+openTrophies();
+}
+if (wasJustPressed(1)) {
+if (!shopOverlay.classList.contains('hidden')) closeShop();
+else if (!trophiesOverlay.classList.contains('hidden')) closeTrophies();
+}
+
+for (let i = 0; i < gp.buttons.length; i++) {
+gamepadState.prevButtons[i] = isDown(i);
+}
+return;
+}
+
+if (state.mode !== 'PLAYING') {
+for (let i = 0; i < gp.buttons.length; i++) {
+gamepadState.prevButtons[i] = isDown(i);
+}
+return;
+}
+
+// --- PLAYING CONTROLS ---
+
+// Start / Options (9) = Pause
+if (wasJustPressed(9)) {
+pauseGame();
+for (let i = 0; i < gp.buttons.length; i++) gamepadState.prevButtons[i] = isDown(i);
+return;
+}
+
+// Select / Back (8) = Weapon Wheel
+if (wasJustPressed(8)) {
+if (state.isWheelOpen) closeWeaponWheel(); else openWeaponWheel();
+}
+
+// Left Stick (Axes 0, 1): Movement
+const deadzone = 0.16;
+let rawMoveX = gp.axes[0] || 0;
+let rawMoveY = gp.axes[1] || 0;
+if (Math.abs(rawMoveX) < deadzone) rawMoveX = 0;
+if (Math.abs(rawMoveY) < deadzone) rawMoveY = 0;
+gamepadMoveVector.x = rawMoveX;
+gamepadMoveVector.y = rawMoveY;
+
+// L3 (10) or pushing stick hard forward: Sprint
+gamepadSprintActive = isDown(10) || rawMoveY < -0.85;
+
+// Right Stick (Axes 2, 3): Look / Aim
+let rawLookX = gp.axes[2] || 0;
+let rawLookY = gp.axes[3] || 0;
+if (Math.abs(rawLookX) < deadzone) rawLookX = 0;
+if (Math.abs(rawLookY) < deadzone) rawLookY = 0;
+
+if (rawLookX !== 0 || rawLookY !== 0) {
+const curve = 1.55;
+const curvedX = Math.sign(rawLookX) * Math.pow(Math.abs(rawLookX), curve);
+const curvedY = Math.sign(rawLookY) * Math.pow(Math.abs(rawLookY), curve);
+
+const w = getCurrentWeapon();
+const aimSlowdown = state.isAiming ? (w.isSniper ? 0.35 : 0.55) : 1.0;
+const gpSens = 3.2 * state.sensitivityMultiplier * aimSlowdown;
+
+cameraEuler.y -= curvedX * gpSens * dt;
+cameraEuler.x -= curvedY * gpSens * dt;
+const maxPitch = Math.PI / 2 - 0.08;
+cameraEuler.x = Math.max(-maxPitch, Math.min(maxPitch, cameraEuler.x));
+camera.quaternion.setFromEuler(cameraEuler);
+}
+
+// RT / R2 (7): Shoot
+const isFiringGamepad = isDown(7);
+if (isFiringGamepad && !state.isFiring) {
+state.isFiring = true;
+} else if (!isFiringGamepad && state.isFiring && !isDraggingMouse && joyTouchId === null && fireTouchId === null) {
+state.isFiring = false;
+}
+
+// LT / L2 (6): Aim Down Sights (ADS)
+const isAimingGamepad = isDown(6);
+if (isAimingGamepad !== state.isAiming && !isDraggingMouse) {
+setAimingState(isAimingGamepad);
+}
+
+// A / Cross (0): Jump
+if (wasJustPressed(0) && isGrounded) {
+playerVelocity.y = GAME_CONFIG.jumpForce;
+isGrounded = false;
+sound.playJump();
+rumbleGamepad(0.12, 0.22, 70);
+}
+
+// B / Circle (1): Slide / Crouch
+if (wasJustPressed(1)) {
+keys.KeyC = true;
+setTimeout(() => { keys.KeyC = false; }, 350);
+}
+
+// X / Square (2): Reload
+if (wasJustPressed(2)) {
+triggerReload();
+}
+
+// Y / Triangle (3) or RB / R1 (5): Next Weapon
+if (wasJustPressed(3) || wasJustPressed(5)) {
+cycleWeapon(1);
+rumbleGamepad(0.08, 0.14, 60);
+}
+// LB / L1 (4): Previous Weapon
+if (wasJustPressed(4)) {
+cycleWeapon(-1);
+rumbleGamepad(0.08, 0.14, 60);
+}
+
+// Killstreaks via D-Pad:
+// D-Pad Left (14): Scanner Orbitale [6] (20 KS)
+if (wasJustPressed(14)) {
+if (state.unlockedKillstreaks.k20) {
+activateKillstreak(20);
+rumbleGamepad(0.3, 0.5, 250);
+} else {
+selectWeapon(5);
+}
+}
+// D-Pad Up (12): Drone Sentinel [7] (35 KS)
+if (wasJustPressed(12)) {
+if (state.unlockedKillstreaks.k35) {
+activateKillstreak(35);
+rumbleGamepad(0.4, 0.6, 300);
+} else {
+selectWeapon(6);
+}
+}
+// D-Pad Right (15): Raggio Orbitale [8] (50 KS)
+if (wasJustPressed(15)) {
+if (state.unlockedKillstreaks.k50) {
+activateKillstreak(50);
+rumbleGamepad(0.5, 0.8, 350);
+} else {
+selectWeapon(7);
+}
+}
+// D-Pad Down (13): Quick Reload
+if (wasJustPressed(13)) {
+triggerReload();
+}
+
+for (let i = 0; i < gp.buttons.length; i++) {
+gamepadState.prevButtons[i] = isDown(i);
+}
+}
+
 function setupInputListeners() {
 window.addEventListener('resize', () => {
 camera.aspect = window.innerWidth / window.innerHeight;
@@ -4243,11 +4576,7 @@ if (!state.isFiring) isDraggingMouse = false;
 });
 window.addEventListener('wheel', (e) => {
 if (state.mode !== 'PLAYING') return;
-const dir = e.deltaY > 0 ? 1 : -1;
-const unlockedIndices = WEAPONS.map((w, idx) => isWeaponUnlocked(w) ? idx : -1).filter(idx => idx !== -1);
-const curPos = unlockedIndices.indexOf(state.currentWeaponIndex);
-const nextPos = (curPos + dir + unlockedIndices.length) % unlockedIndices.length;
-selectWeapon(unlockedIndices[nextPos]);
+cycleWeapon(e.deltaY > 0 ? 1 : -1);
 });
 window.addEventListener('keydown', (e) => {
 if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
@@ -4304,24 +4633,42 @@ window.addEventListener('keyup', (e) => {
 if (e.code in keys) keys[e.code] = false;
 if (e.code === 'KeyQ') closeWeaponWheel();
 });
-const touchControls = byId('touch-controls');
-const joystickZone = byId('joystick-zone');
-const joystickKnob = byId('joystick-knob');
+
+const btnFullscreen = byId('btn-fullscreen');
+if (btnFullscreen) btnFullscreen.addEventListener('click', toggleFullscreen);
+
+window.addEventListener('resize', checkDeviceOrientation);
+window.addEventListener('orientationchange', checkDeviceOrientation);
+
+// --- TOUCH CONTROLS MANAGER ---
 let joyTouchId = null;
 let lookTouchId = null;
 let lastLookX = 0;
 let lastLookY = 0;
+let fireTouchId = null;
+let lastFireX = 0;
+let lastFireY = 0;
+
 window.addEventListener('touchstart', () => {
 if (!isTouchDevice) {
 isTouchDevice = true;
-touchControls.classList.remove('hidden');
-touchControls.classList.add('flex');
+document.body.classList.add('touch-device-active');
 }
+if (state.mode === 'PLAYING') {
+touchControls.classList.remove('hidden');
+}
+checkDeviceOrientation();
 }, { passive: true });
+
+// Virtual Joystick for Movement
+if (joystickZone) {
 joystickZone.addEventListener('touchstart', (e) => {
 e.preventDefault();
+if (joyTouchId === null && e.changedTouches.length > 0) {
 joyTouchId = e.changedTouches[0].identifier;
+}
 }, { passive: false });
+
 joystickZone.addEventListener('touchmove', (e) => {
 e.preventDefault();
 for (let i = 0; i < e.changedTouches.length; i++) {
@@ -4334,13 +4681,18 @@ let dx = t.clientX - cx;
 let dy = t.clientY - cy;
 const maxR = rect.width / 2 - 12;
 const dist = Math.hypot(dx, dy);
-if (dist > maxR) { dx = (dx / dist) * maxR; dy = (dy / dist) * maxR; }
+if (dist > maxR) {
+dx = (dx / dist) * maxR;
+dy = (dy / dist) * maxR;
+}
 joystickKnob.style.transform = `translate(${dx}px, ${dy}px)`;
 touchMoveVector.x = dx / maxR;
 touchMoveVector.y = dy / maxR;
+touchSprintActive = (touchMoveVector.y < -0.80);
 }
 }
 }, { passive: false });
+
 const resetJoystick = (e) => {
 for (let i = 0; i < e.changedTouches.length; i++) {
 if (e.changedTouches[i].identifier === joyTouchId) {
@@ -4348,23 +4700,30 @@ joyTouchId = null;
 joystickKnob.style.transform = 'translate(0px, 0px)';
 touchMoveVector.x = 0;
 touchMoveVector.y = 0;
+touchSprintActive = false;
 }
 }
 };
-joystickZone.addEventListener('touchend', resetJoystick);
-joystickZone.addEventListener('touchcancel', resetJoystick);
-canvas.addEventListener('touchstart', (e) => {
+joystickZone.addEventListener('touchend', resetJoystick, { passive: false });
+joystickZone.addEventListener('touchcancel', resetJoystick, { passive: false });
+}
+
+// Camera Look Touch Handler on screen (Right ~60% of viewport)
+window.addEventListener('touchstart', (e) => {
 if (state.mode !== 'PLAYING') return;
 for (let i = 0; i < e.changedTouches.length; i++) {
 const t = e.changedTouches[i];
-if (t.clientX > window.innerWidth * 0.35 && lookTouchId === null) {
+const target = document.elementFromPoint(t.clientX, t.clientY);
+const isInteractive = target && target.closest('button, input, select, #joystick-zone, #touch-action-cluster');
+if (!isInteractive && t.clientX > window.innerWidth * 0.36 && lookTouchId === null) {
 lookTouchId = t.identifier;
 lastLookX = t.clientX;
 lastLookY = t.clientY;
 }
 }
 }, { passive: true });
-canvas.addEventListener('touchmove', (e) => {
+
+window.addEventListener('touchmove', (e) => {
 if (state.mode !== 'PLAYING') return;
 for (let i = 0; i < e.changedTouches.length; i++) {
 const t = e.changedTouches[i];
@@ -4375,7 +4734,7 @@ lastLookX = t.clientX;
 lastLookY = t.clientY;
 const w = getCurrentWeapon();
 const aimSlowdown = state.isAiming ? (w.isSniper ? 0.35 : 0.55) : 1.0;
-const sens = 0.0042 * state.sensitivityMultiplier * aimSlowdown;
+const sens = 0.0038 * state.sensitivityMultiplier * aimSlowdown;
 cameraEuler.y -= dx * sens;
 cameraEuler.x -= dy * sens;
 const maxPitch = Math.PI / 2 - 0.08;
@@ -4384,48 +4743,159 @@ camera.quaternion.setFromEuler(cameraEuler);
 }
 }
 }, { passive: true });
+
 const endLookTouch = (e) => {
 for (let i = 0; i < e.changedTouches.length; i++) {
 if (e.changedTouches[i].identifier === lookTouchId) lookTouchId = null;
 }
 };
-canvas.addEventListener('touchend', endLookTouch);
-canvas.addEventListener('touchcancel', endLookTouch);
-byId('btn-touch-wheel').addEventListener('touchstart', (e) => {
-e.preventDefault();
-if (state.isWheelOpen) closeWeaponWheel(); else openWeaponWheel();
-});
-byId('btn-touch-aim').addEventListener('touchstart', (e) => {
-e.preventDefault();
-setAimingState(!state.isAiming);
-});
-byId('btn-touch-fire').addEventListener('touchstart', (e) => {
+window.addEventListener('touchend', endLookTouch, { passive: true });
+window.addEventListener('touchcancel', endLookTouch, { passive: true });
+
+// Aim-While-Shooting on FUOCO button
+const btnTouchFire = byId('btn-touch-fire');
+if (btnTouchFire) {
+btnTouchFire.addEventListener('touchstart', (e) => {
 e.preventDefault();
 state.isFiring = true;
-});
-byId('btn-touch-fire').addEventListener('touchend', (e) => {
+if (e.changedTouches.length > 0) {
+fireTouchId = e.changedTouches[0].identifier;
+lastFireX = e.changedTouches[0].clientX;
+lastFireY = e.changedTouches[0].clientY;
+}
+rumbleGamepad(0.08, 0.16, 60);
+}, { passive: false });
+
+btnTouchFire.addEventListener('touchmove', (e) => {
 e.preventDefault();
+for (let i = 0; i < e.changedTouches.length; i++) {
+const t = e.changedTouches[i];
+if (t.identifier === fireTouchId) {
+const dx = t.clientX - lastFireX;
+const dy = t.clientY - lastFireY;
+lastFireX = t.clientX;
+lastFireY = t.clientY;
+const w = getCurrentWeapon();
+const aimSlowdown = state.isAiming ? (w.isSniper ? 0.35 : 0.55) : 1.0;
+const sens = 0.0038 * state.sensitivityMultiplier * aimSlowdown;
+cameraEuler.y -= dx * sens;
+cameraEuler.x -= dy * sens;
+const maxPitch = Math.PI / 2 - 0.08;
+cameraEuler.x = Math.max(-maxPitch, Math.min(maxPitch, cameraEuler.x));
+camera.quaternion.setFromEuler(cameraEuler);
+}
+}
+}, { passive: false });
+
+const stopFireTouch = (e) => {
+e.preventDefault();
+for (let i = 0; i < e.changedTouches.length; i++) {
+if (e.changedTouches[i].identifier === fireTouchId) {
+fireTouchId = null;
 state.isFiring = false;
+}
+}
+};
+btnTouchFire.addEventListener('touchend', stopFireTouch, { passive: false });
+btnTouchFire.addEventListener('touchcancel', stopFireTouch, { passive: false });
+}
+
+// ARMI Button (Tap: Next weapon, Long-Press: Open Wheel)
+let wheelTouchTimer = null;
+const btnTouchWheel = byId('btn-touch-wheel');
+if (btnTouchWheel) {
+btnTouchWheel.addEventListener('touchstart', (e) => {
+e.preventDefault();
+wheelTouchTimer = setTimeout(() => {
+wheelTouchTimer = null;
+if (state.isWheelOpen) closeWeaponWheel(); else openWeaponWheel();
+}, 320);
+}, { passive: false });
+
+btnTouchWheel.addEventListener('touchend', (e) => {
+e.preventDefault();
+if (wheelTouchTimer) {
+clearTimeout(wheelTouchTimer);
+wheelTouchTimer = null;
+cycleWeapon(1);
+sound.playJump();
+}
+}, { passive: false });
+
+btnTouchWheel.addEventListener('touchcancel', () => {
+if (wheelTouchTimer) clearTimeout(wheelTouchTimer);
+wheelTouchTimer = null;
 });
-byId('btn-touch-reload').addEventListener('touchstart', (e) => {
+}
+
+// MIRA (ADS) Button
+const btnTouchAim = byId('btn-touch-aim');
+if (btnTouchAim) {
+btnTouchAim.addEventListener('touchstart', (e) => {
+e.preventDefault();
+setAimingState(!state.isAiming);
+rumbleGamepad(0.06, 0.1, 40);
+}, { passive: false });
+}
+
+// RICARICA Button
+const btnTouchReload = byId('btn-touch-reload');
+if (btnTouchReload) {
+btnTouchReload.addEventListener('touchstart', (e) => {
 e.preventDefault();
 triggerReload();
-});
-byId('btn-touch-jump').addEventListener('touchstart', (e) => {
+}, { passive: false });
+}
+
+// SALTA Button
+const btnTouchJump = byId('btn-touch-jump');
+if (btnTouchJump) {
+btnTouchJump.addEventListener('touchstart', (e) => {
 e.preventDefault();
 if (isGrounded) {
 playerVelocity.y = GAME_CONFIG.jumpForce;
 isGrounded = false;
+sound.playJump();
+rumbleGamepad(0.12, 0.22, 70);
 }
-});
+}, { passive: false });
+}
+
+// SCIVOLA Button
 const btnTouchSlide = byId('btn-touch-slide');
 if (btnTouchSlide) {
 btnTouchSlide.addEventListener('touchstart', (e) => {
 e.preventDefault();
 keys.KeyC = true;
 setTimeout(() => { keys.KeyC = false; }, 350);
-});
+}, { passive: false });
 }
+
+// Gamepad Connection Listeners
+window.addEventListener('gamepadconnected', (e) => {
+gamepadState.connected = true;
+gamepadState.index = e.gamepad.index;
+gamepadState.id = e.gamepad.id;
+const cleanName = (e.gamepad.id.split('(')[0] || 'Gamepad').trim();
+showAnnouncement('🎮 CONTROLLER CONNESSO', cleanName);
+const badge = byId('hud-gamepad-badge');
+if (badge) {
+badge.classList.remove('hidden');
+badge.classList.add('flex');
+}
+rumbleGamepad(0.35, 0.6, 220);
+});
+
+window.addEventListener('gamepaddisconnected', (e) => {
+gamepadState.connected = false;
+gamepadState.index = null;
+showAnnouncement('⚠️ CONTROLLER DISCONNESSO', 'Passaggio a comandi touch/tastiera');
+const badge = byId('hud-gamepad-badge');
+if (badge) {
+badge.classList.add('hidden');
+badge.classList.remove('flex');
+}
+});
 const ks20Btn = byId('ks-btn-20');
 const ks35Btn = byId('ks-btn-35');
 const ks50Btn = byId('ks-btn-50');
@@ -4528,6 +4998,9 @@ hudEnemies.textContent = 'ARENA';
 }
 refreshWeaponWheelUI();
 updateHUD();
+if (isTouchDevice && touchControls) {
+touchControls.classList.remove('hidden');
+}
 if (!isTouchDevice) {
 try { canvas.requestPointerLock(); } catch (err) {}
 }
@@ -4539,6 +5012,9 @@ state.isFiring = false;
 closeWeaponWheel();
 setAimingState(false);
 savePlayerProfile();
+if (touchControls) {
+touchControls.classList.add('hidden');
+}
 if (document.pointerLockElement === canvas) {
 try { document.exitPointerLock(); } catch (e) {}
 }
@@ -4556,6 +5032,9 @@ menuOverlay.classList.add('hidden');
 state.pausedForShop = false;
 state.mode = 'PLAYING';
 clock.getDelta();
+if (isTouchDevice && touchControls) {
+touchControls.classList.remove('hidden');
+}
 if (!isTouchDevice) {
 try { canvas.requestPointerLock(); } catch (err) {}
 }
@@ -4565,6 +5044,9 @@ state.mode = 'GAMEOVER';
 state.isFiring = false;
 closeWeaponWheel();
 setAimingState(false);
+if (touchControls) {
+touchControls.classList.add('hidden');
+}
 bossHudContainer.classList.add('hidden');
 state.killstreak = 0;
 state.activeKillstreaks = { scanner: 0, drone: 0, orbital: 0 };
@@ -4682,6 +5164,7 @@ state.weaponClips[state.currentWeaponIndex] = state.ammo;
 const hasteRateMult = state.activePerks.HASTE > 0 ? 0.72 : 1.0;
 state.fireCooldown = eff.fireRate * hasteRateMult;
 sound.playWeaponFire(w.id);
+rumbleGamepad(0.08, 0.16, 60);
 weaponRecoilOffset = state.isAiming ? w.recoil * 0.45 : w.recoil;
 if (w.isSniper && state.isAiming) {
 scopeRecoilKick = 20;
@@ -6080,6 +6563,7 @@ updateKillstreakHUD();
 }
 }
 sound.playPlayerDamage();
+rumbleGamepad(0.5, 0.8, 250);
 damageOverlay.style.opacity = '0.85';
 setTimeout(() => { damageOverlay.style.opacity = '0'; }, 190);
 updateHUD();
@@ -6123,6 +6607,9 @@ let moveRight = (keys.KeyD || keys.ArrowRight ? 1 : 0) - (keys.KeyA || keys.Arro
 if (Math.abs(touchMoveVector.y) > 0.05 || Math.abs(touchMoveVector.x) > 0.05) {
 moveForward = -touchMoveVector.y;
 moveRight = touchMoveVector.x;
+} else if (Math.abs(gamepadMoveVector.y) > 0.05 || Math.abs(gamepadMoveVector.x) > 0.05) {
+moveForward = -gamepadMoveVector.y;
+moveRight = gamepadMoveVector.x;
 }
 const forward = new THREE.Vector3(0, 0, -1).applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraEuler.y);
 const right = new THREE.Vector3(1, 0, 0).applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraEuler.y);
@@ -6131,7 +6618,7 @@ moveDir.addScaledVector(forward, moveForward);
 moveDir.addScaledVector(right, moveRight);
 if (moveDir.lengthSq() > 1) moveDir.normalize();
 
-const isTryingToSprint = (keys.ShiftLeft || keys.ShiftRight) && !state.isAiming && moveForward > 0;
+const isTryingToSprint = (keys.ShiftLeft || keys.ShiftRight || gamepadSprintActive || touchSprintActive) && !state.isAiming && moveForward > 0.15;
 const canSprint = isTryingToSprint && state.stamina > 5;
 if (canSprint) {
 state.stamina = Math.max(0, state.stamina - dt * 36);
@@ -6712,9 +7199,10 @@ fpsLastTime = now;
 function animate() {
 requestAnimationFrame(animate);
 updateTelemetry();
-if (state.mode === 'PLAYING') {
 const dt = Math.min(clock.getDelta(), 0.1);
 const elapsed = clock.getElapsedTime();
+updateGamepad(dt);
+if (state.mode === 'PLAYING') {
 updateActivePerks(dt);
 updatePlayerMovement(dt);
 if (screenShakeIntensity > 0.02) {
@@ -6740,10 +7228,12 @@ state.needsStaticRender = false;
 if (document.readyState === 'loading') {
 document.addEventListener('DOMContentLoaded', () => {
 initThreeJS();
+checkDeviceOrientation();
 animate();
 });
 } else {
 initThreeJS();
+checkDeviceOrientation();
 animate();
 }
 </script>
