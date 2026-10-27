@@ -503,38 +503,34 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         <button id="nav-tab-play" type="button" class="lobby-nav-btn active px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 border-b-2 border-amber-400 transition cursor-pointer">
           GIOCA
         </button>
-        <button id="nav-tab-inventory" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
-          INVENTARIO
-          <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-        </button>
-        <button id="nav-tab-shop" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
-          NEGOZIO
-          <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500"></span>
+        <button id="nav-tab-armory" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
+          ARMERIA
+          <span id="nav-armory-badge" class="hidden absolute top-1 right-1 w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
         </button>
         <button id="nav-tab-profile" type="button" class="lobby-nav-btn px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
           PROFILO
         </button>
-        <button id="nav-tab-leaderboard" type="button" class="lobby-nav-btn px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
-          CENTRO
+        <button id="nav-tab-trophies" type="button" class="lobby-nav-btn px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
+          BACHECA
         </button>
       </nav>
     </div>
 
     <!-- RIGHT: CURRENCIES & STATUS -->
     <div class="flex items-center gap-2 sm:gap-4">
-      <div id="lobby-currency-pn" title="Punti Negozio (PN)" class="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1 rounded-xl border border-amber-500/30">
+      <button id="lobby-currency-pn" type="button" title="Punti Negozio (PN) - Clicca per aprire l'Armeria" class="flex items-center gap-1.5 bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-amber-500/40 cursor-pointer transition">
         <span class="text-sm">🪙</span>
         <span id="lobby-pn-amount" class="text-xs sm:text-sm font-black text-amber-400 font-mono">0</span>
-      </div>
-      <div id="lobby-currency-trophies" title="Trofei Sbloccati" class="hidden sm:flex items-center gap-1.5 bg-slate-900/90 px-3 py-1 rounded-xl border border-cyan-500/30">
+      </button>
+      <button id="lobby-currency-trophies" type="button" title="Trofei Sbloccati - Clicca per aprire la Bacheca" class="hidden sm:flex items-center gap-1.5 bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-fuchsia-500/40 cursor-pointer transition">
         <span class="text-sm">🏆</span>
-        <span id="lobby-trophies-amount" class="text-xs sm:text-sm font-black text-cyan-300 font-mono">0/15</span>
-      </div>
-      <div title="Livello Operatore" class="flex items-center gap-1 bg-gradient-to-r from-cyan-950 to-blue-950 px-3 py-1 rounded-xl border border-cyan-400/50">
+        <span id="lobby-trophies-amount" class="text-xs sm:text-sm font-black text-fuchsia-300 font-mono">0/15</span>
+      </button>
+      <button id="lobby-level-badge-container" type="button" title="Livello Operatore - Clicca per aprire il Profilo" class="flex items-center gap-1 bg-gradient-to-r from-cyan-950 to-blue-950 hover:brightness-110 px-3 py-1.5 rounded-xl border border-cyan-400/50 cursor-pointer transition">
         <span id="lobby-level-badge" class="text-xs sm:text-sm font-black text-cyan-300 font-mono">1</span>
         <span class="text-[10px] text-slate-400 font-bold uppercase font-cyber">Lv.</span>
-      </div>
-      <div id="lobby-online-pill" class="hidden md:flex items-center gap-1.5 bg-emerald-950/70 px-3 py-1 rounded-xl border border-emerald-500/40 text-[10px] font-bold text-emerald-300">
+      </button>
+      <div id="lobby-online-pill" class="hidden md:flex items-center gap-1.5 bg-emerald-950/70 px-3 py-1.5 rounded-xl border border-emerald-500/40 text-[10px] font-bold text-emerald-300">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]"></span>
         <span id="lobby-online-text">ONLINE</span>
       </div>
@@ -547,10 +543,12 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
     <div id="lobby-toast-subtitle" class="text-[10px] text-slate-300 font-mono"></div>
   </div>
 
+  <!-- ==================== VIEW 1: GIOCA (SCHERMATA INIZIALE CON 3D SCENE) ==================== -->
+  <div id="lobby-view-play" class="w-full flex-1 flex flex-col justify-between overflow-hidden">
   <!-- CENTER AREA // SQUAD LOBBY SLOTS OVER 3D SCENE -->
-  <div class="relative w-full flex-1 flex items-center justify-center my-auto pointer-events-none">
+  <div class="relative w-full flex-1 min-h-0 pointer-events-none">
     <!-- SLOT 2 (LEFT SQUAD SLOT) -->
-    <div id="lobby-slot-2" class="lobby-slot-card absolute left-2 sm:left-[10%] md:left-[14%] bottom-16 sm:bottom-24 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
+    <div id="lobby-slot-2" class="lobby-slot-card absolute left-2 sm:left-[10%] md:left-[14%] bottom-6 sm:bottom-10 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
       <div id="lobby-slot-2-empty" class="flex flex-col items-center justify-center text-center">
         <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-3xl text-cyan-300 group-hover:scale-110 transition duration-200 mb-3 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
           +
@@ -572,23 +570,23 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
     </div>
 
     <!-- CENTER SLOT // YOUR OPERATOR -->
-    <div class="flex flex-col items-center justify-end h-full pb-6 sm:pb-8 pointer-events-auto">
+    <div class="absolute inset-0 flex flex-col items-center justify-end pb-3 sm:pb-5 pointer-events-none">
       <!-- Player Floating Name Tag (Elevated above astronaut helmet) -->
-      <div class="mb-[22rem] sm:mb-[26rem] md:mb-[29rem] flex items-center gap-2.5 bg-slate-950/90 backdrop-blur-md px-5 py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all">
+      <div class="mb-[11rem] sm:mb-[12.5rem] md:mb-[13.5rem] flex items-center gap-2.5 bg-slate-950/90 backdrop-blur-md px-5 py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all pointer-events-auto">
         <span class="text-sm">👨‍🚀</span>
         <span id="lobby-player-name" class="text-sm sm:text-base font-cyber font-black text-white tracking-wide">GHOST-01</span>
         <span id="lobby-player-lvl-tag" class="px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-xs font-cyber font-black text-cyan-300 font-mono tracking-wider">1 Lv.</span>
       </div>
 
       <!-- "CAMBIA SKIN" button directly below character -->
-      <button id="lobby-btn-change-skin" type="button" class="relative group px-5 py-2.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 border border-cyan-400/50 hover:border-cyan-400 text-xs sm:text-sm font-cyber font-black uppercase tracking-wider text-cyan-300 transition shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center gap-2 cursor-pointer">
+      <button id="lobby-btn-change-skin" type="button" class="relative group px-5 py-2.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 border border-cyan-400/50 hover:border-cyan-400 text-xs sm:text-sm font-cyber font-black uppercase tracking-wider text-cyan-300 transition shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center gap-2 cursor-pointer pointer-events-auto">
         <span>CAMBIA SKIN</span>
         <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
       </button>
     </div>
 
     <!-- SLOT 3 (RIGHT SQUAD SLOT) -->
-    <div id="lobby-slot-3" class="lobby-slot-card absolute right-2 sm:right-[10%] md:right-[14%] bottom-16 sm:bottom-24 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
+    <div id="lobby-slot-3" class="lobby-slot-card absolute right-2 sm:right-[10%] md:right-[14%] bottom-6 sm:bottom-10 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
       <div id="lobby-slot-3-empty" class="flex flex-col items-center justify-center text-center">
         <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-3xl text-cyan-300 group-hover:scale-110 transition duration-200 mb-3 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
           +
@@ -706,6 +704,354 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       </div>
     </div>
   </footer>
+  </div> <!-- /lobby-view-play -->
+
+  <!-- ==================== VIEW 2: ARMERIA (POTENZIAMENTI, MODULI & PRESTIGIO) ==================== -->
+  <div id="lobby-view-armory" class="hidden w-full max-w-6xl mx-auto flex-1 overflow-y-auto pointer-events-auto my-2 cyber-panel rounded-2xl p-4 sm:p-6 border border-amber-400/50 bg-slate-950/95 backdrop-blur-md shadow-2xl flex-col">
+    <!-- Armory Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+      <div>
+        <div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest font-bold">ARMERIA TATTICA & ARSENALE</div>
+        <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">POTENZIAMENTI, MODULI & PRESTIGIO ARMI</h2>
+        <p class="text-xs text-slate-400 mt-0.5">Seleziona un'arma, visualizza le statistiche balistiche, potenzia i moduli con i tuoi PN e sblocca camos e prestigio.</p>
+      </div>
+      <div class="flex items-center gap-2 self-start sm:self-center">
+        <button id="armory-btn-equip-primary" type="button" class="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-cyber text-xs font-black uppercase tracking-wider transition cursor-pointer shadow-[0_0_15px_rgba(251,191,36,0.3)]">
+          ✓ EQUIPAGGIA COME PRIMARIA
+        </button>
+        <button id="armory-btn-back-play" type="button" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
+          ✕ Torna a Gioca
+        </button>
+      </div>
+    </div>
+
+    <!-- Weapon Selector Tabs -->
+    <div id="shop-weapons-tabs" class="grid grid-cols-2 sm:grid-cols-5 gap-2 my-4"></div>
+
+    <!-- Selected Weapon Status Card -->
+    <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 mb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="shop-weapon-title" class="text-lg font-cyber font-black text-cyan-400">Fucile d'Assalto MK-IV</span>
+            <span id="shop-weapon-level-badge" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 font-cyber text-xs font-bold">LIVELLO 1</span>
+            <span id="shop-weapon-prestige-badge" class="hidden px-2.5 py-0.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-400 text-fuchsia-300 font-cyber text-xs font-black">★ PRESTIGIO 1</span>
+          </div>
+          <p id="shop-weapon-desc" class="text-xs text-slate-400 mt-0.5">Bilanciato Automatico</p>
+        </div>
+        <div class="bg-slate-950 px-4 py-2 rounded-xl border border-amber-400/40 text-right shrink-0">
+          <div class="text-[10px] font-cyber text-slate-400 uppercase">Punti Negozio Arma</div>
+          <div id="shop-weapon-points" class="text-xl font-cyber font-black text-amber-400">0 PN</div>
+        </div>
+      </div>
+      <div>
+        <div class="flex justify-between text-[11px] font-cyber mb-1">
+          <span class="text-slate-300">Esperienza Arma (XP)</span>
+          <span id="shop-weapon-xp-text" class="text-cyan-300">0 / 75 XP</span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+          <div id="shop-weapon-xp-bar" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 rounded-full transition-all duration-150" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Comparative Ballistic Stat Bars -->
+    <div class="bg-slate-900/80 rounded-xl p-4 border border-cyan-500/30 mb-4">
+      <div class="text-[10px] font-cyber text-cyan-300 uppercase tracking-widest font-bold mb-2.5">📊 STATISTICHE BALISTICHE COMPARATIVE</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <!-- Danno -->
+        <div class="bg-slate-950/90 rounded-lg p-2.5 border border-slate-800">
+          <div class="flex items-center justify-between text-[11px] font-cyber mb-1">
+            <span class="text-rose-400 font-bold">💥 Danno Colpo</span>
+            <span id="armory-stat-damage-val" class="font-mono font-black text-white">36</span>
+          </div>
+          <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+            <div id="armory-stat-damage-bar" class="h-full bg-gradient-to-r from-rose-600 to-rose-400 rounded-full transition-all duration-300" style="width: 35%"></div>
+          </div>
+        </div>
+        <!-- Cadenza -->
+        <div class="bg-slate-950/90 rounded-lg p-2.5 border border-slate-800">
+          <div class="flex items-center justify-between text-[11px] font-cyber mb-1">
+            <span class="text-amber-400 font-bold">⚡ Cadenza Fuoco</span>
+            <span id="armory-stat-firerate-val" class="font-mono font-black text-white">520 RPM</span>
+          </div>
+          <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+            <div id="armory-stat-firerate-bar" class="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full transition-all duration-300" style="width: 50%"></div>
+          </div>
+        </div>
+        <!-- Caricatore -->
+        <div class="bg-slate-950/90 rounded-lg p-2.5 border border-slate-800">
+          <div class="flex items-center justify-between text-[11px] font-cyber mb-1">
+            <span class="text-cyan-400 font-bold">🔋 Caricatore</span>
+            <span id="armory-stat-ammo-val" class="font-mono font-black text-white">32 Colpi</span>
+          </div>
+          <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+            <div id="armory-stat-ammo-bar" class="h-full bg-gradient-to-r from-cyan-600 to-cyan-400 rounded-full transition-all duration-300" style="width: 53%"></div>
+          </div>
+        </div>
+        <!-- Ricarica -->
+        <div class="bg-slate-950/90 rounded-lg p-2.5 border border-slate-800">
+          <div class="flex items-center justify-between text-[11px] font-cyber mb-1">
+            <span class="text-emerald-400 font-bold">⏱️ Velocità Ricarica</span>
+            <span id="armory-stat-reload-val" class="font-mono font-black text-white">1.30s</span>
+          </div>
+          <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden">
+            <div id="armory-stat-reload-bar" class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-300" style="width: 65%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modular Upgrades Grid -->
+    <div id="shop-upgrades-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4"></div>
+
+    <!-- Prestige & Prestige Skills Protocol -->
+    <div id="shop-prestige-section" class="bg-slate-900/95 rounded-xl p-4 border border-fuchsia-500/40 mb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+        <div>
+          <div class="text-[10px] font-cyber text-fuchsia-400 uppercase tracking-widest font-bold">Protocollo Prestigio Cyber</div>
+          <h3 id="prestige-status-title" class="text-sm sm:text-base font-cyber font-black text-white">Completa tutti i 4 potenziamenti (Grado 5/5) per attivare il Prestigio</h3>
+          <p class="text-[11px] text-slate-400">Ogni Prestigio aumenta permanentemente il danno base dell'arma del <strong class="text-fuchsia-300">+15%</strong> e sblocca le Abilità Prestigio qui sotto!</p>
+        </div>
+        <button id="btn-do-prestige" type="button" class="px-4 py-2.5 rounded-xl font-cyber text-xs font-black uppercase tracking-wider transition shrink-0">
+          ★ ATTIVA PRESTIGIO (2 PN)
+        </button>
+      </div>
+      <div id="shop-prestige-skills-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-3"></div>
+      <div class="mt-4 pt-3 border-t border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+          <span class="text-[10px] font-cyber text-cyan-300 uppercase tracking-widest font-bold">🎨 Skin / Camo Arma Sbloccabili (Prestigio & Headshot)</span>
+          <span id="shop-weapon-headshots-count" class="text-[10px] font-cyber text-amber-400 font-bold">Headshot con quest'arma: 0 HS</span>
+        </div>
+        <div id="shop-camo-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VIEW 3: PROFILO (RECORD, STATISTICHE & TUTE ASTRONAUTA) ==================== -->
+  <div id="lobby-view-profile" class="hidden w-full max-w-6xl mx-auto flex-1 overflow-y-auto pointer-events-auto my-2 cyber-panel rounded-2xl p-4 sm:p-6 border border-cyan-400/50 bg-slate-950/95 backdrop-blur-md shadow-2xl flex-col space-y-4">
+    <!-- Profile Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+      <div>
+        <div class="text-[10px] font-cyber text-cyan-400 uppercase tracking-widest font-bold">DOSSIER OPERATORE CYBER</div>
+        <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">PROFILO, STATISTICHE & GUARDAROBA</h2>
+        <p class="text-xs text-slate-400 mt-0.5">Consulta tutti i tuoi record storici di combattimento, gestisci l'equipaggiamento e personalizza il tuo astronauta.</p>
+      </div>
+      <button id="profile-btn-back-play" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
+        ✕ Torna a Gioca
+      </button>
+    </div>
+
+    <!-- Operator Identity & Level Card -->
+    <div class="bg-slate-900 rounded-xl p-4 border border-cyan-500/40">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border-2 border-cyan-400/50 flex items-center justify-center text-3xl shadow-[0_0_20px_rgba(6,182,212,0.3)] shrink-0">
+            👨‍🚀
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="shop-operator-title" class="text-lg font-cyber font-black text-cyan-400">Recluta Cyber</span>
+              <span id="shop-operator-level-badge" class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold">LIVELLO 1</span>
+              <span id="shop-operator-suit-badge" class="px-2.5 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold">Tuta: MK-I</span>
+            </div>
+            <!-- Name Edit Field -->
+            <div class="flex items-center gap-2 mt-1.5">
+              <input id="profile-view-name-input" type="text" maxlength="16" value="GHOST-01" class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm font-cyber font-bold text-white outline-none w-36 sm:w-48" placeholder="Nome Operatore">
+              <button id="btn-profile-view-save-name" type="button" class="px-3 py-1 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-cyber text-xs font-black uppercase transition cursor-pointer">
+                SALVA
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 self-end sm:self-center">
+          <div class="bg-slate-950 px-4 py-2 rounded-xl border border-cyan-400/40 text-right">
+            <div class="text-[10px] font-cyber text-slate-400 uppercase">XP Totale Operatore</div>
+            <div id="shop-operator-total-xp" class="text-xl font-cyber font-black text-amber-400">0 XP</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- XP Bar -->
+      <div>
+        <div class="flex justify-between text-[11px] font-cyber mb-1">
+          <span class="text-slate-300">Progresso Verso il Prossimo Livello</span>
+          <span id="shop-operator-xp-progress" class="text-cyan-300">0 / 500 XP (0%)</span>
+        </div>
+        <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+          <div id="shop-operator-xp-bar" class="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-fuchsia-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Career Records Grid (10 Stats) -->
+    <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800">
+      <div class="text-[10px] font-cyber text-cyan-400 uppercase tracking-widest font-bold mb-3">📈 RECORD & STATISTICHE CARRIERA</div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-amber-400 uppercase font-bold">🏆 Miglior Punteggio</div>
+          <div id="profile-rec-best-score" class="text-lg font-cyber font-black text-white mt-0.5">0</div>
+          <div class="text-[9px] text-slate-500 font-mono">Record Assoluto</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-cyan-400 uppercase font-bold">🌊 Ondata Massima</div>
+          <div id="profile-rec-best-wave" class="text-lg font-cyber font-black text-white mt-0.5">1</div>
+          <div class="text-[9px] text-slate-500 font-mono">Sopravvivenza</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-emerald-400 uppercase font-bold">🎯 Nemici Eliminati</div>
+          <div id="profile-rec-total-kills" class="text-lg font-cyber font-black text-white mt-0.5">0</div>
+          <div class="text-[9px] text-slate-500 font-mono">Kill Totali</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-rose-400 uppercase font-bold">💀 Headshot Eseguiti</div>
+          <div id="profile-rec-headshots" class="text-lg font-cyber font-black text-white mt-0.5">0</div>
+          <div class="text-[9px] text-slate-500 font-mono">Tutte le Armi</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-fuchsia-400 uppercase font-bold">👾 Boss Sconfitti</div>
+          <div id="profile-rec-bosses" class="text-lg font-cyber font-black text-white mt-0.5">0</div>
+          <div class="text-[9px] text-slate-500 font-mono">Aegis / Arachno / Titan</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-amber-300 uppercase font-bold">🔥 Killstreak Max</div>
+          <div id="profile-rec-killstreak" class="text-lg font-cyber font-black text-white mt-0.5">0</div>
+          <div class="text-[9px] text-slate-500 font-mono">Serie Ininterrotta</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-blue-400 uppercase font-bold">🎮 Partite Giocate</div>
+          <div id="profile-rec-games" class="text-lg font-cyber font-black text-white mt-0.5">0</div>
+          <div class="text-[9px] text-slate-500 font-mono">Incursioni Totali</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-amber-400 uppercase font-bold">🪙 Punti Negozio</div>
+          <div id="profile-rec-pn" class="text-lg font-cyber font-black text-amber-300 mt-0.5">0 PN</div>
+          <div class="text-[9px] text-slate-500 font-mono">Disponibili</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-fuchsia-300 uppercase font-bold">🏅 Trofei Ottenuti</div>
+          <div id="profile-rec-trophies" class="text-lg font-cyber font-black text-fuchsia-300 mt-0.5">0 / 15</div>
+          <div class="text-[9px] text-slate-500 font-mono">Bacheca PSN</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800/90">
+          <div class="text-[10px] font-cyber text-cyan-300 uppercase font-bold">🪂 Uccisioni in Volo</div>
+          <div id="profile-rec-air-kills" class="text-lg font-cyber font-black text-white mt-0.5">0</div>
+          <div class="text-[9px] text-slate-500 font-mono">Sui Jump-Pad</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Astronaut Suits Locker -->
+    <div class="bg-slate-900/95 rounded-xl p-4 border border-fuchsia-500/40">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+        <span class="text-[10px] font-cyber text-fuchsia-300 uppercase tracking-widest font-bold">🥋 Tute Astronauta // Guardaroba Cyber 3D</span>
+        <span class="text-[10px] text-slate-400">Personalizza l'astronauta visualizzato sul podio della lobby 3D</span>
+      </div>
+      <div id="shop-suits-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5"></div>
+    </div>
+
+    <!-- Tactical Optics Grid -->
+    <div class="bg-slate-900/95 rounded-xl p-4 border border-cyan-500/40">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+        <span class="text-[10px] font-cyber text-cyan-300 uppercase tracking-widest font-bold">🎯 Mirini & Ottiche Tattiche (Per Tutte le Armi)</span>
+        <span class="text-[10px] text-slate-400">Scegli il mirino da utilizzare durante il puntamento mirato [ADS]</span>
+      </div>
+      <div id="shop-optics-grid" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2.5"></div>
+    </div>
+
+    <!-- Active Stat Bonuses -->
+    <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800">
+      <div class="text-[10px] font-cyber text-cyan-400 uppercase tracking-widest font-bold mb-2">⚡ Bonus Statistiche Personaggio Attive</div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800">
+          <div class="text-[10px] font-cyber text-emerald-400 uppercase font-bold">🛡️ Corazza Massima</div>
+          <div id="shop-stat-max-hp" class="text-lg font-cyber font-black text-white mt-0.5">100 HP</div>
+          <div id="shop-stat-hp-sub" class="text-[10px] text-slate-400 mt-0.5">+10 HP al Liv. 4, +15 al Liv. 12/20</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-cyan-500/30">
+          <div class="text-[10px] font-cyber text-cyan-400 uppercase font-bold">🏃 Stamina Massima</div>
+          <div id="shop-stat-max-stamina" class="text-lg font-cyber font-black text-cyan-300 mt-0.5">100%</div>
+          <div id="shop-stat-stamina-sub" class="text-[10px] text-slate-400 mt-0.5">+15% Stamina al Livello 7</div>
+        </div>
+        <div class="bg-slate-950 rounded-xl p-3 border border-amber-500/30">
+          <div class="text-[10px] font-cyber text-amber-400 uppercase font-bold">⚡ Recupero Stamina</div>
+          <div id="shop-stat-stamina-regen" class="text-lg font-cyber font-black text-amber-300 mt-0.5">1.0x (Normale)</div>
+          <div id="shop-stat-regen-sub" class="text-[10px] text-slate-400 mt-0.5">+20% Velocità di ricarica al Liv. 14</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Career Milestones Timeline -->
+    <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest font-bold">🏆 Tabella Sblocchi Operatore (Livello 1 - 30)</span>
+        <span id="shop-rewards-unlocked-count" class="text-[10px] font-cyber text-cyan-400 font-bold">0 / 17 Sbloccati</span>
+      </div>
+      <div id="shop-rewards-timeline" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1"></div>
+    </div>
+  </div>
+
+  <!-- ==================== VIEW 4: BACHECA (TROFEI PSN & PLATINO) ==================== -->
+  <div id="lobby-view-trophies" class="hidden w-full max-w-6xl mx-auto flex-1 overflow-y-auto pointer-events-auto my-2 cyber-panel rounded-2xl p-4 sm:p-6 border border-fuchsia-400/50 bg-slate-950/95 backdrop-blur-md shadow-2xl flex-col space-y-4">
+    <!-- Trophies Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+      <div>
+        <div class="text-[10px] font-cyber text-fuchsia-400 uppercase tracking-widest font-bold">BACHECA TROFEI // PLAYSTATION NETWORK</div>
+        <h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">TROFEI SBLOCCABILI & TROFEO PLATINO</h2>
+        <p class="text-xs text-slate-400 mt-0.5">Completa le sfide del campo di battaglia per sbloccare tutti i 14 trofei e ottenere il leggendario Platino!</p>
+      </div>
+      <button id="trophies-btn-back-play" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-fuchsia-400/50 text-fuchsia-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
+        ✕ Torna a Gioca
+      </button>
+    </div>
+
+    <!-- Platinum Progression Banner & Tier Cards -->
+    <div class="bg-slate-900 rounded-xl p-4 border border-fuchsia-500/30">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+        <span class="text-xs font-cyber font-bold text-fuchsia-300 uppercase tracking-wider">PROGRESSIONE VERSO IL PLATINO</span>
+        <span id="trophies-progress-pct" class="text-sm font-cyber font-black text-amber-400">0% (0/15)</span>
+      </div>
+      <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800 mb-4">
+        <div id="trophies-progress-bar" class="h-full bg-gradient-to-r from-cyan-500 via-fuchsia-500 to-amber-400 rounded-full transition-all duration-300" style="width: 0%"></div>
+      </div>
+
+      <!-- 4 Tier Breakdown Badges -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div class="bg-slate-950/80 px-3 py-2 rounded-xl border border-cyan-400/30 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">💠</span>
+            <span class="text-[11px] font-cyber font-bold text-cyan-300 uppercase">PLATINO</span>
+          </div>
+          <span id="trophies-tier-platino" class="text-xs font-cyber font-black text-white">0/1</span>
+        </div>
+        <div class="bg-slate-950/80 px-3 py-2 rounded-xl border border-amber-400/30 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">🥇</span>
+            <span class="text-[11px] font-cyber font-bold text-amber-400 uppercase">ORO</span>
+          </div>
+          <span id="trophies-tier-oro" class="text-xs font-cyber font-black text-white">0/6</span>
+        </div>
+        <div class="bg-slate-950/80 px-3 py-2 rounded-xl border border-slate-400/30 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">🥈</span>
+            <span class="text-[11px] font-cyber font-bold text-slate-300 uppercase">ARGENTO</span>
+          </div>
+          <span id="trophies-tier-argento" class="text-xs font-cyber font-black text-white">0/4</span>
+        </div>
+        <div class="bg-slate-950/80 px-3 py-2 rounded-xl border border-amber-700/40 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">🥉</span>
+            <span class="text-[11px] font-cyber font-bold text-amber-600 uppercase">BRONZO</span>
+          </div>
+          <span id="trophies-tier-bronzo" class="text-xs font-cyber font-black text-white">0/4</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trophies Grid -->
+    <div id="trophies-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[56vh] overflow-y-auto pr-1"></div>
+  </div>
 </div>
 
 <!-- ==================== SETTINGS MODAL (GEAR ICON ⚙️) ==================== -->
@@ -1172,181 +1518,6 @@ ENTRA NELLA STANZA
 <div id="mp-respawn-countdown" class="text-4xl font-black text-cyan-300">3</div>
 </div>
 </div>
-<div id="shop-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
-<div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-amber-400/50 my-auto">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
-<div>
-<div class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest">Armeria Tattica & Laboratorio Operatore</div>
-<h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">NEGOZIO POTENZIAMENTI & OPERATORE</h2>
-<p class="text-xs text-slate-400">Potenzia le armi con i PN e sblocca mirini, tute e abilità aumentando il tuo <strong class="text-cyan-400">Livello Operatore</strong>!</p>
-</div>
-<button id="btn-close-shop" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase cursor-pointer">
-✕ Torna al Menu
-</button>
-</div>
-
-<!-- SHOP TOP TABS -->
-<div class="flex gap-2 my-3 border-b border-slate-800 pb-2">
-<button id="btn-shop-tab-weapons" type="button" class="flex-1 py-2 px-3 rounded-xl font-cyber text-xs font-black uppercase transition cursor-pointer bg-cyan-950/90 border border-cyan-400 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.25)]">
-🔫 Arsenale & Armi
-</button>
-<button id="btn-shop-tab-operator" type="button" class="flex-1 py-2 px-3 rounded-xl font-cyber text-xs font-black uppercase transition cursor-pointer bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400">
-👤 Livello Operatore & Sblocchi
-</button>
-</div>
-
-<!-- WEAPONS PANEL -->
-<div id="shop-weapons-panel">
-<div id="shop-weapons-tabs" class="grid grid-cols-2 sm:grid-cols-4 gap-2 my-4"></div>
-<div class="bg-slate-900 rounded-xl p-4 border border-slate-800 mb-4">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-<div>
-<div class="flex flex-wrap items-center gap-2">
-<span id="shop-weapon-title" class="text-lg font-cyber font-black text-cyan-400">Fucile d'Assalto MK-IV</span>
-<span id="shop-weapon-level-badge" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 font-cyber text-xs font-bold">LIVELLO 1</span>
-<span id="shop-weapon-prestige-badge" class="hidden px-2.5 py-0.5 rounded-full bg-fuchsia-500/20 border border-fuchsia-400 text-fuchsia-300 font-cyber text-xs font-black">★ PRESTIGIO 1</span>
-</div>
-<p id="shop-weapon-desc" class="text-xs text-slate-400 mt-0.5">Bilanciato Automatico</p>
-</div>
-<div class="bg-slate-950 px-4 py-2 rounded-xl border border-amber-400/40 text-right">
-<div class="text-[10px] font-cyber text-slate-400 uppercase">Punti Negozio Arma</div>
-<div id="shop-weapon-points" class="text-xl font-cyber font-black text-amber-400">0 PN</div>
-</div>
-</div>
-<div>
-<div class="flex justify-between text-[11px] font-cyber mb-1">
-<span class="text-slate-300">Esperienza Arma (XP)</span>
-<span id="shop-weapon-xp-text" class="text-cyan-300">0 / 75 XP</span>
-</div>
-<div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
-<div id="shop-weapon-xp-bar" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 rounded-full transition-all duration-150" style="width: 0%"></div>
-</div>
-</div>
-</div>
-<div id="shop-upgrades-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4"></div>
-<div id="shop-prestige-section" class="bg-slate-900/95 rounded-xl p-4 border border-fuchsia-500/40">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
-<div>
-<div class="text-[10px] font-cyber text-fuchsia-400 uppercase tracking-widest">Protocollo Prestigio Cyber</div>
-<h3 id="prestige-status-title" class="text-sm sm:text-base font-cyber font-black text-white">Completa tutti i 4 potenziamenti (Grado 5/5) per attivare il Prestigio</h3>
-<p class="text-[11px] text-slate-400">Ogni Prestigio aumenta permanentemente il danno base dell'arma del <strong class="text-fuchsia-300">+15%</strong> e sblocca le Abilità Prestigio qui sotto!</p>
-</div>
-<button id="btn-do-prestige" type="button" class="px-4 py-2.5 rounded-xl font-cyber text-xs font-black uppercase tracking-wider transition shrink-0">
-★ ATTIVA PRESTIGIO (2 PN)
-</button>
-</div>
-<div id="shop-prestige-skills-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-3"></div>
-<div class="mt-4 pt-3 border-t border-slate-800">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-<span class="text-[10px] font-cyber text-cyan-300 uppercase tracking-widest font-bold">🎨 Skin / Camo Arma Sbloccabili (Prestigio & Headshot)</span>
-<span id="shop-weapon-headshots-count" class="text-[10px] font-cyber text-amber-400 font-bold">Headshot con quest'arma: 0 HS</span>
-</div>
-<div id="shop-camo-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
-</div>
-</div>
-</div>
-
-<!-- OPERATOR PANEL -->
-<div id="shop-operator-panel" class="hidden space-y-4">
-<div class="bg-slate-900 rounded-xl p-4 border border-cyan-500/40">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-<div>
-<div class="flex flex-wrap items-center gap-2">
-<span id="shop-operator-title" class="text-lg font-cyber font-black text-cyan-400">Recluta Cyber</span>
-<span id="shop-operator-level-badge" class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold">LIVELLO 1</span>
-<span id="shop-operator-suit-badge" class="px-2.5 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold">Tuta: MK-I</span>
-</div>
-<p class="text-xs text-slate-400 mt-1">Guadagni XP giocando: punteggio, ondate completate, kill e boss eliminati ti fanno salire di livello!</p>
-<div class="text-[10px] text-emerald-400 font-cyber mt-1">✓ I tuoi progressi di gioco storici sono calcolati retroattivamente senza perdite.</div>
-</div>
-<div class="bg-slate-950 px-4 py-2 rounded-xl border border-cyan-400/40 text-right shrink-0">
-<div class="text-[10px] font-cyber text-slate-400 uppercase">XP Totale Operatore</div>
-<div id="shop-operator-total-xp" class="text-xl font-cyber font-black text-amber-400">0 XP</div>
-</div>
-</div>
-<div>
-<div class="flex justify-between text-[11px] font-cyber mb-1">
-<span class="text-slate-300">Progresso Verso il Prossimo Livello</span>
-<span id="shop-operator-xp-progress" class="text-cyan-300">0 / 500 XP (0%)</span>
-</div>
-<div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
-<div id="shop-operator-xp-bar" class="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-fuchsia-500 rounded-full transition-all duration-300" style="width: 0%"></div>
-</div>
-</div>
-</div>
-
-<div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800">
-<div class="text-[10px] font-cyber text-cyan-400 uppercase tracking-widest font-bold mb-2">⚡ Bonus Statistiche Personaggio Attive</div>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-<div class="bg-slate-950 rounded-xl p-3 border border-slate-800">
-<div class="text-[10px] font-cyber text-emerald-400 uppercase font-bold">🛡️ Corazza Massima</div>
-<div id="shop-stat-max-hp" class="text-lg font-cyber font-black text-white mt-0.5">100 HP</div>
-<div id="shop-stat-hp-sub" class="text-[10px] text-slate-400 mt-0.5">+10 HP al Liv. 4, +15 al Liv. 12/20</div>
-</div>
-<div class="bg-slate-950 rounded-xl p-3 border border-cyan-500/30">
-<div class="text-[10px] font-cyber text-cyan-400 uppercase font-bold">🏃 Stamina Massima</div>
-<div id="shop-stat-max-stamina" class="text-lg font-cyber font-black text-cyan-300 mt-0.5">100%</div>
-<div id="shop-stat-stamina-sub" class="text-[10px] text-slate-400 mt-0.5">+15% Stamina al Livello 7</div>
-</div>
-<div class="bg-slate-950 rounded-xl p-3 border border-amber-500/30">
-<div class="text-[10px] font-cyber text-amber-400 uppercase font-bold">⚡ Recupero Stamina</div>
-<div id="shop-stat-stamina-regen" class="text-lg font-cyber font-black text-amber-300 mt-0.5">1.0x (Normale)</div>
-<div id="shop-stat-regen-sub" class="text-[10px] text-slate-400 mt-0.5">+20% Velocità di ricarica al Liv. 14</div>
-</div>
-</div>
-</div>
-
-<div class="bg-slate-900/95 rounded-xl p-4 border border-cyan-500/40">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-<span class="text-[10px] font-cyber text-cyan-300 uppercase tracking-widest font-bold">🎯 Mirini & Ottiche Tattiche (Per Tutte le Armi)</span>
-<span class="text-[10px] text-slate-400">Scegli il mirino da utilizzare durante il puntamento mirato [ADS]</span>
-</div>
-<div id="shop-optics-grid" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-2.5"></div>
-</div>
-
-<div class="bg-slate-900/95 rounded-xl p-4 border border-fuchsia-500/40">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-<span class="text-[10px] font-cyber text-fuchsia-300 uppercase tracking-widest font-bold">🥋 Tute & Personalizzazioni Operatore</span>
-<span class="text-[10px] text-slate-400">Personalizza l'armatura del tuo personaggio e i riflessi neon delle armi</span>
-</div>
-<div id="shop-suits-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5"></div>
-</div>
-
-<div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-cyber text-amber-400 uppercase tracking-widest font-bold">🏆 Tabella Sblocchi Operatore (Livello 1 - 30)</span>
-<span id="shop-rewards-unlocked-count" class="text-[10px] font-cyber text-cyan-400 font-bold">0 / 17 Sbloccati</span>
-</div>
-<div id="shop-rewards-timeline" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="trophies-overlay" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/96 overflow-y-auto">
-<div class="cyber-panel rounded-2xl max-w-4xl w-full p-5 sm:p-6 border border-fuchsia-400/50 my-auto">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
-<div>
-<div class="text-[10px] font-cyber text-fuchsia-400 uppercase tracking-widest">PlayStation Network // Sincronizzazione Trofei</div>
-<h2 class="text-xl sm:text-2xl font-cyber font-black text-white uppercase">BACHECA TROFEI & PLATINO</h2>
-<p id="trophies-summary-text" class="text-xs text-slate-400">Sblocca tutti i 14 trofei di gioco per ottenere il leggendario Trofeo di Platino!</p>
-</div>
-<button id="btn-close-trophies" type="button" class="self-start sm:self-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold uppercase cursor-pointer">
-✕ Torna al Menu
-</button>
-</div>
-<div class="bg-slate-900 rounded-xl p-3.5 my-4 border border-slate-800">
-<div class="flex justify-between text-xs font-cyber mb-1.5">
-<span class="text-fuchsia-300 font-bold">PROGRESSIONE VERSO IL PLATINO</span>
-<span id="trophies-progress-pct" class="text-amber-400 font-black">0% (0/15)</span>
-</div>
-<div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
-<div id="trophies-progress-bar" class="h-full bg-gradient-to-r from-cyan-500 via-fuchsia-500 to-amber-400 rounded-full transition-all duration-300" style="width: 0%"></div>
-</div>
-</div>
-<div id="trophies-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[58vh] overflow-y-auto pr-1"></div>
-</div>
-</div>
 <script>
 const WEAPONS = [
 {
@@ -1638,6 +1809,7 @@ airKills: 0,
 perksCollected: 0,
 gamesPlayed: 0,
 maxBossesDefeatedPermanent: 0,
+bestKillstreak: 0,
 sensitivity: 1.0,
 sfxEnabled: true,
 musicEnabled: true,
@@ -1825,6 +1997,7 @@ playerProfile.airKills = Number(parsed.airKills) || 0;
 playerProfile.perksCollected = Number(parsed.perksCollected) || 0;
 playerProfile.gamesPlayed = Number(parsed.gamesPlayed) || 0;
 playerProfile.maxBossesDefeatedPermanent = Number(parsed.maxBossesDefeatedPermanent) || 0;
+playerProfile.bestKillstreak = Number(parsed.bestKillstreak) || 0;
 playerProfile.sensitivity = Number(parsed.sensitivity) || 1.0;
 playerProfile.sfxEnabled = parsed.sfxEnabled !== undefined ? Boolean(parsed.sfxEnabled) : true;
 playerProfile.musicEnabled = parsed.musicEnabled !== undefined ? Boolean(parsed.musicEnabled) : true;
@@ -1972,6 +2145,10 @@ const lobbyPlayerName = byId('lobby-player-name');
 if (lobbyPlayerName) lobbyPlayerName.textContent = playerProfile.name || 'GHOST-01';
 const lobbyPlayerLvlTag = byId('lobby-player-lvl-tag');
 if (lobbyPlayerLvlTag) lobbyPlayerLvlTag.textContent = `${opProg.level} Lv.`;
+const profileViewNameInput = byId('profile-view-name-input');
+if (profileViewNameInput && document.activeElement !== profileViewNameInput) {
+  profileViewNameInput.value = playerProfile.name || 'GHOST-01';
+}
 const lobbyMapText = byId('lobby-selected-map-text');
 if (lobbyMapText) lobbyMapText.textContent = state.selectedMap === 'HANGAR' ? '🛸 HANGAR ORBITALE' : '🌌 ARENA CLASSICA';
 
@@ -3451,7 +3628,8 @@ const canvas = byId('game-canvas');
 const radarCanvas = byId('radar-canvas');
 const radarCtx = radarCanvas ? radarCanvas.getContext('2d') : null;
 const lobbyScreen = byId('lobby-screen');
-const shopOverlay = byId('shop-overlay'), trophiesOverlay = byId('trophies-overlay');
+const shopOverlay = byId('lobby-view-armory'), trophiesOverlay = byId('lobby-view-trophies');
+const lobbyViewPlay = byId('lobby-view-play'), lobbyViewArmory = byId('lobby-view-armory'), lobbyViewProfile = byId('lobby-view-profile'), lobbyViewTrophies = byId('lobby-view-trophies');
 const settingsModal = byId('settings-modal'), btnCloseSettings = byId('btn-close-settings'), btnLobbySettings = byId('lobby-btn-settings');
 const joinPartyModal = byId('join-party-modal'), inputPartyCode = byId('input-party-code'), btnConfirmJoinParty = byId('btn-confirm-join-party'), btnCancelJoinParty = byId('btn-cancel-join-party');
 const gameoverModal = byId('gameover-modal'), gameoverStats = byId('gameover-stats'), gameoverTitle = byId('gameover-title'), gameoverSubtitle = byId('gameover-subtitle'), gameoverBadge = byId('gameover-badge');
@@ -3864,6 +4042,9 @@ sound.playPickup();
 savePlayerProfile();
 applyReticleVisuals();
 renderShopUI();
+renderProfileView();
+const opt = OPERATOR_OPTICS.find(o => o.id === opticId);
+if (opt) showLobbyToast('OTTICA EQUIPAGGIATA', opt.name + ' impostata per tutte le armi!');
 };
 }
 const suitsGrid = byId('shop-suits-grid');
@@ -3878,55 +4059,133 @@ sound.playPerkPickup();
 savePlayerProfile();
 applyWeaponVisuals(getCurrentWeapon());
 renderShopUI();
+renderProfileView();
 updateProfileUI();
 if (typeof updateLobbyAvatars === 'function') updateLobbyAvatars();
+const st = OPERATOR_SUITS.find(s => s.id === suitId);
+if (st) showLobbyToast('TUTA EQUIPAGGIATA', st.name + ' indossata con successo!');
 };
 }
 }
+let lobbyToastTimer = null;
+function showLobbyToast(title, subtitle) {
+  const toast = byId('lobby-toast');
+  const tTitle = byId('lobby-toast-title');
+  const tSub = byId('lobby-toast-subtitle');
+  if (!toast) return;
+  if (tTitle) tTitle.textContent = title || '';
+  if (tSub) tSub.textContent = subtitle || '';
+  clearTimeout(lobbyToastTimer);
+  toast.classList.remove('opacity-0', '-translate-y-2');
+  toast.classList.add('opacity-100', 'translate-y-0');
+  lobbyToastTimer = setTimeout(() => {
+    toast.classList.remove('opacity-100', 'translate-y-0');
+    toast.classList.add('opacity-0', '-translate-y-2');
+  }, 2600);
+}
+
+let currentLobbyMenu = 'PLAY';
+
+function switchMenu(menuName) {
+  currentLobbyMenu = menuName || 'PLAY';
+  
+  const tabPlay = byId('nav-tab-play');
+  const tabArmory = byId('nav-tab-armory');
+  const tabProfile = byId('nav-tab-profile');
+  const tabTrophies = byId('nav-tab-trophies');
+
+  const viewPlay = byId('lobby-view-play');
+  const viewArmory = byId('lobby-view-armory');
+  const viewProfile = byId('lobby-view-profile');
+  const viewTrophies = byId('lobby-view-trophies');
+
+  const navs = [
+    { name: 'PLAY', btn: tabPlay },
+    { name: 'ARMORY', btn: tabArmory },
+    { name: 'PROFILE', btn: tabProfile },
+    { name: 'TROPHIES', btn: tabTrophies }
+  ];
+
+  navs.forEach(n => {
+    if (!n.btn) return;
+    if (n.name === currentLobbyMenu) {
+      n.btn.className = 'lobby-nav-btn active px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 border-b-2 border-amber-400 transition cursor-pointer';
+    } else {
+      n.btn.className = 'lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer';
+    }
+  });
+
+  if (viewPlay) viewPlay.classList.toggle('hidden', currentLobbyMenu !== 'PLAY');
+  if (viewArmory) {
+    viewArmory.classList.toggle('hidden', currentLobbyMenu !== 'ARMORY');
+    if (currentLobbyMenu === 'ARMORY') viewArmory.classList.add('flex');
+    else viewArmory.classList.remove('flex');
+  }
+  if (viewProfile) {
+    viewProfile.classList.toggle('hidden', currentLobbyMenu !== 'PROFILE');
+    if (currentLobbyMenu === 'PROFILE') viewProfile.classList.add('flex');
+    else viewProfile.classList.remove('flex');
+  }
+  if (viewTrophies) {
+    viewTrophies.classList.toggle('hidden', currentLobbyMenu !== 'TROPHIES');
+    if (currentLobbyMenu === 'TROPHIES') viewTrophies.classList.add('flex');
+    else viewTrophies.classList.remove('flex');
+  }
+
+  if (currentLobbyMenu === 'ARMORY') {
+    initShopDOMOnce();
+    renderShopUI();
+  } else if (currentLobbyMenu === 'PROFILE') {
+    initShopDOMOnce();
+    renderProfileView();
+  } else if (currentLobbyMenu === 'TROPHIES') {
+    renderTrophiesView();
+  }
+
+  updateProfileUI();
+}
+
+function setActiveNavTab(tabId) {
+  if (tabId === 'nav-tab-play') switchMenu('PLAY');
+  else if (tabId === 'nav-tab-armory' || tabId === 'nav-tab-inventory' || tabId === 'nav-tab-shop') switchMenu('ARMORY');
+  else if (tabId === 'nav-tab-profile') switchMenu('PROFILE');
+  else if (tabId === 'nav-tab-trophies' || tabId === 'nav-tab-leaderboard') switchMenu('TROPHIES');
+}
+
 function openShop(initialTab) {
-sound.init();
-state.selectedShopWeaponIdx = state.currentWeaponIndex;
-initShopDOMOnce();
-if (initialTab === 'operator') {
-  const btnTabOperator = byId('btn-shop-tab-operator');
-  if (btnTabOperator) btnTabOperator.click();
-} else if (initialTab === 'weapons') {
-  const btnTabWeapons = byId('btn-shop-tab-weapons');
-  if (btnTabWeapons) btnTabWeapons.click();
+  sound.init();
+  state.selectedShopWeaponIdx = state.currentWeaponIndex;
+  initShopDOMOnce();
+  if (state.mode === 'PLAYING') {
+    state.pausedForShop = true;
+    state.mode = 'PAUSED';
+    state.isFiring = false;
+    Object.keys(keys).forEach(k => { keys[k] = false; });
+    closeWeaponWheel();
+    setAimingState(false);
+    if (document.pointerLockElement === canvas) {
+      try { document.exitPointerLock(); } catch (e) {}
+    }
+    if (lobbyScreen) lobbyScreen.classList.remove('hidden');
+  }
+  switchMenu(initialTab === 'operator' ? 'PROFILE' : 'ARMORY');
 }
-renderShopUI();
-if (state.mode === 'PLAYING') {
-state.pausedForShop = true;
-state.mode = 'PAUSED';
-state.isFiring = false;
-Object.keys(keys).forEach(k => { keys[k] = false; });
-closeWeaponWheel();
-setAimingState(false);
-if (document.pointerLockElement === canvas) {
-try { document.exitPointerLock(); } catch (e) {}
-}
-}
-if (btnCloseShop) {
-btnCloseShop.textContent = state.pausedForShop ? '✕ Chiudi [TAB] / Riprendi' : '✕ Torna alla Lobby';
-}
-shopOverlay.classList.remove('hidden');
-shopOverlay.classList.add('flex');
-}
+
 function closeShop() {
-shopOverlay.classList.add('hidden');
-shopOverlay.classList.remove('flex');
-updateProfileUI();
-updateHUD();
-if (typeof updateLobbyAvatars === 'function') updateLobbyAvatars();
-if (typeof setActiveNavTab === 'function') setActiveNavTab('nav-tab-play');
-if (state.pausedForShop) {
-state.pausedForShop = false;
-state.mode = 'PLAYING';
-clock.getDelta();
-if (!isTouchDevice) {
-try { canvas.requestPointerLock(); } catch (err) {}
-}
-}
+  if (state.pausedForShop) {
+    state.pausedForShop = false;
+    state.mode = 'PLAYING';
+    if (lobbyScreen) lobbyScreen.classList.add('hidden');
+    clock.getDelta();
+    if (!isTouchDevice) {
+      try { canvas.requestPointerLock(); } catch (err) {}
+    }
+  } else {
+    switchMenu('PLAY');
+  }
+  updateProfileUI();
+  updateHUD();
+  if (typeof updateLobbyAvatars === 'function') updateLobbyAvatars();
 }
 function renderShopUI() {
 WEAPONS.forEach((w, idx) => {
@@ -3966,6 +4225,46 @@ byId('shop-weapon-desc').textContent = `${w.desc} — Danno: ${eff.damage} | Car
 byId('shop-weapon-points').textContent = `${st.shopPoints} PN`;
 byId('shop-weapon-xp-text').textContent = `${st.xp} / ${reqXp} XP`;
 byId('shop-weapon-xp-bar').style.width = `${xpPct}%`;
+
+// Live Comparative Ballistic Stat Bars
+const baseDmg = eff.damage * (eff.pellets || 1);
+const dmgPct = Math.min(100, Math.round((baseDmg / 110) * 100));
+const dmgVal = byId('armory-stat-damage-val');
+const dmgBar = byId('armory-stat-damage-bar');
+if (dmgVal) dmgVal.textContent = eff.pellets > 1 ? `${eff.damage} x ${eff.pellets} (${baseDmg})` : `${baseDmg}`;
+if (dmgBar) dmgBar.style.width = `${dmgPct}%`;
+
+const rpm = Math.round(60 / eff.fireRate);
+const rpmPct = Math.min(100, Math.round((rpm / 1000) * 100));
+const frVal = byId('armory-stat-firerate-val');
+const frBar = byId('armory-stat-firerate-bar');
+if (frVal) frVal.textContent = `${rpm} RPM`;
+if (frBar) frBar.style.width = `${rpmPct}%`;
+
+const ammoPct = Math.min(100, Math.round((eff.maxAmmo / 60) * 100));
+const ammoVal = byId('armory-stat-ammo-val');
+const ammoBar = byId('armory-stat-ammo-bar');
+if (ammoVal) ammoVal.textContent = `${eff.maxAmmo} Colpi`;
+if (ammoBar) ammoBar.style.width = `${ammoPct}%`;
+
+const reloadPct = Math.min(100, Math.max(10, Math.round((1.8 / Math.max(0.6, eff.reloadTime)) * 45)));
+const relVal = byId('armory-stat-reload-val');
+const relBar = byId('armory-stat-reload-bar');
+if (relVal) relVal.textContent = `${eff.reloadTime.toFixed(2)}s`;
+if (relBar) relBar.style.width = `${reloadPct}%`;
+
+// Equip Primary Button in Armory
+const btnEquipPrimary = byId('armory-btn-equip-primary');
+if (btnEquipPrimary) {
+  const isCurrentPrimary = state.currentWeaponIndex === state.selectedShopWeaponIdx;
+  if (isCurrentPrimary) {
+    btnEquipPrimary.textContent = '✓ ARMA PRIMARIA EQUIPAGGIATA';
+    btnEquipPrimary.className = 'px-4 py-2 rounded-xl bg-emerald-950/80 border border-emerald-400 text-emerald-300 font-cyber text-xs font-black uppercase tracking-wider transition cursor-default shadow-[0_0_15px_rgba(16,185,129,0.3)]';
+  } else {
+    btnEquipPrimary.textContent = 'EQUIPAGGIA COME PRIMARIA';
+    btnEquipPrimary.className = 'px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-cyber text-xs font-black uppercase tracking-wider transition cursor-pointer shadow-[0_0_15px_rgba(251,191,36,0.3)]';
+  }
+}
 UPGRADE_TYPES.forEach(u => {
 const currentTier = st.upgrades[u.key] || 0;
 const isMax = currentTier >= u.maxTier;
@@ -4208,52 +4507,156 @@ timelineGrid.appendChild(item);
 if (rewardsCountEl) rewardsCountEl.textContent = `${unlockedRewards} / ${OPERATOR_REWARDS.length} Sbloccati`;
 }
 }
-function openTrophiesModal() {
-checkTrophies();
-const grid = byId('trophies-grid');
-grid.innerHTML = '';
-const unlockedCount = playerProfile.unlockedTrophies.length;
-const totalCount = PSN_TROPHIES.length;
-const pct = Math.round((unlockedCount / totalCount) * 100);
-byId('trophies-progress-pct').textContent = `${pct}% (${unlockedCount}/${totalCount})`;
-byId('trophies-progress-bar').style.width = `${pct}%`;
-PSN_TROPHIES.forEach(t => {
-const isUnlocked = playerProfile.unlockedTrophies.includes(t.id);
-const card = document.createElement('div');
-card.className = `p-3.5 rounded-xl border flex items-center gap-3.5 transition ${
-isUnlocked
-? (t.isPlatinum ? 'bg-gradient-to-r from-indigo-950/90 via-fuchsia-950/90 to-slate-900 border-amber-300 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : 'bg-slate-900/95 border-cyan-400/60')
-: 'bg-slate-950/80 border-slate-800 opacity-60'
-}`;
-const tierColors = {
-'BRONZO': 'text-amber-600 border-amber-600/40 bg-amber-950/40',
-'ARGENTO': 'text-slate-200 border-slate-400/40 bg-slate-800/60',
-'ORO': 'text-amber-300 border-amber-400/50 bg-amber-500/20',
-'PLATINO': 'text-cyan-200 border-cyan-300 bg-cyan-500/30'
-};
-card.innerHTML = `
-<div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 ${isUnlocked ? 'bg-slate-800 border border-amber-400/50' : 'bg-slate-900 border border-slate-800'}">
-${isUnlocked ? t.icon : '🔒'}
-</div>
-<div class="min-w-0 flex-1">
-<div class="flex items-center justify-between gap-1">
-<span class="text-[9px] font-cyber font-bold px-1.5 py-0.5 rounded border ${tierColors[t.tier] || ''}">${t.tier}</span>
-<span class="text-[9px] font-cyber ${isUnlocked ? 'text-emerald-400 font-bold' : 'text-slate-500'}">${isUnlocked ? '✓ SBLOCCATO' : 'BLOCCATO'}</span>
-</div>
-<div class="text-xs font-cyber font-black text-white truncate mt-1">${t.title}</div>
-<div class="text-[10px] text-slate-400 leading-tight mt-0.5">${t.desc}</div>
-</div>
-`;
-grid.appendChild(card);
-});
-trophiesOverlay.classList.remove('hidden');
-trophiesOverlay.classList.add('flex');
+function renderProfileView() {
+  const opProg = getOperatorLevelProgress(playerProfile.operatorXp || 0);
+  const opTitle = getOperatorTitle(opProg.level);
+  const curSuit = OPERATOR_SUITS.find(s => s.id === (playerProfile.selectedSuit || 'DEFAULT')) || OPERATOR_SUITS[0];
+
+  const titleEl = byId('shop-operator-title');
+  if (titleEl) titleEl.textContent = opTitle;
+  const lvlBadge = byId('shop-operator-level-badge');
+  if (lvlBadge) lvlBadge.textContent = `LIVELLO ${opProg.level}`;
+  const suitBadge = byId('shop-operator-suit-badge');
+  if (suitBadge) suitBadge.textContent = `Tuta: ${curSuit.name.split(' ')[0]}`;
+  const totalXpEl = byId('shop-operator-total-xp');
+  if (totalXpEl) totalXpEl.textContent = `${(playerProfile.operatorXp || 0).toLocaleString()} XP`;
+  const xpProgEl = byId('shop-operator-xp-progress');
+  if (xpProgEl) xpProgEl.textContent = `${opProg.xpInCurrent.toLocaleString()} / ${opProg.neededInCurrent.toLocaleString()} XP (${opProg.pct}%)`;
+  const xpBarEl = byId('shop-operator-xp-bar');
+  if (xpBarEl) xpBarEl.style.width = `${opProg.pct}%`;
+
+  const nameInput = byId('profile-view-name-input');
+  if (nameInput && document.activeElement !== nameInput) {
+    nameInput.value = playerProfile.name || 'GHOST-01';
+  }
+
+  // 10 Career Records Calculation
+  let totalHeadshots = 0;
+  WEAPONS.forEach(w => {
+    const ws = playerProfile.weaponStats && playerProfile.weaponStats[w.id];
+    if (ws && ws.headshots) totalHeadshots += Number(ws.headshots);
+  });
+
+  const recScore = byId('profile-rec-best-score');
+  if (recScore) recScore.textContent = (playerProfile.bestScore || 0).toLocaleString();
+  const recWave = byId('profile-rec-best-wave');
+  if (recWave) recWave.textContent = `ONDATA ${playerProfile.bestWave || 1}`;
+  const recKills = byId('profile-rec-total-kills');
+  if (recKills) recKills.textContent = (playerProfile.totalKills || 0).toLocaleString();
+  const recHs = byId('profile-rec-headshots');
+  if (recHs) recHs.textContent = totalHeadshots.toLocaleString();
+  const recBoss = byId('profile-rec-bosses');
+  if (recBoss) recBoss.textContent = (playerProfile.maxBossesDefeatedPermanent || 0).toLocaleString();
+  const recKs = byId('profile-rec-killstreak');
+  if (recKs) recKs.textContent = (playerProfile.bestKillstreak || 0).toLocaleString();
+  const recGames = byId('profile-rec-games');
+  if (recGames) recGames.textContent = (playerProfile.gamesPlayed || 0).toLocaleString();
+  const recPn = byId('profile-rec-pn');
+  if (recPn) recPn.textContent = `${getTotalAvailableShopPoints().toLocaleString()} PN`;
+  const recTrophies = byId('profile-rec-trophies');
+  if (recTrophies) recTrophies.textContent = `${playerProfile.unlockedTrophies.length} / ${PSN_TROPHIES.length}`;
+  const recAir = byId('profile-rec-air-kills');
+  if (recAir) recAir.textContent = (playerProfile.airKills || 0).toLocaleString();
+
+  // Active stat bonuses
+  const hpEl = byId('shop-stat-max-hp');
+  if (hpEl) hpEl.textContent = `${getOperatorMaxHealth()} HP`;
+  const hpSub = byId('shop-stat-hp-sub');
+  if (hpSub) {
+    const bonus = getOperatorMaxHealth() - 100;
+    hpSub.textContent = bonus > 0 ? `+${bonus} HP Corazza attiva (+${bonus}%)` : `Bonus +10 HP al Livello 4`;
+  }
+  const stmEl = byId('shop-stat-max-stamina');
+  if (stmEl) stmEl.textContent = `${getOperatorMaxStamina()}%`;
+  const stmSub = byId('shop-stat-stamina-sub');
+  if (stmSub) {
+    stmSub.textContent = opProg.level >= 7 ? `+15% Stamina Massima attiva` : `Bonus +15% al Livello 7`;
+  }
+  const regEl = byId('shop-stat-stamina-regen');
+  if (regEl) regEl.textContent = opProg.level >= 14 ? `1.2x (+20% Veloce)` : `1.0x (Normale)`;
+  const regSub = byId('shop-stat-regen-sub');
+  if (regSub) {
+    regSub.textContent = opProg.level >= 14 ? `Ricarica accelerata attiva` : `Sblocca +20% al Livello 14`;
+  }
+
+  renderOperatorPanelUI();
 }
+
+function renderTrophiesView() {
+  checkTrophies();
+  const grid = byId('trophies-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const unlockedCount = playerProfile.unlockedTrophies.length;
+  const totalCount = PSN_TROPHIES.length;
+  const pct = Math.round((unlockedCount / totalCount) * 100);
+  const progPct = byId('trophies-progress-pct');
+  if (progPct) progPct.textContent = `${pct}% (${unlockedCount}/${totalCount})`;
+  const progBar = byId('trophies-progress-bar');
+  if (progBar) progBar.style.width = `${pct}%`;
+
+  const tierCounts = {
+    PLATINO: { total: 0, unlocked: 0 },
+    ORO: { total: 0, unlocked: 0 },
+    ARGENTO: { total: 0, unlocked: 0 },
+    BRONZO: { total: 0, unlocked: 0 }
+  };
+
+  PSN_TROPHIES.forEach(t => {
+    if (tierCounts[t.tier]) {
+      tierCounts[t.tier].total++;
+      if (playerProfile.unlockedTrophies.includes(t.id)) {
+        tierCounts[t.tier].unlocked++;
+      }
+    }
+  });
+
+  const elPlat = byId('trophies-tier-platino');
+  if (elPlat) elPlat.textContent = `${tierCounts.PLATINO.unlocked}/${tierCounts.PLATINO.total}`;
+  const elOro = byId('trophies-tier-oro');
+  if (elOro) elOro.textContent = `${tierCounts.ORO.unlocked}/${tierCounts.ORO.total}`;
+  const elArg = byId('trophies-tier-argento');
+  if (elArg) elArg.textContent = `${tierCounts.ARGENTO.unlocked}/${tierCounts.ARGENTO.total}`;
+  const elBro = byId('trophies-tier-bronzo');
+  if (elBro) elBro.textContent = `${tierCounts.BRONZO.unlocked}/${tierCounts.BRONZO.total}`;
+
+  PSN_TROPHIES.forEach(t => {
+    const isUnlocked = playerProfile.unlockedTrophies.includes(t.id);
+    const card = document.createElement('div');
+    card.className = `p-3.5 rounded-xl border flex items-center gap-3.5 transition ${
+      isUnlocked
+        ? (t.isPlatinum ? 'bg-gradient-to-r from-indigo-950/90 via-fuchsia-950/90 to-slate-900 border-amber-300 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : 'bg-slate-900/95 border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.2)]')
+        : 'bg-slate-950/80 border-slate-800 opacity-60'
+    }`;
+    const tierColors = {
+      'BRONZO': 'text-amber-600 border-amber-600/40 bg-amber-950/40',
+      'ARGENTO': 'text-slate-200 border-slate-400/40 bg-slate-800/60',
+      'ORO': 'text-amber-300 border-amber-400/50 bg-amber-500/20',
+      'PLATINO': 'text-cyan-200 border-cyan-300 bg-cyan-500/30'
+    };
+    card.innerHTML = `
+      <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 ${isUnlocked ? 'bg-slate-800 border border-amber-400/50 shadow-md' : 'bg-slate-900 border border-slate-800'}">
+        ${isUnlocked ? t.icon : '🔒'}
+      </div>
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center justify-between gap-1">
+          <span class="text-[9px] font-cyber font-bold px-1.5 py-0.5 rounded border ${tierColors[t.tier] || ''}">${t.tier}</span>
+          <span class="text-[9px] font-cyber ${isUnlocked ? 'text-emerald-400 font-bold' : 'text-slate-500'}">${isUnlocked ? '✓ SBLOCCATO' : 'BLOCCATO'}</span>
+        </div>
+        <div class="text-xs font-cyber font-black text-white truncate mt-1">${t.title}</div>
+        <div class="text-[10px] text-slate-400 leading-tight mt-0.5">${t.desc}</div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function openTrophiesModal() {
+  switchMenu('TROPHIES');
+}
+
 function closeTrophiesModal() {
-trophiesOverlay.classList.add('hidden');
-trophiesOverlay.classList.remove('flex');
-updateProfileUI();
-if (typeof setActiveNavTab === 'function') setActiveNavTab('nav-tab-play');
+  switchMenu('PLAY');
 }
 
 function buildLobbyScene() {
@@ -6184,62 +6587,71 @@ if (state.mode === 'PAUSED') {
 }
 });
 
-// Top Navigation Tabs
+// Top Navigation Tabs & Views (GIOCA, ARMERIA, PROFILO, BACHECA)
 const tabPlay = byId('nav-tab-play');
-const tabInventory = byId('nav-tab-inventory');
-const tabShop = byId('nav-tab-shop');
+const tabArmory = byId('nav-tab-armory');
 const tabProfile = byId('nav-tab-profile');
-const tabLeaderboard = byId('nav-tab-leaderboard');
+const tabTrophies = byId('nav-tab-trophies');
 const btnChangeSkin = byId('lobby-btn-change-skin');
+const curPnBtn = byId('lobby-currency-pn');
+const curTrophiesBtn = byId('lobby-currency-trophies');
+const curLvlBtn = byId('lobby-level-badge-container');
 
-function setActiveNavTab(tabId) {
-  [tabPlay, tabInventory, tabShop, tabProfile, tabLeaderboard].forEach(tab => {
-    if (!tab) return;
-    if (tab.id === tabId) {
-      tab.classList.add('active', 'text-amber-400', 'bg-amber-400/10', 'border-b-2', 'border-amber-400');
-      tab.classList.remove('text-slate-300');
-    } else {
-      tab.classList.remove('active', 'text-amber-400', 'bg-amber-400/10', 'border-b-2', 'border-amber-400');
-      tab.classList.add('text-slate-300');
-    }
+if (tabPlay) tabPlay.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('PLAY'); if (settingsModal) settingsModal.classList.add('hidden'); });
+if (tabArmory) tabArmory.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('ARMORY'); });
+if (tabProfile) tabProfile.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('PROFILE'); });
+if (tabTrophies) tabTrophies.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('TROPHIES'); });
+
+if (curPnBtn) curPnBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('ARMORY'); });
+if (curTrophiesBtn) curTrophiesBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('TROPHIES'); });
+if (curLvlBtn) curLvlBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('PROFILE'); });
+
+if (btnChangeSkin) btnChangeSkin.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('PROFILE'); });
+
+const btnArmoryBack = byId('armory-btn-back-play');
+if (btnArmoryBack) btnArmoryBack.addEventListener('click', () => { sound.init(); switchMenu('PLAY'); });
+
+const btnProfileBack = byId('profile-btn-back-play');
+if (btnProfileBack) btnProfileBack.addEventListener('click', () => { sound.init(); switchMenu('PLAY'); });
+
+const btnTrophiesBack = byId('trophies-btn-back-play');
+if (btnTrophiesBack) btnTrophiesBack.addEventListener('click', () => { sound.init(); switchMenu('PLAY'); });
+
+// Armory: Equip Primary Button
+const btnArmoryEquipPrimary = byId('armory-btn-equip-primary');
+if (btnArmoryEquipPrimary) {
+  btnArmoryEquipPrimary.addEventListener('click', () => {
+    sound.init();
+    state.currentWeaponIndex = state.selectedShopWeaponIdx;
+    state.weapon = getCurrentWeapon();
+    sound.playPickup();
+    const w = WEAPONS[state.currentWeaponIndex];
+    showLobbyToast('ARMA EQUIPAGGIATA', (w ? w.name : 'Arma') + ' impostata come arma primaria!');
+    renderShopUI();
+    updateHUD();
   });
 }
 
-if (tabPlay) tabPlay.addEventListener('click', () => {
-  setActiveNavTab('nav-tab-play');
-  closeShop();
-  closeTrophiesModal();
-  if (settingsModal) settingsModal.classList.add('hidden');
-});
-
-if (tabInventory) tabInventory.addEventListener('click', () => {
-  setActiveNavTab('nav-tab-inventory');
-  sound.init();
-  openShop('weapons');
-});
-
-if (tabShop) tabShop.addEventListener('click', () => {
-  setActiveNavTab('nav-tab-shop');
-  sound.init();
-  openShop('operator');
-});
-
-if (btnChangeSkin) btnChangeSkin.addEventListener('click', () => {
-  sound.init();
-  openShop('operator');
-});
-
-if (tabProfile) tabProfile.addEventListener('click', () => {
-  setActiveNavTab('nav-tab-profile');
-  sound.init();
-  openTrophiesModal();
-});
-
-if (tabLeaderboard) tabLeaderboard.addEventListener('click', () => {
-  setActiveNavTab('nav-tab-leaderboard');
-  sound.init();
-  openTrophiesModal();
-});
+// Profile: Save Operator Name
+const btnSaveProfileName = byId('btn-profile-view-save-name');
+const inputProfileName = byId('profile-view-name-input');
+if (btnSaveProfileName && inputProfileName) {
+  btnSaveProfileName.addEventListener('click', () => {
+    sound.init();
+    const val = inputProfileName.value.trim().toUpperCase();
+    if (!val) return;
+    playerProfile.name = val.slice(0, 16);
+    savePlayerProfile();
+    updateProfileUI();
+    sound.playPickup();
+    showLobbyToast('PROFILO AGGIORNATO', 'Nome operatore salvato: ' + playerProfile.name);
+  });
+  inputProfileName.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      btnSaveProfileName.click();
+    }
+  });
+}
 
 // Settings Modal
 if (btnLobbySettings) {
@@ -6475,12 +6887,12 @@ openShop();
 }
 return;
 }
-if (!shopOverlay.classList.contains('hidden')) {
-if (e.code === 'Escape') {
-e.preventDefault();
-closeShop();
-return;
-}
+if (currentLobbyMenu !== 'PLAY') {
+  if (e.code === 'Escape') {
+    e.preventDefault();
+    switchMenu('PLAY');
+    return;
+  }
 }
 if (e.code in keys) keys[e.code] = true;
 if (state.mode !== 'PLAYING') return;
@@ -7804,6 +8216,10 @@ updateHUD();
 }
 function registerKillForKillstreak() {
 state.killstreak = (state.killstreak || 0) + 1;
+if (state.killstreak > (playerProfile.bestKillstreak || 0)) {
+  playerProfile.bestKillstreak = state.killstreak;
+  savePlayerProfile();
+}
 const ks = state.killstreak;
 const cycleStep = ((ks - 1) % 50) + 1;
 const cycleNum = Math.floor((ks - 1) / 50) + 1;
