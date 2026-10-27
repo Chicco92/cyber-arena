@@ -133,10 +133,46 @@ line-height: 1 !important;
 #hud-ammo-max {
 font-size: 0.85rem !important;
 }
-#menu-overlay > div, #shop-overlay > div, #trophies-overlay > div, #auth-modal > div {
+#menu-overlay > div, #shop-overlay > div, #trophies-overlay > div, #auth-modal > div, #settings-modal > div {
 max-height: 94vh !important;
 padding: 0.75rem 1rem !important;
 }
+}
+.lobby-play-btn {
+background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 50%, #0891b2 100%);
+clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%);
+box-shadow: 0 0 30px rgba(6, 182, 212, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lobby-play-btn:hover {
+transform: scale(1.05) translateY(-2px);
+box-shadow: 0 0 45px rgba(34, 211, 238, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85);
+background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #06b6d4 100%);
+}
+.lobby-play-btn:active {
+transform: scale(0.96);
+}
+.lobby-slot-card {
+background: rgba(4, 6, 17, 0.35);
+backdrop-filter: blur(6px);
+border: 2px dashed rgba(34, 211, 238, 0.35);
+box-shadow: 0 0 20px rgba(6, 182, 212, 0.1), inset 0 0 15px rgba(6, 182, 212, 0.05);
+transition: all 0.2s ease;
+}
+.lobby-slot-card:hover {
+border-color: rgba(34, 211, 238, 0.85);
+background: rgba(6, 182, 212, 0.12);
+box-shadow: 0 0 30px rgba(34, 211, 238, 0.3);
+transform: translateY(-4px);
+}
+.lobby-nav-btn {
+transition: all 0.15s ease;
+}
+.lobby-nav-btn.active {
+color: #facc15 !important;
+background: rgba(250, 204, 21, 0.12);
+border-bottom: 2px solid #facc15;
+text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 }
 </style>
 </head>
@@ -455,176 +491,385 @@ padding: 0.75rem 1rem !important;
 <h2 class="text-xl sm:text-2xl font-cyber font-black text-cyan-300 uppercase tracking-widest mb-2">RUOTA IL DISPOSITIVO</h2>
 <p class="text-xs sm:text-sm text-slate-300 max-w-sm">Per un'esperienza ottimale su smartphone o tablet, gioca in modalità <strong>Orizzontale (Landscape)</strong>.</p>
 </div>
-<div id="menu-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-3 sm:p-4 bg-slate-950/92 overflow-y-auto">
-<div class="cyber-panel rounded-2xl max-w-xl w-full p-3.5 sm:p-6 border border-cyan-400/50 text-center relative my-auto max-h-[94vh] overflow-y-auto">
-<div class="inline-block px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 text-[9px] sm:text-[10px] font-cyber tracking-widest uppercase mb-1.5 sm:mb-2">
-Galaxy Parkour Arena // Prestigio Armi & Trofei PSN
+<!-- ==================== LOBBY SCREEN (SCHERMATA INIZIALE COME IN FOTO) ==================== -->
+<div id="lobby-screen" class="fixed inset-0 z-30 flex flex-col justify-between p-3 sm:p-5 select-none font-cyber pointer-events-none">
+  <!-- TOP NAVIGATION BAR -->
+  <header class="w-full flex items-center justify-between pointer-events-auto bg-slate-950/85 backdrop-blur-md px-3 sm:px-6 py-2.5 rounded-2xl border border-slate-800/80 shadow-2xl">
+    <div class="flex items-center gap-2 sm:gap-6">
+      <button id="lobby-btn-settings" type="button" title="Impostazioni di Gioco" class="w-9 h-9 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 flex items-center justify-center text-lg text-slate-300 hover:text-white transition cursor-pointer">
+        ⚙️
+      </button>
+      <nav class="flex items-center gap-1 sm:gap-2">
+        <button id="nav-tab-play" type="button" class="lobby-nav-btn active px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 border-b-2 border-amber-400 transition cursor-pointer">
+          GIOCA
+        </button>
+        <button id="nav-tab-inventory" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
+          INVENTARIO
+          <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+        </button>
+        <button id="nav-tab-shop" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
+          NEGOZIO
+          <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500"></span>
+        </button>
+        <button id="nav-tab-profile" type="button" class="lobby-nav-btn px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
+          PROFILO
+        </button>
+        <button id="nav-tab-leaderboard" type="button" class="lobby-nav-btn px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
+          CENTRO
+        </button>
+      </nav>
+    </div>
+
+    <!-- RIGHT: CURRENCIES & STATUS -->
+    <div class="flex items-center gap-2 sm:gap-4">
+      <div id="lobby-currency-pn" title="Punti Negozio (PN)" class="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1 rounded-xl border border-amber-500/30">
+        <span class="text-sm">🪙</span>
+        <span id="lobby-pn-amount" class="text-xs sm:text-sm font-black text-amber-400 font-mono">0</span>
+      </div>
+      <div id="lobby-currency-trophies" title="Trofei Sbloccati" class="hidden sm:flex items-center gap-1.5 bg-slate-900/90 px-3 py-1 rounded-xl border border-cyan-500/30">
+        <span class="text-sm">🏆</span>
+        <span id="lobby-trophies-amount" class="text-xs sm:text-sm font-black text-cyan-300 font-mono">0/15</span>
+      </div>
+      <div title="Livello Operatore" class="flex items-center gap-1 bg-gradient-to-r from-cyan-950 to-blue-950 px-3 py-1 rounded-xl border border-cyan-400/50">
+        <span id="lobby-level-badge" class="text-xs sm:text-sm font-black text-cyan-300 font-mono">1</span>
+        <span class="text-[10px] text-slate-400 font-bold uppercase font-cyber">Lv.</span>
+      </div>
+      <div id="lobby-online-pill" class="hidden md:flex items-center gap-1.5 bg-emerald-950/70 px-3 py-1 rounded-xl border border-emerald-500/40 text-[10px] font-bold text-emerald-300">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]"></span>
+        <span id="lobby-online-text">ONLINE</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CENTER AREA // SQUAD LOBBY SLOTS OVER 3D SCENE -->
+  <div class="relative w-full flex-1 flex items-center justify-center my-auto pointer-events-none">
+    <!-- SLOT 2 (LEFT SQUAD SLOT) -->
+    <div id="lobby-slot-2" class="lobby-slot-card absolute left-2 sm:left-[10%] md:left-[14%] bottom-16 sm:bottom-24 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
+      <div id="lobby-slot-2-empty" class="flex flex-col items-center justify-center text-center">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-3xl text-cyan-300 group-hover:scale-110 transition duration-200 mb-3 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
+          +
+        </div>
+        <div class="text-[10px] sm:text-xs font-cyber font-black text-slate-300 group-hover:text-cyan-300 uppercase tracking-widest">
+          AGGIUNGI AMICO
+        </div>
+        <div class="text-[8px] sm:text-[9px] text-cyan-400/70 mt-1 uppercase font-mono">SLOT 2 // LIBERO</div>
+      </div>
+      <div id="lobby-slot-2-filled" class="hidden flex-col items-center justify-between h-full w-full py-1">
+        <div class="px-2.5 py-1 rounded-full bg-slate-950/90 border border-cyan-400/60 flex items-center gap-1.5 shadow-md">
+          <span id="lobby-slot-2-name" class="text-xs font-cyber font-black text-white truncate max-w-[85px]">PLAYER-2</span>
+          <span id="lobby-slot-2-lvl" class="text-[10px] font-cyber font-black text-cyan-400 font-mono">1 Lv.</span>
+        </div>
+        <div class="text-[9px] font-cyber font-bold text-emerald-400 px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-400/40 uppercase">
+          PRONTO
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER SLOT // YOUR OPERATOR -->
+    <div class="flex flex-col items-center justify-end h-full pb-6 sm:pb-8 pointer-events-auto">
+      <!-- Player Floating Name Tag -->
+      <div class="mb-52 sm:mb-68 flex items-center gap-2 bg-slate-950/85 backdrop-blur-sm px-4 py-1.5 rounded-full border border-cyan-400/50 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
+        <span id="lobby-player-name" class="text-sm sm:text-base font-cyber font-black text-white">GHOST-01</span>
+        <span id="lobby-player-lvl-tag" class="text-xs font-cyber font-black text-cyan-400 font-mono">1</span>
+      </div>
+
+      <!-- "CAMBIA SKIN" button directly below character -->
+      <button id="lobby-btn-change-skin" type="button" class="relative group px-5 py-2.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 border border-cyan-400/50 hover:border-cyan-400 text-xs sm:text-sm font-cyber font-black uppercase tracking-wider text-cyan-300 transition shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center gap-2 cursor-pointer">
+        <span>CAMBIA SKIN</span>
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+      </button>
+    </div>
+
+    <!-- SLOT 3 (RIGHT SQUAD SLOT) -->
+    <div id="lobby-slot-3" class="lobby-slot-card absolute right-2 sm:right-[10%] md:right-[14%] bottom-16 sm:bottom-24 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
+      <div id="lobby-slot-3-empty" class="flex flex-col items-center justify-center text-center">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-3xl text-cyan-300 group-hover:scale-110 transition duration-200 mb-3 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
+          +
+        </div>
+        <div class="text-[10px] sm:text-xs font-cyber font-black text-slate-300 group-hover:text-cyan-300 uppercase tracking-widest">
+          AGGIUNGI AMICO
+        </div>
+        <div class="text-[8px] sm:text-[9px] text-cyan-400/70 mt-1 uppercase font-mono">SLOT 3 // LIBERO</div>
+      </div>
+      <div id="lobby-slot-3-filled" class="hidden flex-col items-center justify-between h-full w-full py-1">
+        <div class="px-2.5 py-1 rounded-full bg-slate-950/90 border border-cyan-400/60 flex items-center gap-1.5 shadow-md">
+          <span id="lobby-slot-3-name" class="text-xs font-cyber font-black text-white truncate max-w-[85px]">PLAYER-3</span>
+          <span id="lobby-slot-3-lvl" class="text-[10px] font-cyber font-black text-cyan-400 font-mono">1 Lv.</span>
+        </div>
+        <div class="text-[9px] font-cyber font-bold text-emerald-400 px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-400/40 uppercase">
+          PRONTO
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR // RIGHT ACTION PANEL & CONTROLS -->
+  <footer class="w-full flex flex-col sm:flex-row items-end justify-between gap-3 pointer-events-none">
+    <!-- Bottom-Left Buttons -->
+    <div class="flex items-center gap-2 pointer-events-auto">
+      <button id="btn-pwa-install" type="button" class="px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5 shadow-lg cursor-pointer">
+        <span>📲 Installa App / PC</span>
+      </button>
+      <button id="lobby-btn-multiplayer-browser" type="button" class="px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5 shadow-lg cursor-pointer">
+        <span>🌐 Stanze Online</span>
+      </button>
+    </div>
+
+    <!-- Bottom-Right Action Center -->
+    <div class="flex flex-col sm:flex-row items-end sm:items-center gap-2.5 sm:gap-3 pointer-events-auto">
+      <!-- Daily Box Card -->
+      <div id="lobby-card-daily-box" class="bg-gradient-to-br from-blue-950/90 to-slate-950/90 hover:from-blue-900/90 border border-cyan-400/40 rounded-2xl p-2 sm:p-2.5 shadow-xl transition cursor-pointer flex items-center gap-2.5 w-44 sm:w-52">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400/40 flex items-center justify-center text-2xl shadow-inner shrink-0 animate-bounce">
+          🧰
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-white">BOX GIORN.</div>
+          <div class="text-[8px] text-cyan-300 font-mono truncate">Cassa Rifornimenti</div>
+          <span id="lobby-daily-box-status" class="inline-block mt-0.5 px-2 py-0.2 rounded bg-amber-400 text-slate-950 text-[8px] font-black uppercase">
+            GRATIS X3
+          </span>
+        </div>
+      </div>
+
+      <!-- Party Column -->
+      <div class="flex flex-col gap-1 w-52 sm:w-64">
+        <!-- Party Code Row -->
+        <div class="flex items-center justify-between bg-slate-950/85 backdrop-blur-sm px-2.5 py-1 rounded-xl border border-slate-800 text-[10px]">
+          <div class="flex items-center gap-1.5 truncate">
+            <span class="text-slate-400 text-[9px]">ID PARTY:</span>
+            <span id="lobby-party-code-display" class="font-mono font-bold text-cyan-300 text-[10px]">SOLO</span>
+            <button id="lobby-btn-copy-party" type="button" title="Copia Codice Party" class="text-xs hover:text-white text-slate-400 cursor-pointer">📋</button>
+          </div>
+          <span class="text-[8px] text-emerald-400 font-mono shrink-0">🇪🇺 EUROPE</span>
+        </div>
+
+        <!-- Quick Join Button -->
+        <button id="lobby-btn-join-code" type="button" class="w-full py-1 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-400/40 text-cyan-300 font-cyber text-[9px] font-black uppercase tracking-wider transition cursor-pointer">
+          UNISCITI CON ID PARTY
+        </button>
+
+        <!-- Mode Selector -->
+        <div class="relative">
+          <button id="lobby-btn-mode-select" type="button" class="w-full px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 hover:border-cyan-400 text-left transition flex items-center justify-between cursor-pointer shadow-md">
+            <div>
+              <div class="text-[7px] text-slate-400 uppercase tracking-widest font-cyber">SELEZIONA MODALITÀ</div>
+              <div id="lobby-selected-mode-text" class="text-xs font-cyber font-black text-cyan-300 uppercase leading-none mt-0.5">
+                DEATHMATCH
+              </div>
+            </div>
+            <span class="text-cyan-400 text-[10px] ml-1">▼</span>
+          </button>
+          <div id="lobby-mode-dropdown" class="hidden absolute bottom-full mb-1 left-0 right-0 bg-slate-950/95 backdrop-blur-md border border-cyan-400/50 rounded-xl overflow-hidden shadow-2xl z-50">
+            <button type="button" data-mode="PVP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
+              <span>⚔️ DEATHMATCH (PVP)</span>
+              <span class="text-[9px] text-rose-400 font-mono">Lobby Squadra</span>
+            </button>
+            <button type="button" data-mode="SOLO" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
+              <span>🧟 SOPRAVVIVENZA (SOLO)</span>
+              <span class="text-[9px] text-amber-400 font-mono">1 Giocatore</span>
+            </button>
+            <button type="button" data-mode="COOP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer">
+              <span>🤝 CO-OP SQUAD (ONLINE)</span>
+              <span class="text-[9px] text-cyan-400 font-mono">Cooperativa</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GIANT GIOCA BUTTON (Styled with angled cyber cut matching image) -->
+      <button id="btn-start-game" type="button" class="lobby-play-btn group relative h-16 sm:h-20 px-8 sm:px-12 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer shrink-0">
+        <span class="text-2xl sm:text-4xl font-cyber font-black text-slate-950 tracking-widest uppercase italic drop-shadow-md">
+          GIOCA
+        </span>
+        <span class="text-[8px] sm:text-[9px] font-cyber font-bold text-slate-900 uppercase tracking-widest -mt-1 opacity-80">
+          AVVIA BATTAGLIA
+        </span>
+      </button>
+    </div>
+  </footer>
 </div>
-<h1 id="menu-title" class="text-xl sm:text-4xl font-cyber font-black text-white tracking-wider uppercase mb-1 sm:mb-1.5">
-CYBERSTRIKE <span class="text-cyan-400">3D</span>
-</h1>
-<p id="menu-subtitle" class="text-[10px] sm:text-sm text-slate-300 mb-2.5 sm:mb-4">
-Sfrutta i Jump-Pad per il Parkour, raccogli i Perk Temporanei, fai il Prestigio alle armi e conquista il Trofeo di Platino!
-</p>
-<div class="bg-slate-900 rounded-xl p-3.5 mb-4 border border-cyan-500/35 text-left">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-<div>
-<label for="profile-name-input" class="text-[10px] font-cyber uppercase tracking-widest text-cyan-400 block">Nome Operatore (Profilo)</label>
-<div class="flex items-center gap-2 mt-1">
-<input id="profile-name-input" type="text" maxlength="16" value="GHOST-01" placeholder="Inserisci nome..."
-class="bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg px-3 py-1 text-sm font-cyber font-bold text-white outline-none w-36 sm:w-44">
-<button id="btn-open-auth-modal" type="button" class="px-2.5 py-1 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-400 text-cyan-300 font-cyber text-[10px] font-bold uppercase transition shrink-0 cursor-pointer flex items-center gap-1">
-<span>☁️ Cloud Login</span>
-</button>
-<button id="btn-pwa-install" type="button" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-400 text-emerald-300 font-cyber text-[10px] font-bold uppercase transition shrink-0 cursor-pointer flex items-center gap-1 shadow-[0_0_12px_rgba(52,211,153,0.35)] animate-pulse">
-<span>📲 Installa / Scarica</span>
-</button>
+
+<!-- ==================== SETTINGS MODAL (GEAR ICON ⚙️) ==================== -->
+<div id="settings-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/95 backdrop-blur-sm overflow-y-auto">
+  <div class="cyber-panel rounded-2xl max-w-lg w-full p-5 sm:p-6 border border-cyan-400/50 my-auto text-left relative shadow-2xl">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+      <div>
+        <div class="text-[10px] font-cyber text-cyan-400 uppercase tracking-widest">Configurazione Sistema</div>
+        <h2 class="text-xl font-cyber font-black text-white uppercase">IMPOSTAZIONI GIOCO</h2>
+      </div>
+      <button id="btn-close-settings" type="button" class="p-1 rounded-lg text-slate-400 hover:text-white cursor-pointer text-lg font-bold">✕</button>
+    </div>
+
+    <div class="mb-4">
+      <label for="profile-name-input" class="text-[10px] font-cyber uppercase tracking-widest text-cyan-400 block mb-1">Nome Operatore (Profilo)</label>
+      <div class="flex items-center gap-2">
+        <input id="profile-name-input" type="text" maxlength="16" value="GHOST-01" class="flex-1 bg-slate-950 border border-cyan-500/50 focus:border-cyan-300 rounded-lg px-3 py-1.5 text-sm font-cyber font-bold text-white outline-none">
+        <button id="btn-open-auth-modal" type="button" class="px-3 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-400 text-cyan-300 font-cyber text-xs font-bold uppercase cursor-pointer flex items-center gap-1">
+          <span>☁️ Cloud Login</span>
+        </button>
+      </div>
+      <div id="auth-status-bar" class="text-[10px] font-cyber text-slate-400 mt-1.5 flex items-center gap-1.5 hidden">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_#34d399]"></span>
+        <span id="auth-status-text" class="text-emerald-300 font-bold truncate max-w-[190px]">Online: user@email.com</span>
+        <button id="btn-logout" type="button" class="text-rose-400 hover:text-rose-300 text-[10px] underline uppercase cursor-pointer ml-1">Esci</button>
+      </div>
+    </div>
+
+    <div class="mb-4 bg-slate-900 rounded-xl p-3 border border-slate-800">
+      <div class="flex justify-between text-xs mb-1">
+        <span class="text-slate-300 font-semibold font-cyber">Sensibilità Puntatore</span>
+        <span id="sens-value" class="text-cyan-400 font-cyber">1.0x</span>
+      </div>
+      <input id="sens-slider" type="range" min="0.3" max="2.5" step="0.1" value="1.0" class="w-full accent-cyan-400 cursor-pointer">
+    </div>
+
+    <div class="mb-4 bg-slate-900 rounded-xl p-3 border border-slate-800">
+      <div class="text-[10px] font-cyber uppercase tracking-widest text-slate-400 mb-2">Canali Audio Indipendenti</div>
+      <div class="flex gap-2">
+        <button id="menu-btn-music" type="button" class="flex-1 py-2 rounded-lg bg-slate-950 border border-fuchsia-400/50 text-fuchsia-300 font-cyber text-xs font-bold cursor-pointer">
+          🎵 MUSICA: ON
+        </button>
+        <button id="menu-btn-sfx" type="button" class="flex-1 py-2 rounded-lg bg-slate-950 border border-cyan-400/50 text-cyan-300 font-cyber text-xs font-bold cursor-pointer">
+          🔊 EFFETTI: ON
+        </button>
+      </div>
+    </div>
+
+    <div class="mb-4 bg-slate-900 rounded-xl p-3 border border-slate-800">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[10px] font-cyber uppercase tracking-widest text-cyan-400 font-bold">Settore Battaglia</span>
+        <span id="map-selected-label" class="text-[10px] font-cyber text-slate-300">Arena Cyber Galattica</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <button id="map-btn-arena" type="button" class="px-3 py-2 rounded-lg bg-cyan-950/80 border-2 border-cyan-400 text-cyan-300 font-cyber text-xs font-black uppercase cursor-pointer">
+          🌌 Arena Classica
+        </button>
+        <button id="map-btn-hangar" type="button" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 font-cyber text-xs font-black uppercase cursor-pointer hover:border-amber-400/50">
+          🛸 Hangar Orbitale
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+      <a id="btn-support-dev" href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="text-[10px] font-cyber text-amber-400/90 hover:text-amber-300 uppercase tracking-wider flex items-center gap-1 cursor-pointer">
+        <span>☕ Supporta lo Sviluppatore</span>
+      </a>
+      <button id="btn-reset-profile" type="button" class="text-[10px] font-cyber text-slate-500 hover:text-rose-400 uppercase cursor-pointer">
+        🗑️ Azzera Profilo
+      </button>
+    </div>
+  </div>
 </div>
-<div id="auth-status-bar" class="text-[10px] font-cyber text-slate-400 mt-1.5 flex items-center gap-1.5 hidden">
-<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_#34d399]"></span>
-<span id="auth-status-text" class="text-emerald-300 font-bold truncate max-w-[190px]">Online: user@email.com</span>
-<button id="btn-logout" type="button" class="text-rose-400 hover:text-rose-300 text-[10px] underline uppercase cursor-pointer ml-1">Esci</button>
+
+<!-- ==================== DAILY BOX REWARD MODAL ==================== -->
+<div id="daily-box-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm">
+  <div class="cyber-panel rounded-2xl max-w-sm w-full p-6 border-2 border-cyan-400 text-center relative shadow-[0_0_50px_rgba(6,182,212,0.4)]">
+    <div class="w-20 h-20 mx-auto rounded-2xl bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-4xl shadow-inner mb-4 animate-bounce">
+      🧰
+    </div>
+    <div class="text-[10px] font-cyber uppercase tracking-widest text-cyan-400 font-bold">Rifornimento Quotidiano</div>
+    <h3 class="text-xl font-cyber font-black text-white uppercase mt-0.5">CASSA GIORNALIERA</h3>
+    <p id="daily-box-desc" class="text-xs text-slate-300 mt-1 mb-4">
+      Apri la cassa per ricevere rifornimenti gratis di Punti Negozio (PN) ed Esperienza Operatore!
+    </p>
+    <div id="daily-box-reward-view" class="hidden bg-slate-900 rounded-xl p-3 border border-amber-400/50 mb-4">
+      <div class="text-[10px] font-cyber text-amber-400 font-bold uppercase mb-1">RICOMPENSE OTTENUTE!</div>
+      <div class="flex items-center justify-center gap-4 text-sm font-cyber font-black">
+        <span class="text-amber-300">🪙 +150 PN</span>
+        <span class="text-cyan-300">⭐ +500 XP</span>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button id="btn-open-daily-box" type="button" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_20px_rgba(251,191,36,0.4)]">
+        APRI GRATIS ORA!
+      </button>
+      <button id="btn-close-daily-box" type="button" class="px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
+        Chiudi
+      </button>
+    </div>
+  </div>
 </div>
+
+<!-- ==================== JOIN PARTY CODE MODAL ==================== -->
+<div id="join-party-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm">
+  <div class="cyber-panel rounded-2xl max-w-sm w-full p-6 border-2 border-cyan-400 text-center relative shadow-[0_0_50px_rgba(6,182,212,0.4)]">
+    <div class="text-[10px] font-cyber uppercase tracking-widest text-cyan-400 font-bold mb-1">Squadra // Connessione Stanza</div>
+    <h3 class="text-xl font-cyber font-black text-white uppercase mb-2">UNISCITI AL PARTY</h3>
+    <p class="text-xs text-slate-300 mb-4">Inserisci il Codice Stanza (4 caratteri) per entrare nella lobby 3D del caposquadra:</p>
+    <input id="input-party-code" type="text" maxlength="6" placeholder="CODICE (es. 2V3K)" class="w-full text-center tracking-widest uppercase text-xl font-cyber font-black bg-slate-950 border-2 border-cyan-500/50 focus:border-cyan-300 rounded-xl py-2.5 text-white outline-none mb-4">
+    <div class="flex gap-2">
+      <button id="btn-confirm-join-party" type="button" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+        ENTRA IN LOBBY
+      </button>
+      <button id="btn-cancel-join-party" type="button" class="px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
+        Annulla
+      </button>
+    </div>
+  </div>
 </div>
-<div class="text-left sm:text-right shrink-0">
-<span id="save-badge" class="inline-block px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-[9px] font-cyber text-emerald-300 uppercase">
-✓ Profilo Salvato
-</span>
-<div class="text-[10px] text-slate-400 mt-1">Trofei PSN: <span id="profile-trophies-count" class="text-amber-400 font-bold">0/15</span></div>
+
+<!-- ==================== GAME OVER MODAL ==================== -->
+<div id="gameover-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4 bg-slate-950/92 backdrop-blur-md">
+  <div class="cyber-panel rounded-2xl max-w-xl w-full p-5 sm:p-6 border-2 border-rose-500/70 text-center relative shadow-[0_0_50px_rgba(244,63,94,0.35)]">
+    <div id="gameover-badge" class="inline-block px-3 py-1 rounded-full bg-rose-500/15 border border-rose-400/40 text-rose-300 text-[10px] font-cyber tracking-widest uppercase mb-2">
+      SISTEMA COMPROMESSO
+    </div>
+    <h2 id="gameover-title" class="text-2xl sm:text-4xl font-cyber font-black text-white uppercase mb-1">
+      FINE <span class="text-rose-500">PARTITA</span>
+    </h2>
+    <p id="gameover-subtitle" class="text-xs text-slate-300 mb-4">
+      La tua corazza ha ceduto. Potenzia il tuo arsenale nell'Armeria e riprova!
+    </p>
+
+    <!-- Match Stats -->
+    <div id="gameover-stats" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 p-3 rounded-xl bg-slate-900/90 border border-rose-500/30">
+      <div>
+        <div class="text-[9px] font-cyber text-rose-300 uppercase">Punteggio</div>
+        <div id="final-score" class="text-lg font-cyber font-black text-white">0</div>
+      </div>
+      <div>
+        <div class="text-[9px] font-cyber text-cyan-300 uppercase">Ondata</div>
+        <div id="final-wave" class="text-lg font-cyber font-black text-cyan-400">1</div>
+      </div>
+      <div>
+        <div class="text-[9px] font-cyber text-emerald-300 uppercase">Kill Totali</div>
+        <div id="final-kills" class="text-lg font-cyber font-black text-emerald-400">0</div>
+      </div>
+      <div>
+        <div class="text-[9px] font-cyber text-amber-300 uppercase">XP Guadagnati</div>
+        <div id="final-operator-xp" class="text-lg font-cyber font-black text-amber-400">+0 XP</div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex gap-2 sm:gap-3">
+      <button id="btn-go-lobby" type="button" class="flex-1 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-cyan-400/70 text-cyan-300 font-cyber font-black text-xs sm:text-sm uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2">
+        <span>🏠 Torna alla Lobby</span>
+      </button>
+      <button id="btn-go-replay" type="button" class="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-slate-950 font-cyber font-black text-xs sm:text-sm uppercase tracking-wider transition cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2">
+        <span>▶ Gioca di Nuovo</span>
+      </button>
+    </div>
+  </div>
 </div>
-</div>
-<div class="grid grid-cols-4 gap-2 pt-2.5 border-t border-slate-800 text-center">
-<div class="bg-slate-950 rounded-lg p-2 border border-slate-800">
-<div class="text-[9px] font-cyber text-amber-400 uppercase">Record Punti</div>
-<div id="profile-best-score" class="text-sm sm:text-base font-cyber font-black text-white mt-0.5">0</div>
-</div>
-<div class="bg-slate-950 rounded-lg p-2 border border-slate-800">
-<div class="text-[9px] font-cyber text-cyan-400 uppercase">Max Ondata</div>
-<div id="profile-best-wave" class="text-sm sm:text-base font-cyber font-black text-cyan-300 mt-0.5">1</div>
-</div>
-<div class="bg-slate-950 rounded-lg p-2 border border-slate-800">
-<div class="text-[9px] font-cyber text-fuchsia-400 uppercase">Kill Totali</div>
-<div id="profile-total-kills" class="text-sm sm:text-base font-cyber font-black text-fuchsia-300 mt-0.5">0</div>
-</div>
-<div class="bg-slate-950 rounded-lg p-2 border border-slate-800">
-<div class="text-[9px] font-cyber text-emerald-400 uppercase">Armi Segrete</div>
-<div id="profile-unlocked-weapons" class="text-sm sm:text-base font-cyber font-black text-emerald-300 mt-0.5">0/4</div>
-</div>
-</div>
-<div class="mt-2.5 pt-2 border-t border-slate-800/80 bg-slate-950/70 rounded-xl p-2.5 border border-cyan-500/20">
-<div class="flex items-center justify-between text-xs font-cyber mb-1">
-<div class="flex items-center gap-1.5 sm:gap-2">
-<span id="menu-operator-level-badge" class="px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 font-black text-[10px]">LIVELLO 1</span>
-<span id="menu-operator-title" class="text-white font-bold text-[11px]">Recluta Cyber</span>
-<span id="menu-operator-suit-badge" class="hidden sm:inline px-1.5 py-0.5 rounded bg-slate-900 text-slate-400 text-[9px] font-cyber border border-slate-800">Tuta: MK-I</span>
-</div>
-<span id="menu-operator-xp-text" class="text-amber-400 font-mono text-[10px] font-bold">0 / 500 XP</span>
-</div>
-<div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800">
-<div id="menu-operator-xp-bar" class="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-fuchsia-500 rounded-full transition-all duration-300" style="width: 0%"></div>
-</div>
-</div>
-</div>
-<div id="gameover-stats" class="hidden grid-cols-2 sm:grid-cols-4 gap-2 mb-4 p-3 rounded-xl bg-rose-950/50 border border-rose-500/50">
-<div>
-<div class="text-[10px] font-cyber text-rose-300 uppercase">Punteggio Partita</div>
-<div id="final-score" class="text-lg font-cyber font-bold text-white">0</div>
-</div>
-<div>
-<div class="text-[10px] font-cyber text-rose-300 uppercase">Ondata Raggiunta</div>
-<div id="final-wave" class="text-lg font-cyber font-bold text-cyan-400">1</div>
-</div>
-<div>
-<div class="text-[10px] font-cyber text-rose-300 uppercase">Unità Eliminate</div>
-<div id="final-kills" class="text-lg font-cyber font-bold text-emerald-400">0</div>
-</div>
-<div>
-<div class="text-[10px] font-cyber text-amber-300 uppercase">XP Operatore</div>
-<div id="final-operator-xp" class="text-lg font-cyber font-bold text-amber-400">+0 XP</div>
-</div>
-</div>
-<div class="mb-4 text-left bg-slate-900 rounded-xl px-4 py-2.5 border border-slate-800 flex flex-col gap-2">
-<div>
-<div class="flex justify-between text-xs mb-1">
-<span class="text-slate-300 font-semibold">Sensibilità Puntatore</span>
-<span id="sens-value" class="text-cyan-400 font-cyber">1.0x</span>
-</div>
-<input id="sens-slider" type="range" min="0.3" max="2.5" step="0.1" value="1.0" class="w-full accent-cyan-400 cursor-pointer">
-</div>
-<div class="flex items-center justify-between pt-1.5 border-t border-slate-800/80 text-xs">
-<span class="text-slate-400">Controllo Canali Audio Indipendenti:</span>
-<div class="flex gap-2">
-<button id="menu-btn-music" type="button" class="px-2.5 py-1 rounded-lg bg-slate-950 border border-fuchsia-400/50 text-fuchsia-300 font-cyber text-[10px] font-bold cursor-pointer">🎵 MUSICA: ON</button>
-<button id="menu-btn-sfx" type="button" class="px-2.5 py-1 rounded-lg bg-slate-950 border border-cyan-400/50 text-cyan-300 font-cyber text-[10px] font-bold cursor-pointer">🔊 EFFETTI: ON</button>
-</div>
-</div>
-</div>
-<div class="mb-4 text-left bg-slate-900 rounded-xl px-4 py-2.5 border border-slate-800">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-cyber uppercase tracking-widest text-cyan-400 font-bold">🗺️ Selezione Settore / Mappa</span>
-<span id="map-selected-label" class="text-[10px] font-cyber text-slate-300">Arena Cyber Galattica</span>
-</div>
-<div class="grid grid-cols-2 gap-2">
-<button id="map-btn-arena" type="button" class="px-3 py-2 rounded-lg bg-cyan-950/80 border-2 border-cyan-400 text-cyan-300 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer shadow-[0_0_12px_rgba(34,211,238,0.25)]">
-<span>🌌 Arena Classica</span>
-</button>
-<button id="map-btn-hangar" type="button" class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer hover:border-amber-400/50 hover:text-amber-300">
-<span>🛸 Hangar Orbitale</span>
-</button>
-</div>
-</div>
-<div class="menu-guide-box mb-3 p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-left text-xs hidden sm:block">
-<div class="flex items-center justify-between font-cyber text-[10px] uppercase text-cyan-400 font-bold mb-1.5">
-<span>🎮 Supporto Multi-Dispositivo</span>
-<span class="text-slate-400">PC • Mobile • Gamepad</span>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] text-slate-300 font-mono leading-relaxed">
-<div class="p-1.5 rounded bg-slate-950/70 border border-slate-800/80">
-<span class="text-cyan-300 font-bold block mb-0.5">💻 Mouse & Tastiera</span>
-WASD: Muoviti • Spazio: Salta<br>
-C: Scivola • Click SX: Spara<br>
-Click DX: Mira • Q: Armi • 6-7-8: Serie
-</div>
-<div class="p-1.5 rounded bg-slate-950/70 border border-slate-800/80">
-<span class="text-emerald-300 font-bold block mb-0.5">📱 Smartphone & Tablet</span>
-Joystick SX: Movimento<br>
-Trascina Schermo: Mira<br>
-FUOCO: Tieni e Mira • ARMI: Cicla
-</div>
-<div class="p-1.5 rounded bg-slate-950/70 border border-slate-800/80">
-<span class="text-amber-300 font-bold block mb-0.5">🎮 Gamepad USB/Bluetooth</span>
-Levette: Muovi & Visuale<br>
-RT: Fuoco • LT: Mira • A: Salta<br>
-B: Scivola • Y/RB: Armi • D-Pad: Serie
-</div>
-</div>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
-<button id="btn-open-shop" type="button" class="w-full py-2.5 sm:py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-amber-400/70 text-amber-300 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5">
-<span>🛒 Armeria</span>
-<span id="menu-shop-badge" class="px-2 py-0.5 text-[10px] rounded-full bg-amber-400 text-slate-950 font-black">0 PN</span>
-</button>
-<button id="btn-open-trophies" type="button" class="w-full py-2.5 sm:py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border-2 border-fuchsia-400/70 text-fuchsia-300 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-1.5">
-<span>🏆 Trofei PSN</span>
-<span id="menu-trophy-badge" class="px-2 py-0.5 text-[10px] rounded-full bg-fuchsia-400 text-slate-950 font-black">0%</span>
-</button>
-<button id="btn-start-game" type="button" class="w-full py-2.5 sm:py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer">
-▶ Inizia Missione Solo
-</button>
-</div>
-<button id="btn-open-multiplayer" type="button" class="w-full mt-2 sm:mt-2.5 py-2.5 sm:py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_25px_rgba(16,185,129,0.35)] flex items-center justify-center gap-2">
-<span>🌐 MULTIGIOCATORE ONLINE (CO-OP & PVP)</span>
-<span class="px-2 py-0.5 text-[9px] rounded-full bg-slate-950 text-emerald-300 border border-emerald-400 font-bold uppercase tracking-normal">Novità</span>
-</button>
-<div class="mt-3 flex items-center justify-between">
-<a id="btn-support-dev" href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="text-[10px] font-cyber text-amber-400/90 hover:text-amber-300 uppercase tracking-wider transition flex items-center gap-1.5 cursor-pointer">
-<span>☕ Supporta lo Sviluppatore</span>
-</a>
-<button id="btn-reset-profile" type="button" class="text-[10px] font-cyber text-slate-500 hover:text-rose-400 uppercase tracking-wider transition cursor-pointer">
-🗑️ Azzera Profilo e Record
-</button>
-</div>
-</div>
+
+<!-- ==================== PAUSE MODAL ==================== -->
+<div id="pause-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
+  <div class="cyber-panel rounded-2xl max-w-sm w-full p-6 border-2 border-cyan-400 text-center relative shadow-[0_0_40px_rgba(6,182,212,0.35)]">
+    <div class="text-[10px] font-cyber text-cyan-400 uppercase tracking-widest font-bold mb-1">Stato Gioco</div>
+    <h3 class="text-2xl font-cyber font-black text-white uppercase mb-4">MISSIONE IN PAUSA</h3>
+    <div class="flex flex-col gap-2.5">
+      <button id="btn-pause-resume" type="button" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+        ▶ RIPRENDI GIOCO
+      </button>
+      <button id="btn-pause-settings" type="button" class="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-cyber text-xs font-bold uppercase transition cursor-pointer">
+        ⚙️ Impostazioni
+      </button>
+      <button id="btn-pause-lobby" type="button" class="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-rose-500/50 text-rose-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
+        🏠 Torna alla Lobby
+      </button>
+    </div>
+  </div>
 </div>
 <div id="auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/96 overflow-y-auto">
 <div class="cyber-panel rounded-2xl max-w-md w-full p-6 border border-cyan-400/60 my-auto text-left relative shadow-[0_0_40px_rgba(34,211,238,0.25)]">
@@ -1410,7 +1655,8 @@ unlockedTrophies: [],
 weaponStats: createDefaultWeaponStats(),
 operatorXp: 0,
 selectedOptic: 'STANDARD',
-selectedSuit: 'DEFAULT'
+selectedSuit: 'DEFAULT',
+lastDailyBoxDate: ''
 };
 function getWeaponStats(weaponId) {
 if (!playerProfile.weaponStats[weaponId]) {
@@ -1625,6 +1871,7 @@ playerProfile.operatorXp = calculateRetroactiveOperatorXp(playerProfile);
 }
 playerProfile.selectedOptic = parsed.selectedOptic || 'STANDARD';
 playerProfile.selectedSuit = parsed.selectedSuit || 'DEFAULT';
+playerProfile.lastDailyBoxDate = parsed.lastDailyBoxDate || '';
 if (!isOpticUnlocked(playerProfile.selectedOptic)) {
 playerProfile.selectedOptic = 'STANDARD';
 }
@@ -1635,6 +1882,7 @@ playerProfile.selectedSuit = 'DEFAULT';
 playerProfile.operatorXp = 0;
 playerProfile.selectedOptic = 'STANDARD';
 playerProfile.selectedSuit = 'DEFAULT';
+playerProfile.lastDailyBoxDate = '';
 }
 } catch (e) {}
 }
@@ -1686,11 +1934,15 @@ const hudName = byId('hud-player-name');
 if (hudName) hudName.textContent = playerProfile.name;
 const hudHigh = byId('hud-highscore');
 if (hudHigh) hudHigh.textContent = Math.max(playerProfile.bestScore, state.score);
-byId('profile-best-score').textContent = playerProfile.bestScore;
-byId('profile-best-wave').textContent = playerProfile.bestWave;
-byId('profile-total-kills').textContent = playerProfile.totalKills;
+const pBestScore = byId('profile-best-score');
+if (pBestScore) pBestScore.textContent = playerProfile.bestScore;
+const pBestWave = byId('profile-best-wave');
+if (pBestWave) pBestWave.textContent = playerProfile.bestWave;
+const pTotalKills = byId('profile-total-kills');
+if (pTotalKills) pTotalKills.textContent = playerProfile.totalKills;
 const unlockedSecretCount = countUnlockedSecretWeapons();
-byId('profile-unlocked-weapons').textContent = `${unlockedSecretCount}/4`;
+const pUnlockedWeapons = byId('profile-unlocked-weapons');
+if (pUnlockedWeapons) pUnlockedWeapons.textContent = `${unlockedSecretCount}/4`;
 const tCount = playerProfile.unlockedTrophies.length;
 const tPct = Math.round((tCount / PSN_TROPHIES.length) * 100);
 const tCountEl = byId('profile-trophies-count');
@@ -1718,6 +1970,20 @@ menuSuitBadge.textContent = `Tuta: ${curSuit ? curSuit.name.split(' ')[0] : 'MK-
 }
 const hudLvlBadge = byId('hud-operator-level-badge');
 if (hudLvlBadge) hudLvlBadge.textContent = `LVL ${opProg.level}`;
+
+// Lobby Header & Operator Sync
+const lobbyPn = byId('lobby-pn-amount');
+if (lobbyPn) lobbyPn.textContent = getTotalAvailableShopPoints().toLocaleString();
+const lobbyTrophies = byId('lobby-trophies-amount');
+if (lobbyTrophies) lobbyTrophies.textContent = `${tCount}/${PSN_TROPHIES.length}`;
+const lobbyLvl = byId('lobby-level-badge');
+if (lobbyLvl) lobbyLvl.textContent = opProg.level;
+const lobbyPlayerName = byId('lobby-player-name');
+if (lobbyPlayerName) lobbyPlayerName.textContent = playerProfile.name || 'GHOST-01';
+const lobbyPlayerLvlTag = byId('lobby-player-lvl-tag');
+if (lobbyPlayerLvlTag) lobbyPlayerLvlTag.textContent = `${opProg.level} Lv.`;
+if (typeof checkDailyBoxStatus === 'function') checkDailyBoxStatus();
+
 syncAudioButtonsUI();
 updateAuthUI();
 }
@@ -2460,6 +2726,12 @@ function setupRoomListeners(roomId) {
     const codeEl = byId('mp-room-code-display');
     const badgeMode = byId('mp-room-badge-mode');
     const tipBox = byId('mp-room-tip-box');
+    const lobbyPartyCode = byId('lobby-party-code-display');
+    if (lobbyPartyCode) lobbyPartyCode.textContent = info.code || 'ONLINE';
+    const lobbySelectedMode = byId('lobby-selected-mode-text');
+    if (lobbySelectedMode && info.mode) {
+      lobbySelectedMode.textContent = info.mode === 'PVP' ? 'DEATHMATCH (PVP)' : 'CO-OP SQUAD';
+    }
     if (nameEl) nameEl.textContent = info.name || 'Cyber Arena Match';
     if (codeEl) codeEl.textContent = info.code || '';
     if (badgeMode) {
@@ -2484,6 +2756,9 @@ function setupRoomListeners(roomId) {
     const playerList = Object.keys(playersVal).map(id => ({ id, ...playersVal[id] }));
     
     updateWaitingRoomPlayersUI(playerList);
+    if (typeof updateLobbySquadSlots === 'function') {
+      updateLobbySquadSlots(playerList);
+    }
 
     if (mpState.active) {
       playerList.forEach(p => {
@@ -2768,6 +3043,8 @@ async function createRoom(roomName, mode, isPrivate, mapId) {
       kills: 0,
       deaths: 0,
       score: 0,
+      level: getOperatorLevel(playerProfile.operatorXp || 0),
+      suit: playerProfile.selectedSuit || 'DEFAULT',
       x: 0,
       y: 0,
       z: 0,
@@ -2822,6 +3099,8 @@ async function joinRoomById(roomId) {
       kills: 0,
       deaths: 0,
       score: 0,
+      level: getOperatorLevel(playerProfile.operatorXp || 0),
+      suit: playerProfile.selectedSuit || 'DEFAULT',
       x: 0,
       y: 0,
       z: 0,
@@ -3197,6 +3476,7 @@ slideDir: new THREE.Vector3(),
 slideSpeed: 0,
 currentCameraHeight: 2.2,
 selectedMap: 'ARENA',
+selectedGameMode: 'SOLO',
 currentWeaponIndex: 0,
 selectedShopWeaponIdx: 0,
 weaponClips: WEAPONS.map(w => w.maxAmmo),
@@ -3215,13 +3495,24 @@ function getCurrentWeapon() { return WEAPONS[state.currentWeaponIndex]; }
 const canvas = byId('game-canvas');
 const radarCanvas = byId('radar-canvas');
 const radarCtx = radarCanvas ? radarCanvas.getContext('2d') : null;
-const menuOverlay = byId('menu-overlay'), shopOverlay = byId('shop-overlay'), trophiesOverlay = byId('trophies-overlay');
-const menuTitle = byId('menu-title'), menuSubtitle = byId('menu-subtitle'), gameoverStats = byId('gameover-stats');
+const lobbyScreen = byId('lobby-screen');
+const shopOverlay = byId('shop-overlay'), trophiesOverlay = byId('trophies-overlay');
+const settingsModal = byId('settings-modal'), btnCloseSettings = byId('btn-close-settings'), btnLobbySettings = byId('lobby-btn-settings');
+const dailyBoxModal = byId('daily-box-modal'), btnCloseDailyBox = byId('btn-close-daily-box'), btnOpenDailyBox = byId('btn-open-daily-box');
+const joinPartyModal = byId('join-party-modal'), inputPartyCode = byId('input-party-code'), btnConfirmJoinParty = byId('btn-confirm-join-party'), btnCancelJoinParty = byId('btn-cancel-join-party');
+const gameoverModal = byId('gameover-modal'), gameoverStats = byId('gameover-stats'), gameoverTitle = byId('gameover-title'), gameoverSubtitle = byId('gameover-subtitle'), gameoverBadge = byId('gameover-badge');
+const btnGoLobby = byId('btn-go-lobby'), btnGoReplay = byId('btn-go-replay');
+const pauseModal = byId('pause-modal'), btnPauseResume = byId('btn-pause-resume'), btnPauseSettings = byId('btn-pause-settings'), btnPauseLobby = byId('btn-pause-lobby');
 const finalScore = byId('final-score'), finalWave = byId('final-wave'), finalKills = byId('final-kills');
 const btnStartGame = byId('btn-start-game'), btnOpenShop = byId('btn-open-shop'), btnCloseShop = byId('btn-close-shop');
 const btnOpenTrophies = byId('btn-open-trophies'), btnCloseTrophies = byId('btn-close-trophies'), btnPause = byId('btn-pause');
 const btnMute = byId('btn-mute'), btnMusic = byId('btn-music'), menuBtnMusic = byId('menu-btn-music'), menuBtnSfx = byId('menu-btn-sfx');
 const sensSlider = byId('sens-slider'), sensValue = byId('sens-value'), profileNameInput = byId('profile-name-input'), btnResetProfile = byId('btn-reset-profile');
+let lobbySceneGroup = null;
+let localLobbyAvatarGroup = null;
+let slot2LobbyAvatarGroup = null;
+let slot3LobbyAvatarGroup = null;
+let lobbyMouseX = 0, lobbyMouseY = 0;
 const hudWave = byId('hud-wave'), hudScore = byId('hud-score'), hudEnemies = byId('hud-enemies'), hudKills = byId('hud-kills');
 const hudFps = byId('hud-fps'), hudPing = byId('hud-ping'), hudHealthText = byId('hud-health-text'), hudHealthBar = byId('hud-health-bar');
 const hudStaminaText = byId('hud-stamina-text'), hudStaminaBar = byId('hud-stamina-bar'), bossHudContainer = byId('boss-hud-container');
@@ -3634,13 +3925,21 @@ savePlayerProfile();
 applyWeaponVisuals(getCurrentWeapon());
 renderShopUI();
 updateProfileUI();
+if (typeof updateLobbyAvatars === 'function') updateLobbyAvatars();
 };
 }
 }
-function openShop() {
+function openShop(initialTab) {
 sound.init();
 state.selectedShopWeaponIdx = state.currentWeaponIndex;
 initShopDOMOnce();
+if (initialTab === 'operator') {
+  const btnTabOperator = byId('btn-shop-tab-operator');
+  if (btnTabOperator) btnTabOperator.click();
+} else if (initialTab === 'weapons') {
+  const btnTabWeapons = byId('btn-shop-tab-weapons');
+  if (btnTabWeapons) btnTabWeapons.click();
+}
 renderShopUI();
 if (state.mode === 'PLAYING') {
 state.pausedForShop = true;
@@ -3654,7 +3953,7 @@ try { document.exitPointerLock(); } catch (e) {}
 }
 }
 if (btnCloseShop) {
-btnCloseShop.textContent = state.pausedForShop ? '✕ Chiudi [TAB] / Riprendi' : '✕ Torna al Menu';
+btnCloseShop.textContent = state.pausedForShop ? '✕ Chiudi [TAB] / Riprendi' : '✕ Torna alla Lobby';
 }
 shopOverlay.classList.remove('hidden');
 shopOverlay.classList.add('flex');
@@ -3664,6 +3963,8 @@ shopOverlay.classList.add('hidden');
 shopOverlay.classList.remove('flex');
 updateProfileUI();
 updateHUD();
+if (typeof updateLobbyAvatars === 'function') updateLobbyAvatars();
+if (typeof setActiveNavTab === 'function') setActiveNavTab('nav-tab-play');
 if (state.pausedForShop) {
 state.pausedForShop = false;
 state.mode = 'PLAYING';
@@ -3998,7 +4299,477 @@ function closeTrophiesModal() {
 trophiesOverlay.classList.add('hidden');
 trophiesOverlay.classList.remove('flex');
 updateProfileUI();
+if (typeof setActiveNavTab === 'function') setActiveNavTab('nav-tab-play');
 }
+
+function buildLobbyScene() {
+  if (lobbySceneGroup) {
+    scene.remove(lobbySceneGroup);
+  }
+  lobbySceneGroup = new THREE.Group();
+  scene.add(lobbySceneGroup);
+
+  // 1. Bunker Floor
+  const floorGeo = new THREE.BoxGeometry(16, 0.4, 16);
+  const floorMat = new THREE.MeshLambertMaterial({ color: 0x111625 });
+  const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+  floorMesh.position.set(0, -0.2, 0);
+  floorMesh.receiveShadow = true;
+  lobbySceneGroup.add(floorMesh);
+
+  const gridHelper = new THREE.GridHelper(16, 16, 0x1e293b, 0x0f172a);
+  gridHelper.position.y = 0.01;
+  lobbySceneGroup.add(gridHelper);
+
+  // 2. Podiums
+  const podiumMat = new THREE.MeshLambertMaterial({ color: 0x0f172a });
+  const centerPodium = new THREE.Mesh(new THREE.CylinderGeometry(1.65, 1.85, 0.14, 28), podiumMat);
+  centerPodium.position.set(0, 0.07, 0);
+  lobbySceneGroup.add(centerPodium);
+
+  const centerGlowRing = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.045, 8, 32), new THREE.MeshBasicMaterial({ color: 0x22d3ee }));
+  centerGlowRing.rotation.x = Math.PI / 2;
+  centerGlowRing.position.set(0, 0.15, 0);
+  lobbySceneGroup.add(centerGlowRing);
+
+  // Left Slot Podium (Slot 2)
+  const slot2Podium = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.35, 0.1, 24), podiumMat);
+  slot2Podium.position.set(-2.4, 0.05, 0.4);
+  lobbySceneGroup.add(slot2Podium);
+  const slot2Ring = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.03, 8, 24), new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 }));
+  slot2Ring.rotation.x = Math.PI / 2;
+  slot2Ring.position.set(-2.4, 0.11, 0.4);
+  lobbySceneGroup.add(slot2Ring);
+
+  // Right Slot Podium (Slot 3)
+  const slot3Podium = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.35, 0.1, 24), podiumMat);
+  slot3Podium.position.set(2.4, 0.05, 0.4);
+  lobbySceneGroup.add(slot3Podium);
+  const slot3Ring = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.03, 8, 24), new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 }));
+  slot3Ring.rotation.x = Math.PI / 2;
+  slot3Ring.position.set(2.4, 0.11, 0.4);
+  lobbySceneGroup.add(slot3Ring);
+
+  // 3. Back Bunker Wall
+  const wallMat = new THREE.MeshLambertMaterial({ color: 0x1f2723 });
+  const backWall = new THREE.Mesh(new THREE.BoxGeometry(16, 8, 0.5), wallMat);
+  backWall.position.set(0, 4.0, -4.0);
+  lobbySceneGroup.add(backWall);
+
+  const baseboard = new THREE.Mesh(new THREE.BoxGeometry(16, 0.45, 0.65), new THREE.MeshLambertMaterial({ color: 0x38281a }));
+  baseboard.position.set(0, 0.22, -3.85);
+  lobbySceneGroup.add(baseboard);
+
+  // 4. Glowing Emergency EXIT Sign
+  const exitBox = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.5, 0.15), new THREE.MeshLambertMaterial({ color: 0x052e16 }));
+  exitBox.position.set(0, 4.2, -3.7);
+  lobbySceneGroup.add(exitBox);
+
+  const exitGlow = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.32, 0.05), new THREE.MeshBasicMaterial({ color: 0x22c55e }));
+  exitGlow.position.set(0, 4.2, -3.61);
+  lobbySceneGroup.add(exitGlow);
+
+  const exitLight = new THREE.PointLight(0x22c55e, 1.2, 4);
+  exitLight.position.set(0, 4.2, -3.4);
+  lobbySceneGroup.add(exitLight);
+
+  // 5. Tactical Mission Corkboard with Notes
+  const corkFrame = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.2, 0.08), new THREE.MeshLambertMaterial({ color: 0x451a03 }));
+  corkFrame.position.set(0, 2.4, -3.72);
+  lobbySceneGroup.add(corkFrame);
+
+  const corkBoard = new THREE.Mesh(new THREE.BoxGeometry(3.4, 2.0, 0.09), new THREE.MeshLambertMaterial({ color: 0x854d0e }));
+  corkBoard.position.set(0, 2.4, -3.71);
+  lobbySceneGroup.add(corkBoard);
+
+  const noteColors = [0xfef08a, 0xffffff, 0x67e8f9, 0xfca5a5];
+  for (let i = 0; i < 6; i++) {
+    const nw = 0.35 + (i % 2) * 0.2;
+    const nh = 0.4 + (i % 3) * 0.15;
+    const note = new THREE.Mesh(new THREE.BoxGeometry(nw, nh, 0.04), new THREE.MeshBasicMaterial({ color: noteColors[i % noteColors.length] }));
+    const nx = -1.1 + (i % 3) * 1.1;
+    const ny = 2.7 - Math.floor(i / 3) * 0.7;
+    note.position.set(nx, ny, -3.65);
+    note.rotation.z = (Math.sin(i * 1.7) * 0.15);
+    lobbySceneGroup.add(note);
+  }
+
+  // 6. Tactical Couch on Left
+  const couchGroup = new THREE.Group();
+  couchGroup.position.set(-4.6, 0, -1.8);
+  couchGroup.rotation.y = 0.45;
+  const leatherMat = new THREE.MeshLambertMaterial({ color: 0x1f2937 });
+  const cBase = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.4, 1.1), leatherMat);
+  cBase.position.y = 0.2;
+  couchGroup.add(cBase);
+  const cBack = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.8, 0.3), leatherMat);
+  cBack.position.set(0, 0.7, -0.4);
+  couchGroup.add(cBack);
+  const cArmL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.6, 1.1), leatherMat);
+  cArmL.position.set(-1.1, 0.5, 0);
+  couchGroup.add(cArmL);
+  const cArmR = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.6, 1.1), leatherMat);
+  cArmR.position.set(1.1, 0.5, 0);
+  couchGroup.add(cArmR);
+  lobbySceneGroup.add(couchGroup);
+
+  // 7. Tactical Drawer Cabinet / Metal Locker on Right
+  const lockerGroup = new THREE.Group();
+  lockerGroup.position.set(4.6, 0, -1.8);
+  lockerGroup.rotation.y = -0.45;
+  const lockerMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+  const lBody = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.2, 0.9), lockerMat);
+  lBody.position.y = 1.6;
+  lockerGroup.add(lBody);
+  for (let d = 0; d < 4; d++) {
+    const handle = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.05, 0.08), new THREE.MeshBasicMaterial({ color: 0x94a3b8 }));
+    handle.position.set(0, 0.7 + d * 0.6, 0.46);
+    lockerGroup.add(handle);
+  }
+  lobbySceneGroup.add(lockerGroup);
+
+  // 8. Overhead Lighting
+  const bunkerAmbient = new THREE.AmbientLight(0x64748b, 0.85);
+  lobbySceneGroup.add(bunkerAmbient);
+
+  const mainDirLight = new THREE.DirectionalLight(0xe0f2fe, 0.8);
+  mainDirLight.position.set(2, 6, 4);
+  lobbySceneGroup.add(mainDirLight);
+
+  const centerSpot = new THREE.SpotLight(0x67e8f9, 2.6, 12, Math.PI / 4, 0.3);
+  centerSpot.position.set(0, 5.0, 2.5);
+  centerSpot.target = centerPodium;
+  lobbySceneGroup.add(centerSpot);
+
+  const leftSpot = new THREE.SpotLight(0x38bdf8, 1.8, 10, Math.PI / 4, 0.35);
+  leftSpot.position.set(-2.4, 4.8, 2.2);
+  leftSpot.target = slot2Podium;
+  lobbySceneGroup.add(leftSpot);
+
+  const rightSpot = new THREE.SpotLight(0x38bdf8, 1.8, 10, Math.PI / 4, 0.35);
+  rightSpot.position.set(2.4, 4.8, 2.2);
+  rightSpot.target = slot3Podium;
+  lobbySceneGroup.add(rightSpot);
+
+  localLobbyAvatarGroup = new THREE.Group();
+  localLobbyAvatarGroup.position.set(0, 0.14, 0);
+  lobbySceneGroup.add(localLobbyAvatarGroup);
+
+  slot2LobbyAvatarGroup = new THREE.Group();
+  slot2LobbyAvatarGroup.position.set(-2.4, 0.10, 0.4);
+  slot2LobbyAvatarGroup.rotation.y = 0.25;
+  slot2LobbyAvatarGroup.visible = false;
+  lobbySceneGroup.add(slot2LobbyAvatarGroup);
+
+  slot3LobbyAvatarGroup = new THREE.Group();
+  slot3LobbyAvatarGroup.position.set(2.4, 0.10, 0.4);
+  slot3LobbyAvatarGroup.rotation.y = -0.25;
+  slot3LobbyAvatarGroup.visible = false;
+  lobbySceneGroup.add(slot3LobbyAvatarGroup);
+}
+
+function buildAvatarModel(suitId, weaponIndex) {
+  const g = new THREE.Group();
+  const suit = OPERATOR_SUITS.find(s => s.id === suitId) || OPERATOR_SUITS[0];
+  const suitColorHex = parseInt(suit.color.replace('#', '0x'), 16);
+  
+  const armorMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+  const glowMat = new THREE.MeshLambertMaterial({ color: suitColorHex, emissive: suitColorHex, emissiveIntensity: 0.55 });
+  const visorMat = new THREE.MeshBasicMaterial({ color: suitColorHex });
+  const jointMat = new THREE.MeshLambertMaterial({ color: 0x090d16 });
+  const darkMetal = new THREE.MeshLambertMaterial({ color: 0x111827 });
+
+  // 1. Torso
+  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.85, 0.46), armorMat);
+  torso.position.y = 1.35;
+  g.add(torso);
+
+  const chestCore = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.36, 0.1), glowMat);
+  chestCore.position.set(0, 1.45, 0.23);
+  g.add(chestCore);
+
+  const belt = new THREE.Mesh(new THREE.BoxGeometry(0.74, 0.18, 0.48), darkMetal);
+  belt.position.set(0, 0.95, 0);
+  g.add(belt);
+
+  const pouchL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.12), armorMat);
+  pouchL.position.set(-0.25, 0.95, 0.24);
+  g.add(pouchL);
+  const pouchR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.12), armorMat);
+  pouchR.position.set(0.25, 0.95, 0.24);
+  g.add(pouchR);
+
+  // 2. Head / Helmet
+  const head = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.50, 0.48), armorMat);
+  head.position.y = 2.05;
+  g.add(head);
+
+  const visor = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.15, 0.12), visorMat);
+  visor.position.set(0, 2.07, 0.24);
+  g.add(visor);
+
+  // 3. Arms & Low-Ready Weapon Pose
+  const armGeo = new THREE.CylinderGeometry(0.1, 0.09, 0.72, 8);
+  
+  const leftArm = new THREE.Mesh(armGeo, jointMat);
+  leftArm.position.set(-0.46, 1.25, 0.15);
+  leftArm.rotation.x = -Math.PI / 3.5;
+  leftArm.rotation.z = -0.35;
+  g.add(leftArm);
+
+  const leftShoulder = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.22, 0.26), glowMat);
+  leftShoulder.position.set(-0.46, 1.55, 0);
+  g.add(leftShoulder);
+
+  const rightArm = new THREE.Mesh(armGeo, jointMat);
+  rightArm.position.set(0.46, 1.25, 0.18);
+  rightArm.rotation.x = -Math.PI / 3.0;
+  rightArm.rotation.z = 0.25;
+  g.add(rightArm);
+
+  const rightShoulder = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.22, 0.26), glowMat);
+  rightShoulder.position.set(0.46, 1.55, 0);
+  g.add(rightShoulder);
+
+  // 4. Weapon in Hands
+  const gunGroup = new THREE.Group();
+  gunGroup.position.set(0.18, 1.15, 0.45);
+  gunGroup.rotation.y = -0.15;
+  gunGroup.rotation.x = -0.1;
+
+  const gunBody = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.95), darkMetal);
+  gunGroup.add(gunBody);
+
+  const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.5, 8), jointMat);
+  barrel.rotation.x = Math.PI / 2;
+  barrel.position.set(0, 0.04, 0.6);
+  gunGroup.add(barrel);
+
+  const mag = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.25, 0.14), armorMat);
+  mag.position.set(0, -0.16, 0.1);
+  mag.rotation.x = -0.15;
+  gunGroup.add(mag);
+
+  const optic = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.09, 0.25), glowMat);
+  optic.position.set(0, 0.13, -0.05);
+  gunGroup.add(optic);
+
+  g.add(gunGroup);
+
+  // 5. Legs & Tactical Stance
+  const legGeo = new THREE.CylinderGeometry(0.13, 0.11, 0.9, 8);
+
+  const leftLeg = new THREE.Mesh(legGeo, jointMat);
+  leftLeg.position.set(-0.22, 0.48, 0.04);
+  leftLeg.rotation.z = 0.06;
+  g.add(leftLeg);
+
+  const leftBoot = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.18, 0.35), darkMetal);
+  leftBoot.position.set(-0.25, 0.09, 0.08);
+  g.add(leftBoot);
+
+  const rightLeg = new THREE.Mesh(legGeo, jointMat);
+  rightLeg.position.set(0.22, 0.48, -0.04);
+  rightLeg.rotation.z = -0.06;
+  g.add(rightLeg);
+
+  const rightBoot = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.18, 0.35), darkMetal);
+  rightBoot.position.set(0.25, 0.09, 0.04);
+  g.add(rightBoot);
+
+  return g;
+}
+
+function updateLobbyAvatars() {
+  if (!localLobbyAvatarGroup) return;
+  while (localLobbyAvatarGroup.children.length > 0) {
+    localLobbyAvatarGroup.remove(localLobbyAvatarGroup.children[0]);
+  }
+  const suitId = playerProfile.selectedSuit || 'DEFAULT';
+  const model = buildAvatarModel(suitId, state.currentWeaponIndex || 0);
+  localLobbyAvatarGroup.add(model);
+}
+
+function updateLobbySquadSlots(playerList) {
+  const otherPlayers = (playerList || []).filter(p => p.id !== mpState.myId);
+  const p2 = otherPlayers[0] || null;
+  const p3 = otherPlayers[1] || null;
+
+  // Slot 2
+  const s2Empty = byId('lobby-slot-2-empty');
+  const s2Filled = byId('lobby-slot-2-filled');
+  const s2Name = byId('lobby-slot-2-name');
+  const s2Lvl = byId('lobby-slot-2-lvl');
+
+  if (p2) {
+    if (s2Empty) s2Empty.classList.add('hidden');
+    if (s2Filled) { s2Filled.classList.remove('hidden'); s2Filled.classList.add('flex'); }
+    if (s2Name) s2Name.textContent = p2.name || 'PLAYER 2';
+    if (s2Lvl) s2Lvl.textContent = `${p2.level || 1} Lv.`;
+
+    if (slot2LobbyAvatarGroup) {
+      slot2LobbyAvatarGroup.visible = true;
+      while (slot2LobbyAvatarGroup.children.length > 0) {
+        slot2LobbyAvatarGroup.remove(slot2LobbyAvatarGroup.children[0]);
+      }
+      const p2Model = buildAvatarModel(p2.suit || 'DEFAULT', 0);
+      slot2LobbyAvatarGroup.add(p2Model);
+    }
+  } else {
+    if (s2Empty) s2Empty.classList.remove('hidden');
+    if (s2Filled) { s2Filled.classList.add('hidden'); s2Filled.classList.remove('flex'); }
+    if (slot2LobbyAvatarGroup) {
+      slot2LobbyAvatarGroup.visible = false;
+    }
+  }
+
+  // Slot 3
+  const s3Empty = byId('lobby-slot-3-empty');
+  const s3Filled = byId('lobby-slot-3-filled');
+  const s3Name = byId('lobby-slot-3-name');
+  const s3Lvl = byId('lobby-slot-3-lvl');
+
+  if (p3) {
+    if (s3Empty) s3Empty.classList.add('hidden');
+    if (s3Filled) { s3Filled.classList.remove('hidden'); s3Filled.classList.add('flex'); }
+    if (s3Name) s3Name.textContent = p3.name || 'PLAYER 3';
+    if (s3Lvl) s3Lvl.textContent = `${p3.level || 1} Lv.`;
+
+    if (slot3LobbyAvatarGroup) {
+      slot3LobbyAvatarGroup.visible = true;
+      while (slot3LobbyAvatarGroup.children.length > 0) {
+        slot3LobbyAvatarGroup.remove(slot3LobbyAvatarGroup.children[0]);
+      }
+      const p3Model = buildAvatarModel(p3.suit || 'DEFAULT', 0);
+      slot3LobbyAvatarGroup.add(p3Model);
+    }
+  } else {
+    if (s3Empty) s3Empty.classList.remove('hidden');
+    if (s3Filled) { s3Filled.classList.add('hidden'); s3Filled.classList.remove('flex'); }
+    if (slot3LobbyAvatarGroup) {
+      slot3LobbyAvatarGroup.visible = false;
+    }
+  }
+}
+
+function checkDailyBoxStatus() {
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const statusEl = byId('lobby-daily-box-status');
+  const btnOpen = byId('btn-open-daily-box');
+  const descEl = byId('daily-box-desc');
+  const rewardView = byId('daily-box-reward-view');
+  
+  if (playerProfile.lastDailyBoxDate === todayStr) {
+    if (statusEl) {
+      statusEl.textContent = 'RISCATTATO';
+      statusEl.className = 'inline-block mt-0.5 px-2 py-0.2 rounded bg-slate-800 text-slate-400 text-[8px] font-black uppercase';
+    }
+    if (btnOpen) {
+      btnOpen.textContent = 'GIÀ RISCATTATO OGGI';
+      btnOpen.disabled = true;
+      btnOpen.className = 'flex-1 py-3 rounded-xl bg-slate-800 text-slate-500 font-cyber font-black text-xs uppercase tracking-wider cursor-not-allowed';
+    }
+    if (descEl) descEl.textContent = 'Hai già ritirato la tua cassa giornaliera di oggi! Torna domani per altri Punti Negozio e XP gratuiti.';
+    if (rewardView) rewardView.classList.remove('hidden');
+  } else {
+    if (statusEl) {
+      statusEl.textContent = 'GRATIS X3';
+      statusEl.className = 'inline-block mt-0.5 px-2 py-0.2 rounded bg-amber-400 text-slate-950 text-[8px] font-black uppercase';
+    }
+    if (btnOpen) {
+      btnOpen.textContent = 'APRI GRATIS ORA!';
+      btnOpen.disabled = false;
+      btnOpen.className = 'flex-1 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_20px_rgba(251,191,36,0.4)]';
+    }
+    if (descEl) descEl.textContent = 'Apri la cassa per ricevere rifornimenti gratis di Punti Negozio (PN) ed Esperienza Operatore!';
+    if (rewardView) rewardView.classList.add('hidden');
+  }
+}
+
+function claimDailyBox() {
+  const todayStr = new Date().toISOString().slice(0, 10);
+  if (playerProfile.lastDailyBoxDate === todayStr) return;
+  playerProfile.lastDailyBoxDate = todayStr;
+  playerProfile.shopPoints = (playerProfile.shopPoints || 0) + 150;
+  playerProfile.operatorXp = (playerProfile.operatorXp || 0) + 500;
+  savePlayerProfile();
+  sound.playTrophyUnlock();
+  checkDailyBoxStatus();
+  updateProfileUI();
+  showAnnouncement('🧰 CASSA GIORNALIERA APERTA!', '+150 PN & +500 XP Operatore accreditati!');
+}
+
+function copyPartyCodeOrLink() {
+  if (!mpState.roomId || !mpState.roomCode) {
+    createRoom(null, state.selectedGameMode === 'COOP' ? 'COOP' : 'PVP', false, state.selectedMap || 'ARENA').then(() => {
+      const code = mpState.roomCode;
+      if (code && navigator.clipboard) {
+        navigator.clipboard.writeText(code).catch(() => {});
+        showAnnouncement('📋 CODICE PARTY COPIATO!', `Codice: ${code} - Condividilo con i tuoi compagni!`);
+      }
+    });
+    return;
+  }
+  const code = mpState.roomCode;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).catch(() => {});
+  }
+  showAnnouncement('📋 CODICE PARTY COPIATO!', `Codice: ${code} - Incollalo agli amici per farli entrare!`);
+}
+
+function goToLobby() {
+  state.mode = 'MENU';
+  state.isFiring = false;
+  closeWeaponWheel();
+  setAimingState(false);
+  if (touchControls) touchControls.classList.add('hidden');
+  if (document.pointerLockElement === canvas) {
+    try { document.exitPointerLock(); } catch (e) {}
+  }
+  enemies.forEach(en => scene.remove(en.group));
+  enemies.length = 0;
+  if (state.activeBoss) {
+    scene.remove(state.activeBoss.group);
+    state.activeBoss = null;
+  }
+  bossHudContainer.classList.add('hidden');
+  enemyProjectiles.forEach(p => scene.remove(p.mesh));
+  enemyProjectiles.length = 0;
+  pickups.forEach(pk => scene.remove(pk.mesh));
+  pickups.length = 0;
+  floatingDamages.forEach(fd => fd.el.remove());
+  floatingDamages.length = 0;
+
+  if (gameoverModal) { gameoverModal.classList.add('hidden'); gameoverModal.classList.remove('flex'); }
+  if (pauseModal) { pauseModal.classList.add('hidden'); pauseModal.classList.remove('flex'); }
+  if (settingsModal) { settingsModal.classList.add('hidden'); settingsModal.classList.remove('flex'); }
+  if (dailyBoxModal) { dailyBoxModal.classList.add('hidden'); dailyBoxModal.classList.remove('flex'); }
+  if (joinPartyModal) { joinPartyModal.classList.add('hidden'); joinPartyModal.classList.remove('flex'); }
+  shopOverlay.classList.add('hidden');
+  shopOverlay.classList.remove('flex');
+  trophiesOverlay.classList.add('hidden');
+  trophiesOverlay.classList.remove('flex');
+  if (crosshair) crosshair.classList.add('hidden');
+
+  if (lobbyScreen) lobbyScreen.classList.remove('hidden');
+  if (lobbySceneGroup) lobbySceneGroup.visible = true;
+  if (currentMapGroup) currentMapGroup.visible = false;
+  if (galaxyGroup) galaxyGroup.visible = false;
+  if (weaponGroup) weaponGroup.visible = false;
+
+  scene.background = new THREE.Color(0x080c14);
+  scene.fog = new THREE.FogExp2(0x080c14, 0.015);
+
+  camera.position.set(0, 1.6, 4.8);
+  cameraEuler.set(0, 0, 0);
+  camera.quaternion.setFromEuler(cameraEuler);
+  camera.lookAt(0, 1.25, 0);
+
+  updateProfileUI();
+  updateLobbyAvatars();
+  if (typeof setActiveNavTab === 'function') setActiveNavTab('nav-tab-play');
+}
+
 function initThreeJS() {
 loadPlayerProfile();
 state.maxHealth = getOperatorMaxHealth();
@@ -4041,8 +4812,12 @@ scene.add(fillLight);
 buildGalaxySky();
 loadMap(state.selectedMap || 'ARENA');
 buildFirstPersonWeapon();
+buildLobbyScene();
+updateLobbyAvatars();
 updateHUD();
+goToLobby();
 state.needsStaticRender = true;
+if (state.mode === 'MENU' && currentMapGroup) currentMapGroup.visible = false;
 }
 function buildGalaxySky() {
 galaxyGroup = new THREE.Group();
@@ -4406,6 +5181,7 @@ scene.fog = new THREE.FogExp2(0x040611, 0.006);
 buildCyberArenaWithParkour(currentMapGroup);
 }
 state.needsStaticRender = true;
+if (state.mode === 'MENU' && currentMapGroup) currentMapGroup.visible = false;
 }
 function buildFirstPersonWeapon() {
 weaponGroup = new THREE.Group();
@@ -5171,6 +5947,7 @@ camera.aspect = window.innerWidth / window.innerHeight;
 camera.updateProjectionMatrix();
 if (renderer) renderer.setSize(window.innerWidth, window.innerHeight);
 state.needsStaticRender = true;
+if (state.mode === 'MENU' && currentMapGroup) currentMapGroup.visible = false;
 });
 if (profileNameInput) {
 profileNameInput.addEventListener('input', (e) => {
@@ -5211,10 +5988,239 @@ if (state.mode === 'PLAYING') pauseGame();
 });
 btnStartGame.addEventListener('click', () => {
 sound.init();
-if (state.mode === 'PAUSED') resumeGame();
-else startNewGame();
+if (state.mode === 'PAUSED') {
+  resumeGame();
+} else if (state.mode === 'MENU' || state.mode === 'GAMEOVER') {
+  if (mpState.active && mpState.roomId) {
+    if (mpState.isHost) {
+      startMultiplayerMatch();
+    } else {
+      showAnnouncement('⏳ IN ATTESA DELL\'HOST', 'Sei pronto in squadra! L\'host avvierà la partita.');
+    }
+  } else {
+    startNewGame();
+  }
+}
 });
+
+// Top Navigation Tabs
+const tabPlay = byId('nav-tab-play');
+const tabInventory = byId('nav-tab-inventory');
+const tabShop = byId('nav-tab-shop');
+const tabProfile = byId('nav-tab-profile');
+const tabLeaderboard = byId('nav-tab-leaderboard');
+const btnChangeSkin = byId('lobby-btn-change-skin');
+
+function setActiveNavTab(tabId) {
+  [tabPlay, tabInventory, tabShop, tabProfile, tabLeaderboard].forEach(tab => {
+    if (!tab) return;
+    if (tab.id === tabId) {
+      tab.classList.add('active', 'text-amber-400', 'bg-amber-400/10', 'border-b-2', 'border-amber-400');
+      tab.classList.remove('text-slate-300');
+    } else {
+      tab.classList.remove('active', 'text-amber-400', 'bg-amber-400/10', 'border-b-2', 'border-amber-400');
+      tab.classList.add('text-slate-300');
+    }
+  });
+}
+
+if (tabPlay) tabPlay.addEventListener('click', () => {
+  setActiveNavTab('nav-tab-play');
+  closeShop();
+  closeTrophiesModal();
+  if (settingsModal) settingsModal.classList.add('hidden');
+});
+
+if (tabInventory) tabInventory.addEventListener('click', () => {
+  setActiveNavTab('nav-tab-inventory');
+  sound.init();
+  openShop('weapons');
+});
+
+if (tabShop) tabShop.addEventListener('click', () => {
+  setActiveNavTab('nav-tab-shop');
+  sound.init();
+  openShop('operator');
+});
+
+if (btnChangeSkin) btnChangeSkin.addEventListener('click', () => {
+  sound.init();
+  openShop('operator');
+});
+
+if (tabProfile) tabProfile.addEventListener('click', () => {
+  setActiveNavTab('nav-tab-profile');
+  sound.init();
+  openTrophiesModal();
+});
+
+if (tabLeaderboard) tabLeaderboard.addEventListener('click', () => {
+  setActiveNavTab('nav-tab-leaderboard');
+  sound.init();
+  openTrophiesModal();
+});
+
+// Settings Modal
+if (btnLobbySettings) {
+  btnLobbySettings.addEventListener('click', () => {
+    if (settingsModal) {
+      settingsModal.classList.remove('hidden');
+      settingsModal.classList.add('flex');
+    }
+  });
+}
+if (btnCloseSettings) {
+  btnCloseSettings.addEventListener('click', () => {
+    if (settingsModal) {
+      settingsModal.classList.add('hidden');
+      settingsModal.classList.remove('flex');
+    }
+  });
+}
+
+// Daily Box Modal
+const lobbyCardDailyBox = byId('lobby-card-daily-box');
+if (lobbyCardDailyBox) {
+  lobbyCardDailyBox.addEventListener('click', () => {
+    checkDailyBoxStatus();
+    if (dailyBoxModal) {
+      dailyBoxModal.classList.remove('hidden');
+      dailyBoxModal.classList.add('flex');
+    }
+  });
+}
+if (btnCloseDailyBox) {
+  btnCloseDailyBox.addEventListener('click', () => {
+    if (dailyBoxModal) {
+      dailyBoxModal.classList.add('hidden');
+      dailyBoxModal.classList.remove('flex');
+    }
+  });
+}
+if (btnOpenDailyBox) {
+  btnOpenDailyBox.addEventListener('click', claimDailyBox);
+}
+
+// Mode Selector
+const btnModeSelect = byId('lobby-btn-mode-select');
+const modeDropdown = byId('lobby-mode-dropdown');
+const modeText = byId('lobby-selected-mode-text');
+const partyCodeDisplay = byId('lobby-party-code-display');
+
+if (btnModeSelect && modeDropdown) {
+  btnModeSelect.addEventListener('click', (e) => {
+    e.stopPropagation();
+    modeDropdown.classList.toggle('hidden');
+  });
+  document.addEventListener('click', () => {
+    modeDropdown.classList.add('hidden');
+  });
+}
+
+document.querySelectorAll('.lobby-mode-option').forEach(opt => {
+  opt.addEventListener('click', (e) => {
+    const selected = opt.getAttribute('data-mode');
+    state.selectedGameMode = selected;
+    if (modeDropdown) modeDropdown.classList.add('hidden');
+    if (modeText) {
+      if (selected === 'PVP') modeText.textContent = 'DEATHMATCH (PVP)';
+      else if (selected === 'SOLO') modeText.textContent = 'SOPRAVVIVENZA (SOLO)';
+      else if (selected === 'COOP') modeText.textContent = 'CO-OP SQUAD';
+    }
+    if (selected === 'SOLO') {
+      if (partyCodeDisplay) partyCodeDisplay.textContent = 'SOLO';
+      if (mpState.active) leaveCurrentRoom();
+      updateLobbySquadSlots([]);
+    } else {
+      if (!mpState.roomId) {
+        createRoom(null, selected, false, state.selectedMap || 'ARENA');
+      } else {
+        if (partyCodeDisplay) partyCodeDisplay.textContent = mpState.roomCode || 'ONLINE';
+      }
+    }
+  });
+});
+
+// Party Code & Squad Slots Click
+const btnCopyParty = byId('lobby-btn-copy-party');
+if (btnCopyParty) btnCopyParty.addEventListener('click', copyPartyCodeOrLink);
+
+const slot2El = byId('lobby-slot-2');
+if (slot2El) slot2El.addEventListener('click', () => {
+  const s2Filled = byId('lobby-slot-2-filled');
+  if (!s2Filled || s2Filled.classList.contains('hidden')) {
+    copyPartyCodeOrLink();
+  }
+});
+
+const slot3El = byId('lobby-slot-3');
+if (slot3El) slot3El.addEventListener('click', () => {
+  const s3Filled = byId('lobby-slot-3-filled');
+  if (!s3Filled || s3Filled.classList.contains('hidden')) {
+    copyPartyCodeOrLink();
+  }
+});
+
+// Join Party Modal
+const btnJoinCode = byId('lobby-btn-join-code');
+if (btnJoinCode) {
+  btnJoinCode.addEventListener('click', () => {
+    if (joinPartyModal) {
+      joinPartyModal.classList.remove('hidden');
+      joinPartyModal.classList.add('flex');
+    }
+  });
+}
+if (btnCancelJoinParty) {
+  btnCancelJoinParty.addEventListener('click', () => {
+    if (joinPartyModal) {
+      joinPartyModal.classList.add('hidden');
+      joinPartyModal.classList.remove('flex');
+    }
+  });
+}
+if (btnConfirmJoinParty) {
+  btnConfirmJoinParty.addEventListener('click', async () => {
+    const code = (inputPartyCode ? inputPartyCode.value : '').trim().toUpperCase();
+    if (!code || code.length < 3) {
+      alert('Inserisci un codice valido di 4 caratteri.');
+      return;
+    }
+    if (joinPartyModal) {
+      joinPartyModal.classList.add('hidden');
+      joinPartyModal.classList.remove('flex');
+    }
+    await joinRoomByCode(code);
+    if (partyCodeDisplay) partyCodeDisplay.textContent = code;
+  });
+}
+
+// Game Over & Pause Actions
+if (btnGoLobby) btnGoLobby.addEventListener('click', goToLobby);
+if (btnPauseLobby) btnPauseLobby.addEventListener('click', goToLobby);
+if (btnGoReplay) btnGoReplay.addEventListener('click', startNewGame);
+if (btnPauseResume) btnPauseResume.addEventListener('click', resumeGame);
+if (btnPauseSettings) btnPauseSettings.addEventListener('click', () => {
+  if (settingsModal) {
+    settingsModal.classList.remove('hidden');
+    settingsModal.classList.add('flex');
+  }
+});
+
+// Multiplayer Browser Button
+const btnMpBrowser = byId('lobby-btn-multiplayer-browser');
+if (btnMpBrowser) {
+  btnMpBrowser.addEventListener('click', () => {
+    sound.init();
+    openMultiplayerModal();
+  });
+}
+
 document.addEventListener('mousemove', (e) => {
+if (state.mode === 'MENU') {
+  lobbyMouseX = (e.clientX / window.innerWidth) * 2 - 1;
+  lobbyMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+}
 if (state.mode !== 'PLAYING') return;
 if (state.isWheelOpen) {
 state.wheelMouseX += e.movementX;
@@ -5675,13 +6681,29 @@ cameraEuler.set(0, 0, 0);
 camera.quaternion.setFromEuler(cameraEuler);
 playerVelocity.set(0, 0, 0);
 reloadPrompt.classList.add('hidden');
-gameoverStats.classList.add('hidden');
-gameoverStats.classList.remove('grid');
+if (lobbyScreen) lobbyScreen.classList.add('hidden');
+if (gameoverModal) { gameoverModal.classList.add('hidden'); gameoverModal.classList.remove('flex'); }
+if (pauseModal) { pauseModal.classList.add('hidden'); pauseModal.classList.remove('flex'); }
+if (settingsModal) { settingsModal.classList.add('hidden'); settingsModal.classList.remove('flex'); }
+if (dailyBoxModal) { dailyBoxModal.classList.add('hidden'); dailyBoxModal.classList.remove('flex'); }
+if (joinPartyModal) { joinPartyModal.classList.add('hidden'); joinPartyModal.classList.remove('flex'); }
+if (lobbySceneGroup) lobbySceneGroup.visible = false;
+if (currentMapGroup) currentMapGroup.visible = true;
+if (weaponGroup) weaponGroup.visible = true;
+if (crosshair) crosshair.classList.remove('hidden');
+if (state.selectedMap === 'HANGAR') {
+  if (galaxyGroup) galaxyGroup.visible = false;
+  scene.background = new THREE.Color(0x060913);
+  scene.fog = new THREE.FogExp2(0x060913, 0.007);
+} else {
+  if (galaxyGroup) galaxyGroup.visible = true;
+  scene.background = new THREE.Color(0x040611);
+  scene.fog = new THREE.FogExp2(0x040611, 0.006);
+}
 shopOverlay.classList.add('hidden');
 shopOverlay.classList.remove('flex');
 trophiesOverlay.classList.add('hidden');
 trophiesOverlay.classList.remove('flex');
-menuOverlay.classList.add('hidden');
 state.pausedForShop = false;
 state.mode = 'PLAYING';
 clock.getDelta();
@@ -5713,17 +6735,25 @@ touchControls.classList.add('hidden');
 if (document.pointerLockElement === canvas) {
 try { document.exitPointerLock(); } catch (e) {}
 }
-menuTitle.innerHTML = 'MISSIONE <span class="text-cyan-400">IN PAUSA</span>';
-menuSubtitle.textContent = 'Approfitta della pausa per fare il Prestigio alle armi o controllare i Trofei PSN!';
-btnStartGame.textContent = '▶ Riprendi Missione';
-menuOverlay.classList.remove('hidden');
+if (pauseModal) {
+pauseModal.classList.remove('hidden');
+pauseModal.classList.add('flex');
+}
 }
 function resumeGame() {
 shopOverlay.classList.add('hidden');
 shopOverlay.classList.remove('flex');
 trophiesOverlay.classList.add('hidden');
 trophiesOverlay.classList.remove('flex');
-menuOverlay.classList.add('hidden');
+if (pauseModal) {
+pauseModal.classList.add('hidden');
+pauseModal.classList.remove('flex');
+}
+if (gameoverModal) {
+gameoverModal.classList.add('hidden');
+gameoverModal.classList.remove('flex');
+}
+if (lobbyScreen) lobbyScreen.classList.add('hidden');
 state.pausedForShop = false;
 state.mode = 'PLAYING';
 clock.getDelta();
@@ -5764,12 +6794,22 @@ if (state.score > playerProfile.bestScore) playerProfile.bestScore = state.score
 if (state.wave > playerProfile.bestWave) playerProfile.bestWave = state.wave;
 checkTrophies();
 savePlayerProfile();
-menuTitle.innerHTML = isNewRecord
+if (gameoverTitle) {
+gameoverTitle.innerHTML = isNewRecord
 ? 'NUOVO <span class="text-amber-400">RECORD!</span>'
-: 'SISTEMA <span class="text-rose-500">COMPROMESSO</span>';
-menuSubtitle.textContent = isNewRecord
-? `Complimenti ${playerProfile.name}! Nuovo record personale! Spendi i tuoi Punti Negozio (PN) prima di ripartire.`
+: 'FINE <span class="text-rose-500">PARTITA</span>';
+}
+if (gameoverSubtitle) {
+gameoverSubtitle.textContent = isNewRecord
+? `Complimenti ${playerProfile.name}! Nuovo record personale! Punti e XP accreditati nel profilo.`
 : 'La tua corazza ha ceduto. Potenzia il tuo arsenale nell\'Armeria e riprova!';
+}
+if (gameoverBadge) {
+gameoverBadge.textContent = isNewRecord ? '⭐ NUOVO RECORD PERSONALE!' : 'SISTEMA COMPROMESSO';
+gameoverBadge.className = isNewRecord
+? 'inline-block px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400 text-amber-300 text-[10px] font-cyber tracking-widest uppercase mb-2'
+: 'inline-block px-3 py-1 rounded-full bg-rose-500/15 border border-rose-400/40 text-rose-300 text-[10px] font-cyber tracking-widest uppercase mb-2';
+}
 finalScore.textContent = state.score;
 finalWave.textContent = state.wave;
 finalKills.textContent = state.kills;
@@ -5777,10 +6817,10 @@ const finalXpEl = byId('final-operator-xp');
 if (finalXpEl) {
 finalXpEl.innerHTML = `+${matchXp.toLocaleString()} <span class="text-xs text-cyan-300 font-cyber">(Liv. ${newLvl})</span>`;
 }
-gameoverStats.classList.remove('hidden');
-gameoverStats.classList.add('grid');
-btnStartGame.textContent = '▶ Nuova Partita';
-menuOverlay.classList.remove('hidden');
+if (gameoverModal) {
+gameoverModal.classList.remove('hidden');
+gameoverModal.classList.add('flex');
+}
 if (newLvl > oldLvl) {
 sound.playTrophyUnlock();
 showAnnouncement('⭐ LIVELLO OPERATORE AUMENTATO!', `Congratulazioni! Hai raggiunto il LIVELLO ${newLvl}! Nuove ricompense nell'Armeria.`);
@@ -8089,6 +9129,26 @@ if (mpState.active) {
 updateMultiplayerLoop(dt, elapsed);
 }
 drawRadar();
+if (renderer) renderer.render(scene, camera);
+} else if (state.mode === 'MENU') {
+const breathe = Math.sin(elapsed * 2.2) * 0.015;
+if (localLobbyAvatarGroup) {
+  localLobbyAvatarGroup.position.y = 0.14 + breathe;
+}
+if (slot2LobbyAvatarGroup && slot2LobbyAvatarGroup.visible) {
+  slot2LobbyAvatarGroup.position.y = 0.10 + Math.sin(elapsed * 2.0 + 1.2) * 0.015;
+}
+if (slot3LobbyAvatarGroup && slot3LobbyAvatarGroup.visible) {
+  slot3LobbyAvatarGroup.position.y = 0.10 + Math.sin(elapsed * 2.1 + 2.5) * 0.015;
+}
+
+const targetCamX = (lobbyMouseX || 0) * 0.35 + Math.sin(elapsed * 0.4) * 0.04;
+const targetCamY = 1.6 + (lobbyMouseY || 0) * 0.18;
+camera.position.x += (targetCamX - camera.position.x) * 0.06;
+camera.position.y += (targetCamY - camera.position.y) * 0.06;
+camera.position.z = 4.8;
+camera.lookAt(0, 1.25, 0);
+
 if (renderer) renderer.render(scene, camera);
 } else if (state.needsStaticRender) {
 if (renderer) renderer.render(scene, camera);
