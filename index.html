@@ -573,10 +573,11 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 
     <!-- CENTER SLOT // YOUR OPERATOR -->
     <div class="flex flex-col items-center justify-end h-full pb-6 sm:pb-8 pointer-events-auto">
-      <!-- Player Floating Name Tag -->
-      <div class="mb-52 sm:mb-68 flex items-center gap-2 bg-slate-950/85 backdrop-blur-sm px-4 py-1.5 rounded-full border border-cyan-400/50 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
-        <span id="lobby-player-name" class="text-sm sm:text-base font-cyber font-black text-white">GHOST-01</span>
-        <span id="lobby-player-lvl-tag" class="text-xs font-cyber font-black text-cyan-400 font-mono">1</span>
+      <!-- Player Floating Name Tag (Elevated above astronaut helmet) -->
+      <div class="mb-[22rem] sm:mb-[26rem] md:mb-[29rem] flex items-center gap-2.5 bg-slate-950/90 backdrop-blur-md px-5 py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all">
+        <span class="text-sm">👨‍🚀</span>
+        <span id="lobby-player-name" class="text-sm sm:text-base font-cyber font-black text-white tracking-wide">GHOST-01</span>
+        <span id="lobby-player-lvl-tag" class="px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-xs font-cyber font-black text-cyan-300 font-mono tracking-wider">1 Lv.</span>
       </div>
 
       <!-- "CAMBIA SKIN" button directly below character -->
@@ -1459,10 +1460,10 @@ const OPERATOR_OPTICS = [
 ];
 
 const OPERATOR_SUITS = [
-{ id: 'DEFAULT', name: 'Ghost Operative MK-I', reqLevel: 1, color: '#22d3ee', badge: 'Standard', desc: 'Armatura da incursione in fibra di carbonio con biosensori ciano.' },
-{ id: 'NEON_RONIN', name: 'Neon Ronin', reqLevel: 8, color: '#10b981', badge: 'Smeraldo', desc: 'Esoscheletro cyber-ninja ad agilità estrema con riflessi smeraldo.' },
-{ id: 'OBSIDIAN_OPS', name: 'Obsidian SpecOps', reqLevel: 18, color: '#f43f5e', badge: 'Stealth', desc: 'Composito polimerico stealth antiradar con reattori cremisi.' },
-{ id: 'SOLARIS_PRIME', name: 'Solaris Prime', reqLevel: 25, color: '#fbbf24', badge: 'Leggenda', desc: 'Armatura cerimoniale in lega dorata con nucleo solare al plasma.' }
+{ id: 'DEFAULT', name: 'Astro-Cyber MK-I', reqLevel: 1, color: '#22d3ee', badge: 'EVA White', desc: 'Tuta astronauta EVA bianco-spaziale pressurizzata con visore panoramico olografico ciano e propulsore di manovra.' },
+{ id: 'NEON_RONIN', name: 'Cosmo Ninja EVA', reqLevel: 8, color: '#10b981', badge: 'Smeraldo', desc: 'Tuta orbitale stealth in titanio scuro ad agilità estrema con visore smeraldo radiante e pinna cyber.' },
+{ id: 'OBSIDIAN_OPS', name: 'Deep Space Void', reqLevel: 18, color: '#f43f5e', badge: 'Stealth', desc: 'Tuta astronautica stealth nera opaca per il vuoto cosmico profondo con visiera rubino laser e termoregolazione.' },
+{ id: 'SOLARIS_PRIME', name: 'Solaris Apex', reqLevel: 25, color: '#fbbf24', badge: 'Leggenda', desc: 'Tuta spaziale suprema placcata in oro 24K riflettente, visiera aurea a specchio e creste solari al plasma.' }
 ];
 
 const OPERATOR_REWARDS = [
@@ -1473,15 +1474,15 @@ const OPERATOR_REWARDS = [
 { level: 5, type: 'OPTIC', id: 'RED_DOT', title: "Mirino Red Dot Cyber", desc: "Collimatore di precisione a punto rosso laser", icon: "🔴" },
 { level: 6, type: 'WEAPON', id: 'SHOTGUN', title: "Fucile a Pompa Titan-8", desc: "8 dardi al plasma letali a corto raggio", icon: "💥" },
 { level: 7, type: 'STAT', id: 'STM_1', title: "+15% Stamina Massima", desc: "Stamina Massima estesa da 100% a 115% per scatti più lunghi", icon: "🏃" },
-{ level: 8, type: 'SUIT', id: 'NEON_RONIN', title: "Tuta Neon Ronin", desc: "Corazza d'élite cyber-ninja con riflessi smeraldo", icon: "🥋" },
+{ level: 8, type: 'SUIT', id: 'NEON_RONIN', title: "Tuta Cosmo Ninja EVA", desc: "Tuta orbitale in titanio scuro con riflessi smeraldo", icon: "👨‍🚀" },
 { level: 9, type: 'OPTIC', id: 'ACOG', title: "Mirino Tattico ACOG", desc: "Chevron ottico ambra con scala telemetrica e reticolo balistico", icon: "📐" },
 { level: 10, type: 'WEAPON', id: 'SNIPER', title: "Cecchino Railgun V9", desc: "Proiettili iper-accelerati perforanti con zoom ottico", icon: "🔭" },
 { level: 12, type: 'STAT', id: 'HP_2', title: "+15 Corazza Massima", desc: "Placcatura in titanio: Corazza Massima sale a 125 HP", icon: "🛡️" },
 { level: 14, type: 'STAT', id: 'STM_2', title: "+20% Recupero Stamina", desc: "Batterie ausiliarie per la ricarica ultra-rapida della stamina", icon: "⚡" },
 { level: 16, type: 'OPTIC', id: 'VOID', title: "Mirino Cosmico Void", desc: "Mirino quantico fucsia pulsante con anello a rotazione", icon: "🌌" },
-{ level: 18, type: 'SUIT', id: 'OBSIDIAN_OPS', title: "Tuta Obsidian SpecOps", desc: "Composito polimerico stealth nero con accenti cremisi", icon: "🖤" },
+{ level: 18, type: 'SUIT', id: 'OBSIDIAN_OPS', title: "Tuta Deep Space Void", desc: "Tuta astronautica stealth nera con visiera rubino laser", icon: "🖤" },
 { level: 20, type: 'STAT', id: 'HP_3', title: "+15 Corazza Massima", desc: "Scudo bio-meccanico avanzato: Corazza Massima sale a 140 HP", icon: "🛡️" },
-{ level: 25, type: 'SUIT', id: 'SOLARIS_PRIME', title: "Tuta Solaris Prime", desc: "Armatura suprema in lega dorata con energia solare", icon: "👑" },
+{ level: 25, type: 'SUIT', id: 'SOLARIS_PRIME', title: "Tuta Solaris Apex", desc: "Tuta spaziale leggendaria in oro 24K con creste solari", icon: "👑" },
 { level: 30, type: 'STAT', id: 'HP_4', title: "+10 Corazza & Grado Supremo", desc: "Corazza a 150 HP e Rango Leggenda Suprema dell'Arena", icon: "🏆" }
 ];
 
@@ -2363,58 +2364,17 @@ function updateNameplateSprite(sprite, name, hp, maxHp) {
 function createRemotePlayerAvatar(playerData) {
   const group = new THREE.Group();
   const isPvP = mpState.mode === 'PVP';
-  const primaryColor = isPvP ? 0xf43f5e : 0x06b6d4;
-  const glowMat = new THREE.MeshLambertMaterial({ color: primaryColor, emissive: primaryColor, emissiveIntensity: 0.4 });
-  const armorMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
-  const jointMat = new THREE.MeshLambertMaterial({ color: 0x0f172a });
+  const suitId = playerData.suit || (isPvP ? 'OBSIDIAN_OPS' : 'DEFAULT');
+  const avatar = buildAvatarModel(suitId, 0);
+  group.add(avatar);
 
-  const torsoGeo = new THREE.BoxGeometry(0.85, 1.15, 0.55);
-  const torsoMesh = new THREE.Mesh(torsoGeo, armorMat);
-  torsoMesh.position.y = 1.35;
-  group.add(torsoMesh);
-
-  const coreGeo = new THREE.BoxGeometry(0.35, 0.45, 0.1);
-  const coreMesh = new THREE.Mesh(coreGeo, glowMat);
-  coreMesh.position.set(0, 1.45, 0.28);
-  group.add(coreMesh);
-
-  const headGeo = new THREE.BoxGeometry(0.55, 0.55, 0.55);
-  const headMesh = new THREE.Mesh(headGeo, armorMat);
-  headMesh.position.y = 2.25;
-  group.add(headMesh);
-
-  const visorGeo = new THREE.BoxGeometry(0.48, 0.16, 0.1);
-  const visorMesh = new THREE.Mesh(visorGeo, glowMat);
-  visorMesh.position.set(0, 2.28, 0.28);
-  group.add(visorMesh);
+  const torsoMesh = avatar.userData.torsoMesh || avatar;
+  const headMesh = avatar.userData.headMesh || avatar;
+  const leftLeg = avatar.userData.leftLeg;
+  const rightLeg = avatar.userData.rightLeg;
 
   torsoMesh.userData = { isRemotePlayer: true, playerId: playerData.id, isHead: false };
   headMesh.userData = { isRemotePlayer: true, playerId: playerData.id, isHead: true };
-
-  const armGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.85, 8);
-  const leftArm = new THREE.Mesh(armGeo, jointMat);
-  leftArm.position.set(-0.58, 1.35, 0.1);
-  leftArm.rotation.x = -Math.PI / 6;
-  group.add(leftArm);
-
-  const rightArm = new THREE.Mesh(armGeo, jointMat);
-  rightArm.position.set(0.58, 1.35, 0.15);
-  rightArm.rotation.x = -Math.PI / 4;
-  group.add(rightArm);
-
-  const gunGeo = new THREE.BoxGeometry(0.15, 0.2, 0.95);
-  const gunMesh = new THREE.Mesh(gunGeo, new THREE.MeshLambertMaterial({ color: 0x09090b }));
-  gunMesh.position.set(0.42, 1.15, 0.65);
-  group.add(gunMesh);
-
-  const legGeo = new THREE.CylinderGeometry(0.15, 0.14, 0.95, 8);
-  const leftLeg = new THREE.Mesh(legGeo, jointMat);
-  leftLeg.position.set(-0.25, 0.5, 0);
-  group.add(leftLeg);
-
-  const rightLeg = new THREE.Mesh(legGeo, jointMat);
-  rightLeg.position.set(0.25, 0.5, 0);
-  group.add(rightLeg);
 
   const sprite = createNameplateSprite(playerData.name || 'OPERATORE', playerData.hp || 100, 100);
   sprite.position.set(0, 3.0, 0);
@@ -2427,6 +2387,11 @@ function createRemotePlayerAvatar(playerData) {
     id: playerData.id,
     name: playerData.name || 'OPERATORE',
     group,
+    torsoMesh,
+    headMesh,
+    leftLeg,
+    rightLeg,
+    sprite,
     torsoMesh,
     headMesh,
     leftLeg,
@@ -4462,71 +4427,299 @@ function buildAvatarModel(suitId, weaponIndex) {
   const suit = OPERATOR_SUITS.find(s => s.id === suitId) || OPERATOR_SUITS[0];
   const suitColorHex = parseInt(suit.color.replace('#', '0x'), 16);
   
-  const armorMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
-  const glowMat = new THREE.MeshLambertMaterial({ color: suitColorHex, emissive: suitColorHex, emissiveIntensity: 0.55 });
-  const visorMat = new THREE.MeshBasicMaterial({ color: suitColorHex });
+  // Dynamic Astronaut Color Palette & Materials per Skin
+  let fabricColor = 0xcfd8dc;    // NASA/EVA space-suit fabric (cool reflective silver-white)
+  let darkPlateColor = 0x1e293b; // Deep carbon armor plates
+  let trimColor = 0x0f172a;      // Rubber hermetic seals
+  let metalColor = 0x334155;     // Spacecraft alloy
+  let visorBaseColor = 0x0284c7; // Deep cyan glass
+  let visorEmissiveColor = 0x00f0ff; // Glowing cyan visor
+  let visorIntensity = 0.65;
+  let tankColor = 0xe2e8f0;      // White oxygen tanks
+  let isSolaris = false;
+  let isNeon = false;
+
+  if (suit.id === 'NEON_RONIN') {
+    isNeon = true;
+    fabricColor = 0x1e293b;        // Dark titanium suit
+    darkPlateColor = 0x0f172a;     // Deep carbon
+    trimColor = 0x090d16;          // Pitch black seals
+    metalColor = 0x064e3b;         // Emerald tech metal
+    visorBaseColor = 0x059669;     // Emerald glass
+    visorEmissiveColor = 0x10b981; // Vivid neon emerald visor
+    visorIntensity = 0.85;
+    tankColor = 0x0f172a;          // Carbon fiber tanks
+  } else if (suit.id === 'OBSIDIAN_OPS') {
+    fabricColor = 0x18181b;        // Deep space stealth black
+    darkPlateColor = 0x09090b;     // Matte onyx
+    trimColor = 0x09090b;          // Stealth rubber seals
+    metalColor = 0x27272a;         // Tungsten alloy
+    visorBaseColor = 0x9f1239;     // Ruby glass
+    visorEmissiveColor = 0xf43f5e; // Crimson red laser visor
+    visorIntensity = 0.85;
+    tankColor = 0x18181b;          // Stealth composite tanks
+  } else if (suit.id === 'SOLARIS_PRIME') {
+    isSolaris = true;
+    fabricColor = 0xd97706;        // 24K Gold reflective space alloy
+    darkPlateColor = 0x78350f;     // Bronze armor plates
+    trimColor = 0x451a03;          // Deep amber seals
+    metalColor = 0xb45309;         // Polished gold plates
+    visorBaseColor = 0xf59e0b;     // Mirrored gold glass
+    visorEmissiveColor = 0xfef08a; // Blazing solar visor
+    visorIntensity = 0.95;
+    tankColor = 0xfef08a;          // Golden high-pressure tanks
+  }
+
+  const fabricMat = new THREE.MeshLambertMaterial({ color: fabricColor });
+  const darkPlateMat = new THREE.MeshLambertMaterial({ color: darkPlateColor });
+  const trimMat = new THREE.MeshLambertMaterial({ color: trimColor });
+  const metalMat = new THREE.MeshLambertMaterial({ color: metalColor });
   const jointMat = new THREE.MeshLambertMaterial({ color: 0x090d16 });
-  const darkMetal = new THREE.MeshLambertMaterial({ color: 0x111827 });
+  const glowMat = new THREE.MeshLambertMaterial({ 
+    color: suitColorHex, 
+    emissive: suitColorHex, 
+    emissiveIntensity: 0.8 
+  });
+  const visorMat = new THREE.MeshLambertMaterial({
+    color: visorBaseColor,
+    emissive: visorEmissiveColor,
+    emissiveIntensity: visorIntensity
+  });
+  const tankMat = new THREE.MeshLambertMaterial({ color: tankColor });
+  const darkGunMat = new THREE.MeshLambertMaterial({ color: 0x09090b });
 
-  // 1. Torso
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.85, 0.46), armorMat);
-  torso.position.y = 1.35;
-  g.add(torso);
+  // 1. ASTRONAUT HELMET & CURVED BUBBLE VISOR (Facing Camera +Z)
+  const helmet = new THREE.Mesh(new THREE.SphereGeometry(0.34, 24, 20), fabricMat);
+  helmet.scale.set(1.0, 1.05, 1.05);
+  helmet.position.set(0, 2.15, 0);
+  g.add(helmet);
 
-  const chestCore = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.36, 0.1), glowMat);
-  chestCore.position.set(0, 1.45, 0.23);
-  g.add(chestCore);
+  const neckRing = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.045, 10, 24), metalMat);
+  neckRing.rotation.x = Math.PI / 2;
+  neckRing.position.set(0, 1.84, 0);
+  g.add(neckRing);
 
-  const belt = new THREE.Mesh(new THREE.BoxGeometry(0.74, 0.18, 0.48), darkMetal);
-  belt.position.set(0, 0.95, 0);
-  g.add(belt);
-
-  const pouchL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.12), armorMat);
-  pouchL.position.set(-0.25, 0.95, 0.24);
-  g.add(pouchL);
-  const pouchR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.12), armorMat);
-  pouchR.position.set(0.25, 0.95, 0.24);
-  g.add(pouchR);
-
-  // 2. Head / Helmet
-  const head = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.50, 0.48), armorMat);
-  head.position.y = 2.05;
-  g.add(head);
-
-  const visor = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.15, 0.12), visorMat);
-  visor.position.set(0, 2.07, 0.24);
+  // Large curved panoramic bubble visor: Prominently on front
+  const visor = new THREE.Mesh(
+    new THREE.SphereGeometry(0.26, 24, 20),
+    visorMat
+  );
+  visor.scale.set(1.15, 0.85, 0.75);
+  visor.position.set(0, 2.14, 0.20);
   g.add(visor);
 
-  // 3. Arms & Low-Ready Weapon Pose
-  const armGeo = new THREE.CylinderGeometry(0.1, 0.09, 0.72, 8);
-  
-  const leftArm = new THREE.Mesh(armGeo, jointMat);
-  leftArm.position.set(-0.46, 1.25, 0.15);
-  leftArm.rotation.x = -Math.PI / 3.5;
-  leftArm.rotation.z = -0.35;
-  g.add(leftArm);
+  // Gasket ring framing the visor
+  const visorFrame = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.024, 8, 28), trimMat);
+  visorFrame.scale.set(1.15, 0.85, 0.45);
+  visorFrame.position.set(0, 2.14, 0.22);
+  g.add(visorFrame);
 
-  const leftShoulder = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.22, 0.26), glowMat);
-  leftShoulder.position.set(-0.46, 1.55, 0);
-  g.add(leftShoulder);
+  // Visor Holographic HUD Micro-Reticle across front
+  const hudLine = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.018, 0.02), glowMat);
+  hudLine.position.set(0, 2.14, 0.39);
+  g.add(hudLine);
 
-  const rightArm = new THREE.Mesh(armGeo, jointMat);
-  rightArm.position.set(0.46, 1.25, 0.18);
-  rightArm.rotation.x = -Math.PI / 3.0;
-  rightArm.rotation.z = 0.25;
-  g.add(rightArm);
+  // Helmet Comms & Tactical Floodlights
+  const lightL = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.045, 0.12, 10), metalMat);
+  lightL.rotation.z = Math.PI / 2;
+  lightL.position.set(-0.36, 2.14, 0.06);
+  g.add(lightL);
+  const lensL = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.02, 10), glowMat);
+  lensL.rotation.x = Math.PI / 2;
+  lensL.position.set(-0.36, 2.14, 0.13);
+  g.add(lensL);
 
-  const rightShoulder = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.22, 0.26), glowMat);
-  rightShoulder.position.set(0.46, 1.55, 0);
-  g.add(rightShoulder);
+  const lightR = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.045, 0.12, 10), metalMat);
+  lightR.rotation.z = Math.PI / 2;
+  lightR.position.set(0.36, 2.14, 0.06);
+  g.add(lightR);
+  const lensR = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.02, 10), glowMat);
+  lensR.rotation.x = Math.PI / 2;
+  lensR.position.set(0.36, 2.14, 0.13);
+  g.add(lensR);
 
-  // 4. Weapon in Hands
+  // Helmet Skin Accents: Cyber Crest (Ronin) or Solar Antennas (Solaris)
+  if (isSolaris) {
+    const crestL = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.22, 0.12), glowMat);
+    crestL.position.set(-0.24, 2.50, -0.06);
+    crestL.rotation.z = 0.25;
+    g.add(crestL);
+    const crestR = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.22, 0.12), glowMat);
+    crestR.position.set(0.24, 2.50, -0.06);
+    crestR.rotation.z = -0.25;
+    g.add(crestR);
+  } else if (isNeon) {
+    const ninjaFin = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.20, 4), glowMat);
+    ninjaFin.rotation.x = -0.4;
+    ninjaFin.position.set(0, 2.52, -0.08);
+    g.add(ninjaFin);
+  }
+
+  // 2. PRESSURIZED EVA SUIT TORSO & CHEST LIFE SUPPORT (DCM)
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.35, 0.62, 16), fabricMat);
+  torso.position.set(0, 1.48, 0);
+  g.add(torso);
+
+  const ab = new THREE.Mesh(new THREE.CylinderGeometry(0.33, 0.34, 0.28, 16), darkPlateMat);
+  ab.position.set(0, 1.10, 0);
+  g.add(ab);
+
+  const rib1 = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.02, 8, 20), trimMat);
+  rib1.rotation.x = Math.PI / 2;
+  rib1.position.set(0, 1.16, 0);
+  g.add(rib1);
+  const rib2 = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.02, 8, 20), trimMat);
+  rib2.rotation.x = Math.PI / 2;
+  rib2.position.set(0, 1.05, 0);
+  g.add(rib2);
+
+  const belt = new THREE.Mesh(new THREE.BoxGeometry(0.74, 0.14, 0.48), metalMat);
+  belt.position.set(0, 0.94, 0);
+  g.add(belt);
+  const buckle = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.16, 0.08), glowMat);
+  buckle.position.set(0, 0.94, 0.25);
+  g.add(buckle);
+
+  // Chest Control Module (DCM - Display and Control Module)
+  const dcmPack = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.32, 0.14), darkPlateMat);
+  dcmPack.position.set(0, 1.48, 0.32);
+  g.add(dcmPack);
+
+  // Glowing Telemetry / Biosensor Screen
+  const dcmScreen = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.14, 0.03), glowMat);
+  dcmScreen.position.set(0, 1.54, 0.40);
+  g.add(dcmScreen);
+
+  // Oxygen valves & control knobs
+  const valveL = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.04, 10), metalMat);
+  valveL.rotation.x = Math.PI / 2;
+  valveL.position.set(-0.10, 1.40, 0.40);
+  g.add(valveL);
+  const valveR = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.04, 10), metalMat);
+  valveR.rotation.x = Math.PI / 2;
+  valveR.position.set(0.10, 1.40, 0.40);
+  g.add(valveR);
+
+  // Padded Shoulder Bells with Neon Trim
+  const shL = new THREE.Mesh(new THREE.SphereGeometry(0.20, 14, 12), darkPlateMat);
+  shL.scale.set(1.15, 0.9, 1.1);
+  shL.position.set(-0.48, 1.62, 0);
+  g.add(shL);
+  const shTrimL = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.025, 8, 16), glowMat);
+  shTrimL.rotation.y = Math.PI / 2;
+  shTrimL.position.set(-0.52, 1.62, 0);
+  g.add(shTrimL);
+
+  const shR = new THREE.Mesh(new THREE.SphereGeometry(0.20, 14, 12), darkPlateMat);
+  shR.scale.set(1.15, 0.9, 1.1);
+  shR.position.set(0.48, 1.62, 0);
+  g.add(shR);
+  const shTrimR = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.025, 8, 16), glowMat);
+  shTrimR.rotation.y = Math.PI / 2;
+  shTrimR.position.set(0.52, 1.62, 0);
+  g.add(shTrimR);
+
+  // 3. LIFE SUPPORT BACKPACK & JETPACK (PLSS & RCS THRUSTERS)
+  const backpack = new THREE.Mesh(new THREE.BoxGeometry(0.60, 0.72, 0.30), darkPlateMat);
+  backpack.position.set(0, 1.45, -0.32);
+  g.add(backpack);
+
+  // Left Oxygen Tank
+  const tankL = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.65, 14), tankMat);
+  tankL.position.set(-0.19, 1.46, -0.44);
+  g.add(tankL);
+  const capTL = new THREE.Mesh(new THREE.SphereGeometry(0.11, 14, 10), metalMat);
+  capTL.position.set(-0.19, 1.78, -0.44);
+  g.add(capTL);
+  const capBL = new THREE.Mesh(new THREE.SphereGeometry(0.11, 14, 10), metalMat);
+  capBL.position.set(-0.19, 1.14, -0.44);
+  g.add(capBL);
+  const ringL = new THREE.Mesh(new THREE.TorusGeometry(0.115, 0.016, 6, 16), glowMat);
+  ringL.rotation.x = Math.PI / 2;
+  ringL.position.set(-0.19, 1.55, -0.44);
+  g.add(ringL);
+
+  // Right Oxygen Tank
+  const tankR = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.65, 14), tankMat);
+  tankR.position.set(0.19, 1.46, -0.44);
+  g.add(tankR);
+  const capTR = new THREE.Mesh(new THREE.SphereGeometry(0.11, 14, 10), metalMat);
+  capTR.position.set(0.19, 1.78, -0.44);
+  g.add(capTR);
+  const capBR = new THREE.Mesh(new THREE.SphereGeometry(0.11, 14, 10), metalMat);
+  capBR.position.set(0.19, 1.14, -0.44);
+  g.add(capBR);
+  const ringR = new THREE.Mesh(new THREE.TorusGeometry(0.115, 0.016, 6, 16), glowMat);
+  ringR.rotation.x = Math.PI / 2;
+  ringR.position.set(0.19, 1.55, -0.44);
+  g.add(ringR);
+
+  // Dual RCS Thruster Nozzles
+  const thL = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.14, 12), metalMat);
+  thL.position.set(-0.20, 1.02, -0.36);
+  g.add(thL);
+  const thGlowL = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.06, 0.03, 12), glowMat);
+  thGlowL.position.set(-0.20, 0.95, -0.36);
+  g.add(thGlowL);
+
+  const thR = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.14, 12), metalMat);
+  thR.position.set(0.20, 1.02, -0.36);
+  g.add(thR);
+  const thGlowR = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.06, 0.03, 12), glowMat);
+  thGlowR.position.set(0.20, 0.95, -0.36);
+  g.add(thGlowR);
+
+  // Oxygen Conduits over shoulders
+  const tubeL = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42, 10), trimMat);
+  tubeL.position.set(-0.24, 1.74, 0.05);
+  tubeL.rotation.x = Math.PI / 3;
+  g.add(tubeL);
+  const tubeR = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.42, 10), trimMat);
+  tubeR.position.set(0.24, 1.74, 0.05);
+  tubeR.rotation.x = Math.PI / 3;
+  g.add(tubeR);
+
+  // 4. ARMS & PRESSURIZED EVA GLOVES
+  const armUL = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.11, 0.38, 12), fabricMat);
+  armUL.position.set(-0.48, 1.42, 0.04);
+  armUL.rotation.x = -Math.PI / 4.2;
+  armUL.rotation.z = -0.15;
+  g.add(armUL);
+
+  const armFL = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.10, 0.40, 12), darkPlateMat);
+  armFL.position.set(-0.38, 1.20, 0.26);
+  armFL.rotation.x = -Math.PI / 2.6;
+  armFL.rotation.y = 0.35;
+  g.add(armFL);
+
+  const gloveRingL = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.02, 6, 14), metalMat);
+  gloveRingL.position.set(-0.35, 1.15, 0.35);
+  g.add(gloveRingL);
+
+  const armUR = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.11, 0.38, 12), fabricMat);
+  armUR.position.set(0.48, 1.42, 0.06);
+  armUR.rotation.x = -Math.PI / 3.4;
+  armUR.rotation.z = 0.15;
+  g.add(armUR);
+
+  const armFR = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.10, 0.40, 12), darkPlateMat);
+  armFR.position.set(0.36, 1.20, 0.28);
+  armFR.rotation.x = -Math.PI / 2.2;
+  armFR.rotation.y = -0.30;
+  g.add(armFR);
+
+  const gloveRingR = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.02, 6, 14), metalMat);
+  gloveRingR.position.set(0.32, 1.16, 0.38);
+  g.add(gloveRingR);
+
+  // 5. WEAPON IN HANDS (TACTICAL LOW-READY)
   const gunGroup = new THREE.Group();
-  gunGroup.position.set(0.18, 1.15, 0.45);
-  gunGroup.rotation.y = -0.15;
-  gunGroup.rotation.x = -0.1;
+  gunGroup.position.set(0.10, 1.20, 0.38);
+  gunGroup.rotation.z = 0.18;
+  gunGroup.rotation.y = -0.28;
+  gunGroup.rotation.x = -0.12;
 
-  const gunBody = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.95), darkMetal);
+  const gunBody = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.95), darkGunMat);
   gunGroup.add(gunBody);
 
   const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.5, 8), jointMat);
@@ -4534,7 +4727,7 @@ function buildAvatarModel(suitId, weaponIndex) {
   barrel.position.set(0, 0.04, 0.6);
   gunGroup.add(barrel);
 
-  const mag = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.25, 0.14), armorMat);
+  const mag = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.25, 0.14), metalMat);
   mag.position.set(0, -0.16, 0.1);
   mag.rotation.x = -0.15;
   gunGroup.add(mag);
@@ -4545,26 +4738,66 @@ function buildAvatarModel(suitId, weaponIndex) {
 
   g.add(gunGroup);
 
-  // 5. Legs & Tactical Stance
-  const legGeo = new THREE.CylinderGeometry(0.13, 0.11, 0.9, 8);
+  // 6. LEGS & MAGNETIC LUNAR BOOTS (WITH HIP PIVOTS)
+  const leftLeg = new THREE.Group();
+  leftLeg.position.set(-0.24, 0.92, 0);
 
-  const leftLeg = new THREE.Mesh(legGeo, jointMat);
-  leftLeg.position.set(-0.22, 0.48, 0.04);
-  leftLeg.rotation.z = 0.06;
+  const thighL = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.12, 0.44, 12), fabricMat);
+  thighL.position.set(0, -0.22, 0);
+  leftLeg.add(thighL);
+
+  const kneeL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.12), metalMat);
+  kneeL.position.set(0, -0.46, 0.10);
+  leftLeg.add(kneeL);
+  const kneeGlowL = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.04, 0.03), glowMat);
+  kneeGlowL.position.set(0, -0.46, 0.16);
+  leftLeg.add(kneeGlowL);
+
+  const shinL = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.14, 0.36, 12), darkPlateMat);
+  shinL.position.set(0, -0.66, 0.03);
+  leftLeg.add(shinL);
+
+  const bootL = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.18, 0.38), metalMat);
+  bootL.position.set(0, -0.83, 0.08);
+  leftLeg.add(bootL);
+  const soleL = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.05, 0.40), jointMat);
+  soleL.position.set(0, -0.90, 0.08);
+  leftLeg.add(soleL);
+
   g.add(leftLeg);
 
-  const leftBoot = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.18, 0.35), darkMetal);
-  leftBoot.position.set(-0.25, 0.09, 0.08);
-  g.add(leftBoot);
+  const rightLeg = new THREE.Group();
+  rightLeg.position.set(0.24, 0.92, 0);
 
-  const rightLeg = new THREE.Mesh(legGeo, jointMat);
-  rightLeg.position.set(0.22, 0.48, -0.04);
-  rightLeg.rotation.z = -0.06;
+  const thighR = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.12, 0.44, 12), fabricMat);
+  thighR.position.set(0, -0.22, 0);
+  rightLeg.add(thighR);
+
+  const kneeR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.14, 0.12), metalMat);
+  kneeR.position.set(0, -0.46, 0.10);
+  rightLeg.add(kneeR);
+  const kneeGlowR = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.04, 0.03), glowMat);
+  kneeGlowR.position.set(0, -0.46, 0.16);
+  rightLeg.add(kneeGlowR);
+
+  const shinR = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.14, 0.36, 12), darkPlateMat);
+  shinR.position.set(0, -0.66, 0.03);
+  rightLeg.add(shinR);
+
+  const bootR = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.18, 0.38), metalMat);
+  bootR.position.set(0, -0.83, 0.08);
+  rightLeg.add(bootR);
+  const soleR = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.05, 0.40), jointMat);
+  soleR.position.set(0, -0.90, 0.08);
+  rightLeg.add(soleR);
+
   g.add(rightLeg);
 
-  const rightBoot = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.18, 0.35), darkMetal);
-  rightBoot.position.set(0.25, 0.09, 0.04);
-  g.add(rightBoot);
+  // Retain references for raycasting/animation if needed
+  g.userData.torsoMesh = torso;
+  g.userData.headMesh = helmet;
+  g.userData.leftLeg = leftLeg;
+  g.userData.rightLeg = rightLeg;
 
   return g;
 }
