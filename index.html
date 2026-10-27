@@ -668,15 +668,41 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         </div>
       </div>
 
-      <!-- GIANT GIOCA BUTTON (Styled with angled cyber cut matching image) -->
-      <button id="btn-start-game" type="button" class="lobby-play-btn group relative h-16 sm:h-20 px-8 sm:px-12 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer shrink-0">
-        <span class="text-2xl sm:text-4xl font-cyber font-black text-slate-950 tracking-widest uppercase italic drop-shadow-md">
-          GIOCA
-        </span>
-        <span class="text-[8px] sm:text-[9px] font-cyber font-bold text-slate-900 uppercase tracking-widest -mt-1 opacity-80">
-          AVVIA BATTAGLIA
-        </span>
-      </button>
+      <!-- PLAY COLUMN: MAP SELECTOR DROPDOWN + GIANT GIOCA BUTTON -->
+      <div class="flex flex-col gap-1.5 items-stretch shrink-0 w-44 sm:w-60">
+        <!-- Map Selector Dropdown (Appena sopra il tasto GIOCA) -->
+        <div class="relative">
+          <button id="lobby-btn-map-select" type="button" class="w-full px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-amber-500/40 hover:border-amber-400 text-left transition flex items-center justify-between cursor-pointer shadow-md">
+            <div>
+              <div class="text-[7px] text-amber-400 uppercase tracking-widest font-cyber font-bold">SELEZIONA MAPPA</div>
+              <div id="lobby-selected-map-text" class="text-xs font-cyber font-black text-amber-300 uppercase leading-none mt-0.5 truncate">
+                🌌 ARENA CLASSICA
+              </div>
+            </div>
+            <span class="text-amber-400 text-[10px] ml-1">▼</span>
+          </button>
+          <div id="lobby-map-dropdown" class="hidden absolute bottom-full mb-1 left-0 right-0 bg-slate-950/95 backdrop-blur-md border border-amber-400/50 rounded-xl overflow-hidden shadow-2xl z-50">
+            <button type="button" data-map="ARENA" class="lobby-map-option w-full px-3 py-2 text-left hover:bg-amber-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
+              <span>🌌 Arena Classica</span>
+              <span class="text-[9px] text-cyan-400 font-mono">Galattica</span>
+            </button>
+            <button type="button" data-map="HANGAR" class="lobby-map-option w-full px-3 py-2 text-left hover:bg-amber-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer">
+              <span>🛸 Hangar Orbitale</span>
+              <span class="text-[9px] text-amber-400 font-mono">Spaziale</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- GIANT GIOCA BUTTON (Styled with angled cyber cut matching image) -->
+        <button id="btn-start-game" type="button" class="lobby-play-btn group relative h-16 sm:h-20 w-full px-8 sm:px-12 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+          <span class="text-2xl sm:text-4xl font-cyber font-black text-slate-950 tracking-widest uppercase italic drop-shadow-md">
+            GIOCA
+          </span>
+          <span class="text-[8px] sm:text-[9px] font-cyber font-bold text-slate-900 uppercase tracking-widest -mt-1 opacity-80">
+            AVVIA BATTAGLIA
+          </span>
+        </button>
+      </div>
     </div>
   </footer>
 </div>
@@ -1945,6 +1971,8 @@ const lobbyPlayerName = byId('lobby-player-name');
 if (lobbyPlayerName) lobbyPlayerName.textContent = playerProfile.name || 'GHOST-01';
 const lobbyPlayerLvlTag = byId('lobby-player-lvl-tag');
 if (lobbyPlayerLvlTag) lobbyPlayerLvlTag.textContent = `${opProg.level} Lv.`;
+const lobbyMapText = byId('lobby-selected-map-text');
+if (lobbyMapText) lobbyMapText.textContent = state.selectedMap === 'HANGAR' ? '🛸 HANGAR ORBITALE' : '🌌 ARENA CLASSICA';
 
 syncAudioButtonsUI();
 updateAuthUI();
@@ -6004,15 +6032,38 @@ const modeDropdown = byId('lobby-mode-dropdown');
 const modeText = byId('lobby-selected-mode-text');
 const partyCodeDisplay = byId('lobby-party-code-display');
 
+const btnMapSelect = byId('lobby-btn-map-select');
+const mapDropdown = byId('lobby-map-dropdown');
+
 if (btnModeSelect && modeDropdown) {
   btnModeSelect.addEventListener('click', (e) => {
     e.stopPropagation();
     modeDropdown.classList.toggle('hidden');
-  });
-  document.addEventListener('click', () => {
-    modeDropdown.classList.add('hidden');
+    if (mapDropdown) mapDropdown.classList.add('hidden');
   });
 }
+
+if (btnMapSelect && mapDropdown) {
+  btnMapSelect.addEventListener('click', (e) => {
+    e.stopPropagation();
+    mapDropdown.classList.toggle('hidden');
+    if (modeDropdown) modeDropdown.classList.add('hidden');
+  });
+}
+
+document.addEventListener('click', () => {
+  if (modeDropdown) modeDropdown.classList.add('hidden');
+  if (mapDropdown) mapDropdown.classList.add('hidden');
+});
+
+document.querySelectorAll('.lobby-map-option').forEach(opt => {
+  opt.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const mapId = opt.getAttribute('data-map');
+    setMenuMap(mapId);
+    if (mapDropdown) mapDropdown.classList.add('hidden');
+  });
+});
 
 document.querySelectorAll('.lobby-mode-option').forEach(opt => {
   opt.addEventListener('click', (e) => {
@@ -6504,6 +6555,10 @@ const mapBtnHangar = byId('map-btn-hangar');
 const mapLbl = byId('map-selected-label');
 function setMenuMap(mapId) {
 state.selectedMap = mapId;
+const lobbyMapText = byId('lobby-selected-map-text');
+if (lobbyMapText) {
+  lobbyMapText.textContent = mapId === 'HANGAR' ? '🛸 HANGAR ORBITALE' : '🌌 ARENA CLASSICA';
+}
 if (mapLbl) mapLbl.textContent = mapId === 'HANGAR' ? 'Hangar Orbitale Neon' : 'Arena Cyber Galattica';
 if (mapBtnArena && mapBtnHangar) {
 if (mapId === 'ARENA') {
@@ -6514,9 +6569,13 @@ mapBtnHangar.className = 'px-3 py-2 rounded-lg bg-amber-950/80 border-2 border-a
 mapBtnArena.className = 'px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 font-cyber text-[11px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition cursor-pointer hover:border-cyan-400/50 hover:text-cyan-300';
 }
 }
+if (mpState.active && mpState.isHost && mpState.roomRef) {
+  mpState.roomRef.child('info').update({ map: mapId });
+}
 loadMap(mapId);
 sound.playPickup();
 }
+window.setMenuMap = setMenuMap;
 if (mapBtnArena) mapBtnArena.addEventListener('click', () => setMenuMap('ARENA'));
 if (mapBtnHangar) mapBtnHangar.addEventListener('click', () => setMenuMap('HANGAR'));
 }
