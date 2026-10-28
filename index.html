@@ -152,6 +152,14 @@ background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #06b6d4 100%);
 .lobby-play-btn:active {
 transform: scale(0.96);
 }
+.lobby-play-btn-solo {
+background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%) !important;
+box-shadow: 0 0 30px rgba(245, 158, 11, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.6) !important;
+}
+.lobby-play-btn-solo:hover {
+background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%) !important;
+box-shadow: 0 0 45px rgba(251, 191, 36, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85) !important;
+}
 .lobby-slot-card {
 background: rgba(4, 6, 17, 0.35);
 backdrop-filter: blur(6px);
@@ -547,24 +555,205 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
   <div id="lobby-view-play" class="w-full flex-1 flex flex-col justify-between overflow-hidden">
   <!-- CENTER AREA // SQUAD LOBBY SLOTS OVER 3D SCENE -->
   <div class="relative w-full flex-1 min-h-0 pointer-events-none">
-    <!-- SLOT 2 (LEFT SQUAD SLOT) -->
-    <div id="lobby-slot-2" class="lobby-slot-card absolute left-2 sm:left-[10%] md:left-[14%] bottom-6 sm:bottom-10 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
-      <div id="lobby-slot-2-empty" class="flex flex-col items-center justify-center text-center">
-        <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-3xl text-cyan-300 group-hover:scale-110 transition duration-200 mb-3 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
-          +
+    
+    <!-- MULTIPLAYER SQUAD SLOTS (SLOT 2 & SLOT 3) -->
+    <div id="lobby-multiplayer-slots" class="pointer-events-none">
+      <!-- SLOT 2 (LEFT SQUAD SLOT) -->
+      <div id="lobby-slot-2" class="lobby-slot-card absolute left-2 sm:left-[10%] md:left-[14%] bottom-6 sm:bottom-10 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
+        <div id="lobby-slot-2-empty" class="flex flex-col items-center justify-center text-center">
+          <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-3xl text-cyan-300 group-hover:scale-110 transition duration-200 mb-3 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
+            +
+          </div>
+          <div class="text-[10px] sm:text-xs font-cyber font-black text-slate-300 group-hover:text-cyan-300 uppercase tracking-widest">
+            AGGIUNGI AMICO
+          </div>
+          <div class="text-[8px] sm:text-[9px] text-cyan-400/70 mt-1 uppercase font-mono">SLOT 2 // LIBERO</div>
         </div>
-        <div class="text-[10px] sm:text-xs font-cyber font-black text-slate-300 group-hover:text-cyan-300 uppercase tracking-widest">
-          AGGIUNGI AMICO
+        <div id="lobby-slot-2-filled" class="hidden flex-col items-center justify-between h-full w-full py-1">
+          <div class="px-2.5 py-1 rounded-full bg-slate-950/90 border border-cyan-400/60 flex items-center gap-1.5 shadow-md">
+            <span id="lobby-slot-2-name" class="text-xs font-cyber font-black text-white truncate max-w-[85px]">PLAYER-2</span>
+            <span id="lobby-slot-2-lvl" class="text-[10px] font-cyber font-black text-cyan-400 font-mono">1 Lv.</span>
+          </div>
+          <div class="text-[9px] font-cyber font-bold text-emerald-400 px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-400/40 uppercase">
+            PRONTO
+          </div>
         </div>
-        <div class="text-[8px] sm:text-[9px] text-cyan-400/70 mt-1 uppercase font-mono">SLOT 2 // LIBERO</div>
       </div>
-      <div id="lobby-slot-2-filled" class="hidden flex-col items-center justify-between h-full w-full py-1">
-        <div class="px-2.5 py-1 rounded-full bg-slate-950/90 border border-cyan-400/60 flex items-center gap-1.5 shadow-md">
-          <span id="lobby-slot-2-name" class="text-xs font-cyber font-black text-white truncate max-w-[85px]">PLAYER-2</span>
-          <span id="lobby-slot-2-lvl" class="text-[10px] font-cyber font-black text-cyan-400 font-mono">1 Lv.</span>
+
+      <!-- SLOT 3 (RIGHT SQUAD SLOT) -->
+      <div id="lobby-slot-3" class="lobby-slot-card absolute right-2 sm:right-[10%] md:right-[14%] bottom-6 sm:bottom-10 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
+        <div id="lobby-slot-3-empty" class="flex flex-col items-center justify-center text-center">
+          <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-3xl text-cyan-300 group-hover:scale-110 transition duration-200 mb-3 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
+            +
+          </div>
+          <div class="text-[10px] sm:text-xs font-cyber font-black text-slate-300 group-hover:text-cyan-300 uppercase tracking-widest">
+            AGGIUNGI AMICO
+          </div>
+          <div class="text-[8px] sm:text-[9px] text-cyan-400/70 mt-1 uppercase font-mono">SLOT 3 // LIBERO</div>
         </div>
-        <div class="text-[9px] font-cyber font-bold text-emerald-400 px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-400/40 uppercase">
-          PRONTO
+        <div id="lobby-slot-3-filled" class="hidden flex-col items-center justify-between h-full w-full py-1">
+          <div class="px-2.5 py-1 rounded-full bg-slate-950/90 border border-cyan-400/60 flex items-center gap-1.5 shadow-md">
+            <span id="lobby-slot-3-name" class="text-xs font-cyber font-black text-white truncate max-w-[85px]">PLAYER-3</span>
+            <span id="lobby-slot-3-lvl" class="text-[10px] font-cyber font-black text-cyan-400 font-mono">1 Lv.</span>
+          </div>
+          <div class="text-[9px] font-cyber font-bold text-emerald-400 px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-400/40 uppercase">
+            PRONTO
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SINGLE PLAYER DEDICATED PANELS (SOLO DOSSIER & LOADOUT) -->
+    <div id="lobby-solo-panels" class="hidden pointer-events-none">
+      <!-- LEFT PANEL: DOSSIER MISSIONE SOPRAVVIVENZA -->
+      <div id="lobby-solo-dossier" class="absolute left-2 sm:left-4 md:left-6 top-3 sm:top-5 bottom-3 sm:bottom-5 w-56 sm:w-68 md:w-80 cyber-panel rounded-2xl p-3.5 sm:p-4 border border-amber-400/40 bg-slate-950/90 backdrop-blur-md shadow-[0_0_30px_rgba(245,158,11,0.2)] pointer-events-auto flex flex-col justify-between overflow-y-auto z-10">
+        <div>
+          <!-- Header -->
+          <div class="flex items-center justify-between border-b border-amber-500/30 pb-2.5 mb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🧟</span>
+              <div>
+                <div class="text-[8px] font-mono uppercase tracking-widest text-amber-400">OPERAZIONE SOLITARIA</div>
+                <div class="text-xs sm:text-sm font-cyber font-black text-white uppercase tracking-wider">SOPRAVVIVENZA</div>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-[9px] font-cyber font-black text-amber-300 uppercase tracking-widest animate-pulse">
+              SOLO
+            </span>
+          </div>
+
+          <!-- Mission Objective -->
+          <div class="bg-amber-950/30 rounded-xl p-2.5 border border-amber-500/25 mb-3">
+            <div class="text-[8px] font-cyber font-black text-amber-400 uppercase tracking-widest mb-1 flex items-center gap-1.5">
+              <span>🎯 OBIETTIVO MISSIONE</span>
+            </div>
+            <p class="text-[10px] text-slate-300 font-mono leading-relaxed">
+              Resisti all'assedio cibernetico senza rinforzi alleati. Raccogli munizioni, attiva i perk dorati e distruggi i Boss Mech ogni 5 ondate.
+            </p>
+          </div>
+
+          <!-- Career Solo Records -->
+          <div class="space-y-1.5 mb-3">
+            <div class="text-[8px] font-cyber font-black text-slate-400 uppercase tracking-widest px-0.5">
+              📊 RECORD DI CARRIERA SOLO
+            </div>
+            
+            <div class="grid grid-cols-2 gap-1.5 text-center">
+              <div class="p-2 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div class="text-[8px] font-mono text-slate-400 uppercase">ONDATA RECORD</div>
+                <div id="lobby-solo-record-wave" class="text-sm sm:text-base font-cyber font-black text-amber-400">1</div>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div class="text-[8px] font-mono text-slate-400 uppercase">PUNTEGGIO MAX</div>
+                <div id="lobby-solo-record-score" class="text-sm sm:text-base font-cyber font-black text-cyan-300">0</div>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div class="text-[8px] font-mono text-slate-400 uppercase">KILL TOTALI</div>
+                <div id="lobby-solo-record-kills" class="text-xs sm:text-sm font-cyber font-black text-emerald-400">0</div>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div class="text-[8px] font-mono text-slate-400 uppercase">BOSS MECH</div>
+                <div id="lobby-solo-record-bosses" class="text-xs sm:text-sm font-cyber font-black text-purple-400">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Threat & Map Intel -->
+        <div class="bg-slate-900/90 rounded-xl p-2.5 border border-slate-800/80 mt-1">
+          <div class="flex items-center justify-between text-[9px] font-mono">
+            <span class="text-slate-400">SETTORE:</span>
+            <span id="lobby-solo-map-name" class="text-cyan-300 font-bold uppercase truncate max-w-[130px]">🌌 ARENA CLASSICA</span>
+          </div>
+          <div class="flex items-center justify-between text-[9px] font-mono mt-1">
+            <span class="text-slate-400">MINACCIA ONDATA:</span>
+            <span class="text-rose-400 font-bold uppercase">CRESCENTE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: EQUIPAGGIAMENTO TATTICO SOLO -->
+      <div id="lobby-solo-loadout" class="absolute right-2 sm:right-4 md:right-6 top-3 sm:top-5 bottom-3 sm:bottom-5 w-56 sm:w-68 md:w-80 cyber-panel rounded-2xl p-3.5 sm:p-4 border border-cyan-400/40 bg-slate-950/90 backdrop-blur-md shadow-[0_0_30px_rgba(6,182,212,0.2)] pointer-events-auto flex flex-col justify-between overflow-y-auto z-10">
+        <div>
+          <!-- Header -->
+          <div class="flex items-center justify-between border-b border-cyan-500/30 pb-2.5 mb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎒</span>
+              <div>
+                <div class="text-[8px] font-mono uppercase tracking-widest text-cyan-400">ARSENALE PERSONALE</div>
+                <div class="text-xs sm:text-sm font-cyber font-black text-white uppercase tracking-wider">LOADOUT PRIMARIO</div>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-[9px] font-cyber font-black text-cyan-300 uppercase tracking-widest">
+              PRONTO
+            </span>
+          </div>
+
+          <!-- Primary Weapon Card -->
+          <div class="bg-slate-900/90 rounded-xl p-3 border border-cyan-500/30 mb-2.5 shadow-inner">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 truncate">
+                <span class="text-lg shrink-0">🔫</span>
+                <div class="truncate">
+                  <div id="lobby-solo-weapon-name" class="text-xs sm:text-sm font-cyber font-black text-cyan-300 uppercase truncate">FUCILE CYBER-1</div>
+                  <div id="lobby-solo-weapon-class" class="text-[8px] text-slate-400 font-mono truncate">CADENZA AUTOMATICA</div>
+                </div>
+              </div>
+              <div class="flex flex-col items-end shrink-0 pl-1">
+                <span id="lobby-solo-weapon-lvl" class="px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-400 text-[9px] font-cyber font-black text-cyan-300 font-mono">1 Lv.</span>
+                <span id="lobby-solo-weapon-prestige" class="hidden text-[8px] text-amber-400 font-cyber font-bold mt-0.5">⭐ P1</span>
+              </div>
+            </div>
+
+            <!-- Weapon Gauges -->
+            <div class="space-y-1.5 pt-1.5 border-t border-slate-800 text-[8px] font-mono">
+              <div>
+                <div class="flex justify-between text-slate-400 mb-0.5">
+                  <span>DANNO BALISTICO</span>
+                  <span id="lobby-solo-stat-dmg" class="text-cyan-300 font-bold">28</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+                  <div id="lobby-solo-bar-dmg" class="h-full bg-cyan-400 transition-all duration-300" style="width: 50%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-slate-400 mb-0.5">
+                  <span>CADENZA DI TIRO</span>
+                  <span id="lobby-solo-stat-rate" class="text-amber-400 font-bold">600 RPM</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+                  <div id="lobby-solo-bar-rate" class="h-full bg-amber-400 transition-all duration-300" style="width: 60%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-slate-400 mb-0.5">
+                  <span>CAPACITÀ CARICATORE</span>
+                  <span id="lobby-solo-stat-ammo" class="text-emerald-400 font-bold">32 COLPI</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+                  <div id="lobby-solo-bar-ammo" class="h-full bg-emerald-400 transition-all duration-300" style="width: 45%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Armory Switch Button -->
+          <button id="lobby-solo-btn-armory" type="button" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-600/25 to-amber-600/25 hover:from-cyan-500/40 hover:to-amber-500/40 border border-cyan-400/50 hover:border-cyan-300 text-[10px] sm:text-xs font-cyber font-black uppercase tracking-wider text-cyan-200 hover:text-white transition flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer">
+            <span>⚙️ APRI ARMERIA // POTENZIA</span>
+            <span class="text-xs">➔</span>
+          </button>
+        </div>
+
+        <!-- Tactical Survival Tip -->
+        <div class="bg-amber-950/20 rounded-xl p-2.5 border border-amber-500/20 mt-1">
+          <div class="text-[8px] font-cyber font-black text-amber-400 uppercase tracking-widest mb-0.5">
+            💡 CONSIGLIO TATTICO
+          </div>
+          <div class="text-[9px] text-slate-300 font-mono leading-relaxed">
+            Schiva scivolando con [C] e mira alla testa con [Tasto Destro] per abbattere i nemici più velocemente.
+          </div>
         </div>
       </div>
     </div>
@@ -572,39 +761,18 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
     <!-- CENTER SLOT // YOUR OPERATOR -->
     <div class="absolute inset-0 flex flex-col items-center justify-end pb-3 sm:pb-5 pointer-events-none">
       <!-- Player Floating Name Tag (Elevated above astronaut helmet) -->
-      <div class="mb-[11rem] sm:mb-[12.5rem] md:mb-[13.5rem] flex items-center gap-2.5 bg-slate-950/90 backdrop-blur-md px-5 py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all pointer-events-auto">
+      <div class="mb-[11rem] sm:mb-[12.5rem] md:mb-[13.5rem] flex items-center gap-2 bg-slate-950/90 backdrop-blur-md px-4 sm:px-5 py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all pointer-events-auto z-20">
         <span class="text-sm">👨‍🚀</span>
         <span id="lobby-player-name" class="text-sm sm:text-base font-cyber font-black text-white tracking-wide">GHOST-01</span>
         <span id="lobby-player-lvl-tag" class="px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-xs font-cyber font-black text-cyan-300 font-mono tracking-wider">1 Lv.</span>
+        <span id="lobby-player-mode-badge" class="px-2 py-0.5 rounded-md bg-amber-950/90 border border-amber-400/60 text-[9px] font-cyber font-black text-amber-300 font-mono tracking-wider">SOLO</span>
       </div>
 
       <!-- "CAMBIA SKIN" button directly below character -->
-      <button id="lobby-btn-change-skin" type="button" class="relative group px-5 py-2.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 border border-cyan-400/50 hover:border-cyan-400 text-xs sm:text-sm font-cyber font-black uppercase tracking-wider text-cyan-300 transition shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center gap-2 cursor-pointer pointer-events-auto">
+      <button id="lobby-btn-change-skin" type="button" class="relative group px-5 py-2.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 border border-cyan-400/50 hover:border-cyan-400 text-xs sm:text-sm font-cyber font-black uppercase tracking-wider text-cyan-300 transition shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center gap-2 cursor-pointer pointer-events-auto z-20">
         <span>CAMBIA SKIN</span>
         <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
       </button>
-    </div>
-
-    <!-- SLOT 3 (RIGHT SQUAD SLOT) -->
-    <div id="lobby-slot-3" class="lobby-slot-card absolute right-2 sm:right-[10%] md:right-[14%] bottom-6 sm:bottom-10 w-32 sm:w-44 h-56 sm:h-72 rounded-2xl flex flex-col items-center justify-center p-3 pointer-events-auto cursor-pointer group">
-      <div id="lobby-slot-3-empty" class="flex flex-col items-center justify-center text-center">
-        <div class="w-12 h-12 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center text-3xl text-cyan-300 group-hover:scale-110 transition duration-200 mb-3 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
-          +
-        </div>
-        <div class="text-[10px] sm:text-xs font-cyber font-black text-slate-300 group-hover:text-cyan-300 uppercase tracking-widest">
-          AGGIUNGI AMICO
-        </div>
-        <div class="text-[8px] sm:text-[9px] text-cyan-400/70 mt-1 uppercase font-mono">SLOT 3 // LIBERO</div>
-      </div>
-      <div id="lobby-slot-3-filled" class="hidden flex-col items-center justify-between h-full w-full py-1">
-        <div class="px-2.5 py-1 rounded-full bg-slate-950/90 border border-cyan-400/60 flex items-center gap-1.5 shadow-md">
-          <span id="lobby-slot-3-name" class="text-xs font-cyber font-black text-white truncate max-w-[85px]">PLAYER-3</span>
-          <span id="lobby-slot-3-lvl" class="text-[10px] font-cyber font-black text-cyan-400 font-mono">1 Lv.</span>
-        </div>
-        <div class="text-[9px] font-cyber font-bold text-emerald-400 px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-400/40 uppercase">
-          PRONTO
-        </div>
-      </div>
     </div>
   </div>
 
@@ -622,13 +790,13 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 
     <!-- Bottom-Right Action Center -->
     <div class="flex flex-col sm:flex-row items-end sm:items-center gap-2.5 sm:gap-3 pointer-events-auto">
-      <!-- Party Column -->
-      <div class="flex flex-col gap-1 w-52 sm:w-64">
+      <!-- Multiplayer Party Column (Visible only in PVP / COOP) -->
+      <div id="lobby-party-container" class="flex flex-col gap-1 w-52 sm:w-60">
         <!-- Party Code Row -->
         <div class="flex items-center justify-between bg-slate-950/85 backdrop-blur-sm px-2.5 py-1 rounded-xl border border-slate-800 text-[10px]">
           <div class="flex items-center gap-1.5 truncate">
             <span class="text-slate-400 text-[9px]">ID PARTY:</span>
-            <span id="lobby-party-code-display" class="font-mono font-bold text-cyan-300 text-[10px]">SOLO</span>
+            <span id="lobby-party-code-display" class="font-mono font-bold text-cyan-300 text-[10px]">ONLINE</span>
             <button id="lobby-btn-copy-party" type="button" title="Copia Codice Party" class="text-xs hover:text-white text-slate-400 cursor-pointer">📋</button>
           </div>
           <span class="text-[8px] text-emerald-400 font-mono shrink-0">🇪🇺 EUROPE</span>
@@ -638,26 +806,29 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         <button id="lobby-btn-join-code" type="button" class="w-full py-1 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-400/40 text-cyan-300 font-cyber text-[9px] font-black uppercase tracking-wider transition cursor-pointer">
           UNISCITI CON ID PARTY
         </button>
+      </div>
 
-        <!-- Mode Selector -->
+      <!-- Mode & Map Selectors -->
+      <div class="flex flex-col gap-1.5 items-stretch shrink-0 w-44 sm:w-56">
+        <!-- Mode Selector Dropdown -->
         <div class="relative">
           <button id="lobby-btn-mode-select" type="button" class="w-full px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 hover:border-cyan-400 text-left transition flex items-center justify-between cursor-pointer shadow-md">
             <div>
               <div class="text-[7px] text-slate-400 uppercase tracking-widest font-cyber">SELEZIONA MODALITÀ</div>
-              <div id="lobby-selected-mode-text" class="text-xs font-cyber font-black text-cyan-300 uppercase leading-none mt-0.5">
-                DEATHMATCH
+              <div id="lobby-selected-mode-text" class="text-xs font-cyber font-black text-amber-300 uppercase leading-none mt-0.5 truncate">
+                🧟 SOPRAVVIVENZA (SOLO)
               </div>
             </div>
             <span class="text-cyan-400 text-[10px] ml-1">▼</span>
           </button>
           <div id="lobby-mode-dropdown" class="hidden absolute bottom-full mb-1 left-0 right-0 bg-slate-950/95 backdrop-blur-md border border-cyan-400/50 rounded-xl overflow-hidden shadow-2xl z-50">
+            <button type="button" data-mode="SOLO" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-amber-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
+              <span>🧟 SOPRAVVIVENZA (SOLO)</span>
+              <span class="text-[9px] text-amber-400 font-mono">1 Giocatore</span>
+            </button>
             <button type="button" data-mode="PVP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
               <span>⚔️ DEATHMATCH (PVP)</span>
               <span class="text-[9px] text-rose-400 font-mono">Lobby Squadra</span>
-            </button>
-            <button type="button" data-mode="SOLO" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
-              <span>🧟 SOPRAVVIVENZA (SOLO)</span>
-              <span class="text-[9px] text-amber-400 font-mono">1 Giocatore</span>
             </button>
             <button type="button" data-mode="COOP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer">
               <span>🤝 CO-OP SQUAD (ONLINE)</span>
@@ -665,10 +836,7 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
             </button>
           </div>
         </div>
-      </div>
 
-      <!-- PLAY COLUMN: MAP SELECTOR DROPDOWN + GIANT GIOCA BUTTON -->
-      <div class="flex flex-col gap-1.5 items-stretch shrink-0 w-44 sm:w-60">
         <!-- Map Selector Dropdown (Appena sopra il tasto GIOCA) -->
         <div class="relative">
           <button id="lobby-btn-map-select" type="button" class="w-full px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-amber-500/40 hover:border-amber-400 text-left transition flex items-center justify-between cursor-pointer shadow-md">
@@ -691,19 +859,22 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
             </button>
           </div>
         </div>
+      </div>
 
-        <!-- GIANT GIOCA BUTTON (Styled with angled cyber cut matching image) -->
-        <button id="btn-start-game" type="button" class="lobby-play-btn group relative h-16 sm:h-20 w-full px-8 sm:px-12 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer">
-          <span class="text-2xl sm:text-4xl font-cyber font-black text-slate-950 tracking-widest uppercase italic drop-shadow-md">
+      <!-- GIANT GIOCA BUTTON -->
+      <div class="flex flex-col items-stretch shrink-0 w-44 sm:w-56">
+        <button id="btn-start-game" type="button" class="lobby-play-btn lobby-play-btn-solo group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+          <span id="lobby-play-btn-title" class="text-2xl sm:text-4xl font-cyber font-black text-slate-950 tracking-widest uppercase italic drop-shadow-md">
             GIOCA
           </span>
-          <span class="text-[8px] sm:text-[9px] font-cyber font-bold text-slate-900 uppercase tracking-widest -mt-1 opacity-80">
-            AVVIA BATTAGLIA
+          <span id="lobby-play-btn-subtitle" class="text-[8px] sm:text-[9px] font-cyber font-bold text-slate-900 uppercase tracking-widest -mt-1 opacity-80">
+            SOPRAVVIVENZA // ONDATA 1
           </span>
         </button>
       </div>
     </div>
   </footer>
+  </div> <!-- /lobby-view-play -->
   </div> <!-- /lobby-view-play -->
 
   <!-- ==================== VIEW 2: ARMERIA (POTENZIAMENTI, MODULI & PRESTIGIO) ==================== -->
@@ -3644,6 +3815,10 @@ let lobbySceneGroup = null;
 let localLobbyAvatarGroup = null;
 let slot2LobbyAvatarGroup = null;
 let slot3LobbyAvatarGroup = null;
+let slot2LobbyPodiumGroup = null;
+let slot3LobbyPodiumGroup = null;
+let lobbyCenterGlowRing = null;
+let lobbyCenterSpot = null;
 let lobbyMouseX = 0, lobbyMouseY = 0;
 const hudWave = byId('hud-wave'), hudScore = byId('hud-score'), hudEnemies = byId('hud-enemies'), hudKills = byId('hud-kills');
 const hudFps = byId('hud-fps'), hudPing = byId('hud-ping'), hudHealthText = byId('hud-health-text'), hudHealthBar = byId('hud-health-bar');
@@ -4140,9 +4315,12 @@ function switchMenu(menuName) {
     renderProfileView();
   } else if (currentLobbyMenu === 'TROPHIES') {
     renderTrophiesView();
+  } else if (currentLobbyMenu === 'PLAY') {
+    if (typeof updateSoloLobbyUI === 'function') updateSoloLobbyUI();
   }
 
   updateProfileUI();
+  state.needsStaticRender = true;
 }
 
 function setActiveNavTab(tabId) {
@@ -4688,24 +4866,29 @@ function buildLobbyScene() {
   centerGlowRing.rotation.x = Math.PI / 2;
   centerGlowRing.position.set(0, 0.15, 0);
   lobbySceneGroup.add(centerGlowRing);
+  lobbyCenterGlowRing = centerGlowRing;
 
   // Left Slot Podium (Slot 2)
+  slot2LobbyPodiumGroup = new THREE.Group();
   const slot2Podium = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.35, 0.1, 24), podiumMat);
   slot2Podium.position.set(-2.4, 0.05, 0.4);
-  lobbySceneGroup.add(slot2Podium);
+  slot2LobbyPodiumGroup.add(slot2Podium);
   const slot2Ring = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.03, 8, 24), new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 }));
   slot2Ring.rotation.x = Math.PI / 2;
   slot2Ring.position.set(-2.4, 0.11, 0.4);
-  lobbySceneGroup.add(slot2Ring);
+  slot2LobbyPodiumGroup.add(slot2Ring);
+  lobbySceneGroup.add(slot2LobbyPodiumGroup);
 
   // Right Slot Podium (Slot 3)
+  slot3LobbyPodiumGroup = new THREE.Group();
   const slot3Podium = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.35, 0.1, 24), podiumMat);
   slot3Podium.position.set(2.4, 0.05, 0.4);
-  lobbySceneGroup.add(slot3Podium);
+  slot3LobbyPodiumGroup.add(slot3Podium);
   const slot3Ring = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.03, 8, 24), new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 }));
   slot3Ring.rotation.x = Math.PI / 2;
   slot3Ring.position.set(2.4, 0.11, 0.4);
-  lobbySceneGroup.add(slot3Ring);
+  slot3LobbyPodiumGroup.add(slot3Ring);
+  lobbySceneGroup.add(slot3LobbyPodiumGroup);
 
   // 3. Back Bunker Wall
   const wallMat = new THREE.MeshLambertMaterial({ color: 0x1f2723 });
@@ -4797,16 +4980,17 @@ function buildLobbyScene() {
   centerSpot.position.set(0, 5.0, 2.5);
   centerSpot.target = centerPodium;
   lobbySceneGroup.add(centerSpot);
+  lobbyCenterSpot = centerSpot;
 
   const leftSpot = new THREE.SpotLight(0x38bdf8, 1.8, 10, Math.PI / 4, 0.35);
   leftSpot.position.set(-2.4, 4.8, 2.2);
   leftSpot.target = slot2Podium;
-  lobbySceneGroup.add(leftSpot);
+  if (slot2LobbyPodiumGroup) slot2LobbyPodiumGroup.add(leftSpot);
 
   const rightSpot = new THREE.SpotLight(0x38bdf8, 1.8, 10, Math.PI / 4, 0.35);
   rightSpot.position.set(2.4, 4.8, 2.2);
   rightSpot.target = slot3Podium;
-  lobbySceneGroup.add(rightSpot);
+  if (slot3LobbyPodiumGroup) slot3LobbyPodiumGroup.add(rightSpot);
 
   localLobbyAvatarGroup = new THREE.Group();
   localLobbyAvatarGroup.position.set(0, 0.14, 0);
@@ -4823,6 +5007,27 @@ function buildLobbyScene() {
   slot3LobbyAvatarGroup.rotation.y = -0.25;
   slot3LobbyAvatarGroup.visible = false;
   lobbySceneGroup.add(slot3LobbyAvatarGroup);
+
+  if (typeof applyLobbyGameMode3D === 'function') {
+    applyLobbyGameMode3D(state.selectedGameMode || 'SOLO');
+  }
+}
+
+function applyLobbyGameMode3D(mode) {
+  const isSolo = mode === 'SOLO';
+  if (slot2LobbyPodiumGroup) slot2LobbyPodiumGroup.visible = !isSolo;
+  if (slot3LobbyPodiumGroup) slot3LobbyPodiumGroup.visible = !isSolo;
+  if (slot2LobbyAvatarGroup && isSolo) slot2LobbyAvatarGroup.visible = false;
+  if (slot3LobbyAvatarGroup && isSolo) slot3LobbyAvatarGroup.visible = false;
+
+  if (lobbyCenterGlowRing && lobbyCenterGlowRing.material) {
+    lobbyCenterGlowRing.material.color.setHex(isSolo ? 0xf59e0b : 0x22d3ee);
+  }
+  if (lobbyCenterSpot) {
+    lobbyCenterSpot.color.setHex(isSolo ? 0xfbbf24 : 0x67e8f9);
+    lobbyCenterSpot.intensity = isSolo ? 3.4 : 2.6;
+  }
+  state.needsStaticRender = true;
 }
 
 function buildAvatarModel(suitId, weaponIndex) {
@@ -5351,6 +5556,7 @@ function goToLobby() {
 
   updateProfileUI();
   updateLobbyAvatars();
+  if (typeof setLobbyGameMode === 'function') setLobbyGameMode(state.selectedGameMode || 'SOLO');
   if (typeof setActiveNavTab === 'function') setActiveNavTab('nav-tab-play');
 }
 
@@ -6575,7 +6781,9 @@ sound.init();
 if (state.mode === 'PAUSED') {
   resumeGame();
 } else if (state.mode === 'MENU' || state.mode === 'GAMEOVER') {
-  if (mpState.active && mpState.roomId) {
+  if (state.selectedGameMode === 'SOLO') {
+    startNewGame();
+  } else if (mpState.active && mpState.roomId) {
     if (mpState.isHost) {
       startMultiplayerMatch();
     } else {
@@ -6710,29 +6918,156 @@ document.querySelectorAll('.lobby-map-option').forEach(opt => {
   });
 });
 
+function updateSoloLobbyUI() {
+  const soloWaveEl = byId('lobby-solo-record-wave');
+  const soloScoreEl = byId('lobby-solo-record-score');
+  const soloKillsEl = byId('lobby-solo-record-kills');
+  const soloBossesEl = byId('lobby-solo-record-bosses');
+  const soloMapName = byId('lobby-solo-map-name');
+
+  if (soloWaveEl) soloWaveEl.textContent = playerProfile.bestWave || 1;
+  if (soloScoreEl) soloScoreEl.textContent = (playerProfile.bestScore || 0).toLocaleString('it-IT');
+  if (soloKillsEl) soloKillsEl.textContent = (playerProfile.totalKills || 0).toLocaleString('it-IT');
+  if (soloBossesEl) soloBossesEl.textContent = playerProfile.maxBossesDefeatedPermanent || 0;
+  if (soloMapName) soloMapName.textContent = state.selectedMap === 'HANGAR' ? '🛸 HANGAR ORBITALE' : '🌌 ARENA CLASSICA';
+
+  // Primary Weapon Showcase
+  const w = WEAPONS[state.currentWeaponIndex] || WEAPONS[0];
+  const st = getWeaponStats(w.id);
+  const eff = getEffectiveWeaponStats(w);
+
+  const wNameEl = byId('lobby-solo-weapon-name');
+  const wClassEl = byId('lobby-solo-weapon-class');
+  const wLvlEl = byId('lobby-solo-weapon-lvl');
+  const wPrestigeEl = byId('lobby-solo-weapon-prestige');
+
+  if (wNameEl) {
+    wNameEl.textContent = w.name;
+    wNameEl.style.color = w.uiColor || '#22d3ee';
+  }
+  if (wClassEl) {
+    wClassEl.textContent = w.isAuto ? 'FUCILE AUTOMATICO // ALTA CADENZA' : (w.pellets ? 'DISPERSIONE TATTICA // CORTO RAGGIO' : 'BALISTICA DI PRECISIONE');
+  }
+  if (wLvlEl) wLvlEl.textContent = `${st.level} Lv.`;
+  if (wPrestigeEl) {
+    if (st.prestige > 0) {
+      wPrestigeEl.textContent = `⭐ P${st.prestige}`;
+      wPrestigeEl.classList.remove('hidden');
+    } else {
+      wPrestigeEl.classList.add('hidden');
+    }
+  }
+
+  // Stat Bars
+  const statDmg = byId('lobby-solo-stat-dmg');
+  const barDmg = byId('lobby-solo-bar-dmg');
+  if (statDmg) statDmg.textContent = Math.round(eff.damage);
+  if (barDmg) barDmg.style.width = Math.min(100, Math.round((eff.damage / 85) * 100)) + '%';
+
+  const statRate = byId('lobby-solo-stat-rate');
+  const barRate = byId('lobby-solo-bar-rate');
+  const rpm = Math.round(60 / eff.fireRate);
+  if (statRate) statRate.textContent = `${rpm} RPM`;
+  if (barRate) barRate.style.width = Math.min(100, Math.round((rpm / 800) * 100)) + '%';
+
+  const statAmmo = byId('lobby-solo-stat-ammo');
+  const barAmmo = byId('lobby-solo-bar-ammo');
+  if (statAmmo) statAmmo.textContent = `${eff.maxAmmo} COLPI`;
+  if (barAmmo) barAmmo.style.width = Math.min(100, Math.round((eff.maxAmmo / 60) * 100)) + '%';
+}
+window.updateSoloLobbyUI = updateSoloLobbyUI;
+
+function setLobbyGameMode(selected) {
+  state.selectedGameMode = selected;
+  const isSolo = selected === 'SOLO';
+
+  const modeDropdown = byId('lobby-mode-dropdown');
+  if (modeDropdown) modeDropdown.classList.add('hidden');
+
+  const modeText = byId('lobby-selected-mode-text');
+  if (modeText) {
+    if (selected === 'SOLO') {
+      modeText.textContent = '🧟 SOPRAVVIVENZA (SOLO)';
+      modeText.className = 'text-xs font-cyber font-black text-amber-300 uppercase leading-none mt-0.5 truncate';
+    } else if (selected === 'PVP') {
+      modeText.textContent = '⚔️ DEATHMATCH (PVP)';
+      modeText.className = 'text-xs font-cyber font-black text-rose-400 uppercase leading-none mt-0.5 truncate';
+    } else if (selected === 'COOP') {
+      modeText.textContent = '🤝 CO-OP SQUAD';
+      modeText.className = 'text-xs font-cyber font-black text-cyan-300 uppercase leading-none mt-0.5 truncate';
+    }
+  }
+
+  // Center Panels: Solo vs Multiplayer
+  const soloPanels = byId('lobby-solo-panels');
+  const mpSlots = byId('lobby-multiplayer-slots');
+  const mpPartyBox = byId('lobby-party-container');
+  const mpBrowserBtn = byId('lobby-btn-multiplayer-browser');
+  const playBtnSubtitle = byId('lobby-play-btn-subtitle');
+  const playBtn = byId('btn-start-game');
+  const playerModeBadge = byId('lobby-player-mode-badge');
+
+  if (isSolo) {
+    if (soloPanels) { soloPanels.classList.remove('hidden'); soloPanels.classList.add('flex'); }
+    if (mpSlots) { mpSlots.classList.add('hidden'); }
+    if (mpPartyBox) { mpPartyBox.classList.add('hidden'); }
+    if (mpBrowserBtn) { mpBrowserBtn.classList.add('hidden'); }
+    if (playBtnSubtitle) playBtnSubtitle.textContent = 'SOPRAVVIVENZA // ONDATA 1';
+    if (playBtn) playBtn.classList.add('lobby-play-btn-solo');
+    if (playerModeBadge) {
+      playerModeBadge.textContent = 'SOLO';
+      playerModeBadge.className = 'px-2 py-0.5 rounded-md bg-amber-950/90 border border-amber-400/60 text-[9px] font-cyber font-black text-amber-300 font-mono tracking-wider';
+    }
+
+    if (mpState.active) leaveCurrentRoom();
+    updateLobbySquadSlots([]);
+    updateSoloLobbyUI();
+  } else {
+    if (soloPanels) { soloPanels.classList.add('hidden'); soloPanels.classList.remove('flex'); }
+    if (mpSlots) { mpSlots.classList.remove('hidden'); }
+    if (mpPartyBox) { mpPartyBox.classList.remove('hidden'); }
+    if (mpBrowserBtn) { mpBrowserBtn.classList.remove('hidden'); }
+    if (playBtnSubtitle) playBtnSubtitle.textContent = selected === 'COOP' ? 'SQUADRA CO-OP' : 'AVVIA BATTAGLIA';
+    if (playBtn) playBtn.classList.remove('lobby-play-btn-solo');
+    if (playerModeBadge) {
+      playerModeBadge.textContent = 'SQUADRA';
+      playerModeBadge.className = 'px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-[9px] font-cyber font-black text-cyan-300 font-mono tracking-wider';
+    }
+
+    const partyCodeDisplay = byId('lobby-party-code-display');
+    if (!mpState.roomId) {
+      createRoom(null, selected, false, state.selectedMap || 'ARENA');
+    } else {
+      if (partyCodeDisplay) partyCodeDisplay.textContent = mpState.roomCode || 'ONLINE';
+    }
+  }
+
+  // 3D Scene updates
+  if (typeof applyLobbyGameMode3D === 'function') {
+    applyLobbyGameMode3D(selected);
+  }
+}
+window.setLobbyGameMode = setLobbyGameMode;
+
 document.querySelectorAll('.lobby-mode-option').forEach(opt => {
   opt.addEventListener('click', (e) => {
+    e.stopPropagation();
     const selected = opt.getAttribute('data-mode');
-    state.selectedGameMode = selected;
-    if (modeDropdown) modeDropdown.classList.add('hidden');
-    if (modeText) {
-      if (selected === 'PVP') modeText.textContent = 'DEATHMATCH (PVP)';
-      else if (selected === 'SOLO') modeText.textContent = 'SOPRAVVIVENZA (SOLO)';
-      else if (selected === 'COOP') modeText.textContent = 'CO-OP SQUAD';
-    }
-    if (selected === 'SOLO') {
-      if (partyCodeDisplay) partyCodeDisplay.textContent = 'SOLO';
-      if (mpState.active) leaveCurrentRoom();
-      updateLobbySquadSlots([]);
-    } else {
-      if (!mpState.roomId) {
-        createRoom(null, selected, false, state.selectedMap || 'ARENA');
-      } else {
-        if (partyCodeDisplay) partyCodeDisplay.textContent = mpState.roomCode || 'ONLINE';
-      }
-    }
+    setLobbyGameMode(selected);
   });
 });
+
+const btnSoloArmory = byId('lobby-solo-btn-armory');
+if (btnSoloArmory) {
+  btnSoloArmory.addEventListener('click', () => {
+    sound.init();
+    sound.playHit();
+    switchMenu('ARMORY');
+  });
+}
+
+// Initial sync of Lobby Mode UI (Solo by default)
+setLobbyGameMode(state.selectedGameMode || 'SOLO');
 
 // Party Code & Squad Slots Click
 const btnCopyParty = byId('lobby-btn-copy-party');
@@ -7203,6 +7538,10 @@ state.selectedMap = mapId;
 const lobbyMapText = byId('lobby-selected-map-text');
 if (lobbyMapText) {
   lobbyMapText.textContent = mapId === 'HANGAR' ? '🛸 HANGAR ORBITALE' : '🌌 ARENA CLASSICA';
+}
+const soloMapText = byId('lobby-solo-map-name');
+if (soloMapText) {
+  soloMapText.textContent = mapId === 'HANGAR' ? '🛸 HANGAR ORBITALE' : '🌌 ARENA CLASSICA';
 }
 if (mapLbl) mapLbl.textContent = mapId === 'HANGAR' ? 'Hangar Orbitale Neon' : 'Arena Cyber Galattica';
 if (mapBtnArena && mapBtnHangar) {
