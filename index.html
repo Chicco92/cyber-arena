@@ -160,6 +160,197 @@ box-shadow: 0 0 30px rgba(245, 158, 11, 0.6), inset 0 2px 0 rgba(255, 255, 255, 
 background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%) !important;
 box-shadow: 0 0 45px rgba(251, 191, 36, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85) !important;
 }
+
+/* ==================== SCREEN RECOGNITION & RESPONSIVE ENGINE ==================== */
+:root {
+  --ui-scale: 1.0;
+}
+
+@supports (height: 100dvh) {
+  html, body, #lobby-screen, #game-canvas {
+    height: 100dvh !important;
+  }
+}
+
+/* Responsive Operator Nametag & Skin Button */
+.lobby-nametag-responsive {
+  margin-bottom: clamp(65px, 20vh, 200px) !important;
+}
+
+/* Responsive Lobby Header on Mobile */
+@media (max-width: 640px) {
+  #lobby-screen header {
+    padding: 0.35rem 0.5rem !important;
+    border-radius: 0.85rem !important;
+  }
+  .lobby-nav-btn {
+    padding: 0.25rem 0.45rem !important;
+    font-size: 10px !important;
+    letter-spacing: 0.02em !important;
+    border-radius: 0.5rem !important;
+  }
+  #lobby-btn-settings {
+    width: 1.85rem !important;
+    height: 1.85rem !important;
+    font-size: 0.85rem !important;
+    border-radius: 0.5rem !important;
+  }
+  #lobby-currency-pn, #lobby-level-badge-container {
+    padding: 0.25rem 0.45rem !important;
+    font-size: 10px !important;
+  }
+}
+
+/* Responsive Solo Panels: Mobile & Tablet vs Desktop */
+@media (max-width: 1023px) {
+  #lobby-solo-panels {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  #lobby-solo-dossier, #lobby-solo-loadout {
+    position: absolute !important;
+    top: 2.85rem !important;
+    bottom: 0.75rem !important;
+    width: min(92vw, 380px) !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    z-index: 25 !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  #lobby-solo-mobile-tabs {
+    display: none !important;
+  }
+  #lobby-solo-dossier {
+    display: flex !important;
+    position: absolute !important;
+    left: clamp(0.75rem, 2vw, 2rem) !important;
+    right: auto !important;
+    top: clamp(0.75rem, 1.5vw, 1.5rem) !important;
+    bottom: clamp(0.75rem, 1.5vw, 1.5rem) !important;
+    width: clamp(230px, 23vw, 320px) !important;
+    transform: none !important;
+  }
+  #lobby-solo-loadout {
+    display: flex !important;
+    position: absolute !important;
+    right: clamp(0.75rem, 2vw, 2rem) !important;
+    left: auto !important;
+    top: clamp(0.75rem, 1.5vw, 1.5rem) !important;
+    bottom: clamp(0.75rem, 1.5vw, 1.5rem) !important;
+    width: clamp(230px, 23vw, 320px) !important;
+    transform: none !important;
+  }
+}
+
+/* Responsive Footer on Narrow Mobile (width < 640px) */
+@media (max-width: 639px) {
+  #lobby-view-play footer {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.4rem !important;
+  }
+  #lobby-footer-selectors-row {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    gap: 0.4rem !important;
+  }
+  #lobby-footer-selectors-row > div {
+    flex: 1 1 50% !important;
+    width: 50% !important;
+  }
+  #lobby-play-btn-col {
+    width: 100% !important;
+  }
+  #btn-start-game {
+    width: 100% !important;
+    height: 3.5rem !important;
+  }
+  #btn-start-game span:first-child {
+    font-size: 1.6rem !important;
+  }
+  #btn-pwa-install {
+    font-size: 10px !important;
+    padding: 0.3rem 0.5rem !important;
+  }
+}
+
+/* Ultra-Short Displays (Phones in Landscape: height < 520px) */
+@media (max-height: 520px) {
+  #lobby-screen {
+    padding: 0.35rem 0.5rem !important;
+  }
+  #lobby-screen header {
+    padding: 0.2rem 0.5rem !important;
+    border-radius: 0.6rem !important;
+  }
+  .lobby-nav-btn {
+    padding: 0.2rem 0.45rem !important;
+    font-size: 10px !important;
+  }
+  #lobby-slot-2, #lobby-slot-3 {
+    height: 10.5rem !important;
+    width: 7.5rem !important;
+    bottom: 1.25rem !important;
+  }
+  .lobby-nametag-responsive {
+    margin-bottom: 4.5rem !important;
+    padding: 0.2rem 0.55rem !important;
+    font-size: 10px !important;
+  }
+  #lobby-btn-change-skin {
+    padding: 0.25rem 0.6rem !important;
+    font-size: 10px !important;
+  }
+  #lobby-solo-mobile-tabs {
+    top: 0.15rem !important;
+    padding: 0.15rem !important;
+    z-index: 35 !important;
+  }
+  #lobby-solo-dossier, #lobby-solo-loadout {
+    top: 2.35rem !important;
+    bottom: 0.25rem !important;
+    padding: 0.45rem 0.6rem !important;
+  }
+  #btn-start-game {
+    height: 2.85rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  #btn-start-game span:first-child {
+    font-size: 1.25rem !important;
+  }
+  #btn-start-game span:last-child {
+    font-size: 7px !important;
+  }
+}
+
+/* Large & 4K Displays (width >= 2560px) */
+@media (min-width: 2560px) {
+  #lobby-screen {
+    padding: 1.5rem 2.5rem !important;
+  }
+  .lobby-nav-btn {
+    font-size: 1.15rem !important;
+    padding: 0.65rem 1.25rem !important;
+  }
+  #lobby-solo-dossier, #lobby-solo-loadout {
+    width: 380px !important;
+    padding: 1.5rem !important;
+    font-size: 1.1rem !important;
+  }
+  #btn-start-game {
+    height: 5.5rem !important;
+    width: 18rem !important;
+  }
+  #btn-start-game span:first-child {
+    font-size: 2.8rem !important;
+  }
+}
 .lobby-slot-card {
 background: rgba(4, 6, 17, 0.35);
 backdrop-filter: blur(6px);
@@ -605,8 +796,21 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 
     <!-- SINGLE PLAYER DEDICATED PANELS (SOLO DOSSIER & LOADOUT) -->
     <div id="lobby-solo-panels" class="hidden pointer-events-none">
+      <!-- Mobile Solo Subtabs Segmented Pill (Visible on narrow screens < 1024px) -->
+      <div id="lobby-solo-mobile-tabs" class="lg:hidden absolute top-1.5 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1 rounded-xl bg-slate-950/95 border border-amber-500/50 shadow-xl pointer-events-auto z-30">
+        <button id="solo-tab-btn-dossier" type="button" class="px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-amber-300 bg-amber-500/20 border border-amber-400/50 transition">
+          📋 MISSIONE
+        </button>
+        <button id="solo-tab-btn-loadout" type="button" class="px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-slate-400 hover:text-cyan-300 transition">
+          🎒 LOADOUT
+        </button>
+        <button id="solo-tab-btn-operator" type="button" class="px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-slate-400 hover:text-white transition">
+          👨‍🚀 OPERATORE
+        </button>
+      </div>
+
       <!-- LEFT PANEL: DOSSIER MISSIONE SOPRAVVIVENZA -->
-      <div id="lobby-solo-dossier" class="absolute left-2 sm:left-4 md:left-6 top-3 sm:top-5 bottom-3 sm:bottom-5 w-56 sm:w-68 md:w-80 cyber-panel rounded-2xl p-3.5 sm:p-4 border border-amber-400/40 bg-slate-950/90 backdrop-blur-md shadow-[0_0_30px_rgba(245,158,11,0.2)] pointer-events-auto flex flex-col justify-between overflow-y-auto z-10">
+      <div id="lobby-solo-dossier" class="cyber-panel rounded-2xl p-3.5 sm:p-4 border border-amber-400/40 bg-slate-950/90 backdrop-blur-md shadow-[0_0_30px_rgba(245,158,11,0.2)] pointer-events-auto flex flex-col justify-between overflow-y-auto z-10 transition-all duration-200">
         <div>
           <!-- Header -->
           <div class="flex items-center justify-between border-b border-amber-500/30 pb-2.5 mb-2.5">
@@ -673,7 +877,7 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       </div>
 
       <!-- RIGHT PANEL: EQUIPAGGIAMENTO TATTICO SOLO -->
-      <div id="lobby-solo-loadout" class="absolute right-2 sm:right-4 md:right-6 top-3 sm:top-5 bottom-3 sm:bottom-5 w-56 sm:w-68 md:w-80 cyber-panel rounded-2xl p-3.5 sm:p-4 border border-cyan-400/40 bg-slate-950/90 backdrop-blur-md shadow-[0_0_30px_rgba(6,182,212,0.2)] pointer-events-auto flex flex-col justify-between overflow-y-auto z-10">
+      <div id="lobby-solo-loadout" class="cyber-panel rounded-2xl p-3.5 sm:p-4 border border-cyan-400/40 bg-slate-950/90 backdrop-blur-md shadow-[0_0_30px_rgba(6,182,212,0.2)] pointer-events-auto flex flex-col justify-between overflow-y-auto z-10 transition-all duration-200">
         <div>
           <!-- Header -->
           <div class="flex items-center justify-between border-b border-cyan-500/30 pb-2.5 mb-2.5">
@@ -761,15 +965,15 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
     <!-- CENTER SLOT // YOUR OPERATOR -->
     <div class="absolute inset-0 flex flex-col items-center justify-end pb-3 sm:pb-5 pointer-events-none">
       <!-- Player Floating Name Tag (Elevated above astronaut helmet) -->
-      <div class="mb-[11rem] sm:mb-[12.5rem] md:mb-[13.5rem] flex items-center gap-2 bg-slate-950/90 backdrop-blur-md px-4 sm:px-5 py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all pointer-events-auto z-20">
+      <div id="lobby-player-tag-container" class="lobby-nametag-responsive flex items-center gap-2 bg-slate-950/90 backdrop-blur-md px-3 sm:px-5 py-1.5 sm:py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all pointer-events-auto z-20">
         <span class="text-sm">👨‍🚀</span>
-        <span id="lobby-player-name" class="text-sm sm:text-base font-cyber font-black text-white tracking-wide">GHOST-01</span>
-        <span id="lobby-player-lvl-tag" class="px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-xs font-cyber font-black text-cyan-300 font-mono tracking-wider">1 Lv.</span>
+        <span id="lobby-player-name" class="text-xs sm:text-base font-cyber font-black text-white tracking-wide">GHOST-01</span>
+        <span id="lobby-player-lvl-tag" class="px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-[10px] sm:text-xs font-cyber font-black text-cyan-300 font-mono tracking-wider">1 Lv.</span>
         <span id="lobby-player-mode-badge" class="px-2 py-0.5 rounded-md bg-amber-950/90 border border-amber-400/60 text-[9px] font-cyber font-black text-amber-300 font-mono tracking-wider">SOLO</span>
       </div>
 
       <!-- "CAMBIA SKIN" button directly below character -->
-      <button id="lobby-btn-change-skin" type="button" class="relative group px-5 py-2.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 border border-cyan-400/50 hover:border-cyan-400 text-xs sm:text-sm font-cyber font-black uppercase tracking-wider text-cyan-300 transition shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center gap-2 cursor-pointer pointer-events-auto z-20">
+      <button id="lobby-btn-change-skin" type="button" class="relative group px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-slate-900/90 hover:bg-cyan-950 border border-cyan-400/50 hover:border-cyan-400 text-xs sm:text-sm font-cyber font-black uppercase tracking-wider text-cyan-300 transition shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center gap-2 cursor-pointer pointer-events-auto z-20">
         <span>CAMBIA SKIN</span>
         <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
       </button>
@@ -777,21 +981,21 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
   </div>
 
   <!-- BOTTOM BAR // RIGHT ACTION PANEL & CONTROLS -->
-  <footer class="w-full flex flex-col sm:flex-row items-end justify-between gap-3 pointer-events-none">
+  <footer class="w-full flex flex-col sm:flex-row items-end justify-between gap-2.5 sm:gap-3 pointer-events-none">
     <!-- Bottom-Left Buttons -->
     <div class="flex items-center gap-2 pointer-events-auto">
-      <button id="btn-pwa-install" type="button" class="px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5 shadow-lg cursor-pointer">
+      <button id="btn-pwa-install" type="button" class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5 shadow-lg cursor-pointer">
         <span>📲 Installa App / PC</span>
       </button>
-      <button id="lobby-btn-multiplayer-browser" type="button" class="px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5 shadow-lg cursor-pointer">
+      <button id="lobby-btn-multiplayer-browser" type="button" class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5 shadow-lg cursor-pointer">
         <span>🌐 Stanze Online</span>
       </button>
     </div>
 
     <!-- Bottom-Right Action Center -->
-    <div class="flex flex-col sm:flex-row items-end sm:items-center gap-2.5 sm:gap-3 pointer-events-auto">
+    <div class="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-3 w-full sm:w-auto pointer-events-auto">
       <!-- Multiplayer Party Column (Visible only in PVP / COOP) -->
-      <div id="lobby-party-container" class="flex flex-col gap-1 w-52 sm:w-60">
+      <div id="lobby-party-container" class="flex flex-col gap-1 w-full sm:w-56 md:w-60">
         <!-- Party Code Row -->
         <div class="flex items-center justify-between bg-slate-950/85 backdrop-blur-sm px-2.5 py-1 rounded-xl border border-slate-800 text-[10px]">
           <div class="flex items-center gap-1.5 truncate">
@@ -809,7 +1013,7 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       </div>
 
       <!-- Mode & Map Selectors -->
-      <div class="flex flex-col gap-1.5 items-stretch shrink-0 w-44 sm:w-56">
+      <div id="lobby-footer-selectors-row" class="flex flex-col gap-1.5 items-stretch shrink-0 w-44 sm:w-56">
         <!-- Mode Selector Dropdown -->
         <div class="relative">
           <button id="lobby-btn-mode-select" type="button" class="w-full px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 hover:border-cyan-400 text-left transition flex items-center justify-between cursor-pointer shadow-md">
@@ -862,7 +1066,7 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       </div>
 
       <!-- GIANT GIOCA BUTTON -->
-      <div class="flex flex-col items-stretch shrink-0 w-44 sm:w-56">
+      <div id="lobby-play-btn-col" class="flex flex-col items-stretch shrink-0 w-44 sm:w-56">
         <button id="btn-start-game" type="button" class="lobby-play-btn lobby-play-btn-solo group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer">
           <span id="lobby-play-btn-title" class="text-2xl sm:text-4xl font-cyber font-black text-slate-950 tracking-widest uppercase italic drop-shadow-md">
             GIOCA
@@ -874,7 +1078,6 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       </div>
     </div>
   </footer>
-  </div> <!-- /lobby-view-play -->
   </div> <!-- /lobby-view-play -->
 
   <!-- ==================== VIEW 2: ARMERIA (POTENZIAMENTI, MODULI & PRESTIGIO) ==================== -->
@@ -5556,6 +5759,7 @@ function goToLobby() {
 
   updateProfileUI();
   updateLobbyAvatars();
+  if (typeof updateResponsiveScreen === 'function') updateResponsiveScreen();
   if (typeof setLobbyGameMode === 'function') setLobbyGameMode(state.selectedGameMode || 'SOLO');
   if (typeof setActiveNavTab === 'function') setActiveNavTab('nav-tab-play');
 }
@@ -6733,11 +6937,20 @@ gamepadState.prevButtons[i] = isDown(i);
 
 function setupInputListeners() {
 window.addEventListener('resize', () => {
-camera.aspect = window.innerWidth / window.innerHeight;
-camera.updateProjectionMatrix();
-if (renderer) renderer.setSize(window.innerWidth, window.innerHeight);
-state.needsStaticRender = true;
-if (state.mode === 'MENU' && currentMapGroup) currentMapGroup.visible = false;
+  if (typeof updateResponsiveScreen === 'function') {
+    updateResponsiveScreen();
+  } else {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    if (renderer) renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+  state.needsStaticRender = true;
+  if (state.mode === 'MENU' && currentMapGroup) currentMapGroup.visible = false;
+});
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    if (typeof updateResponsiveScreen === 'function') updateResponsiveScreen();
+  }, 100);
 });
 if (profileNameInput) {
 profileNameInput.addEventListener('input', (e) => {
@@ -7046,8 +7259,156 @@ function setLobbyGameMode(selected) {
   if (typeof applyLobbyGameMode3D === 'function') {
     applyLobbyGameMode3D(selected);
   }
+  if (typeof updateSoloMobilePanelVisibility === 'function') {
+    updateSoloMobilePanelVisibility();
+  }
 }
 window.setLobbyGameMode = setLobbyGameMode;
+
+let currentSoloMobileTab = 'MISSION';
+
+function updateSoloMobilePanelVisibility() {
+  const isNarrow = window.innerWidth < 1024;
+  const dossier = byId('lobby-solo-dossier');
+  const loadout = byId('lobby-solo-loadout');
+  const mobileTabs = byId('lobby-solo-mobile-tabs');
+  const tagContainer = byId('lobby-player-tag-container');
+  const skinBtn = byId('lobby-btn-change-skin');
+  const isSolo = state.selectedGameMode === 'SOLO';
+
+  if (!isSolo) {
+    if (tagContainer) tagContainer.style.display = '';
+    if (skinBtn) skinBtn.style.display = '';
+    return;
+  }
+
+  if (mobileTabs) {
+    if (isNarrow) {
+      mobileTabs.classList.remove('hidden');
+      mobileTabs.classList.add('flex');
+    } else {
+      mobileTabs.classList.add('hidden');
+      mobileTabs.classList.remove('flex');
+    }
+  }
+
+  if (isNarrow) {
+    if (currentSoloMobileTab === 'MISSION') {
+      if (dossier) { dossier.classList.remove('hidden'); dossier.classList.add('flex'); }
+      if (loadout) { loadout.classList.add('hidden'); loadout.classList.remove('flex'); }
+      if (tagContainer) tagContainer.style.display = 'none';
+      if (skinBtn) skinBtn.style.display = 'none';
+    } else if (currentSoloMobileTab === 'LOADOUT') {
+      if (dossier) { dossier.classList.add('hidden'); dossier.classList.remove('flex'); }
+      if (loadout) { loadout.classList.remove('hidden'); loadout.classList.add('flex'); }
+      if (tagContainer) tagContainer.style.display = 'none';
+      if (skinBtn) skinBtn.style.display = 'none';
+    } else {
+      // OPERATOR
+      if (dossier) { dossier.classList.add('hidden'); dossier.classList.remove('flex'); }
+      if (loadout) { loadout.classList.add('hidden'); loadout.classList.remove('flex'); }
+      if (tagContainer) tagContainer.style.display = 'flex';
+      if (skinBtn) skinBtn.style.display = 'flex';
+    }
+  } else {
+    // Desktop: show both side panels!
+    if (dossier) { dossier.classList.remove('hidden'); dossier.classList.add('flex'); }
+    if (loadout) { loadout.classList.remove('hidden'); loadout.classList.add('flex'); }
+    if (tagContainer) tagContainer.style.display = 'flex';
+    if (skinBtn) skinBtn.style.display = 'flex';
+  }
+}
+window.updateSoloMobilePanelVisibility = updateSoloMobilePanelVisibility;
+
+function setSoloMobileTab(tab) {
+  currentSoloMobileTab = tab;
+  const btnMission = byId('solo-tab-btn-dossier');
+  const btnLoadout = byId('solo-tab-btn-loadout');
+  const btnOperator = byId('solo-tab-btn-operator');
+
+  if (btnMission) {
+    if (tab === 'MISSION') {
+      btnMission.className = 'px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-amber-300 bg-amber-500/20 border border-amber-400/50 shadow-md transition cursor-pointer';
+    } else {
+      btnMission.className = 'px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-slate-400 hover:text-amber-300 transition cursor-pointer';
+    }
+  }
+  if (btnLoadout) {
+    if (tab === 'LOADOUT') {
+      btnLoadout.className = 'px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-cyan-300 bg-cyan-500/20 border border-cyan-400/50 shadow-md transition cursor-pointer';
+    } else {
+      btnLoadout.className = 'px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-slate-400 hover:text-cyan-300 transition cursor-pointer';
+    }
+  }
+  if (btnOperator) {
+    if (tab === 'OPERATOR') {
+      btnOperator.className = 'px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-white bg-slate-800 border border-slate-600 shadow-md transition cursor-pointer';
+    } else {
+      btnOperator.className = 'px-2.5 py-1 rounded-lg font-cyber text-[9px] font-black uppercase text-slate-400 hover:text-white transition cursor-pointer';
+    }
+  }
+
+  updateSoloMobilePanelVisibility();
+  state.needsStaticRender = true;
+}
+window.setSoloMobileTab = setSoloMobileTab;
+
+function updateResponsiveScreen() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const aspect = w / h;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2.0);
+
+  // 1. Dynamic Three.js Camera FOV & Viewport Framing
+  if (camera) {
+    camera.aspect = aspect;
+    if (state.mode === 'MENU') {
+      if (aspect < 1.0) {
+        // Portrait phone/tablet: wider vertical FOV so astronaut is framed with full height
+        camera.fov = Math.min(94, Math.max(76, 75 / aspect));
+        camera.position.set(0, 1.45, Math.min(7.2, 4.6 / aspect));
+      } else if (aspect < 1.35) {
+        // Tablet / 4:3 display
+        camera.fov = 76;
+        camera.position.set(0, 1.55, 5.4);
+      } else if (aspect > 2.1) {
+        // Ultrawide displays
+        camera.fov = 68;
+        camera.position.set(0, 1.6, 4.6);
+      } else {
+        // Standard 16:9 / 16:10
+        camera.fov = 72;
+        camera.position.set(0, 1.6, 4.8);
+      }
+      camera.lookAt(0, 1.25, 0);
+    } else {
+      // In-Game
+      if (aspect < 1.0) {
+        camera.fov = Math.min(96, 75 / aspect);
+      } else {
+        camera.fov = state.isAiming ? (state.weapon ? state.weapon.adsFov : 50) : 75;
+      }
+    }
+    camera.updateProjectionMatrix();
+  }
+
+  if (renderer) {
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(dpr);
+  }
+
+  // 2. Set root HTML attributes for responsive styling
+  const doc = document.documentElement;
+  doc.setAttribute('data-screen-aspect', aspect < 1.0 ? 'portrait' : (aspect > 2.0 ? 'ultrawide' : 'landscape'));
+  doc.setAttribute('data-screen-tier', w < 640 ? 'mobile' : (w < 1024 ? 'tablet' : (w < 1920 ? 'desktop' : 'large')));
+  doc.setAttribute('data-screen-height', h < 520 ? 'short' : 'normal');
+
+  updateSoloMobilePanelVisibility();
+  if (typeof checkDeviceOrientation === 'function') checkDeviceOrientation();
+
+  state.needsStaticRender = true;
+}
+window.updateResponsiveScreen = updateResponsiveScreen;
 
 document.querySelectorAll('.lobby-mode-option').forEach(opt => {
   opt.addEventListener('click', (e) => {
@@ -7066,8 +7427,19 @@ if (btnSoloArmory) {
   });
 }
 
+// Mobile Solo Subtabs click handlers
+const btnSoloTabMission = byId('solo-tab-btn-dossier');
+if (btnSoloTabMission) btnSoloTabMission.addEventListener('click', (e) => { e.stopPropagation(); sound.init(); sound.playHit(); setSoloMobileTab('MISSION'); });
+
+const btnSoloTabLoadout = byId('solo-tab-btn-loadout');
+if (btnSoloTabLoadout) btnSoloTabLoadout.addEventListener('click', (e) => { e.stopPropagation(); sound.init(); sound.playHit(); setSoloMobileTab('LOADOUT'); });
+
+const btnSoloTabOperator = byId('solo-tab-btn-operator');
+if (btnSoloTabOperator) btnSoloTabOperator.addEventListener('click', (e) => { e.stopPropagation(); sound.init(); sound.playHit(); setSoloMobileTab('OPERATOR'); });
+
 // Initial sync of Lobby Mode UI (Solo by default)
 setLobbyGameMode(state.selectedGameMode || 'SOLO');
+updateResponsiveScreen();
 
 // Party Code & Squad Slots Click
 const btnCopyParty = byId('lobby-btn-copy-party');
