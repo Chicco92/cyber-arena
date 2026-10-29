@@ -9139,16 +9139,16 @@ if (hitCritAny) sound.playHeadshot(); else sound.playHit();
 }
 updateHUD();
 }
-function triggerSingularityBlast(center, radius, splashDamage, colorHex = 0xd946ef) {
+function triggerSingularityBlast(center, radius, splashDamage, colorHex = 0xd946ef, isFromNova = false) {
 spawnParticleBurst(center, colorHex, 8, 7);
 for (let i = enemies.length - 1; i >= 0; i--) {
 const en = enemies[i];
 if (en && en.group.position.distanceTo(center) <= radius) {
-damageEnemy(en, splashDamage, en.group.position);
+damageEnemy(en, splashDamage, en.group.position, false, false, isFromNova ? 'NOVA' : 'WEAPON');
 }
 }
 if (state.activeBoss && state.activeBoss.group.position.distanceTo(center) <= radius) {
-damageBoss(state.activeBoss, splashDamage, state.activeBoss.group.position);
+damageBoss(state.activeBoss, splashDamage, state.activeBoss.group.position, false, false, isFromNova ? 'NOVA' : 'WEAPON');
 }
 }
 function createLaserBeam(start, end, colorHex = 0x22d3ee, width = 0.022) {
@@ -9517,7 +9517,7 @@ if (child.isMesh && child.userData.origMat) child.material = child.userData.orig
 }
 }, 75);
 }
-function damageEnemy(enemy, amount, hitPoint, isCrit = false, isDrone = false) {
+function damageEnemy(enemy, amount, hitPoint, isCrit = false, isDrone = false, damageSource = 'WEAPON') {
 if (!enemy || enemy.hp <= 0) return;
 enemy.hp -= amount;
 flashEnemyHit(enemy);
@@ -9530,9 +9530,9 @@ if (ratio < 0.35 && enemy.hpFill.material && enemy.hpFill.material.color) {
 enemy.hpFill.material.color.setHex(0xef4444);
 }
 }
-if (enemy.hp <= 0) killEnemy(enemy);
+if (enemy.hp <= 0) killEnemy(enemy, damageSource);
 }
-function damageBoss(boss, amount, hitPoint, isCrit = false, isDrone = false) {
+function damageBoss(boss, amount, hitPoint, isCrit = false, isDrone = false, damageSource = 'WEAPON') {
 if (!boss || boss.hp <= 0) return;
 boss.hp -= amount;
 flashBossHit(boss);
@@ -9547,7 +9547,7 @@ const ratio = Math.max(0, state.activeBoss.hp / state.activeBoss.maxHp);
 bossHealthText.textContent = `${Math.round(ratio * 100)}%`;
 bossHealthBar.style.width = `${ratio * 100}%`;
 }
-function killEnemy(enemy) {
+function killEnemy(enemy, damageSource = 'WEAPON') {
 if (enemy.flashTimer) clearTimeout(enemy.flashTimer);
 if (sentinelDrone && sentinelDrone.lockedTarget && sentinelDrone.lockedTarget.ref === enemy) {
 sentinelDrone.lockedTarget = null;
@@ -9564,15 +9564,26 @@ if (st && st.selectedCamo === 'DARK_MATTER') {
 triggerCosmicBlackHole(deathPos);
 }
 registerKillForKillstreak();
+
+const isDirectWeaponKill = (damageSource === 'WEAPON');
+
+// MUNIZIONI VAMPIRICHE:
+// Ci si cura SOLO con uccisioni dirette dell'arma del giocatore!
+// Le morti secondarie da Innesco Instabile ('NOVA'), drone ('DRONE') o suicidi NON curano.
 const vampTier = st.prestigeSkills?.vampiric || 0;
-if (vampTier > 0 && state.health < state.maxHealth) {
+if (isDirectWeaponKill && vampTier > 0 && state.health < state.maxHealth) {
 state.health = Math.min(state.maxHealth, state.health + vampTier * 4);
+updateHUD();
 }
+
+// INNESCO INSTABILE:
+// L'esplosione plasma si innesca da uccisione diretta con l'arma.
+// Le morti dovute a questa esplosione passano 'NOVA' e NON influiscono sulla guarigione.
 const novaTier = st.prestigeSkills?.nova || 0;
-if (novaTier > 0) {
+if (isDirectWeaponKill && novaTier > 0) {
 scene.remove(enemy.group);
 enemies.splice(idx, 1);
-triggerSingularityBlast(deathPos, 5.5, novaTier * 45, 0xd946ef);
+triggerSingularityBlast(deathPos, 5.5, novaTier * 45, 0xd946ef, true /* isFromNova */);
 } else {
 scene.remove(enemy.group);
 enemies.splice(idx, 1);
@@ -9991,9 +10002,9 @@ triggerHitMarker(false);
 const droneDmg = 140;
 
 if (target.kind === 'ENEMY') {
-  damageEnemy(target.ref, droneDmg, impactPoint, false, true);
+  damageEnemy(target.ref, droneDmg, impactPoint, false, true, 'DRONE');
 } else if (target.kind === 'BOSS') {
-  damageBoss(target.ref, droneDmg, impactPoint, false, true);
+  damageBoss(target.ref, droneDmg, impactPoint, false, true, 'DRONE');
 } else if (target.kind === 'PLAYER') {
   if (target.ref) {
     target.ref.currentHp = Math.max(0, (target.ref.currentHp || 100) - droneDmg);
@@ -10151,14 +10162,14 @@ currentEnemies.forEach(en => {
 if (en && en.hp > 0 && en.group) {
 const distXZ = Math.hypot(en.group.position.x - pos.x, en.group.position.z - pos.z);
 if (distXZ <= blastRadius && Math.abs(en.group.position.y - pos.y) < 30) {
-damageEnemy(en, 999, en.group.position);
+damageEnemy(en, 999, en.group.position, false, false, 'SCORESTREAK');
 }
 }
 });
 if (state.activeBoss && state.activeBoss.hp > 0 && state.activeBoss.group) {
 const distXZ = Math.hypot(state.activeBoss.group.position.x - pos.x, state.activeBoss.group.position.z - pos.z);
 if (distXZ <= blastRadius) {
-damageBoss(state.activeBoss, 700, state.activeBoss.group.position);
+damageBoss(state.activeBoss, 700, state.activeBoss.group.position, false, false, 'SCORESTREAK');
 }
 }
 
@@ -10982,7 +10993,17 @@ en.attackCooldown -= dt;
 if (en.type === 'SPIDER') {
 if (dist < 2.5 && Math.abs(camera.position.y - en.group.position.y) < 3.2) {
 applyPlayerDamage(18);
-killEnemy(en);
+if (en.flashTimer) clearTimeout(en.flashTimer);
+if (sentinelDrone && sentinelDrone.lockedTarget && sentinelDrone.lockedTarget.ref === en) {
+sentinelDrone.lockedTarget = null;
+}
+sound.playHit();
+const impactPos = en.group.position.clone();
+impactPos.y += 0.5;
+spawnParticleBurst(impactPos, 0xef4444, 10, 6);
+scene.remove(en.group);
+enemies.splice(i, 1);
+updateHUD();
 continue;
 }
 } else if (en.type === 'WALKER') {
