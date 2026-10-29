@@ -3069,6 +3069,10 @@ currentFirebaseUser = user;
 updateAuthUI();
 if (user) {
 await syncCloudProfileOnLogin(user);
+syncLeaderboardRegistration();
+}
+if (currentLobbyMenu === 'LEADERBOARD') {
+renderLeaderboardView();
 }
 });
 }
@@ -6537,135 +6541,83 @@ function closeTrophiesModal() {
 }
 
 /* ==========================================================================
-   CYBER ARENA // OFFICIAL REGISTERED PLAYERS LEADERBOARD SYSTEM
+   CYBER ARENA // OFFICIAL REGISTERED PLAYERS LEADERBOARD SYSTEM (FIREBASE LIVE)
    ========================================================================== */
 
-const LEADERBOARD_STORAGE_KEY = 'cyberstrike_leaderboard_cache_v2';
+const LEADERBOARD_STORAGE_KEY = 'cyberstrike_leaderboard_registered_v3';
 let currentLeaderboardTab = 'SCORE'; // 'SCORE', 'WAVE', 'KILLS', 'ALL'
-
-// Default verified registered cyber-commando champions
-const DEFAULT_REGISTERED_PLAYERS = {
-  'champ_1': {
-    uid: 'champ_1',
-    name: 'VIPER-X',
-    bestScore: 284500,
-    bestWave: 38,
-    totalKills: 1420,
-    operatorLevel: 28,
-    selectedSuit: 'OBSIDIAN_OPS',
-    trophiesCount: 14,
-    isRegistered: true,
-    updatedAt: Date.now() - 1200000
-  },
-  'champ_2': {
-    uid: 'champ_2',
-    name: 'NEO-STRIKER',
-    bestScore: 241200,
-    bestWave: 35,
-    totalKills: 1280,
-    operatorLevel: 24,
-    selectedSuit: 'NEON_RONIN',
-    trophiesCount: 12,
-    isRegistered: true,
-    updatedAt: Date.now() - 3600000
-  },
-  'champ_3': {
-    uid: 'champ_3',
-    name: 'CYBER-CHAMP',
-    bestScore: 198600,
-    bestWave: 31,
-    totalKills: 1110,
-    operatorLevel: 20,
-    selectedSuit: 'SOLARIS_PRIME',
-    trophiesCount: 11,
-    isRegistered: true,
-    updatedAt: Date.now() - 7200000
-  },
-  'champ_4': {
-    uid: 'champ_4',
-    name: 'GHOST-REAPER',
-    bestScore: 165400,
-    bestWave: 28,
-    totalKills: 940,
-    operatorLevel: 17,
-    selectedSuit: 'DEFAULT',
-    trophiesCount: 9,
-    isRegistered: true,
-    updatedAt: Date.now() - 14400000
-  },
-  'champ_5': {
-    uid: 'champ_5',
-    name: 'TITAN-99',
-    bestScore: 132000,
-    bestWave: 24,
-    totalKills: 790,
-    operatorLevel: 14,
-    selectedSuit: 'OBSIDIAN_OPS',
-    trophiesCount: 7,
-    isRegistered: true,
-    updatedAt: Date.now() - 28800000
-  },
-  'champ_6': {
-    uid: 'champ_6',
-    name: 'SOLAR-PHOENIX',
-    bestScore: 118500,
-    bestWave: 22,
-    totalKills: 650,
-    operatorLevel: 12,
-    selectedSuit: 'SOLARIS_PRIME',
-    trophiesCount: 6,
-    isRegistered: true,
-    updatedAt: Date.now() - 43200000
-  },
-  'champ_7': {
-    uid: 'champ_7',
-    name: 'VALKYRIE-07',
-    bestScore: 94200,
-    bestWave: 19,
-    totalKills: 510,
-    operatorLevel: 10,
-    selectedSuit: 'NEON_RONIN',
-    trophiesCount: 5,
-    isRegistered: true,
-    updatedAt: Date.now() - 57600000
-  },
-  'champ_8': {
-    uid: 'champ_8',
-    name: 'SHADOW-WOLF',
-    bestScore: 78000,
-    bestWave: 16,
-    totalKills: 430,
-    operatorLevel: 8,
-    selectedSuit: 'DEFAULT',
-    trophiesCount: 4,
-    isRegistered: true,
-    updatedAt: Date.now() - 72000000
-  }
-};
 
 let registeredPlayersCache = {};
 
 function initRegisteredPlayersCache() {
+  registeredPlayersCache = {};
   try {
     const raw = window.localStorage ? localStorage.getItem(LEADERBOARD_STORAGE_KEY) : null;
     if (raw) {
-      registeredPlayersCache = Object.assign({}, DEFAULT_REGISTERED_PLAYERS, JSON.parse(raw));
-    } else {
-      registeredPlayersCache = Object.assign({}, DEFAULT_REGISTERED_PLAYERS);
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        Object.keys(parsed).forEach(k => {
+          const item = parsed[k];
+          if (item && !k.startsWith('champ_') && item.name && item.isRegistered) {
+            registeredPlayersCache[k] = item;
+          }
+        });
+      }
     }
   } catch (e) {
-    registeredPlayersCache = Object.assign({}, DEFAULT_REGISTERED_PLAYERS);
+    registeredPlayersCache = {};
   }
 
-  // Real-time Firebase Database Listener (Automatic always-updated sync)
+  // Real-time Firebase Database Listeners (Only authentic registered user accounts)
   if (fbDb) {
     try {
+      // 1. Pull all authentic registered user accounts from /users
+      fbDb.ref('users').on('value', (snapshot) => {
+        const usersVal = snapshot.val();
+        if (usersVal) {
+          Object.keys(usersVal).forEach(uid => {
+            const u = usersVal[uid];
+            if (!u) return;
+            const prof = u.profile || {};
+            const rawName = (prof.name || u.displayName || (u.email ? u.email.split('@')[0] : '')).trim();
+            if (!rawName) return;
+
+            let opLvl = 1;
+            if (typeof getOperatorLevelProgress === 'function' && prof.operatorXp) {
+              opLvl = getOperatorLevelProgress(prof.operatorXp).level;
+            } else if (prof.operatorLevel) {
+              opLvl = prof.operatorLevel;
+            }
+
+            registeredPlayersCache[uid] = {
+              uid: uid,
+              name: rawName.toUpperCase(),
+              email: u.email || '',
+              bestScore: Number(prof.bestScore) || 0,
+              bestWave: Number(prof.bestWave) || 1,
+              totalKills: Number(prof.totalKills) || 0,
+              operatorLevel: opLvl,
+              selectedSuit: prof.selectedSuit || 'DEFAULT',
+              trophiesCount: Array.isArray(prof.unlockedTrophies) ? prof.unlockedTrophies.length : 0,
+              isRegistered: true,
+              updatedAt: u.lastSavedAt || u.createdAt || Date.now()
+            };
+          });
+          saveRegisteredPlayersCache();
+          if (currentLobbyMenu === 'LEADERBOARD') {
+            renderLeaderboardView();
+          }
+        }
+      });
+
+      // 2. Also listen to /leaderboards for real-time live score pushes
       fbDb.ref('leaderboards').on('value', (snapshot) => {
         const val = snapshot.val();
         if (val) {
           Object.keys(val).forEach(key => {
-            if (val[key] && val[key].isRegistered) {
-              registeredPlayersCache[key] = val[key];
+            const entry = val[key];
+            if (entry && !key.startsWith('champ_') && entry.name && entry.isRegistered) {
+              registeredPlayersCache[key] = Object.assign({}, registeredPlayersCache[key] || {}, entry);
             }
           });
           saveRegisteredPlayersCache();
@@ -6689,15 +6641,7 @@ function saveRegisteredPlayersCache() {
 }
 
 function isCurrentPlayerRegistered() {
-  return Boolean(currentFirebaseUser || playerProfile.isRegistered);
-}
-
-function registerCurrentPlayerProfile() {
-  playerProfile.isRegistered = true;
-  savePlayerProfile();
-  syncLeaderboardRegistration();
-  renderLeaderboardView();
-  showAnnouncement('🏆 REGISTRAZIONE COMPLETATA', `${playerProfile.name} è ora ufficialmente iscritto alle classifiche globali!`);
+  return Boolean(currentFirebaseUser && currentFirebaseUser.uid);
 }
 
 function openRegisterModalFromLeaderboard() {
@@ -6709,24 +6653,22 @@ function openRegisterModalFromLeaderboard() {
     authModal.classList.remove('hidden');
     authModal.classList.add('flex');
   } else {
-    registerCurrentPlayerProfile();
+    showAnnouncement('ACCESSO ACCOUNT', 'Usa il pulsante in alto a destra per Accedere o Registrare il tuo account.');
   }
 }
 
 function syncLeaderboardRegistration() {
   if (!isCurrentPlayerRegistered()) return;
 
-  const myId = (currentFirebaseUser && currentFirebaseUser.uid)
-    ? currentFirebaseUser.uid
-    : 'local_reg_' + (playerProfile.name || 'GHOST-01');
-
+  const myId = currentFirebaseUser.uid;
   const myEntry = {
     uid: myId,
-    name: (playerProfile.name || 'GHOST-01').trim().toUpperCase(),
+    name: (playerProfile.name || currentFirebaseUser.displayName || 'OPERATORE').trim().toUpperCase(),
+    email: currentFirebaseUser.email || '',
     bestScore: Math.max(Number(playerProfile.bestScore) || 0, state.score || 0),
     bestWave: Math.max(Number(playerProfile.bestWave) || 1, state.wave || 1),
     totalKills: Number(playerProfile.totalKills) || 0,
-    operatorLevel: getOperatorLevelProgress(playerProfile.operatorXp || 0).level,
+    operatorLevel: (typeof getOperatorLevelProgress === 'function' && playerProfile.operatorXp) ? getOperatorLevelProgress(playerProfile.operatorXp).level : 1,
     selectedSuit: playerProfile.selectedSuit || 'DEFAULT',
     trophiesCount: (playerProfile.unlockedTrophies || []).length,
     isRegistered: true,
@@ -6770,48 +6712,85 @@ function refreshLeaderboardData() {
   sound.playHit();
   syncLeaderboardRegistration();
   if (fbDb) {
-    fbDb.ref('leaderboards').once('value').then(snap => {
-      const val = snap.val();
-      if (val) {
-        Object.keys(val).forEach(k => {
-          if (val[k] && val[k].isRegistered) registeredPlayersCache[k] = val[k];
+    Promise.all([
+      fbDb.ref('users').once('value'),
+      fbDb.ref('leaderboards').once('value')
+    ]).then(([usersSnap, lbSnap]) => {
+      const usersVal = usersSnap.val();
+      if (usersVal) {
+        Object.keys(usersVal).forEach(uid => {
+          const u = usersVal[uid];
+          if (!u) return;
+          const prof = u.profile || {};
+          const rawName = (prof.name || u.displayName || (u.email ? u.email.split('@')[0] : '')).trim();
+          if (!rawName) return;
+
+          let opLvl = 1;
+          if (typeof getOperatorLevelProgress === 'function' && prof.operatorXp) {
+            opLvl = getOperatorLevelProgress(prof.operatorXp).level;
+          } else if (prof.operatorLevel) {
+            opLvl = prof.operatorLevel;
+          }
+
+          registeredPlayersCache[uid] = {
+            uid: uid,
+            name: rawName.toUpperCase(),
+            email: u.email || '',
+            bestScore: Number(prof.bestScore) || 0,
+            bestWave: Number(prof.bestWave) || 1,
+            totalKills: Number(prof.totalKills) || 0,
+            operatorLevel: opLvl,
+            selectedSuit: prof.selectedSuit || 'DEFAULT',
+            trophiesCount: Array.isArray(prof.unlockedTrophies) ? prof.unlockedTrophies.length : 0,
+            isRegistered: true,
+            updatedAt: u.lastSavedAt || u.createdAt || Date.now()
+          };
         });
-        saveRegisteredPlayersCache();
       }
+
+      const lbVal = lbSnap.val();
+      if (lbVal) {
+        Object.keys(lbVal).forEach(k => {
+          if (lbVal[k] && !k.startsWith('champ_') && lbVal[k].isRegistered && lbVal[k].name) {
+            registeredPlayersCache[k] = Object.assign({}, registeredPlayersCache[k] || {}, lbVal[k]);
+          }
+        });
+      }
+
+      saveRegisteredPlayersCache();
       renderLeaderboardView();
-      showLobbyToast('CLASSIFICHE AGGIORNATE', 'Dati globali sincronizzati in tempo reale!');
-    }).catch(() => {
+      showLobbyToast('CLASSIFICHE SINCRONIZZATE', 'Dati reali degli utenti registrati aggiornati!');
+    }).catch(err => {
+      console.warn('Errore refresh:', err);
       renderLeaderboardView();
     });
   } else {
     renderLeaderboardView();
-    showLobbyToast('CLASSIFICHE AGGIORNATE', 'Classifiche verificate con successo!');
+    showLobbyToast('CLASSIFICHE AGGIORNATE', 'Dati verificati con successo!');
   }
 }
 
 function getLeaderboardSortedList(category) {
-  // Sync current player if registered
-  if (isCurrentPlayerRegistered()) {
-    const myId = (currentFirebaseUser && currentFirebaseUser.uid)
-      ? currentFirebaseUser.uid
-      : 'local_reg_' + (playerProfile.name || 'GHOST-01');
-    registeredPlayersCache[myId] = {
+  // Sync current logged-in registered player
+  if (isCurrentPlayerRegistered() && currentFirebaseUser) {
+    const myId = currentFirebaseUser.uid;
+    registeredPlayersCache[myId] = Object.assign({}, registeredPlayersCache[myId] || {}, {
       uid: myId,
-      name: (playerProfile.name || 'GHOST-01').trim().toUpperCase(),
+      name: (playerProfile.name || currentFirebaseUser.displayName || 'OPERATORE').trim().toUpperCase(),
+      email: currentFirebaseUser.email || '',
       bestScore: Math.max(Number(playerProfile.bestScore) || 0, state.score || 0),
       bestWave: Math.max(Number(playerProfile.bestWave) || 1, state.wave || 1),
       totalKills: Number(playerProfile.totalKills) || 0,
-      operatorLevel: getOperatorLevelProgress(playerProfile.operatorXp || 0).level,
+      operatorLevel: (typeof getOperatorLevelProgress === 'function' && playerProfile.operatorXp) ? getOperatorLevelProgress(playerProfile.operatorXp).level : 1,
       selectedSuit: playerProfile.selectedSuit || 'DEFAULT',
       trophiesCount: (playerProfile.unlockedTrophies || []).length,
       isRegistered: true,
-      isCurrentPlayer: true,
       updatedAt: Date.now()
-    };
+    });
   }
 
-  // Filter only registered players
-  const list = Object.values(registeredPlayersCache).filter(p => p && p.isRegistered && p.name);
+  // Strictly filter only authentic registered accounts (NO mock/bot champ_ accounts)
+  const list = Object.values(registeredPlayersCache).filter(p => p && p.isRegistered && p.name && !p.uid.startsWith('champ_'));
 
   if (category === 'SCORE') {
     list.sort((a, b) => (b.bestScore - a.bestScore) || (b.bestWave - a.bestWave) || (b.totalKills - a.totalKills));
@@ -6830,7 +6809,7 @@ function renderLeaderboardView() {
   if (!container) return;
 
   const isReg = isCurrentPlayerRegistered();
-  const myName = (playerProfile.name || 'GHOST-01').toUpperCase();
+  const myName = (playerProfile.name || (currentFirebaseUser && currentFirebaseUser.displayName) || 'OPERATORE').toUpperCase();
 
   // Registration header badge
   if (banner) {
@@ -6839,17 +6818,19 @@ function renderLeaderboardView() {
         <div class="flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/50 px-3 py-1.5 rounded-xl shadow-md">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           <span class="text-[10px] font-cyber text-emerald-300">
-            PROFILO QUALIFICATO: <b class="text-white">${myName}</b>
+            ACCOUNT REGISTRATO: <b class="text-white">${myName}</b>
           </span>
         </div>
       `;
     } else {
       banner.innerHTML = `
-        <div class="flex items-center gap-2 bg-rose-950/80 border border-rose-500/50 px-2.5 py-1 rounded-xl shadow-md">
+        <div class="flex items-center gap-2 bg-slate-900/90 border border-amber-500/50 px-3 py-1.5 rounded-xl shadow-md">
           <span class="text-xs">⚠️</span>
-          <span class="text-[9px] font-cyber text-rose-300">Profilo non registrato in classifica</span>
-          <button type="button" onclick="registerCurrentPlayerProfile()" class="px-2 py-0.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-cyber font-black text-[9px] uppercase transition cursor-pointer shadow active:scale-95">
-            ISCRIVITI ORA
+          <span class="text-[10px] font-cyber text-amber-300">
+            Classifiche riservate agli account registrati
+          </span>
+          <button type="button" onclick="openRegisterModalFromLeaderboard()" class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 font-cyber font-black text-[9px] uppercase transition cursor-pointer shadow hover:brightness-110 active:scale-95">
+            ISCRIVITI / ACCEDI
           </button>
         </div>
       `;
@@ -6859,13 +6840,15 @@ function renderLeaderboardView() {
   // Footer Personal Standing
   if (footerStanding) {
     const scoreList = getLeaderboardSortedList('SCORE');
-    const myRankIdx = scoreList.findIndex(p => p.name === myName);
-    const myRankText = myRankIdx >= 0 ? `#${myRankIdx + 1}` : (isReg ? 'Registrato' : 'Non Registrato');
+    const myRankIdx = scoreList.findIndex(p => (currentFirebaseUser && p.uid === currentFirebaseUser.uid) || p.name === myName);
+    const myRankText = myRankIdx >= 0 ? `#${myRankIdx + 1}` : (isReg ? 'Registrato' : 'Ospite (Non Registrato)');
     footerStanding.innerHTML = `
       <div class="flex items-center gap-3">
         <span>Il Tuo Profilo: <strong class="text-amber-400 font-bold">${myName}</strong></span>
         <span>•</span>
-        <span>Rank Punti: <strong class="text-cyan-300 font-bold">${myRankText}</strong></span>
+        <span>Stato: <strong class="${isReg ? 'text-emerald-400' : 'text-slate-400'} font-bold">${isReg ? 'Ufficiale' : 'Ospite'}</strong></span>
+        <span>•</span>
+        <span>Posizione: <strong class="text-cyan-300 font-bold">${myRankText}</strong></span>
         <span>•</span>
         <span>Punteggio: <strong class="text-white font-mono">${(playerProfile.bestScore || 0).toLocaleString()}</strong></span>
         <span>•</span>
@@ -6884,15 +6867,15 @@ function renderLeaderboardView() {
 
     container.innerHTML = `
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-3.5 pb-3">
-        ${renderMiniLeaderboardColumn('🏆 RECORD PUNTEGGIO', 'SCORE', scoreList, 'PTS', p => p.bestScore.toLocaleString())}
-        ${renderMiniLeaderboardColumn('🌊 ONDATA MASSIMA', 'WAVE', waveList, 'ONDATA', p => 'Liv. ' + p.bestWave)}
-        ${renderMiniLeaderboardColumn('💀 TOTALE UCCISIONI', 'KILLS', killsList, 'KILL', p => p.totalKills.toLocaleString())}
+        ${renderMiniLeaderboardColumn('🏆 RECORD PUNTEGGIO', 'SCORE', scoreList, 'PTS', p => (p.bestScore || 0).toLocaleString())}
+        ${renderMiniLeaderboardColumn('🌊 ONDATA MASSIMA', 'WAVE', waveList, 'ONDATA', p => 'Liv. ' + (p.bestWave || 1))}
+        ${renderMiniLeaderboardColumn('💀 TOTALE UCCISIONI', 'KILLS', killsList, 'KILL', p => (p.totalKills || 0).toLocaleString())}
       </div>
     `;
     return;
   }
 
-  // Single Category Detailed View (Grand Podium + Full Table)
+  // Single Category Detailed View (Olympic Podium + Full Table)
   const list = getLeaderboardSortedList(currentLeaderboardTab);
   const p1 = list[0] || null;
   const p2 = list[1] || null;
@@ -6921,7 +6904,7 @@ function renderLeaderboardView() {
     <div class="mb-5 pt-2">
       <div class="text-[10px] font-cyber text-slate-400 uppercase tracking-widest text-center mb-5 flex items-center justify-center gap-2">
         <span class="w-8 h-[1px] bg-slate-700"></span>
-        <span>PODIO DEI CAMPIONI // ${catTitle}</span>
+        <span>PODIO DEI CAMPIONI UFFICIALI // ${catTitle}</span>
         <span class="w-8 h-[1px] bg-slate-700"></span>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 items-end max-w-4xl mx-auto pt-2">
@@ -6953,13 +6936,13 @@ function renderLeaderboardView() {
       </div>
     </div>
 
-    <!-- Runner-Ups Ranking Table (4° - 20°) -->
+    <!-- Runner-Ups Ranking Table (4°+) -->
     <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-slate-800 bg-slate-950/90 shadow-xl max-w-4xl mx-auto">
       <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
         <span class="text-xs font-cyber font-bold text-slate-300 uppercase tracking-wider">
-          CLASSIFICA OPERATORI QUALIFICATI (#4 - #${3 + runnersUp.length})
+          CLASSIFICA OPERATORI QUALIFICATI (#4+)
         </span>
-        <span class="text-[10px] font-cyber text-slate-500">CIRCUITO VERIFICATO</span>
+        <span class="text-[10px] font-cyber text-slate-500">UTENTI REGISTRATI DATABASE</span>
       </div>
 
       <div class="overflow-x-auto">
@@ -6975,9 +6958,9 @@ function renderLeaderboardView() {
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-800/40">
-            ${runnersUp.map((p, idx) => {
+            ${runnersUp.length > 0 ? runnersUp.map((p, idx) => {
               const rank = idx + 4;
-              const isMe = p.name === myName;
+              const isMe = (currentFirebaseUser && p.uid === currentFirebaseUser.uid) || (p.name === myName);
               return `
                 <tr class="${isMe ? 'bg-cyan-950/40 border border-cyan-500/40 text-cyan-200' : 'hover:bg-slate-900/60 text-slate-300'} transition">
                   <td class="py-2.5 px-3 font-mono font-bold text-slate-400">#${rank}</td>
@@ -6996,12 +6979,18 @@ function renderLeaderboardView() {
                   <td class="py-2.5 px-3 text-right font-black ${catColor} text-sm font-mono">
                     ${catValFn(p)}
                   </td>
-                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${p.bestScore.toLocaleString()}</td>
-                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${p.bestWave}</td>
-                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${p.totalKills.toLocaleString()}</td>
+                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${(p.bestScore || 0).toLocaleString()}</td>
+                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${p.bestWave || 1}</td>
+                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${(p.totalKills || 0).toLocaleString()}</td>
                 </tr>
               `;
-            }).join('')}
+            }).join('') : `
+              <tr>
+                <td colspan="6" class="py-6 text-center text-slate-500 font-cyber text-xs">
+                  Nessun altro utente registrato al momento • Invita i tuoi amici a iscriversi!
+                </td>
+              </tr>
+            `}
           </tbody>
         </table>
       </div>
@@ -7012,10 +7001,16 @@ function renderLeaderboardView() {
 function renderPodiumCardContent(player, catValFn, catUnit, valColor, myName, isFirst = false) {
   if (!player) {
     return `
-      <div class="py-8 text-slate-500 font-cyber text-xs uppercase">In attesa di qualificati...</div>
+      <div class="py-8 flex flex-col items-center justify-center text-center">
+        <div class="w-12 h-12 rounded-2xl bg-slate-900/60 border border-dashed border-slate-700/60 flex items-center justify-center text-slate-500 text-xl mb-2">
+          🔒
+        </div>
+        <div class="text-[11px] font-cyber font-bold text-slate-400 uppercase tracking-wider">Slot Non Assegnato</div>
+        <div class="text-[8px] font-cyber text-slate-500 uppercase mt-1">In attesa di altri utenti registrati</div>
+      </div>
     `;
   }
-  const isMe = player.name === myName;
+  const isMe = (currentFirebaseUser && player.uid === currentFirebaseUser.uid) || (player.name === myName);
   return `
     <div class="mt-3 w-14 h-14 rounded-2xl bg-slate-900/90 border border-slate-700 flex items-center justify-center text-2xl shadow-inner mb-2 relative">
       <span>👨‍🚀</span>
@@ -7046,11 +7041,17 @@ function renderMiniLeaderboardColumn(colTitle, catKey, list, unit, valFn) {
   const p1 = list[0];
   const p2 = list[1];
   const p3 = list[2];
-  const myName = (playerProfile.name || 'GHOST-01').toUpperCase();
+  const myName = (playerProfile.name || (currentFirebaseUser && currentFirebaseUser.displayName) || 'OPERATORE').toUpperCase();
 
   function miniPodiumRow(p, medal, medalColor, medalBorder) {
-    if (!p) return '<div class="text-[10px] text-slate-600 py-1 text-center font-cyber">Nessun operatore</div>';
-    const isMe = p.name === myName;
+    if (!p) {
+      return `
+        <div class="p-2 rounded-xl border border-dashed border-slate-800/80 bg-slate-950/50 flex items-center justify-center text-center text-slate-600 text-[10px] font-cyber">
+          <span>-- Slot Libero --</span>
+        </div>
+      `;
+    }
+    const isMe = (currentFirebaseUser && p.uid === currentFirebaseUser.uid) || (p.name === myName);
     return `
       <div class="p-2 rounded-xl ${medalBorder} bg-slate-950/90 flex items-center justify-between gap-2 shadow-sm ${isMe ? 'ring-1 ring-cyan-400' : ''}">
         <div class="flex items-center gap-2 truncate">
@@ -7087,15 +7088,15 @@ function renderMiniLeaderboardColumn(colTitle, catKey, list, unit, valFn) {
 
       <!-- Runners Up 4-6 -->
       <div class="space-y-1 pt-2 border-t border-slate-800/80">
-        ${list.slice(3, 6).map((p, idx) => {
-          const isMe = p.name === myName;
+        ${list.slice(3, 6).length > 0 ? list.slice(3, 6).map((p, idx) => {
+          const isMe = (currentFirebaseUser && p.uid === currentFirebaseUser.uid) || (p.name === myName);
           return `
             <div class="px-2.5 py-1 rounded-lg bg-slate-900/60 flex items-center justify-between text-[10px] font-cyber ${isMe ? 'border border-cyan-400/60 text-cyan-200' : 'text-slate-300'}">
               <span class="text-slate-500 font-mono">#${idx + 4} ${p.name} ${isMe ? '(TU)' : ''}</span>
               <span class="font-black font-mono">${valFn(p)}</span>
             </div>
           `;
-        }).join('')}
+        }).join('') : '<div class="text-[9px] text-slate-600 text-center py-1 font-cyber italic">Nessun altro utente registrato</div>'}
       </div>
     </div>
   `;
@@ -7104,7 +7105,6 @@ function renderMiniLeaderboardColumn(colTitle, catKey, list, unit, valFn) {
 window.renderLeaderboardView = renderLeaderboardView;
 window.setLeaderboardCategory = setLeaderboardCategory;
 window.refreshLeaderboardData = refreshLeaderboardData;
-window.registerCurrentPlayerProfile = registerCurrentPlayerProfile;
 window.openRegisterModalFromLeaderboard = openRegisterModalFromLeaderboard;
 
 
