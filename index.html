@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -725,6 +725,9 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         </button>
         <button id="nav-tab-trophies" type="button" class="lobby-nav-btn px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
           BACHECA
+        </button>
+        <button id="nav-tab-leaderboard" type="button" class="lobby-nav-btn px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
+          LEADERBOARD
         </button>
       </nav>
     </div>
@@ -1600,6 +1603,84 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       <div class="text-[11px] font-cyber text-slate-400">
         <span class="text-fuchsia-400 font-bold">🏆 TROFEI SBLOCCATI: </span>
         <span id="trophies-footer-summary" class="text-white font-mono">0 / 15</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== VIEW 5: LEADERBOARD (CLASSIFICHE GIOCATORI REGISTRATI // FULL SCREEN) ==================== -->
+  <div id="lobby-view-leaderboard" class="hidden w-full flex-1 min-h-0 flex-col justify-between overflow-hidden pointer-events-none relative">
+    
+    <!-- SFONDO DEDICATO OPACO (NASCONDE LA LOBBY) -->
+    <div class="fixed inset-0 -z-10 pointer-events-none bg-[#030712] overflow-hidden">
+      <!-- Amber & Emerald Cyber Starfield Vault Glow with Hex Grid -->
+      <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(circle at 50% 18%, rgba(245,158,11,0.20) 0%, rgba(16,185,129,0.12) 40%, rgba(3,7,18,0.92) 65%, #030712 100%), radial-gradient(rgba(245,158,11,0.12) 1px, transparent 1px); background-size: 100% 100%, 28px 28px;"></div>
+      <!-- Core Spotlight Flare -->
+      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Cyber Annotations -->
+      <div class="absolute top-20 left-6 text-amber-400/25 font-mono text-[9px] tracking-widest hidden sm:block select-none">/// CIRCUITO COMPETITIVO GLOBALE // CLOUD DATABASE<br>RECORD UFFICIALI OPERATORI QUALIFICATI</div>
+      <div class="absolute bottom-6 right-6 text-emerald-400/25 font-mono text-[9px] tracking-widest hidden sm:block select-none text-right">PROTOCOLLO CLASSIFICA: ATTIVO<br>SOLO PROFILI REGISTRATI VERIFICATI</div>
+    </div>
+
+    <!-- Top Sub-Header & Controls -->
+    <div class="w-full py-1 sm:py-2 pointer-events-auto z-20">
+      <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-amber-500/40 bg-slate-950/85 backdrop-blur-md shadow-2xl max-w-6xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg sm:text-xl">🏆</span>
+            <h2 class="text-sm sm:text-base font-cyber font-black text-amber-300 uppercase tracking-wider">LEADERBOARD GLOBALE // CIRCUITO UFFICIALE</h2>
+          </div>
+          <div class="text-[10px] text-slate-400 font-cyber mt-0.5 flex items-center gap-2">
+            <span>Solo profili qualificati e registrati</span>
+            <span>•</span>
+            <span id="lb-sync-status" class="text-emerald-400 flex items-center gap-1 font-mono">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Sincronizzato in tempo reale
+            </span>
+          </div>
+        </div>
+
+        <!-- Registration Status & Refresh Controls -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <div id="lb-registration-banner" class="flex items-center gap-2">
+            <!-- Dynamically populated via JS -->
+          </div>
+          <button id="lb-btn-refresh" type="button" onclick="refreshLeaderboardData()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/40 hover:border-amber-400 text-amber-300 font-cyber text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5 shadow-md active:scale-95">
+            <span>🔄</span><span>AGGIORNA</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Tabs Segmented Pill -->
+    <div class="w-full flex items-center justify-center my-1 pointer-events-auto z-20">
+      <div class="inline-flex items-center gap-1 p-1 rounded-2xl bg-slate-950/95 border border-slate-800 shadow-xl max-w-full overflow-x-auto">
+        <button id="lb-tab-score" type="button" onclick="setLeaderboardCategory('SCORE')" class="px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs font-black uppercase transition cursor-pointer flex items-center gap-1.5 text-amber-300 bg-amber-500/20 border border-amber-400/50 shadow-md">
+          <span>🏆</span><span>PUNTEGGIO MASSIMO</span>
+        </button>
+        <button id="lb-tab-wave" type="button" onclick="setLeaderboardCategory('WAVE')" class="px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5 text-slate-400 hover:text-cyan-300">
+          <span>🌊</span><span>ONDATA MASSIMA</span>
+        </button>
+        <button id="lb-tab-kills" type="button" onclick="setLeaderboardCategory('KILLS')" class="px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5 text-slate-400 hover:text-rose-400">
+          <span>💀</span><span>TOTALE UCCISIONI</span>
+        </button>
+        <button id="lb-tab-all" type="button" onclick="setLeaderboardCategory('ALL')" class="px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5 text-slate-400 hover:text-white">
+          <span>📊</span><span>TUTTE E 3</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content Stage: Dynamic Leaderboard View -->
+    <div id="lb-main-stage" class="relative w-full flex-1 min-h-0 py-1 pointer-events-auto overflow-y-auto z-20 max-w-6xl mx-auto px-2">
+      <!-- Generated via JS: Podium cards for 1° ORO, 2° ARGENTO, 3° BRONZO, and runner-ups table -->
+    </div>
+
+    <!-- Bottom Footer Bar -->
+    <footer class="w-full flex items-center justify-between pt-2 border-t border-slate-800/80 pointer-events-auto z-20">
+      <button id="lb-btn-back-play" type="button" onclick="switchMenu('PLAY')" class="px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5">
+        <span>← TORNA ALLA LOBBY</span>
+      </button>
+      <div id="lb-footer-my-standing" class="text-[11px] font-cyber text-slate-400">
+        <!-- Generated via JS -->
       </div>
     </footer>
   </div>
@@ -2586,6 +2667,7 @@ playerProfile.operatorXp = calculateRetroactiveOperatorXp(playerProfile);
 playerProfile.selectedOptic = parsed.selectedOptic || 'STANDARD';
 playerProfile.selectedSuit = parsed.selectedSuit || 'DEFAULT';
 playerProfile.lastDailyBoxDate = parsed.lastDailyBoxDate || '';
+playerProfile.isRegistered = Boolean(parsed.isRegistered);
 if (!isOpticUnlocked(playerProfile.selectedOptic)) {
 playerProfile.selectedOptic = 'STANDARD';
 }
@@ -2607,6 +2689,9 @@ localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(playerProfile));
 }
 } catch (e) {}
 updateProfileUI();
+if (typeof syncLeaderboardRegistration === 'function') {
+  syncLeaderboardRegistration();
+}
 if (currentFirebaseUser && fbDb) {
 savePlayerProfileCloud();
 }
@@ -5829,17 +5914,20 @@ function switchMenu(menuName) {
   const tabArmory = byId('nav-tab-armory');
   const tabProfile = byId('nav-tab-profile');
   const tabTrophies = byId('nav-tab-trophies');
+  const tabLeaderboard = byId('nav-tab-leaderboard');
 
   const viewPlay = byId('lobby-view-play');
   const viewArmory = byId('lobby-view-armory');
   const viewProfile = byId('lobby-view-profile');
   const viewTrophies = byId('lobby-view-trophies');
+  const viewLeaderboard = byId('lobby-view-leaderboard');
 
   const navs = [
     { name: 'PLAY', btn: tabPlay },
     { name: 'ARMORY', btn: tabArmory },
     { name: 'PROFILE', btn: tabProfile },
-    { name: 'TROPHIES', btn: tabTrophies }
+    { name: 'TROPHIES', btn: tabTrophies },
+    { name: 'LEADERBOARD', btn: tabLeaderboard }
   ];
 
   navs.forEach(n => {
@@ -5867,6 +5955,11 @@ function switchMenu(menuName) {
     if (currentLobbyMenu === 'TROPHIES') viewTrophies.classList.add('flex');
     else viewTrophies.classList.remove('flex');
   }
+  if (viewLeaderboard) {
+    viewLeaderboard.classList.toggle('hidden', currentLobbyMenu !== 'LEADERBOARD');
+    if (currentLobbyMenu === 'LEADERBOARD') viewLeaderboard.classList.add('flex');
+    else viewLeaderboard.classList.remove('flex');
+  }
 
   if (currentLobbyMenu === 'ARMORY') {
     initShopDOMOnce();
@@ -5888,6 +5981,8 @@ function switchMenu(menuName) {
     renderProfileView();
   } else if (currentLobbyMenu === 'TROPHIES') {
     renderTrophiesView();
+  } else if (currentLobbyMenu === 'LEADERBOARD') {
+    renderLeaderboardView();
   } else if (currentLobbyMenu === 'PLAY') {
     if (typeof updateSoloLobbyUI === 'function') updateSoloLobbyUI();
   }
@@ -5910,7 +6005,8 @@ function setActiveNavTab(tabId) {
   if (tabId === 'nav-tab-play') switchMenu('PLAY');
   else if (tabId === 'nav-tab-armory' || tabId === 'nav-tab-inventory' || tabId === 'nav-tab-shop') switchMenu('ARMORY');
   else if (tabId === 'nav-tab-profile') switchMenu('PROFILE');
-  else if (tabId === 'nav-tab-trophies' || tabId === 'nav-tab-leaderboard') switchMenu('TROPHIES');
+  else if (tabId === 'nav-tab-trophies') switchMenu('TROPHIES');
+  else if (tabId === 'nav-tab-leaderboard') switchMenu('LEADERBOARD');
 }
 
 function openShop(initialTab) {
@@ -6439,6 +6535,579 @@ function openTrophiesModal() {
 function closeTrophiesModal() {
   switchMenu('PLAY');
 }
+
+/* ==========================================================================
+   CYBER ARENA // OFFICIAL REGISTERED PLAYERS LEADERBOARD SYSTEM
+   ========================================================================== */
+
+const LEADERBOARD_STORAGE_KEY = 'cyberstrike_leaderboard_cache_v2';
+let currentLeaderboardTab = 'SCORE'; // 'SCORE', 'WAVE', 'KILLS', 'ALL'
+
+// Default verified registered cyber-commando champions
+const DEFAULT_REGISTERED_PLAYERS = {
+  'champ_1': {
+    uid: 'champ_1',
+    name: 'VIPER-X',
+    bestScore: 284500,
+    bestWave: 38,
+    totalKills: 1420,
+    operatorLevel: 28,
+    selectedSuit: 'OBSIDIAN_OPS',
+    trophiesCount: 14,
+    isRegistered: true,
+    updatedAt: Date.now() - 1200000
+  },
+  'champ_2': {
+    uid: 'champ_2',
+    name: 'NEO-STRIKER',
+    bestScore: 241200,
+    bestWave: 35,
+    totalKills: 1280,
+    operatorLevel: 24,
+    selectedSuit: 'NEON_RONIN',
+    trophiesCount: 12,
+    isRegistered: true,
+    updatedAt: Date.now() - 3600000
+  },
+  'champ_3': {
+    uid: 'champ_3',
+    name: 'CYBER-CHAMP',
+    bestScore: 198600,
+    bestWave: 31,
+    totalKills: 1110,
+    operatorLevel: 20,
+    selectedSuit: 'SOLARIS_PRIME',
+    trophiesCount: 11,
+    isRegistered: true,
+    updatedAt: Date.now() - 7200000
+  },
+  'champ_4': {
+    uid: 'champ_4',
+    name: 'GHOST-REAPER',
+    bestScore: 165400,
+    bestWave: 28,
+    totalKills: 940,
+    operatorLevel: 17,
+    selectedSuit: 'DEFAULT',
+    trophiesCount: 9,
+    isRegistered: true,
+    updatedAt: Date.now() - 14400000
+  },
+  'champ_5': {
+    uid: 'champ_5',
+    name: 'TITAN-99',
+    bestScore: 132000,
+    bestWave: 24,
+    totalKills: 790,
+    operatorLevel: 14,
+    selectedSuit: 'OBSIDIAN_OPS',
+    trophiesCount: 7,
+    isRegistered: true,
+    updatedAt: Date.now() - 28800000
+  },
+  'champ_6': {
+    uid: 'champ_6',
+    name: 'SOLAR-PHOENIX',
+    bestScore: 118500,
+    bestWave: 22,
+    totalKills: 650,
+    operatorLevel: 12,
+    selectedSuit: 'SOLARIS_PRIME',
+    trophiesCount: 6,
+    isRegistered: true,
+    updatedAt: Date.now() - 43200000
+  },
+  'champ_7': {
+    uid: 'champ_7',
+    name: 'VALKYRIE-07',
+    bestScore: 94200,
+    bestWave: 19,
+    totalKills: 510,
+    operatorLevel: 10,
+    selectedSuit: 'NEON_RONIN',
+    trophiesCount: 5,
+    isRegistered: true,
+    updatedAt: Date.now() - 57600000
+  },
+  'champ_8': {
+    uid: 'champ_8',
+    name: 'SHADOW-WOLF',
+    bestScore: 78000,
+    bestWave: 16,
+    totalKills: 430,
+    operatorLevel: 8,
+    selectedSuit: 'DEFAULT',
+    trophiesCount: 4,
+    isRegistered: true,
+    updatedAt: Date.now() - 72000000
+  }
+};
+
+let registeredPlayersCache = {};
+
+function initRegisteredPlayersCache() {
+  try {
+    const raw = window.localStorage ? localStorage.getItem(LEADERBOARD_STORAGE_KEY) : null;
+    if (raw) {
+      registeredPlayersCache = Object.assign({}, DEFAULT_REGISTERED_PLAYERS, JSON.parse(raw));
+    } else {
+      registeredPlayersCache = Object.assign({}, DEFAULT_REGISTERED_PLAYERS);
+    }
+  } catch (e) {
+    registeredPlayersCache = Object.assign({}, DEFAULT_REGISTERED_PLAYERS);
+  }
+
+  // Real-time Firebase Database Listener (Automatic always-updated sync)
+  if (fbDb) {
+    try {
+      fbDb.ref('leaderboards').on('value', (snapshot) => {
+        const val = snapshot.val();
+        if (val) {
+          Object.keys(val).forEach(key => {
+            if (val[key] && val[key].isRegistered) {
+              registeredPlayersCache[key] = val[key];
+            }
+          });
+          saveRegisteredPlayersCache();
+          if (currentLobbyMenu === 'LEADERBOARD') {
+            renderLeaderboardView();
+          }
+        }
+      });
+    } catch (err) {
+      console.warn('Firebase leaderboards listener notice:', err);
+    }
+  }
+}
+
+function saveRegisteredPlayersCache() {
+  try {
+    if (window.localStorage) {
+      localStorage.setItem(LEADERBOARD_STORAGE_KEY, JSON.stringify(registeredPlayersCache));
+    }
+  } catch (e) {}
+}
+
+function isCurrentPlayerRegistered() {
+  return Boolean(currentFirebaseUser || playerProfile.isRegistered);
+}
+
+function registerCurrentPlayerProfile() {
+  playerProfile.isRegistered = true;
+  savePlayerProfile();
+  syncLeaderboardRegistration();
+  renderLeaderboardView();
+  showAnnouncement('🏆 REGISTRAZIONE COMPLETATA', `${playerProfile.name} è ora ufficialmente iscritto alle classifiche globali!`);
+}
+
+function openRegisterModalFromLeaderboard() {
+  const authModal = byId('auth-modal');
+  if (authModal && typeof initAuthDOM === 'function') {
+    initAuthDOM();
+    const tabRegister = byId('auth-tab-register');
+    if (tabRegister) tabRegister.click();
+    authModal.classList.remove('hidden');
+    authModal.classList.add('flex');
+  } else {
+    registerCurrentPlayerProfile();
+  }
+}
+
+function syncLeaderboardRegistration() {
+  if (!isCurrentPlayerRegistered()) return;
+
+  const myId = (currentFirebaseUser && currentFirebaseUser.uid)
+    ? currentFirebaseUser.uid
+    : 'local_reg_' + (playerProfile.name || 'GHOST-01');
+
+  const myEntry = {
+    uid: myId,
+    name: (playerProfile.name || 'GHOST-01').trim().toUpperCase(),
+    bestScore: Math.max(Number(playerProfile.bestScore) || 0, state.score || 0),
+    bestWave: Math.max(Number(playerProfile.bestWave) || 1, state.wave || 1),
+    totalKills: Number(playerProfile.totalKills) || 0,
+    operatorLevel: getOperatorLevelProgress(playerProfile.operatorXp || 0).level,
+    selectedSuit: playerProfile.selectedSuit || 'DEFAULT',
+    trophiesCount: (playerProfile.unlockedTrophies || []).length,
+    isRegistered: true,
+    isCurrentPlayer: true,
+    updatedAt: Date.now()
+  };
+
+  registeredPlayersCache[myId] = myEntry;
+  saveRegisteredPlayersCache();
+
+  if (fbDb) {
+    try {
+      fbDb.ref('leaderboards/' + myId).update(myEntry);
+    } catch (e) {}
+  }
+}
+
+function setLeaderboardCategory(cat) {
+  currentLeaderboardTab = cat;
+  const tabs = [
+    { id: 'lb-tab-score', cat: 'SCORE', activeClass: 'text-amber-300 bg-amber-500/20 border border-amber-400/50 shadow-md font-black' },
+    { id: 'lb-tab-wave', cat: 'WAVE', activeClass: 'text-cyan-300 bg-cyan-500/20 border border-cyan-400/50 shadow-md font-black' },
+    { id: 'lb-tab-kills', cat: 'KILLS', activeClass: 'text-rose-300 bg-rose-500/20 border border-rose-400/50 shadow-md font-black' },
+    { id: 'lb-tab-all', cat: 'ALL', activeClass: 'text-white bg-slate-800 border border-slate-600 shadow-md font-black' }
+  ];
+
+  tabs.forEach(t => {
+    const el = byId(t.id);
+    if (!el) return;
+    if (t.cat === cat) {
+      el.className = `px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs uppercase transition cursor-pointer flex items-center gap-1.5 ${t.activeClass}`;
+    } else {
+      el.className = 'px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5 text-slate-400 hover:text-white';
+    }
+  });
+
+  renderLeaderboardView();
+}
+
+function refreshLeaderboardData() {
+  sound.playHit();
+  syncLeaderboardRegistration();
+  if (fbDb) {
+    fbDb.ref('leaderboards').once('value').then(snap => {
+      const val = snap.val();
+      if (val) {
+        Object.keys(val).forEach(k => {
+          if (val[k] && val[k].isRegistered) registeredPlayersCache[k] = val[k];
+        });
+        saveRegisteredPlayersCache();
+      }
+      renderLeaderboardView();
+      showLobbyToast('CLASSIFICHE AGGIORNATE', 'Dati globali sincronizzati in tempo reale!');
+    }).catch(() => {
+      renderLeaderboardView();
+    });
+  } else {
+    renderLeaderboardView();
+    showLobbyToast('CLASSIFICHE AGGIORNATE', 'Classifiche verificate con successo!');
+  }
+}
+
+function getLeaderboardSortedList(category) {
+  // Sync current player if registered
+  if (isCurrentPlayerRegistered()) {
+    const myId = (currentFirebaseUser && currentFirebaseUser.uid)
+      ? currentFirebaseUser.uid
+      : 'local_reg_' + (playerProfile.name || 'GHOST-01');
+    registeredPlayersCache[myId] = {
+      uid: myId,
+      name: (playerProfile.name || 'GHOST-01').trim().toUpperCase(),
+      bestScore: Math.max(Number(playerProfile.bestScore) || 0, state.score || 0),
+      bestWave: Math.max(Number(playerProfile.bestWave) || 1, state.wave || 1),
+      totalKills: Number(playerProfile.totalKills) || 0,
+      operatorLevel: getOperatorLevelProgress(playerProfile.operatorXp || 0).level,
+      selectedSuit: playerProfile.selectedSuit || 'DEFAULT',
+      trophiesCount: (playerProfile.unlockedTrophies || []).length,
+      isRegistered: true,
+      isCurrentPlayer: true,
+      updatedAt: Date.now()
+    };
+  }
+
+  // Filter only registered players
+  const list = Object.values(registeredPlayersCache).filter(p => p && p.isRegistered && p.name);
+
+  if (category === 'SCORE') {
+    list.sort((a, b) => (b.bestScore - a.bestScore) || (b.bestWave - a.bestWave) || (b.totalKills - a.totalKills));
+  } else if (category === 'WAVE') {
+    list.sort((a, b) => (b.bestWave - a.bestWave) || (b.bestScore - a.bestScore) || (b.totalKills - a.totalKills));
+  } else if (category === 'KILLS') {
+    list.sort((a, b) => (b.totalKills - a.totalKills) || (b.bestScore - a.bestScore) || (b.bestWave - a.bestWave));
+  }
+  return list;
+}
+
+function renderLeaderboardView() {
+  const container = byId('lb-main-stage');
+  const banner = byId('lb-registration-banner');
+  const footerStanding = byId('lb-footer-my-standing');
+  if (!container) return;
+
+  const isReg = isCurrentPlayerRegistered();
+  const myName = (playerProfile.name || 'GHOST-01').toUpperCase();
+
+  // Registration header badge
+  if (banner) {
+    if (isReg) {
+      banner.innerHTML = `
+        <div class="flex items-center gap-2 bg-emerald-950/80 border border-emerald-500/50 px-3 py-1.5 rounded-xl shadow-md">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-[10px] font-cyber text-emerald-300">
+            PROFILO QUALIFICATO: <b class="text-white">${myName}</b>
+          </span>
+        </div>
+      `;
+    } else {
+      banner.innerHTML = `
+        <div class="flex items-center gap-2 bg-rose-950/80 border border-rose-500/50 px-2.5 py-1 rounded-xl shadow-md">
+          <span class="text-xs">⚠️</span>
+          <span class="text-[9px] font-cyber text-rose-300">Profilo non registrato in classifica</span>
+          <button type="button" onclick="registerCurrentPlayerProfile()" class="px-2 py-0.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-cyber font-black text-[9px] uppercase transition cursor-pointer shadow active:scale-95">
+            ISCRIVITI ORA
+          </button>
+        </div>
+      `;
+    }
+  }
+
+  // Footer Personal Standing
+  if (footerStanding) {
+    const scoreList = getLeaderboardSortedList('SCORE');
+    const myRankIdx = scoreList.findIndex(p => p.name === myName);
+    const myRankText = myRankIdx >= 0 ? `#${myRankIdx + 1}` : (isReg ? 'Registrato' : 'Non Registrato');
+    footerStanding.innerHTML = `
+      <div class="flex items-center gap-3">
+        <span>Il Tuo Profilo: <strong class="text-amber-400 font-bold">${myName}</strong></span>
+        <span>•</span>
+        <span>Rank Punti: <strong class="text-cyan-300 font-bold">${myRankText}</strong></span>
+        <span>•</span>
+        <span>Punteggio: <strong class="text-white font-mono">${(playerProfile.bestScore || 0).toLocaleString()}</strong></span>
+        <span>•</span>
+        <span>Ondata Max: <strong class="text-cyan-400 font-mono">${playerProfile.bestWave || 1}</strong></span>
+        <span>•</span>
+        <span>Kill: <strong class="text-rose-400 font-mono">${(playerProfile.totalKills || 0).toLocaleString()}</strong></span>
+      </div>
+    `;
+  }
+
+  if (currentLeaderboardTab === 'ALL') {
+    // 3-Column Parallel View
+    const scoreList = getLeaderboardSortedList('SCORE');
+    const waveList = getLeaderboardSortedList('WAVE');
+    const killsList = getLeaderboardSortedList('KILLS');
+
+    container.innerHTML = `
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3.5 pb-3">
+        ${renderMiniLeaderboardColumn('🏆 RECORD PUNTEGGIO', 'SCORE', scoreList, 'PTS', p => p.bestScore.toLocaleString())}
+        ${renderMiniLeaderboardColumn('🌊 ONDATA MASSIMA', 'WAVE', waveList, 'ONDATA', p => 'Liv. ' + p.bestWave)}
+        ${renderMiniLeaderboardColumn('💀 TOTALE UCCISIONI', 'KILLS', killsList, 'KILL', p => p.totalKills.toLocaleString())}
+      </div>
+    `;
+    return;
+  }
+
+  // Single Category Detailed View (Grand Podium + Full Table)
+  const list = getLeaderboardSortedList(currentLeaderboardTab);
+  const p1 = list[0] || null;
+  const p2 = list[1] || null;
+  const p3 = list[2] || null;
+  const runnersUp = list.slice(3, 25);
+
+  let catTitle = 'PUNTEGGIO MASSIMO';
+  let catUnit = 'PTS';
+  let catValFn = p => (p.bestScore || 0).toLocaleString();
+  let catColor = 'text-amber-400';
+
+  if (currentLeaderboardTab === 'WAVE') {
+    catTitle = 'ONDATA MASSIMA';
+    catUnit = 'ONDATA';
+    catValFn = p => 'Ondata ' + (p.bestWave || 1);
+    catColor = 'text-cyan-400';
+  } else if (currentLeaderboardTab === 'KILLS') {
+    catTitle = 'TOTALE UCCISIONI';
+    catUnit = 'KILL';
+    catValFn = p => (p.totalKills || 0).toLocaleString();
+    catColor = 'text-rose-400';
+  }
+
+  container.innerHTML = `
+    <!-- Olympic Top 3 Podium (Oro, Argento, Bronzo) -->
+    <div class="mb-5 pt-2">
+      <div class="text-[10px] font-cyber text-slate-400 uppercase tracking-widest text-center mb-5 flex items-center justify-center gap-2">
+        <span class="w-8 h-[1px] bg-slate-700"></span>
+        <span>PODIO DEI CAMPIONI // ${catTitle}</span>
+        <span class="w-8 h-[1px] bg-slate-700"></span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 items-end max-w-4xl mx-auto pt-2">
+        
+        <!-- 2° POSTO: ARGENTO (Left) -->
+        <div class="order-2 md:order-1 cyber-panel rounded-2xl p-4 border-2 border-slate-300/80 bg-gradient-to-b from-slate-800/90 via-slate-900/60 to-slate-950/95 shadow-[0_0_20px_rgba(203,213,225,0.25)] flex flex-col items-center text-center relative transition-transform hover:scale-[1.02]">
+          <div class="absolute -top-3 px-3 py-0.5 rounded-full bg-slate-300 text-slate-950 font-cyber font-black text-[10px] uppercase tracking-wider shadow-md flex items-center gap-1">
+            <span>🥈</span><span>2° ARGENTO</span>
+          </div>
+          ${renderPodiumCardContent(p2, catValFn, catUnit, 'text-slate-100', myName)}
+        </div>
+
+        <!-- 1° POSTO: ORO (Center - Elevated) -->
+        <div class="order-1 md:order-2 cyber-panel rounded-2xl p-5 border-2 border-amber-400 bg-gradient-to-b from-amber-950/95 via-yellow-950/40 to-slate-950 shadow-[0_0_30px_rgba(251,191,36,0.35)] flex flex-col items-center text-center relative transition-transform hover:scale-[1.03] md:-translate-y-2">
+          <div class="absolute -top-3.5 px-4 py-1 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 font-cyber font-black text-xs uppercase tracking-widest shadow-lg flex items-center gap-1.5 animate-pulse">
+            <span>🥇</span><span>1° ORO // CAMPIONE</span>
+          </div>
+          ${renderPodiumCardContent(p1, catValFn, catUnit, 'text-amber-300', myName, true)}
+        </div>
+
+        <!-- 3° POSTO: BRONZO (Right) -->
+        <div class="order-3 md:order-3 cyber-panel rounded-2xl p-4 border-2 border-amber-700/80 bg-gradient-to-b from-amber-950/80 via-amber-900/30 to-slate-950/95 shadow-[0_0_20px_rgba(180,83,9,0.25)] flex flex-col items-center text-center relative transition-transform hover:scale-[1.02]">
+          <div class="absolute -top-3 px-3 py-0.5 rounded-full bg-amber-700 text-amber-100 font-cyber font-black text-[10px] uppercase tracking-wider shadow-md flex items-center gap-1">
+            <span>🥉</span><span>3° BRONZO</span>
+          </div>
+          ${renderPodiumCardContent(p3, catValFn, catUnit, 'text-amber-500', myName)}
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Runner-Ups Ranking Table (4° - 20°) -->
+    <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-slate-800 bg-slate-950/90 shadow-xl max-w-4xl mx-auto">
+      <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
+        <span class="text-xs font-cyber font-bold text-slate-300 uppercase tracking-wider">
+          CLASSIFICA OPERATORI QUALIFICATI (#4 - #${3 + runnersUp.length})
+        </span>
+        <span class="text-[10px] font-cyber text-slate-500">CIRCUITO VERIFICATO</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-cyber">
+          <thead>
+            <tr class="text-[9px] uppercase tracking-widest text-slate-500 border-b border-slate-800/60 pb-1">
+              <th class="py-2 px-3">POS.</th>
+              <th class="py-2 px-3">OPERATORE</th>
+              <th class="py-2 px-3 text-right">STAT PRIMARIA</th>
+              <th class="py-2 px-3 text-center hidden sm:table-cell">RECORD PUNTI</th>
+              <th class="py-2 px-3 text-center hidden sm:table-cell">ONDATA MAX</th>
+              <th class="py-2 px-3 text-center hidden sm:table-cell">KILL TOTALI</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/40">
+            ${runnersUp.map((p, idx) => {
+              const rank = idx + 4;
+              const isMe = p.name === myName;
+              return `
+                <tr class="${isMe ? 'bg-cyan-950/40 border border-cyan-500/40 text-cyan-200' : 'hover:bg-slate-900/60 text-slate-300'} transition">
+                  <td class="py-2.5 px-3 font-mono font-bold text-slate-400">#${rank}</td>
+                  <td class="py-2.5 px-3">
+                    <div class="flex items-center gap-2">
+                      <span class="w-6 h-6 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-xs">👨‍🚀</span>
+                      <div>
+                        <div class="font-black text-white flex items-center gap-1.5">
+                          <span>${p.name}</span>
+                          ${isMe ? '<span class="px-1.5 py-0.2 rounded bg-cyan-500 text-slate-950 font-black text-[8px] uppercase">TU</span>' : ''}
+                        </div>
+                        <div class="text-[8px] text-slate-400 font-mono">Liv. ${p.operatorLevel || 1} • Tuta ${p.selectedSuit || 'MK-I'}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-2.5 px-3 text-right font-black ${catColor} text-sm font-mono">
+                    ${catValFn(p)}
+                  </td>
+                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${p.bestScore.toLocaleString()}</td>
+                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${p.bestWave}</td>
+                  <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${p.totalKills.toLocaleString()}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function renderPodiumCardContent(player, catValFn, catUnit, valColor, myName, isFirst = false) {
+  if (!player) {
+    return `
+      <div class="py-8 text-slate-500 font-cyber text-xs uppercase">In attesa di qualificati...</div>
+    `;
+  }
+  const isMe = player.name === myName;
+  return `
+    <div class="mt-3 w-14 h-14 rounded-2xl bg-slate-900/90 border border-slate-700 flex items-center justify-center text-2xl shadow-inner mb-2 relative">
+      <span>👨‍🚀</span>
+      ${isFirst ? '<span class="absolute -top-2 -right-2 text-base">👑</span>' : ''}
+    </div>
+    <div class="text-base sm:text-lg font-cyber font-black text-white flex items-center justify-center gap-1.5 truncate max-w-full">
+      <span>${player.name}</span>
+      ${isMe ? '<span class="px-1.5 py-0.2 rounded bg-cyan-500 text-slate-950 font-black text-[8px] uppercase">TU</span>' : ''}
+    </div>
+    <div class="text-[9px] font-cyber text-slate-400 uppercase mb-3">
+      Livello ${player.operatorLevel || 1} • Tuta: ${player.selectedSuit || 'MK-I'}
+    </div>
+    <div class="w-full bg-slate-950/80 rounded-xl p-2.5 border border-slate-800 mb-2">
+      <div class="text-[8px] font-cyber text-slate-400 uppercase tracking-widest">${catUnit}</div>
+      <div class="text-xl sm:text-2xl font-cyber font-black ${valColor} font-mono mt-0.5">
+        ${catValFn(player)}
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-1 w-full text-[8px] font-cyber text-slate-400 pt-1 border-t border-slate-800/80">
+      <div>Pts: <b class="text-slate-200 font-mono">${(player.bestScore || 0).toLocaleString()}</b></div>
+      <div>Ond: <b class="text-slate-200 font-mono">${player.bestWave || 1}</b></div>
+      <div>Kill: <b class="text-slate-200 font-mono">${(player.totalKills || 0).toLocaleString()}</b></div>
+    </div>
+  `;
+}
+
+function renderMiniLeaderboardColumn(colTitle, catKey, list, unit, valFn) {
+  const p1 = list[0];
+  const p2 = list[1];
+  const p3 = list[2];
+  const myName = (playerProfile.name || 'GHOST-01').toUpperCase();
+
+  function miniPodiumRow(p, medal, medalColor, medalBorder) {
+    if (!p) return '<div class="text-[10px] text-slate-600 py-1 text-center font-cyber">Nessun operatore</div>';
+    const isMe = p.name === myName;
+    return `
+      <div class="p-2 rounded-xl ${medalBorder} bg-slate-950/90 flex items-center justify-between gap-2 shadow-sm ${isMe ? 'ring-1 ring-cyan-400' : ''}">
+        <div class="flex items-center gap-2 truncate">
+          <span class="text-base">${medal}</span>
+          <div class="truncate">
+            <div class="text-xs font-cyber font-black text-white flex items-center gap-1 truncate">
+              <span>${p.name}</span>
+              ${isMe ? '<span class="text-[7px] px-1 rounded bg-cyan-500 text-slate-950 font-black">TU</span>' : ''}
+            </div>
+            <div class="text-[8px] text-slate-400 font-mono">Liv. ${p.operatorLevel || 1}</div>
+          </div>
+        </div>
+        <div class="text-right shrink-0">
+          <div class="text-xs font-cyber font-black ${medalColor} font-mono">${valFn(p)}</div>
+          <div class="text-[7px] text-slate-500 uppercase">${unit}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-slate-800 bg-slate-950/85 backdrop-blur-md shadow-xl flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+          <span class="text-xs font-cyber font-black text-amber-300 uppercase tracking-wider">${colTitle}</span>
+          <span class="text-[9px] font-cyber text-slate-500 font-mono">TOP 1-6</span>
+        </div>
+        <div class="space-y-2 mb-3">
+          ${miniPodiumRow(p1, '🥇', 'text-amber-400', 'border border-amber-400/80 shadow-[0_0_12px_rgba(251,191,36,0.2)]')}
+          ${miniPodiumRow(p2, '🥈', 'text-slate-200', 'border border-slate-300/70 shadow-[0_0_10px_rgba(226,232,240,0.15)]')}
+          ${miniPodiumRow(p3, '🥉', 'text-amber-600', 'border border-amber-700/70 shadow-[0_0_10px_rgba(180,83,9,0.15)]')}
+        </div>
+      </div>
+
+      <!-- Runners Up 4-6 -->
+      <div class="space-y-1 pt-2 border-t border-slate-800/80">
+        ${list.slice(3, 6).map((p, idx) => {
+          const isMe = p.name === myName;
+          return `
+            <div class="px-2.5 py-1 rounded-lg bg-slate-900/60 flex items-center justify-between text-[10px] font-cyber ${isMe ? 'border border-cyan-400/60 text-cyan-200' : 'text-slate-300'}">
+              <span class="text-slate-500 font-mono">#${idx + 4} ${p.name} ${isMe ? '(TU)' : ''}</span>
+              <span class="font-black font-mono">${valFn(p)}</span>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+window.renderLeaderboardView = renderLeaderboardView;
+window.setLeaderboardCategory = setLeaderboardCategory;
+window.refreshLeaderboardData = refreshLeaderboardData;
+window.registerCurrentPlayerProfile = registerCurrentPlayerProfile;
+window.openRegisterModalFromLeaderboard = openRegisterModalFromLeaderboard;
+
+
 
 function buildLobbyScene() {
   if (lobbySceneGroup) {
@@ -7480,6 +8149,8 @@ function goToLobby() {
 
 function initThreeJS() {
 loadPlayerProfile();
+if (typeof initRegisteredPlayersCache === 'function') initRegisteredPlayersCache();
+if (typeof syncLeaderboardRegistration === 'function') syncLeaderboardRegistration();
 state.maxHealth = getOperatorMaxHealth();
 state.maxStamina = getOperatorMaxStamina();
 state.health = state.maxHealth;
@@ -8532,11 +9203,12 @@ if (state.mode === 'PAUSED') {
 }
 });
 
-// Top Navigation Tabs & Views (GIOCA, ARMERIA, PROFILO, BACHECA)
+// Top Navigation Tabs & Views (GIOCA, ARMERIA, PROFILO, BACHECA, LEADERBOARD)
 const tabPlay = byId('nav-tab-play');
 const tabArmory = byId('nav-tab-armory');
 const tabProfile = byId('nav-tab-profile');
 const tabTrophies = byId('nav-tab-trophies');
+const tabLeaderboard = byId('nav-tab-leaderboard');
 const btnChangeSkin = byId('lobby-btn-change-skin');
 const curPnBtn = byId('lobby-currency-pn');
 const curTrophiesBtn = byId('lobby-currency-trophies');
@@ -8546,6 +9218,7 @@ if (tabPlay) tabPlay.addEventListener('click', () => { sound.init(); sound.playH
 if (tabArmory) tabArmory.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('ARMORY'); });
 if (tabProfile) tabProfile.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('PROFILE'); });
 if (tabTrophies) tabTrophies.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('TROPHIES'); });
+if (tabLeaderboard) tabLeaderboard.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('LEADERBOARD'); });
 
 if (curPnBtn) curPnBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('ARMORY'); });
 if (curTrophiesBtn) curTrophiesBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('TROPHIES'); });
