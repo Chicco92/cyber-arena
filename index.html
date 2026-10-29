@@ -174,7 +174,7 @@ box-shadow: 0 0 45px rgba(251, 191, 36, 0.85), inset 0 2px 0 rgba(255, 255, 255,
 
 /* Responsive Operator Nametag & Skin Button */
 .lobby-nametag-responsive {
-  margin-bottom: clamp(65px, 20vh, 200px) !important;
+  margin-bottom: clamp(240px, 42vh, 420px) !important;
 }
 
 /* Responsive Lobby Header on Mobile */
@@ -977,9 +977,9 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
     </div>
 
     <!-- CENTER SLOT // YOUR OPERATOR -->
-    <div class="absolute inset-0 flex flex-col items-center justify-end pb-3 sm:pb-5 pointer-events-none">
-      <!-- Player Floating Name Tag (Elevated above astronaut helmet) -->
-      <div id="lobby-player-tag-container" class="lobby-nametag-responsive flex items-center gap-2 bg-slate-950/90 backdrop-blur-md px-3 sm:px-5 py-1.5 sm:py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all pointer-events-auto z-20">
+    <div class="absolute inset-0 flex flex-col items-center justify-between pt-16 sm:pt-20 pb-4 sm:pb-6 pointer-events-none">
+      <!-- Player Floating Name Tag (Elevated cleanly above astronaut helmet) -->
+      <div id="lobby-player-tag-container" class="flex items-center gap-2 bg-slate-950/90 backdrop-blur-md px-3 sm:px-5 py-1.5 sm:py-2 rounded-full border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.35)] transition-all pointer-events-auto z-20">
         <span class="text-sm">👨‍🚀</span>
         <span id="lobby-player-name" class="text-xs sm:text-base font-cyber font-black text-white tracking-wide">GHOST-01</span>
         <span id="lobby-player-lvl-tag" class="px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-[10px] sm:text-xs font-cyber font-black text-cyan-300 font-mono tracking-wider">1 Lv.</span>
@@ -2075,31 +2075,31 @@ const WEAPONS = [
 id: 'ASSAULT', key: '1', name: "Fucile d'Assalto MK-IV", shortName: "ASSALTO", desc: "Bilanciato Automatico",
 maxAmmo: 32, reloadTime: 1.3, fireRate: 0.115, damage: 36, adsDamage: 47, pellets: 1, hipSpread: 0.04, adsSpread: 0.0,
 adsFov: 48, recoil: 0.11, colorHex: 0x22d3ee, uiColor: '#22d3ee', beamWidth: 0.024,
-adsY: -0.155, adsZ: -0.34, tipZ: -0.58, secret: false, reqLevel: 1, unlockLabel: "LIVELLO OPERATORE 1"
+adsY: -0.145, adsZ: -0.34, tipZ: -0.58, secret: false, reqLevel: 1, unlockLabel: "LIVELLO OPERATORE 1"
 },
 {
 id: 'SMG', key: '2', name: "Mitraglietta Vector-X", shortName: "MITRAGLIETTA", desc: "Cadenza Estrema",
 maxAmmo: 48, reloadTime: 1.0, fireRate: 0.06, damage: 22, adsDamage: 28, pellets: 1, hipSpread: 0.065, adsSpread: 0.008,
 adsFov: 56, recoil: 0.07, colorHex: 0xfacc15, uiColor: '#facc15', beamWidth: 0.018,
-adsY: -0.145, adsZ: -0.32, tipZ: -0.42, secret: false, reqLevel: 3, unlockLabel: "LIVELLO OPERATORE 3"
+adsY: -0.155, adsZ: -0.32, tipZ: -0.42, secret: false, reqLevel: 3, unlockLabel: "LIVELLO OPERATORE 3"
 },
 {
 id: 'SHOTGUN', key: '3', name: "Fucile a Pompa Titan-8", shortName: "POMPA", desc: "8 Dardi Plasma",
 maxAmmo: 8, reloadTime: 1.6, fireRate: 0.62, damage: 27, adsDamage: 33, pellets: 8, hipSpread: 0.12, adsSpread: 0.05,
 adsFov: 58, recoil: 0.25, colorHex: 0xf97316, uiColor: '#f97316', beamWidth: 0.02,
-adsY: -0.14, adsZ: -0.35, tipZ: -0.56, secret: false, reqLevel: 6, unlockLabel: "LIVELLO OPERATORE 6"
+adsY: -0.145, adsZ: -0.35, tipZ: -0.56, secret: false, reqLevel: 6, unlockLabel: "LIVELLO OPERATORE 6"
 },
 {
 id: 'SNIPER', key: '4', name: "Cecchino Railgun V9", shortName: "CECCHINO", desc: "Colpo Perforante",
 maxAmmo: 5, reloadTime: 1.75, fireRate: 0.88, damage: 175, adsDamage: 280, pellets: 1, hipSpread: 0.08, adsSpread: 0.0,
 adsFov: 20, recoil: 0.32, colorHex: 0xf43f5e, uiColor: '#f43f5e', beamWidth: 0.045,
-adsY: -0.17, adsZ: -0.30, tipZ: -0.88, secret: false, isSniper: true, isPiercing: true, reqLevel: 10, unlockLabel: "LIVELLO OPERATORE 10"
+adsY: -0.170, adsZ: -0.30, tipZ: -0.88, secret: false, isSniper: true, isPiercing: true, reqLevel: 10, unlockLabel: "LIVELLO OPERATORE 10"
 },
 {
 id: 'TESLA', key: '5', name: "Arco Elettromagnetico Tesla", shortName: "ARCO TESLA", desc: "Fulmine a Catena (3 Bersagli)",
 maxAmmo: 14, reloadTime: 1.45, fireRate: 0.42, damage: 95, adsDamage: 125, pellets: 1, hipSpread: 0.015, adsSpread: 0.0,
 adsFov: 46, recoil: 0.14, colorHex: 0x38bdf8, uiColor: '#38bdf8', beamWidth: 0.04,
-adsY: -0.15, adsZ: -0.33, tipZ: -0.60, secret: true,
+adsY: -0.160, adsZ: -0.33, tipZ: -0.60, secret: true,
 reqKills: 75, reqWave: 5, reqBosses: 0, unlockLabel: "75 KILL + ONDATA 5",
 singleShot: false, chainTargets: 3, chainRadius: 13.0
 },
@@ -2107,7 +2107,7 @@ singleShot: false, chainTargets: 3, chainRadius: 13.0
 id: 'HYDRA', key: '6', name: "Lanciarazzi Termico Hydra", shortName: "HYDRA RPG", desc: "Missili Termobarici ad Area",
 maxAmmo: 5, reloadTime: 1.95, fireRate: 0.85, damage: 210, adsDamage: 270, pellets: 1, hipSpread: 0.02, adsSpread: 0.0,
 adsFov: 44, recoil: 0.34, colorHex: 0x10b981, uiColor: '#10b981', beamWidth: 0.07,
-adsY: -0.16, adsZ: -0.30, tipZ: -0.66, secret: true,
+adsY: -0.190, adsZ: -0.30, tipZ: -0.66, secret: true,
 reqKills: 200, reqWave: 5, reqBosses: 1, unlockLabel: "1° BOSS + 200 KILL",
 singleShot: true, explosiveRadius: 8.5, splashDamage: 115
 },
@@ -2123,7 +2123,7 @@ singleShot: true, isPiercing: true, explosiveRadius: 4.5, splashDamage: 75
 id: 'SECRET', key: '8', name: "Singolarità Omega", shortName: "OMEGA-X", desc: "Cannone Antimateria Finale",
 maxAmmo: 36, reloadTime: 1.3, fireRate: 0.14, damage: 68, adsDamage: 92, pellets: 2, hipSpread: 0.025, adsSpread: 0.006,
 adsFov: 42, recoil: 0.11, colorHex: 0xd946ef, uiColor: '#d946ef', beamWidth: 0.048,
-adsY: -0.155, adsZ: -0.34, tipZ: -0.62, secret: true,
+adsY: -0.150, adsZ: -0.34, tipZ: -0.62, secret: true,
 reqKills: 750, reqWave: 15, reqBosses: 3, unlockLabel: "3° BOSS + 750 KILL",
 explosiveRadius: 5.2, splashDamage: 42
 }
@@ -4805,18 +4805,18 @@ function getArmoryCamoMaterials(camoId, defaultColorHex) {
     // DEFAULT Cyber
     bodyMat = new THREE.MeshStandardMaterial({
       color: 0x1e293b,
-      metalness: 0.35,
-      roughness: 0.50
+      metalness: 0.55,
+      roughness: 0.38
     });
     accentMat = new THREE.MeshStandardMaterial({
       color: 0x334155,
-      metalness: 0.60,
-      roughness: 0.38
+      metalness: 0.70,
+      roughness: 0.28
     });
     metalMat = new THREE.MeshStandardMaterial({
       color: 0x64748b,
-      metalness: 0.85,
-      roughness: 0.22
+      metalness: 0.88,
+      roughness: 0.18
     });
     gripMat = new THREE.MeshStandardMaterial({
       color: 0x0f172a,
@@ -4826,81 +4826,147 @@ function getArmoryCamoMaterials(camoId, defaultColorHex) {
     glowMat = new THREE.MeshStandardMaterial({
       color: defaultGlow,
       emissive: defaultGlow,
-      emissiveIntensity: 1.3,
-      roughness: 0.20
+      emissiveIntensity: 1.6,
+      roughness: 0.15
     });
   }
 
-  return { body: bodyMat, accent: accentMat, metal: metalMat, grip: gripMat, glow: glowMat };
+  const camoGlowHex = (glowMat && glowMat.emissive && typeof glowMat.emissive.getHex === 'function')
+    ? glowMat.emissive.getHex()
+    : defaultGlow;
+
+  // Ultra-crisp transparent holographic sight glass (semi-transparent tinted optic)
+  const glassMat = new THREE.MeshBasicMaterial({
+    color: camoGlowHex,
+    transparent: true,
+    opacity: 0.20,
+    depthWrite: false
+  });
+  // High-contrast holographic reticle (never occluded by shadows, shines bright)
+  const reticleMat = new THREE.MeshBasicMaterial({
+    color: camoGlowHex,
+    transparent: true,
+    opacity: 0.95,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  });
+  // Digital LED Screen (OLED ammo counter & telemetry)
+  const ledMat = new THREE.MeshBasicMaterial({
+    color: 0x38bdf8
+  });
+  const darkPlateMat = new THREE.MeshStandardMaterial({
+    color: 0x090d16,
+    roughness: 0.75,
+    metalness: 0.40
+  });
+
+  return { body: bodyMat, accent: accentMat, metal: metalMat, grip: gripMat, glow: glowMat, glass: glassMat, reticle: reticleMat, led: ledMat, darkPlate: darkPlateMat };
 }
 
-function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
+function createCompleteArmoryWeapon3D(id, mats, targetMode = 'ARMORY') {
   const m = new THREE.Group();
   const { body, accent, metal, grip, glow } = mats;
+  const glass = mats.glass || glow;
+  const reticle = mats.reticle || glow;
+  const led = mats.led || glow;
+  const darkPlate = mats.darkPlate || metal;
+
+  const isFirstPerson = (targetMode === true || targetMode === 'FIRST_PERSON');
+  const isAvatar = (targetMode === 'AVATAR');
 
   if (id === 'ASSAULT') {
-    // Upper & Lower Receiver
+    // Upper & Lower Receiver with Tactical Detailing
     const upper = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.12, 0.40), body);
     upper.position.set(0, 0.02, 0.02);
     const lower = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.08, 0.26), accent);
     lower.position.set(0, -0.06, 0.01);
-    // Buffer Tube & Buttstock
+    // Ejection Port & Shell Deflector
+    const ejectPort = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.045, 0.10), darkPlate);
+    ejectPort.position.set(0.052, 0.04, 0.06);
+    const shellBrass = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.035, 8), metal);
+    shellBrass.rotateZ(Math.PI / 2); shellBrass.position.set(0.048, 0.04, 0.06);
+    // Fire Selector Switch
+    const selector = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.02, 8), metal);
+    selector.rotateZ(Math.PI / 2); selector.position.set(-0.052, -0.04, 0.07);
+    // Side Digital Ammo Screen (OLED)
+    const ammoScreenBox = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.040, 0.080), darkPlate);
+    ammoScreenBox.position.set(-0.053, 0.04, -0.04);
+    const ammoScreenOLED = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.026, 0.060), led);
+    ammoScreenOLED.position.set(-0.059, 0.04, -0.04);
+    // Buffer Tube & Modular Stock
     const buffer = new THREE.Mesh(new THREE.CylinderGeometry(0.020, 0.020, 0.26, 12), metal);
-    buffer.rotateX(Math.PI / 2);
-    buffer.position.set(0, 0.04, 0.28);
+    buffer.rotateX(Math.PI / 2); buffer.position.set(0, 0.04, 0.28);
     const stock = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.16, 0.22), body);
     stock.position.set(0, 0.01, 0.38);
     const cheekRest = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.045, 0.16), accent);
     cheekRest.position.set(0, 0.095, 0.36);
     const buttPad = new THREE.Mesh(new THREE.BoxGeometry(0.084, 0.17, 0.035), grip);
     buttPad.position.set(0, 0.01, 0.50);
-    // Pistol Grip & Trigger Guard
+    // Pistol Grip with Finger Grooves & Trigger
     const pGrip = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.18, 0.075), grip);
-    pGrip.position.set(0, -0.15, 0.11);
-    pGrip.rotation.x = -0.28;
+    pGrip.position.set(0, -0.15, 0.11); pGrip.rotation.x = -0.28;
     const trigGuard = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.06, 0.08), metal);
     trigGuard.position.set(0, -0.08, 0.05);
     const trigger = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.035, 0.015), glow);
     trigger.position.set(0, -0.075, 0.06);
     // Magwell & Curved Banana Magazine
     const mag = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.26, 0.12), accent);
-    mag.position.set(0, -0.19, -0.08);
-    mag.rotation.x = 0.24;
+    mag.position.set(0, -0.19, -0.08); mag.rotation.x = 0.24;
     const magBase = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.03, 0.13), grip);
-    magBase.position.set(0, -0.31, -0.05);
-    magBase.rotation.x = 0.24;
-    // Quad-Rail Handguard & Barrel
+    magBase.position.set(0, -0.31, -0.05); magBase.rotation.x = 0.24;
+    // Quad-Rail Handguard & Picatinny Rail
     const handguard = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.10, 0.32), accent);
     handguard.position.set(0, 0.02, -0.28);
+    const topRail = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.018, 0.34), metal);
+    topRail.position.set(0, 0.08, -0.28);
+    // Side PEQ Tactical Laser Box
+    const peqBox = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.040, 0.12), darkPlate);
+    peqBox.position.set(0.062, 0.03, -0.25);
+    const laserLens = new THREE.Mesh(new THREE.CircleGeometry(0.012, 10), glow);
+    laserLens.position.set(0.062, 0.03, -0.312);
+    // Fluted Outer Barrel & Multi-Port Muzzle Brake
     const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.020, 0.020, 0.46, 12), metal);
-    barrel.rotateX(Math.PI / 2);
-    barrel.position.set(0, 0.03, -0.42);
+    barrel.rotateX(Math.PI / 2); barrel.position.set(0, 0.03, -0.42);
     const muzzleBrake = new THREE.Mesh(new THREE.CylinderGeometry(0.030, 0.030, 0.08, 10), metal);
-    muzzleBrake.rotateX(Math.PI / 2);
-    muzzleBrake.position.set(0, 0.03, -0.66);
-    // Holographic Reflex Sight
-    const sightBase = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.025, 0.18), metal);
+    muzzleBrake.rotateX(Math.PI / 2); muzzleBrake.position.set(0, 0.03, -0.66);
+    // HOLOGRAPHIC REFLEX SIGHT (OPEN FRAME - UNBLOCKED AIMING VIEW)
+    const sightBase = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.020, 0.14), metal);
     sightBase.position.set(0, 0.09, -0.02);
-    const sightHood = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.08, 0.12), body);
-    sightHood.position.set(0, 0.14, -0.02);
-    const holoGlass = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.055, 0.01), glow);
-    holoGlass.position.set(0, 0.14, -0.02);
-    // Cyber Neon Light Stripe
+    const sightPostL = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.075, 0.12), body);
+    sightPostL.position.set(-0.040, 0.145, -0.02);
+    const sightPostR = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.075, 0.12), body);
+    sightPostR.position.set(0.040, 0.145, -0.02);
+    const sightTop = new THREE.Mesh(new THREE.BoxGeometry(0.092, 0.014, 0.12), body);
+    sightTop.position.set(0, 0.185, -0.02);
+    // Clear transparent tinted glass at y = 0.145
+    const holoGlass = new THREE.Mesh(new THREE.BoxGeometry(0.068, 0.065, 0.002), glass);
+    holoGlass.position.set(0, 0.145, -0.02);
+    // Glowing Reticle (Ring + Dot centered at y = 0.145)
+    const holoRing = new THREE.Mesh(new THREE.RingGeometry(0.011, 0.015, 16), reticle);
+    holoRing.position.set(0, 0.145, -0.019);
+    const holoDot = new THREE.Mesh(new THREE.CircleGeometry(0.003, 8), reticle);
+    holoDot.position.set(0, 0.145, -0.019);
+    // Cyber Neon Light Stripes
     const stripL = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.36), glow);
     stripL.position.set(-0.052, 0.03, -0.05);
     const stripR = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.36), glow);
     stripR.position.set(0.052, 0.03, -0.05);
 
-    m.add(upper, lower, buffer, stock, cheekRest, buttPad, pGrip, trigGuard, trigger, mag, magBase, handguard, barrel, muzzleBrake, sightBase, sightHood, holoGlass, stripL, stripR);
-    if (!isFirstPerson) m.scale.set(1.9, 1.9, 1.9);
-    else m.scale.set(1.0, 1.0, 1.0);
+    m.add(upper, lower, ejectPort, shellBrass, selector, ammoScreenBox, ammoScreenOLED,
+          buffer, stock, cheekRest, buttPad, pGrip, trigGuard, trigger,
+          mag, magBase, handguard, topRail, peqBox, laserLens, barrel, muzzleBrake,
+          sightBase, sightPostL, sightPostR, sightTop, holoGlass, holoRing, holoDot,
+          stripL, stripR);
 
   } else if (id === 'SMG') {
-    // Compact Vector / PDW Chassis
+    // Compact Vector / PDW Chassis with Continuous Rail & Telemetry Screen
     const receiver = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.16, 0.32), body);
     receiver.position.set(0, 0.03, -0.02);
     const topRail = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.025, 0.38), metal);
     topRail.position.set(0, 0.12, -0.04);
+    // Side OLED Round Counter
+    const smgScreen = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.028, 0.060), led);
+    smgScreen.position.set(-0.051, 0.05, -0.02);
     // Retractable PDW Stock Struts & Buttpad
     const strutL = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.28, 8), metal);
     strutL.rotateX(Math.PI / 2); strutL.position.set(-0.048, 0.06, 0.24);
@@ -4908,42 +4974,47 @@ function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
     strutR.rotateX(Math.PI / 2); strutR.position.set(0.048, 0.06, 0.24);
     const pdwPad = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.14, 0.03), grip);
     pdwPad.position.set(0, 0.04, 0.38);
-    // Pistol Grip & Forward Magwell / Angled Foregrip
+    // Pistol Grip & Forward Angled CQB Foregrip
     const pGrip = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.17, 0.075), grip);
-    pGrip.position.set(0, -0.12, 0.07);
-    pGrip.rotation.x = -0.25;
+    pGrip.position.set(0, -0.12, 0.07); pGrip.rotation.x = -0.25;
     const foreGrip = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.13, 0.07), grip);
-    foreGrip.position.set(0, -0.09, -0.20);
-    foreGrip.rotation.x = 0.22;
-    // Long 45-degree Stick Mag
+    foreGrip.position.set(0, -0.09, -0.20); foreGrip.rotation.x = 0.22;
+    // Long 45-degree Stick Mag with Ammo Level Window
     const mag = new THREE.Mesh(new THREE.BoxGeometry(0.052, 0.30, 0.07), accent);
-    mag.position.set(0, -0.18, -0.09);
-    mag.rotation.x = -0.22;
-    // Integrated Heavy Suppressor / Barrel
+    mag.position.set(0, -0.18, -0.09); mag.rotation.x = -0.22;
+    const magGlowStrip = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.18, 0.02), glow);
+    magGlowStrip.position.set(-0.028, -0.18, -0.09); magGlowStrip.rotation.x = -0.22;
+    // Integrated Heavy Suppressor / Shroud with Neon Bands
     const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.28, 12), metal);
-    barrel.rotateX(Math.PI / 2);
-    barrel.position.set(0, 0.04, -0.32);
+    barrel.rotateX(Math.PI / 2); barrel.position.set(0, 0.04, -0.32);
     const muzzleTip = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.036, 0.04, 12), accent);
-    muzzleTip.rotateX(Math.PI / 2);
-    muzzleTip.position.set(0, 0.04, -0.46);
-    // Micro Reflex Sight
-    const sight = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.06, 0.08), body);
-    sight.position.set(0, 0.16, 0.02);
-    const sightDot = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.035, 0.01), glow);
-    sightDot.position.set(0, 0.16, 0.02);
+    muzzleTip.rotateX(Math.PI / 2); muzzleTip.position.set(0, 0.04, -0.46);
+    // MICRO REFLEX CYBER SIGHT (OPEN FRAME - UNBLOCKED AIMING VIEW)
+    const sightBase = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.018, 0.08), metal);
+    sightBase.position.set(0, 0.12, 0.02);
+    const sightPostL = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.065, 0.06), body);
+    sightPostL.position.set(-0.032, 0.155, 0.02);
+    const sightPostR = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.065, 0.06), body);
+    sightPostR.position.set(0.032, 0.155, 0.02);
+    const sightTop = new THREE.Mesh(new THREE.BoxGeometry(0.072, 0.010, 0.06), body);
+    sightTop.position.set(0, 0.190, 0.02);
+    const reflexGlass = new THREE.Mesh(new THREE.BoxGeometry(0.056, 0.058, 0.002), glass);
+    reflexGlass.position.set(0, 0.155, 0.02);
+    const reflexDot = new THREE.Mesh(new THREE.CircleGeometry(0.004, 10), reticle);
+    reflexDot.position.set(0, 0.155, 0.021);
     // Side Cyber Glow Line
     const sideGlow = new THREE.Mesh(new THREE.BoxGeometry(0.102, 0.02, 0.22), glow);
     sideGlow.position.set(0, 0.03, -0.04);
 
-    m.add(receiver, topRail, strutL, strutR, pdwPad, pGrip, foreGrip, mag, barrel, muzzleTip, sight, sightDot, sideGlow);
-    if (!isFirstPerson) m.scale.set(2.1, 2.1, 2.1);
-    else m.scale.set(1.0, 1.0, 1.0);
+    m.add(receiver, topRail, smgScreen, strutL, strutR, pdwPad, pGrip, foreGrip,
+          mag, magGlowStrip, barrel, muzzleTip,
+          sightBase, sightPostL, sightPostR, sightTop, reflexGlass, reflexDot, sideGlow);
 
   } else if (id === 'SHOTGUN') {
-    // Heavy Receiver
+    // Heavy Armored Receiver with Side-Saddle Plasma Shell Carrier
     const receiver = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.16, 0.38), body);
     receiver.position.set(0, 0.03, 0.02);
-    // Full Tactical Solid Stock with Cheekrest & Thick Rubber Pad
+    // Solid Tactical Stock with Cheek Comb & Thick Recoil Pad
     const stock = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.15, 0.32), body);
     stock.position.set(0, -0.01, 0.34);
     const comb = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.04, 0.20), accent);
@@ -4952,8 +5023,7 @@ function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
     recoilPad.position.set(0, -0.01, 0.50);
     // Heavy Combat Grip & Trigger
     const pGrip = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.19, 0.08), grip);
-    pGrip.position.set(0, -0.15, 0.13);
-    pGrip.rotation.x = -0.25;
+    pGrip.position.set(0, -0.15, 0.13); pGrip.rotation.x = -0.25;
     const trig = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.04, 0.02), glow);
     trig.position.set(0, -0.08, 0.07);
     // Twin Heavy Bore Barrels (Upper main shot barrel + lower tube magazine)
@@ -4961,42 +5031,61 @@ function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
     topBarrel.rotateX(Math.PI / 2); topBarrel.position.set(0, 0.065, -0.34);
     const tubeMag = new THREE.Mesh(new THREE.CylinderGeometry(0.030, 0.030, 0.48, 12), metal);
     tubeMag.rotateX(Math.PI / 2); tubeMag.position.set(0, -0.01, -0.31);
-    // Ribbed Pump Slide / Forend
+    // Ribbed Tactile Pump Slide
     const pumpSlide = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.09, 0.22), grip);
     pumpSlide.position.set(0, -0.01, -0.26);
-    // Breaching Spiked Muzzle Brake
+    // Spiked Breaching Muzzle Brake with Gas Vents
     const breachMuzzle = new THREE.Mesh(new THREE.CylinderGeometry(0.040, 0.040, 0.08, 8), accent);
     breachMuzzle.rotateX(Math.PI / 2); breachMuzzle.position.set(0, 0.065, -0.62);
-    // Vented Heat Shield & Glowing Sights
+    // Perforated Heat Shield
     const heatShield = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.03, 0.32), accent);
     heatShield.position.set(0, 0.10, -0.26);
-    const sightPost = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.04, 0.02), glow);
-    sightPost.position.set(0, 0.11, -0.58);
-    const shellRack = new THREE.Mesh(new THREE.BoxGeometry(0.145, 0.06, 0.14), glow);
-    shellRack.position.set(0, 0.04, 0.04);
+    // Side Shell Carrier with 4 glowing plasma rounds
+    const shellRack = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.06, 0.16), darkPlate);
+    shellRack.position.set(0.075, 0.04, 0.04);
+    m.add(shellRack);
+    for (let i = 0; i < 4; i++) {
+      const shell = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.045, 8), glow);
+      shell.rotateZ(Math.PI / 2); shell.position.set(0.088, 0.04, 0.09 - i * 0.035);
+      m.add(shell);
+    }
+    // GHOST RING COMBAT SIGHT (OPEN CIRCLE APERTURE - ZERO OCCLUSION)
+    // Rear Ghost Ring at y = 0.145, z = 0.12
+    const rearMount = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.02, 0.04), metal);
+    rearMount.position.set(0, 0.115, 0.12);
+    const ghostRing = new THREE.Mesh(new THREE.TorusGeometry(0.018, 0.004, 8, 20), metal);
+    ghostRing.position.set(0, 0.145, 0.12);
+    // Front High-Vis Fiber Optic Bead at y = 0.145, z = -0.58
+    const frontMount = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.03, 0.02), metal);
+    frontMount.position.set(0, 0.125, -0.58);
+    const frontBead = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.02, 8), glow);
+    frontBead.rotateX(Math.PI / 2); frontBead.position.set(0, 0.145, -0.58);
 
-    m.add(receiver, stock, comb, recoilPad, pGrip, trig, topBarrel, tubeMag, pumpSlide, breachMuzzle, heatShield, sightPost, shellRack);
-    if (!isFirstPerson) m.scale.set(1.8, 1.8, 1.8);
-    else m.scale.set(1.0, 1.0, 1.0);
+    m.add(receiver, stock, comb, recoilPad, pGrip, trig, topBarrel, tubeMag, pumpSlide,
+          breachMuzzle, heatShield, rearMount, ghostRing, frontMount, frontBead);
 
   } else if (id === 'SNIPER') {
-    // Long Antimateriel Receiver with Ejection Port & Bolt
+    // Antimateriel Receiver with Bolt Handle & Telemetry Display
     const receiver = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.15, 0.52), body);
     receiver.position.set(0, 0.03, 0.04);
     const boltHandle = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.09, 6), metal);
     boltHandle.rotateZ(Math.PI / 3); boltHandle.position.set(0.07, 0.05, 0.16);
-    // Skeleton Precision Stock with Cheek Riser & Monopod
+    // Side Ballistics Screen
+    const balScreen = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.032, 0.080), led);
+    balScreen.position.set(-0.058, 0.05, 0.06);
+    // Skeleton Precision Stock with Adjustable Cheek Riser & Monopod
     const stock = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.16, 0.38), body);
     stock.position.set(0, -0.01, 0.44);
     const cheekRiser = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.05, 0.20), accent);
     cheekRiser.position.set(0, 0.09, 0.40);
     const buttPad = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.18, 0.04), grip);
     buttPad.position.set(0, -0.01, 0.63);
+    const monoPod = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.10, 6), metal);
+    monoPod.position.set(0, -0.12, 0.58);
     // Precision Vertical Match Grip
     const pGrip = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.19, 0.07), grip);
-    pGrip.position.set(0, -0.15, 0.18);
-    pGrip.rotation.x = -0.15;
-    // Heavy AP Straight Magazine
+    pGrip.position.set(0, -0.15, 0.18); pGrip.rotation.x = -0.15;
+    // Straight Heavy AP Box Magazine
     const mag = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.22, 0.14), accent);
     mag.position.set(0, -0.18, -0.04);
     // Long Heavy Bull Barrel & Accelerator Side Rails
@@ -5006,34 +5095,39 @@ function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
     railL.position.set(-0.042, 0.04, -0.50);
     const railR = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.045, 0.68), accent);
     railR.position.set(0.042, 0.04, -0.50);
-    // Huge 50-Cal Multistage Muzzle Brake
+    // Beam Conduit
+    const beam = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.02, 0.66), glow);
+    beam.position.set(0, 0.04, -0.50);
+    // Massive 50-Cal Multistage Muzzle Brake
     const brake = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.05, 0.14), metal);
     brake.position.set(0, 0.04, -0.96);
-    // High-Magnification Scope with Mounts
+    // Folded Precision Bipod
+    const bipod = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.03, 0.24), metal);
+    bipod.position.set(0, -0.02, -0.42);
+    // HIGH-MAGNIFICATION TACTICAL RAILGUN SCOPE
     const scopeTube = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.030, 0.42, 12), metal);
     scopeTube.rotateX(Math.PI / 2); scopeTube.position.set(0, 0.18, 0.02);
     const scopeBell = new THREE.Mesh(new THREE.CylinderGeometry(0.046, 0.034, 0.10, 12), accent);
     scopeBell.rotateX(Math.PI / 2); scopeBell.position.set(0, 0.18, -0.22);
-    const scopeLens = new THREE.Mesh(new THREE.CircleGeometry(0.040, 16), glow);
+    const scopeLens = new THREE.Mesh(new THREE.CircleGeometry(0.040, 16), glass);
     scopeLens.position.set(0, 0.18, -0.275);
     const mountF = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.07, 0.04), metal); mountF.position.set(0, 0.13, -0.08);
     const mountR = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.07, 0.04), metal); mountR.position.set(0, 0.13, 0.12);
-    // Folded Bipod Under Barrel
-    const bipod = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.03, 0.24), metal);
-    bipod.position.set(0, -0.02, -0.42);
-    // Energy Beam Conduit
-    const beam = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.02, 0.66), glow);
-    beam.position.set(0, 0.04, -0.50);
+    // Turret Dials
+    const turretTop = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.02, 8), metal);
+    turretTop.position.set(0, 0.22, 0.02);
+    const turretSide = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.02, 8), metal);
+    turretSide.rotateZ(Math.PI / 2); turretSide.position.set(0.04, 0.18, 0.02);
 
-    m.add(receiver, boltHandle, stock, cheekRiser, buttPad, pGrip, mag, barrel, railL, railR, brake, scopeTube, scopeBell, scopeLens, mountF, mountR, bipod, beam);
-    if (!isFirstPerson) m.scale.set(1.55, 1.55, 1.55);
-    else m.scale.set(1.0, 1.0, 1.0);
+    m.add(receiver, boltHandle, balScreen, stock, cheekRiser, buttPad, monoPod,
+          pGrip, mag, barrel, railL, railR, beam, brake, bipod,
+          scopeTube, scopeBell, scopeLens, mountF, mountR, turretTop, turretSide);
 
   } else if (id === 'TESLA') {
-    // High-Voltage Chassis
+    // High-Voltage Chassis with Cable Loops & Energy Gauges
     const receiver = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.17, 0.42), body);
     receiver.position.set(0, 0.03, 0);
-    // Cyber-Strut Skeleton Stock & Grounding Pad
+    // Grounding Strut Skeleton Stock
     const stockL = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.32, 8), metal);
     stockL.rotateX(Math.PI / 2); stockL.position.set(-0.045, 0.02, 0.32);
     const stockR = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.32, 8), metal);
@@ -5042,53 +5136,66 @@ function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
     groundPad.position.set(0, 0.01, 0.48);
     // Insulated Grips
     const rearGrip = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.19, 0.08), grip);
-    rearGrip.position.set(0, -0.15, 0.14);
-    rearGrip.rotation.x = -0.22;
+    rearGrip.position.set(0, -0.15, 0.14); rearGrip.rotation.x = -0.22;
     const frontHandle = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.14, 0.06), grip);
     frontHandle.position.set(0, -0.12, -0.12);
-    // Diagonal Glowing Plasma Battery Cell
+    // Diagonal Glowing Plasma Battery Cell with Fluid Level Marks
     const cell = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.048, 0.22, 12), glow);
     cell.rotateX(0.45); cell.position.set(0, -0.16, 0.01);
-    // 3 Concentric Torus Arc Rings
+    // 3 Concentric Torus Arc Rings (Kept under y = 0.10 so they NEVER block sightline)
     for (let i = 0; i < 3; i++) {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.085, 0.015, 8, 18), glow);
-      ring.position.set(0, 0.03, -0.20 - i * 0.13);
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.075, 0.014, 8, 18), glow);
+      ring.position.set(0, 0.02, -0.20 - i * 0.13);
       m.add(ring);
       if (i === 0 && isFirstPerson) teslaArcRing = ring;
     }
-    // Twin Heavy Forward Tuning Fork Prongs
+    // Twin Heavy Forward Discharge Tuning Fork Prongs
     const prongL = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.07, 0.44), accent);
-    prongL.position.set(-0.085, 0.03, -0.40);
+    prongL.position.set(-0.085, 0.02, -0.40);
     const prongR = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.07, 0.44), accent);
-    prongR.position.set(0.085, 0.03, -0.40);
+    prongR.position.set(0.085, 0.02, -0.40);
     const tipL = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.08, 6), metal);
-    tipL.rotateX(-Math.PI / 2); tipL.position.set(-0.085, 0.03, -0.65);
+    tipL.rotateX(-Math.PI / 2); tipL.position.set(-0.085, 0.02, -0.65);
     const tipR = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.08, 6), metal);
-    tipR.rotateX(-Math.PI / 2); tipR.position.set(0.085, 0.03, -0.65);
+    tipR.rotateX(-Math.PI / 2); tipR.position.set(0.085, 0.02, -0.65);
     // Central Plasma Conduit
     const coreBeam = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.48, 10), metal);
-    coreBeam.rotateX(Math.PI / 2); coreBeam.position.set(0, 0.03, -0.34);
+    coreBeam.rotateX(Math.PI / 2); coreBeam.position.set(0, 0.02, -0.34);
+    // ELECTROMAGNETIC FLUX SIGHT (ELEVATED OPEN APERTURE - ZERO OCCLUSION)
+    const fluxBase = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.03, 0.12), metal);
+    fluxBase.position.set(0, 0.115, -0.02);
+    const fluxPostL = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.075, 0.10), body);
+    fluxPostL.position.set(-0.040, 0.160, -0.02);
+    const fluxPostR = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.075, 0.10), body);
+    fluxPostR.position.set(0.040, 0.160, -0.02);
+    const fluxTop = new THREE.Mesh(new THREE.BoxGeometry(0.090, 0.012, 0.10), body);
+    fluxTop.position.set(0, 0.198, -0.02);
+    const fluxGlass = new THREE.Mesh(new THREE.BoxGeometry(0.070, 0.065, 0.002), glass);
+    fluxGlass.position.set(0, 0.160, -0.02);
+    // Holographic Lightning Chevron Reticle
+    const reticleRing = new THREE.Mesh(new THREE.RingGeometry(0.012, 0.016, 16), reticle);
+    reticleRing.position.set(0, 0.160, -0.019);
+    const reticleDot = new THREE.Mesh(new THREE.CircleGeometry(0.003, 8), reticle);
+    reticleDot.position.set(0, 0.160, -0.019);
 
-    m.add(receiver, stockL, stockR, groundPad, rearGrip, frontHandle, cell, prongL, prongR, tipL, tipR, coreBeam);
-    if (!isFirstPerson) m.scale.set(1.8, 1.8, 1.8);
-    else m.scale.set(1.0, 1.0, 1.0);
+    m.add(receiver, stockL, stockR, groundPad, rearGrip, frontHandle, cell,
+          prongL, prongR, tipL, tipR, coreBeam,
+          fluxBase, fluxPostL, fluxPostR, fluxTop, fluxGlass, reticleRing, reticleDot);
 
   } else if (id === 'HYDRA') {
-    // Massive Quad Missile Launcher Housing
+    // Massive Quad Missile Launcher Housing & Counterweight
     const housing = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.22, 0.44), body);
     housing.position.set(0, 0.03, 0.04);
-    // Shoulder Rest / Heavy Counterweight
     const shoulderRest = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.19, 0.26), body);
     shoulderRest.position.set(0, 0.03, 0.36);
     const shoulderPad = new THREE.Mesh(new THREE.BoxGeometry(0.184, 0.194, 0.04), grip);
     shoulderPad.position.set(0, 0.03, 0.49);
-    // Bottom Pistol Grip & Side Forward Grip
+    // Bottom Main Grip & Side Forward Grip
     const mainGrip = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.20, 0.08), grip);
-    mainGrip.position.set(0, -0.17, 0.12);
-    mainGrip.rotation.x = -0.2;
+    mainGrip.position.set(0, -0.17, 0.12); mainGrip.rotation.x = -0.2;
     const sideGrip = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.16, 0.05), grip);
     sideGrip.position.set(0.15, -0.06, -0.12);
-    // 4 Heavy Missile Launch Tubes (2x2 grid)
+    // 4 Heavy Missile Launch Tubes (2x2 grid) with Armed LEDs
     const offsets = [
       [-0.055, 0.085],
       [ 0.055, 0.085],
@@ -5100,46 +5207,60 @@ function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
       tube.rotateX(Math.PI / 2); tube.position.set(ox, oy, -0.28);
       const warhead = new THREE.Mesh(new THREE.ConeGeometry(0.034, 0.08, 10), glow);
       warhead.rotateX(-Math.PI / 2); warhead.position.set(ox, oy, -0.54);
-      m.add(tube, warhead);
+      const armLed = new THREE.Mesh(new THREE.CircleGeometry(0.008, 6), led);
+      armLed.position.set(ox, oy + 0.045, -0.48);
+      m.add(tube, warhead, armLed);
     });
-    // Armored Front Cowl Faceplate
+    // Front Cowl Faceplate & Side Sensor Pod
     const faceplate = new THREE.Mesh(new THREE.BoxGeometry(0.21, 0.23, 0.05), accent);
     faceplate.position.set(0, 0.03, -0.46);
-    // Side Targeting Pod with Sensor Eye
-    const targetPod = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.18), accent);
+    const targetPod = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.18), darkPlate);
     targetPod.position.set(-0.14, 0.10, -0.04);
     const eye = new THREE.Mesh(new THREE.CircleGeometry(0.030, 14), glow);
     eye.position.set(-0.14, 0.10, -0.132);
+    // SMART-LOCK TARGETING VISOR HUD (ELEVATED AT y = 0.190 - ZERO OCCLUSION)
+    const visorBase = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.025, 0.12), metal);
+    visorBase.position.set(0, 0.145, 0.04);
+    const visorArmL = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.075, 0.10), body);
+    visorArmL.position.set(-0.065, 0.190, 0.04);
+    const visorArmR = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.075, 0.10), body);
+    visorArmR.position.set(0.065, 0.190, 0.04);
+    const visorTop = new THREE.Mesh(new THREE.BoxGeometry(0.142, 0.012, 0.10), body);
+    visorTop.position.set(0, 0.230, 0.04);
+    const visorScreen = new THREE.Mesh(new THREE.BoxGeometry(0.118, 0.070, 0.003), glass);
+    visorScreen.position.set(0, 0.190, 0.04);
+    // High-Tech Cyber Lock-On HUD Reticle
+    const lockBox = new THREE.Mesh(new THREE.RingGeometry(0.014, 0.018, 4), reticle);
+    lockBox.rotateZ(Math.PI / 4); lockBox.position.set(0, 0.190, 0.041);
+    const lockCross = new THREE.Mesh(new THREE.CircleGeometry(0.003, 8), reticle);
+    lockCross.position.set(0, 0.190, 0.041);
 
-    m.add(housing, shoulderRest, shoulderPad, mainGrip, sideGrip, faceplate, targetPod, eye);
-    if (!isFirstPerson) m.scale.set(1.7, 1.7, 1.7);
-    else m.scale.set(1.0, 1.0, 1.0);
+    m.add(housing, shoulderRest, shoulderPad, mainGrip, sideGrip, faceplate, targetPod, eye,
+          visorBase, visorArmL, visorArmR, visorTop, visorScreen, lockBox, lockCross);
 
   } else if (id === 'GAUSS') {
-    // Angular Kinetic Frame
+    // Angular Kinetic Frame & Dampers
     const frame = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.18, 0.48), body);
     frame.position.set(0, 0.03, 0.02);
-    // Hydraulic Recoil Stock & Cyber Struts
     const p1 = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.30, 8), metal);
     p1.rotateX(Math.PI / 2); p1.position.set(-0.04, 0.07, 0.32);
     const p2 = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.30, 8), metal);
     p2.rotateX(Math.PI / 2); p2.position.set(0.04, 0.07, 0.32);
     const buttStock = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.16, 0.06), grip);
     buttStock.position.set(0, 0.03, 0.48);
-    // Cyber Ergonomic Handle
+    // Ergonomic Handle
     const handle = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.20, 0.08), grip);
-    handle.position.set(0, -0.16, 0.12);
-    handle.rotation.x = -0.22;
-    // Upper & Lower Heavy Magnetic Accelerator Rails
+    handle.position.set(0, -0.16, 0.12); handle.rotation.x = -0.22;
+    // Upper & Lower Magnetic Accelerator Rails
     const railTop = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.045, 0.66), metal);
     railTop.position.set(0, 0.09, -0.42);
     const railBot = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.045, 0.66), metal);
     railBot.position.set(0, -0.03, -0.42);
-    // Central Superconducting Plasma Core
+    // Central Superconducting Plasma Core Beam
     const plasmaCore = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.045, 0.62), glow);
     plasmaCore.position.set(0, 0.03, -0.42);
     if (isFirstPerson) gaussSpinCore = plasmaCore;
-    // Side Capacitor Banks (2 Left, 2 Right)
+    // 4 Capacitor Banks
     for (let i = 0; i < 2; i++) {
       const capL = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.16, 8), accent);
       capL.position.set(-0.09, 0.03, 0.10 - i * 0.16);
@@ -5151,39 +5272,48 @@ function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
       capGlowR.position.set(0.09, 0.03, 0.10 - i * 0.16);
       m.add(capL, capR, capGlowL, capGlowR);
     }
-    // High-Tech Reticle Projector
-    const holoProj = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.04, 0.12), accent);
-    holoProj.position.set(0, 0.15, -0.02);
-    const holoRet = new THREE.Mesh(new THREE.RingGeometry(0.02, 0.035, 12), glow);
-    holoRet.position.set(0, 0.18, -0.02);
+    // QUANTUM COLLIMATOR (OPEN FRAME - UNBLOCKED AIMING VIEW)
+    const collimatorBase = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.020, 0.12), metal);
+    collimatorBase.position.set(0, 0.115, 0.02);
+    const colPillarL = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.070, 0.10), body);
+    colPillarL.position.set(-0.040, 0.155, 0.02);
+    const colPillarR = new THREE.Mesh(new THREE.BoxGeometry(0.010, 0.070, 0.10), body);
+    colPillarR.position.set(0.040, 0.155, 0.02);
+    const colTop = new THREE.Mesh(new THREE.BoxGeometry(0.090, 0.012, 0.10), body);
+    colTop.position.set(0, 0.192, 0.02);
+    const colGlass = new THREE.Mesh(new THREE.BoxGeometry(0.068, 0.065, 0.002), glass);
+    colGlass.position.set(0, 0.155, 0.02);
+    const colReticle = new THREE.Mesh(new THREE.RingGeometry(0.011, 0.015, 4), reticle);
+    colReticle.rotateZ(Math.PI / 4); colReticle.position.set(0, 0.155, 0.021);
+    const colDot = new THREE.Mesh(new THREE.CircleGeometry(0.003, 8), reticle);
+    colDot.position.set(0, 0.155, 0.021);
 
-    m.add(frame, p1, p2, buttStock, handle, railTop, railBot, plasmaCore, holoProj, holoRet);
-    if (!isFirstPerson) m.scale.set(1.65, 1.65, 1.65);
-    else m.scale.set(1.0, 1.0, 1.0);
+    m.add(frame, p1, p2, buttStock, handle, railTop, railBot, plasmaCore,
+          collimatorBase, colPillarL, colPillarR, colTop, colGlass, colReticle, colDot);
 
   } else {
     // OMEGA / SECRET (Alien Singularity Particle Disintegrator)
-    // Bio-Mechanical Curved Chassis
+    // Bio-Mechanical Curved Chassis with Neural Veins
     const chassis = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.11, 0.46, 8), body);
     chassis.rotateX(Math.PI / 2); chassis.position.set(0, 0.02, 0.02);
-    // Sweeping Crystalline Rear Fins (Empennage / Stock)
+    // Sweeping Crystalline Rear Fins (Stock)
     const finL = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.16, 0.34), accent);
     finL.position.set(-0.10, 0.05, 0.30); finL.rotation.y = 0.25; finL.rotation.z = -0.2;
     const finR = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.16, 0.34), accent);
     finR.position.set(0.10, 0.05, 0.30); finR.rotation.y = -0.25; finR.rotation.z = 0.2;
     const rearSpike = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.22, 6), metal);
     rearSpike.rotateX(Math.PI / 2); rearSpike.position.set(0, 0.02, 0.34);
-    // Seamless Bio-Grip
+    // Bio-Grip Stem
     const gripStem = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.028, 0.20, 8), grip);
     gripStem.position.set(0, -0.14, 0.08); gripStem.rotation.x = -0.3;
-    // 3 Curved Forward Mandibles focusing toward center
-    const mTop = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.36, 6), metal);
-    mTop.rotateX(-Math.PI / 2); mTop.position.set(0, 0.10, -0.40);
-    const mBotL = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.36, 6), metal);
-    mBotL.rotateX(-Math.PI / 2); mBotL.position.set(-0.08, -0.05, -0.40);
-    const mBotR = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.36, 6), metal);
-    mBotR.rotateX(-Math.PI / 2); mBotR.position.set(0.08, -0.05, -0.40);
-    // Floating Singularity Octahedron (Pulsing alien dark core)
+    // 3 Curved Forward Mandibles (Positioned slightly lower/flared so top sightline is crystal clear!)
+    const mTop = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.34, 6), metal);
+    mTop.rotateX(-Math.PI / 2); mTop.position.set(0, 0.065, -0.40);
+    const mBotL = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.34, 6), metal);
+    mBotL.rotateX(-Math.PI / 2); mBotL.position.set(-0.085, -0.06, -0.40);
+    const mBotR = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.34, 6), metal);
+    mBotR.rotateX(-Math.PI / 2); mBotR.position.set(0.085, -0.06, -0.40);
+    // Floating Singularity Octahedron (Pulsing dark core)
     const singularity = new THREE.Mesh(new THREE.OctahedronGeometry(0.075, 1), glow);
     singularity.position.set(0, 0.02, -0.36);
     if (isFirstPerson) omegaCoreOrb = singularity;
@@ -5192,11 +5322,43 @@ function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
     veinL.position.set(-0.095, 0.02, 0.02);
     const veinR = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.32), glow);
     veinR.position.set(0.095, 0.02, 0.02);
+    // VOID OCULUS SIGHT (OPEN CRYSTALLINE ARCH AT y = 0.150 - ZERO OCCLUSION)
+    const oculusBase = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.025, 0.12), metal);
+    oculusBase.position.set(0, 0.105, -0.02);
+    const hornL = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.075, 0.08), accent);
+    hornL.position.set(-0.042, 0.150, -0.02); hornL.rotation.z = -0.15;
+    const hornR = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.075, 0.08), accent);
+    hornR.position.set(0.042, 0.150, -0.02); hornR.rotation.z = 0.15;
+    const oculusLens = new THREE.Mesh(new THREE.BoxGeometry(0.068, 0.060, 0.002), glass);
+    oculusLens.position.set(0, 0.150, -0.02);
+    const voidGlyph = new THREE.Mesh(new THREE.RingGeometry(0.010, 0.015, 6), reticle);
+    voidGlyph.position.set(0, 0.150, -0.019);
+    const voidDot = new THREE.Mesh(new THREE.CircleGeometry(0.003, 6), reticle);
+    voidDot.position.set(0, 0.150, -0.019);
 
-    m.add(chassis, finL, finR, rearSpike, gripStem, mTop, mBotL, mBotR, singularity, veinL, veinR);
-    if (!isFirstPerson) m.scale.set(1.8, 1.8, 1.8);
-    else m.scale.set(1.0, 1.0, 1.0);
+    m.add(chassis, finL, finR, rearSpike, gripStem, mTop, mBotL, mBotR, singularity, veinL, veinR,
+          oculusBase, hornL, hornR, oculusLens, voidGlyph, voidDot);
   }
+
+  // Model Scaling: 1.0 in First-Person, ~0.94 in Avatar Hands, 1.55-2.10 in Armory Showcase
+  let weaponScale = 1.0;
+  if (isFirstPerson) {
+    weaponScale = 1.0;
+  } else if (isAvatar) {
+    if (id === 'SNIPER') weaponScale = 0.88;
+    else if (id === 'HYDRA') weaponScale = 0.90;
+    else if (id === 'SHOTGUN' || id === 'GAUSS') weaponScale = 0.94;
+    else weaponScale = 0.96;
+  } else {
+    // Armory Showcase preview
+    if (id === 'SNIPER') weaponScale = 1.55;
+    else if (id === 'GAUSS') weaponScale = 1.65;
+    else if (id === 'HYDRA') weaponScale = 1.70;
+    else if (id === 'SHOTGUN' || id === 'TESLA' || id === 'SECRET') weaponScale = 1.80;
+    else if (id === 'SMG') weaponScale = 2.10;
+    else weaponScale = 1.90;
+  }
+  m.scale.set(weaponScale, weaponScale, weaponScale);
 
   return m;
 }
@@ -5235,19 +5397,7 @@ function initProfileAvatar3DViewport() {
   profile3DScene = new THREE.Scene();
   profile3DScene.background = new THREE.Color(0x020617);
 
-  // Hologram pedestal grid beneath character
-  const grid = new THREE.GridHelper(5, 12, 0x06b6d4, 0x1e293b);
-  grid.position.y = -1.25;
-  profile3DScene.add(grid);
-
-  // Glowing cyan circular ring around pedestal
-  const ringGeo = new THREE.RingGeometry(0.72, 0.80, 32);
-  const ringMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, side: THREE.DoubleSide });
-  const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-  ringMesh.rotation.x = Math.PI / 2;
-  ringMesh.position.y = -1.24;
-  profile3DScene.add(ringMesh);
-
+  // Pure operator focus: Clean cyber backdrop with NO grid lines or floor rings
   // Lighting
   profile3DScene.add(new THREE.AmbientLight(0xffffff, 0.95));
   const l1 = new THREE.DirectionalLight(0x38bdf8, 1.4);
@@ -5465,6 +5615,8 @@ if (btnEquipPrimary) {
     renderShopUI();
     renderArmoryBlocks();
     updateHUD();
+    updateLobbyAvatars(state.currentWeaponIndex);
+    if (typeof updateProfileAvatar3DModel === 'function') updateProfileAvatar3DModel();
     if (typeof showLobbyToast === 'function') {
       showLobbyToast('ARMA EQUIPAGGIATA', `${w.name} impostata come primaria!`);
     }
@@ -5584,6 +5736,8 @@ sound.playPerkPickup();
 savePlayerProfile();
 applyWeaponVisuals(getCurrentWeapon());
 updateArmoryWeapon3DModel();
+updateLobbyAvatars(state.selectedShopWeaponIdx);
+if (typeof updateProfileAvatar3DModel === 'function') updateProfileAvatar3DModel();
 renderShopUI();
 renderArmoryBlocks();
 updateHUD();
@@ -6477,7 +6631,7 @@ function applyLobbyGameMode3D(mode) {
   state.needsStaticRender = true;
 }
 
-function buildAvatarModel(suitId, weaponIndex) {
+function buildAvatarModel(suitId, weaponIndex, camoIdOverride) {
   const g = new THREE.Group();
   const suit = OPERATOR_SUITS.find(s => s.id === suitId) || OPERATOR_SUITS[0];
   const suitColorHex = parseInt(suit.color.replace('#', '0x'), 16);
@@ -6734,68 +6888,201 @@ function buildAvatarModel(suitId, weaponIndex) {
   tubeR.rotation.x = Math.PI / 3;
   g.add(tubeR);
 
-  // 4. ARMS & PRESSURIZED EVA GLOVES
+  // 4. PRESSURIZED ASTRONAUT GLOVES BUILDER
+  function createGlove(isLeft = false) {
+    const gl = new THREE.Group();
+    const palm = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.08, 0.11), darkPlateMat);
+    const fingers = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.06, 0.09), trimMat);
+    fingers.position.set(0, -0.03, 0.04);
+    const thumb = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.05, 0.06), darkPlateMat);
+    thumb.position.set(isLeft ? 0.055 : -0.055, 0.01, 0.02);
+    const guard = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.025, 0.10), metalMat);
+    guard.position.set(0, 0.045, 0);
+    const guardGlow = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.012, 0.06), glowMat);
+    guardGlow.position.set(0, 0.06, 0);
+    gl.add(palm, fingers, thumb, guard, guardGlow);
+    return gl;
+  }
+
+  // 5. ACTIVE EQUIPPED WEAPON & CAMO (ACCURATE 3D MODEL WITH MATCHING SKIN)
+  const wepIdx = (typeof weaponIndex === 'number' && weaponIndex >= 0 && weaponIndex < WEAPONS.length)
+    ? weaponIndex
+    : (state.currentWeaponIndex || 0);
+  const w = WEAPONS[wepIdx] || WEAPONS[0];
+  const st = getWeaponStats(w.id);
+  let camoId = camoIdOverride || st.selectedCamo || 'DEFAULT';
+  if (camoId === 'OBSIDIAN') camoId = 'MAGMA';
+  if (camoId === 'CHRONO_GOLD') camoId = 'PRISMATIC';
+  const camo = CAMO_TYPES.find(c => c.id === camoId) || CAMO_TYPES[0];
+  const camoHex = w.colorHex || 0x22d3ee;
+  const mats = getArmoryCamoMaterials(camo.id, camoHex);
+  const weaponModel = createCompleteArmoryWeapon3D(w.id, mats, 'AVATAR');
+
+  const gunGroup = new THREE.Group();
+  gunGroup.add(weaponModel);
+
+  // 6. DISTINCT TACTICAL POSES PER WEAPON (FORWARD ORIENTED BARREL & NATURAL GRIPS)
+  let p = {
+    // Default / ASSAULT: Tactical High-Ready Stance
+    gunPos: [0.12, 1.25, 0.30],
+    gunRot: [0.15, Math.PI - 0.35, -0.10],
+    armURPos: [0.44, 1.44, 0.08], armURRot: [-Math.PI / 3.2, 0, 0.18],
+    armFRPos: [0.32, 1.25, 0.16], armFRRot: [-Math.PI / 2.2, -0.28, 0],
+    gloveRPos: [0.22, 1.15, 0.22], gloveRRot: [-0.25, -0.32, 0],
+    armULPos: [-0.44, 1.42, 0.05], armULRot: [-Math.PI / 3.8, 0, -0.18],
+    armFLPos: [-0.24, 1.28, 0.32], armFLRot: [-Math.PI / 2.5, 0.35, 0],
+    gloveLPos: [0.02, 1.22, 0.52], gloveLRot: [0.35, 0.20, -0.20],
+    legLPos: [-0.24, 0.92, 0.10], legLRot: [-0.12, 0, 0],
+    legRPos: [0.24, 0.92, -0.08], legRRot: [0.10, 0, 0]
+  };
+
+  if (w.id === 'SMG') {
+    // Compact Vector CQB Fast-Patrol Stance
+    p = {
+      gunPos: [0.08, 1.22, 0.32],
+      gunRot: [0.10, Math.PI - 0.28, -0.08],
+      armURPos: [0.42, 1.42, 0.08], armURRot: [-Math.PI / 3.0, 0, 0.20],
+      armFRPos: [0.28, 1.24, 0.18], armFRRot: [-Math.PI / 2.1, -0.25, 0],
+      gloveRPos: [0.18, 1.14, 0.25], gloveRRot: [-0.20, -0.22, 0],
+      armULPos: [-0.42, 1.42, 0.06], armULRot: [-Math.PI / 3.2, 0, -0.22],
+      armFLPos: [-0.20, 1.25, 0.28], armFLRot: [-Math.PI / 2.3, 0.30, 0],
+      gloveLPos: [0.04, 1.18, 0.45], gloveLRot: [0.25, 0.18, -0.15],
+      legLPos: [-0.22, 0.92, 0.06], legLRot: [-0.08, 0, 0],
+      legRPos: [0.22, 0.92, -0.06], legRRot: [0.08, 0, 0]
+    };
+  } else if (w.id === 'SHOTGUN') {
+    // Heavy Breacher Low-Ready Rack Stance
+    p = {
+      gunPos: [0.15, 1.10, 0.32],
+      gunRot: [0.08, Math.PI - 0.40, -0.06],
+      armURPos: [0.46, 1.40, 0.06], armURRot: [-Math.PI / 4.0, 0, 0.15],
+      armFRPos: [0.34, 1.14, 0.16], armFRRot: [-Math.PI / 2.6, -0.32, 0],
+      gloveRPos: [0.26, 1.00, 0.22], gloveRRot: [-0.15, -0.38, 0],
+      armULPos: [-0.46, 1.40, 0.04], armULRot: [-Math.PI / 4.2, 0, -0.15],
+      armFLPos: [-0.22, 1.18, 0.35], armFLRot: [-Math.PI / 2.4, 0.38, 0],
+      gloveLPos: [0.02, 1.10, 0.58], gloveLRot: [0.30, 0.25, -0.20],
+      legLPos: [-0.28, 0.92, 0.08], legLRot: [-0.10, 0.15, -0.05],
+      legRPos: [0.28, 0.92, -0.08], legRRot: [0.10, -0.15, 0.05]
+    };
+  } else if (w.id === 'SNIPER') {
+    // Precision Marksman High-Ready / Patrol Stance
+    p = {
+      gunPos: [0.14, 1.30, 0.28],
+      gunRot: [0.26, Math.PI - 0.30, -0.16],
+      armURPos: [0.44, 1.44, 0.08], armURRot: [-Math.PI / 3.0, 0, 0.18],
+      armFRPos: [0.32, 1.26, 0.16], armFRRot: [-Math.PI / 2.0, -0.22, 0],
+      gloveRPos: [0.24, 1.18, 0.22], gloveRRot: [-0.28, -0.24, 0],
+      armULPos: [-0.46, 1.44, 0.06], armULRot: [-Math.PI / 3.4, 0, -0.18],
+      armFLPos: [-0.24, 1.35, 0.38], armFLRot: [-Math.PI / 2.2, 0.32, 0],
+      gloveLPos: [-0.04, 1.35, 0.65], gloveLRot: [0.40, 0.15, -0.25],
+      legLPos: [-0.25, 0.92, 0.12], legLRot: [-0.14, 0, 0],
+      legRPos: [0.25, 0.92, -0.12], legRRot: [0.12, 0, 0]
+    };
+  } else if (w.id === 'TESLA') {
+    // High-Voltage Flux Ready Stance
+    p = {
+      gunPos: [0.10, 1.20, 0.32],
+      gunRot: [0.10, Math.PI - 0.32, -0.10],
+      armURPos: [0.44, 1.42, 0.08], armURRot: [-Math.PI / 3.2, 0, 0.18],
+      armFRPos: [0.30, 1.22, 0.16], armFRRot: [-Math.PI / 2.2, -0.25, 0],
+      gloveRPos: [0.20, 1.10, 0.22], gloveRRot: [-0.18, -0.26, 0],
+      armULPos: [-0.44, 1.42, 0.06], armULRot: [-Math.PI / 3.6, 0, -0.18],
+      armFLPos: [-0.20, 1.24, 0.30], armFLRot: [-Math.PI / 2.3, 0.30, 0],
+      gloveLPos: [0.04, 1.15, 0.48], gloveLRot: [0.25, 0.18, -0.15],
+      legLPos: [-0.24, 0.92, 0.08], legLRot: [-0.08, 0, 0],
+      legRPos: [0.24, 0.92, -0.08], legRRot: [0.08, 0, 0]
+    };
+  } else if (w.id === 'HYDRA') {
+    // Shoulder-Mounted Heavy Rocket Stance
+    p = {
+      gunPos: [0.32, 1.58, 0.10],
+      gunRot: [0.04, Math.PI - 0.10, 0.02],
+      armURPos: [0.48, 1.44, 0.06], armURRot: [-Math.PI / 2.2, 0, 0.15],
+      armFRPos: [0.38, 1.42, 0.14], armFRRot: [-Math.PI / 1.8, -0.15, 0],
+      gloveRPos: [0.32, 1.44, 0.20], gloveRRot: [-0.15, -0.12, 0],
+      armULPos: [-0.46, 1.44, 0.05], armULRot: [-Math.PI / 2.8, 0, 0.35],
+      armFLPos: [-0.14, 1.48, 0.24], armFLRot: [-Math.PI / 2.2, 0.60, 0],
+      gloveLPos: [0.16, 1.52, 0.36], gloveLRot: [0.30, 0.45, -0.10],
+      legLPos: [-0.30, 0.92, 0.10], legLRot: [-0.12, 0.20, -0.08],
+      legRPos: [0.30, 0.92, -0.10], legRRot: [0.12, -0.20, 0.08]
+    };
+  } else if (w.id === 'GAUSS') {
+    // Kinetic Railgun Mid-Torso Braced Stance
+    p = {
+      gunPos: [0.12, 1.16, 0.32],
+      gunRot: [0.12, Math.PI - 0.34, -0.08],
+      armURPos: [0.44, 1.42, 0.07], armURRot: [-Math.PI / 3.4, 0, 0.16],
+      armFRPos: [0.32, 1.18, 0.16], armFRRot: [-Math.PI / 2.3, -0.28, 0],
+      gloveRPos: [0.22, 1.04, 0.22], gloveRRot: [-0.20, -0.30, 0],
+      armULPos: [-0.46, 1.42, 0.05], armULRot: [-Math.PI / 3.8, 0, -0.16],
+      armFLPos: [-0.22, 1.22, 0.34], armFLRot: [-Math.PI / 2.4, 0.34, 0],
+      gloveLPos: [-0.02, 1.16, 0.54], gloveLRot: [0.30, 0.20, -0.20],
+      legLPos: [-0.26, 0.92, 0.09], legLRot: [-0.10, 0, 0],
+      legRPos: [0.26, 0.92, -0.09], legRRot: [0.10, 0, 0]
+    };
+  } else if (w.id === 'SECRET') {
+    // Alien Singularity Void Dominance
+    p = {
+      gunPos: [0.14, 1.22, 0.32],
+      gunRot: [0.14, Math.PI - 0.30, -0.12],
+      armURPos: [0.44, 1.42, 0.08], armURRot: [-Math.PI / 3.2, 0, 0.18],
+      armFRPos: [0.32, 1.24, 0.16], armFRRot: [-Math.PI / 2.2, -0.26, 0],
+      gloveRPos: [0.24, 1.12, 0.24], gloveRRot: [-0.22, -0.26, 0],
+      armULPos: [-0.46, 1.44, 0.06], armULRot: [-Math.PI / 3.2, 0, -0.25],
+      armFLPos: [-0.22, 1.36, 0.28], armFLRot: [-Math.PI / 2.0, 0.40, 0],
+      gloveLPos: [0.00, 1.34, 0.48], gloveLRot: [0.45, 0.30, -0.20],
+      legLPos: [-0.24, 0.92, 0.05], legLRot: [-0.05, 0, 0],
+      legRPos: [0.24, 0.92, -0.05], legRRot: [0.05, 0, 0]
+    };
+  }
+
+  gunGroup.position.set(...p.gunPos);
+  gunGroup.rotation.set(...p.gunRot);
+  g.add(gunGroup);
+
+  // Arms and Gloves
   const armUL = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.11, 0.38, 12), fabricMat);
-  armUL.position.set(-0.48, 1.42, 0.04);
-  armUL.rotation.x = -Math.PI / 4.2;
-  armUL.rotation.z = -0.15;
+  armUL.position.set(...p.armULPos);
+  armUL.rotation.set(...p.armULRot);
   g.add(armUL);
 
   const armFL = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.10, 0.40, 12), darkPlateMat);
-  armFL.position.set(-0.38, 1.20, 0.26);
-  armFL.rotation.x = -Math.PI / 2.6;
-  armFL.rotation.y = 0.35;
+  armFL.position.set(...p.armFLPos);
+  armFL.rotation.set(...p.armFLRot);
   g.add(armFL);
 
   const gloveRingL = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.02, 6, 14), metalMat);
-  gloveRingL.position.set(-0.35, 1.15, 0.35);
+  gloveRingL.position.set(p.gloveLPos[0], p.gloveLPos[1] + 0.04, p.gloveLPos[2] - 0.05);
   g.add(gloveRingL);
 
+  const gloveL = createGlove(true);
+  gloveL.position.set(...p.gloveLPos);
+  gloveL.rotation.set(...p.gloveLRot);
+  g.add(gloveL);
+
   const armUR = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.11, 0.38, 12), fabricMat);
-  armUR.position.set(0.48, 1.42, 0.06);
-  armUR.rotation.x = -Math.PI / 3.4;
-  armUR.rotation.z = 0.15;
+  armUR.position.set(...p.armURPos);
+  armUR.rotation.set(...p.armURRot);
   g.add(armUR);
 
   const armFR = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.10, 0.40, 12), darkPlateMat);
-  armFR.position.set(0.36, 1.20, 0.28);
-  armFR.rotation.x = -Math.PI / 2.2;
-  armFR.rotation.y = -0.30;
+  armFR.position.set(...p.armFRPos);
+  armFR.rotation.set(...p.armFRRot);
   g.add(armFR);
 
   const gloveRingR = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.02, 6, 14), metalMat);
-  gloveRingR.position.set(0.32, 1.16, 0.38);
+  gloveRingR.position.set(p.gloveRPos[0], p.gloveRPos[1] + 0.04, p.gloveRPos[2] - 0.05);
   g.add(gloveRingR);
 
-  // 5. WEAPON IN HANDS (TACTICAL LOW-READY)
-  const gunGroup = new THREE.Group();
-  gunGroup.position.set(0.10, 1.20, 0.38);
-  gunGroup.rotation.z = 0.18;
-  gunGroup.rotation.y = -0.28;
-  gunGroup.rotation.x = -0.12;
+  const gloveR = createGlove(false);
+  gloveR.position.set(...p.gloveRPos);
+  gloveR.rotation.set(...p.gloveRRot);
+  g.add(gloveR);
 
-  const gunBody = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.18, 0.95), darkGunMat);
-  gunGroup.add(gunBody);
-
-  const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.5, 8), jointMat);
-  barrel.rotation.x = Math.PI / 2;
-  barrel.position.set(0, 0.04, 0.6);
-  gunGroup.add(barrel);
-
-  const mag = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.25, 0.14), metalMat);
-  mag.position.set(0, -0.16, 0.1);
-  mag.rotation.x = -0.15;
-  gunGroup.add(mag);
-
-  const optic = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.09, 0.25), glowMat);
-  optic.position.set(0, 0.13, -0.05);
-  gunGroup.add(optic);
-
-  g.add(gunGroup);
-
-  // 6. LEGS & MAGNETIC LUNAR BOOTS (WITH HIP PIVOTS)
+  // Legs with Dynamic Stance
   const leftLeg = new THREE.Group();
-  leftLeg.position.set(-0.24, 0.92, 0);
+  leftLeg.position.set(...p.legLPos);
+  leftLeg.rotation.set(...p.legLRot);
 
   const thighL = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.12, 0.44, 12), fabricMat);
   thighL.position.set(0, -0.22, 0);
@@ -6822,7 +7109,8 @@ function buildAvatarModel(suitId, weaponIndex) {
   g.add(leftLeg);
 
   const rightLeg = new THREE.Group();
-  rightLeg.position.set(0.24, 0.92, 0);
+  rightLeg.position.set(...p.legRPos);
+  rightLeg.rotation.set(...p.legRRot);
 
   const thighR = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.12, 0.44, 12), fabricMat);
   thighR.position.set(0, -0.22, 0);
@@ -8556,6 +8844,7 @@ function applyLobbyMenu3D(menuName) {
     if (localLobbyAvatarGroup) {
       localLobbyAvatarGroup.visible = true;
       localLobbyAvatarGroup.position.set(0, 0, 0);
+      localLobbyAvatarGroup.rotation.y = -0.15;
     }
     updateLobbyAvatars(state.currentWeaponIndex || 0);
   } else {
