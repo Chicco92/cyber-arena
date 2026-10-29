@@ -4414,6 +4414,7 @@ let armoryDetailOpen = false;
 // Motore 3D per ispezione arma in Armeria (Three.js dedicato)
 let armory3DScene = null, armory3DCamera = null, armory3DRenderer = null, armory3DGroup = null;
 let armory3DIsDragging = false, armory3DPrevX = 0, armory3DPrevY = 0;
+let armoryDynamicMats = [];
 
 function getWeaponNeonSVG(w, colorHex = '#22d3ee') {
   const id = w.id;
@@ -4498,9 +4499,10 @@ function initArmoryWeapon3DViewport() {
   grid.position.y = -0.45;
   armory3DScene.add(grid);
 
-  armory3DScene.add(new THREE.AmbientLight(0xffffff, 0.85));
-  const l1 = new THREE.DirectionalLight(0x38bdf8, 1.4); l1.position.set(2, 3, 2); armory3DScene.add(l1);
-  const l2 = new THREE.DirectionalLight(0xf59e0b, 0.9); l2.position.set(-2, -1, -2); armory3DScene.add(l2);
+  armory3DScene.add(new THREE.AmbientLight(0xffffff, 0.95));
+  const l1 = new THREE.DirectionalLight(0x38bdf8, 1.2); l1.position.set(2, 3, 2); armory3DScene.add(l1);
+  const l2 = new THREE.DirectionalLight(0xf59e0b, 0.8); l2.position.set(-2, -1, -2); armory3DScene.add(l2);
+  const lCam = new THREE.DirectionalLight(0xffffff, 1.3); lCam.position.set(0.5, 1.2, 2.5); armory3DScene.add(lCam);
 
   armory3DCamera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
   armory3DCamera.position.set(0.5, 0.35, 1.5);
@@ -4541,8 +4543,21 @@ function initArmoryWeapon3DViewport() {
 
   function anim3D() {
     requestAnimationFrame(anim3D);
+    const t = performance.now() * 0.001;
     if (armory3DGroup && !armory3DIsDragging) {
       armory3DGroup.rotation.y += 0.008;
+    }
+    if (armoryDynamicMats && armoryDynamicMats.length > 0) {
+      armoryDynamicMats.forEach(item => {
+        if (item.type === 'PRISMATIC') {
+          const hue = (t * 0.35) % 1.0;
+          const col = new THREE.Color().setHSL(hue, 1.0, 0.65);
+          if (item.mat.emissive) item.mat.emissive.copy(col);
+          if (item.mat.color && item.isPrimary) item.mat.color.setHSL(hue, 0.5, 0.85);
+        } else if (item.type === 'DARK_MATTER') {
+          updateDarkMatterTexture(t);
+        }
+      });
     }
     if (armory3DRenderer && armory3DScene && armory3DCamera) {
       armory3DRenderer.render(armory3DScene, armory3DCamera);
@@ -4569,87 +4584,612 @@ function resetArmory3DView() {
   armory3DCamera.lookAt(0, -0.05, 0);
 }
 
+function getArmoryCamoMaterials(camoId, defaultColorHex) {
+  let bodyMat, accentMat, metalMat, gripMat, glowMat;
+  armoryDynamicMats = [];
+
+  const defaultGlow = defaultColorHex || 0x22d3ee;
+
+  if (camoId === 'GOLD') {
+    bodyMat = new THREE.MeshStandardMaterial({
+      color: 0xffe066,
+      map: goldMetallicTexture,
+      metalness: 0.92,
+      roughness: 0.22
+    });
+    accentMat = new THREE.MeshStandardMaterial({
+      color: 0xffd700,
+      metalness: 0.95,
+      roughness: 0.15
+    });
+    metalMat = new THREE.MeshStandardMaterial({
+      color: 0x452505,
+      metalness: 0.85,
+      roughness: 0.35
+    });
+    gripMat = new THREE.MeshStandardMaterial({
+      color: 0x18140e,
+      roughness: 0.75,
+      metalness: 0.15
+    });
+    glowMat = new THREE.MeshStandardMaterial({
+      color: 0xfffbeb,
+      emissive: 0xfbbf24,
+      emissiveIntensity: 1.4,
+      roughness: 0.2
+    });
+  } else if (camoId === 'DIAMOND') {
+    bodyMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      map: diamondMetallicTexture,
+      metalness: 0.90,
+      roughness: 0.12
+    });
+    accentMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      metalness: 0.95,
+      roughness: 0.10
+    });
+    metalMat = new THREE.MeshStandardMaterial({
+      color: 0x64748b,
+      metalness: 0.90,
+      roughness: 0.20
+    });
+    gripMat = new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      roughness: 0.80,
+      metalness: 0.10
+    });
+    glowMat = new THREE.MeshStandardMaterial({
+      color: 0xe0f2fe,
+      emissive: 0x38bdf8,
+      emissiveIntensity: 1.5,
+      roughness: 0.15
+    });
+  } else if (camoId === 'DARK_MATTER') {
+    bodyMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      map: darkMatterTexture,
+      metalness: 0.50,
+      roughness: 0.35
+    });
+    accentMat = new THREE.MeshStandardMaterial({
+      color: 0x581077,
+      metalness: 0.70,
+      roughness: 0.30
+    });
+    metalMat = new THREE.MeshStandardMaterial({
+      color: 0x090514,
+      metalness: 0.85,
+      roughness: 0.30
+    });
+    gripMat = new THREE.MeshStandardMaterial({
+      color: 0x120224,
+      roughness: 0.85,
+      metalness: 0.10
+    });
+    glowMat = new THREE.MeshStandardMaterial({
+      color: 0xf0abfc,
+      emissive: 0xd946ef,
+      emissiveIntensity: 1.6,
+      roughness: 0.2
+    });
+    armoryDynamicMats.push({ mat: glowMat, type: 'DARK_MATTER' });
+    armoryDynamicMats.push({ mat: bodyMat, type: 'DARK_MATTER' });
+  } else if (camoId === 'RUBY') {
+    bodyMat = new THREE.MeshStandardMaterial({
+      color: 0x991b1b,
+      metalness: 0.85,
+      roughness: 0.18
+    });
+    accentMat = new THREE.MeshStandardMaterial({
+      color: 0xdc2626,
+      metalness: 0.90,
+      roughness: 0.15
+    });
+    metalMat = new THREE.MeshStandardMaterial({
+      color: 0x450a0a,
+      metalness: 0.80,
+      roughness: 0.30
+    });
+    gripMat = new THREE.MeshStandardMaterial({
+      color: 0x18181b,
+      roughness: 0.85,
+      metalness: 0.10
+    });
+    glowMat = new THREE.MeshStandardMaterial({
+      color: 0xfca5a5,
+      emissive: 0xef4444,
+      emissiveIntensity: 1.6,
+      roughness: 0.2
+    });
+  } else if (camoId === 'EMERALD') {
+    bodyMat = new THREE.MeshStandardMaterial({
+      color: 0x065f46,
+      metalness: 0.85,
+      roughness: 0.18
+    });
+    accentMat = new THREE.MeshStandardMaterial({
+      color: 0x059669,
+      metalness: 0.90,
+      roughness: 0.15
+    });
+    metalMat = new THREE.MeshStandardMaterial({
+      color: 0x022c22,
+      metalness: 0.80,
+      roughness: 0.30
+    });
+    gripMat = new THREE.MeshStandardMaterial({
+      color: 0x0f172a,
+      roughness: 0.85,
+      metalness: 0.10
+    });
+    glowMat = new THREE.MeshStandardMaterial({
+      color: 0x6ee7b7,
+      emissive: 0x10b981,
+      emissiveIntensity: 1.6,
+      roughness: 0.2
+    });
+  } else if (camoId === 'MAGMA') {
+    bodyMat = new THREE.MeshStandardMaterial({
+      color: 0x292524,
+      metalness: 0.40,
+      roughness: 0.65
+    });
+    accentMat = new THREE.MeshStandardMaterial({
+      color: 0xc2410c,
+      metalness: 0.75,
+      roughness: 0.25
+    });
+    metalMat = new THREE.MeshStandardMaterial({
+      color: 0x1c1917,
+      metalness: 0.70,
+      roughness: 0.40
+    });
+    gripMat = new THREE.MeshStandardMaterial({
+      color: 0x0c0a09,
+      roughness: 0.90,
+      metalness: 0.10
+    });
+    glowMat = new THREE.MeshStandardMaterial({
+      color: 0xffedd5,
+      emissive: 0xf97316,
+      emissiveIntensity: 1.8,
+      roughness: 0.15
+    });
+  } else if (camoId === 'PRISMATIC') {
+    bodyMat = new THREE.MeshStandardMaterial({
+      color: 0xf8fafc,
+      metalness: 0.95,
+      roughness: 0.08
+    });
+    accentMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      metalness: 0.98,
+      roughness: 0.06
+    });
+    metalMat = new THREE.MeshStandardMaterial({
+      color: 0x94a3b8,
+      metalness: 0.92,
+      roughness: 0.12
+    });
+    gripMat = new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      roughness: 0.70,
+      metalness: 0.20
+    });
+    glowMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      emissive: 0xe879f9,
+      emissiveIntensity: 1.7,
+      roughness: 0.1
+    });
+    armoryDynamicMats.push({ mat: glowMat, type: 'PRISMATIC', isPrimary: false });
+    armoryDynamicMats.push({ mat: bodyMat, type: 'PRISMATIC', isPrimary: true });
+  } else {
+    // DEFAULT Cyber
+    bodyMat = new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      metalness: 0.35,
+      roughness: 0.50
+    });
+    accentMat = new THREE.MeshStandardMaterial({
+      color: 0x334155,
+      metalness: 0.60,
+      roughness: 0.38
+    });
+    metalMat = new THREE.MeshStandardMaterial({
+      color: 0x64748b,
+      metalness: 0.85,
+      roughness: 0.22
+    });
+    gripMat = new THREE.MeshStandardMaterial({
+      color: 0x0f172a,
+      roughness: 0.85,
+      metalness: 0.10
+    });
+    glowMat = new THREE.MeshStandardMaterial({
+      color: defaultGlow,
+      emissive: defaultGlow,
+      emissiveIntensity: 1.3,
+      roughness: 0.20
+    });
+  }
+
+  return { body: bodyMat, accent: accentMat, metal: metalMat, grip: gripMat, glow: glowMat };
+}
+
+function createCompleteArmoryWeapon3D(id, mats) {
+  const m = new THREE.Group();
+  const { body, accent, metal, grip, glow } = mats;
+
+  if (id === 'ASSAULT') {
+    // Upper & Lower Receiver
+    const upper = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.12, 0.40), body);
+    upper.position.set(0, 0.02, 0.02);
+    const lower = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.08, 0.26), accent);
+    lower.position.set(0, -0.06, 0.01);
+    // Buffer Tube & Buttstock
+    const buffer = new THREE.Mesh(new THREE.CylinderGeometry(0.020, 0.020, 0.26, 12), metal);
+    buffer.rotateX(Math.PI / 2);
+    buffer.position.set(0, 0.04, 0.28);
+    const stock = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.16, 0.22), body);
+    stock.position.set(0, 0.01, 0.38);
+    const cheekRest = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.045, 0.16), accent);
+    cheekRest.position.set(0, 0.095, 0.36);
+    const buttPad = new THREE.Mesh(new THREE.BoxGeometry(0.084, 0.17, 0.035), grip);
+    buttPad.position.set(0, 0.01, 0.50);
+    // Pistol Grip & Trigger Guard
+    const pGrip = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.18, 0.075), grip);
+    pGrip.position.set(0, -0.15, 0.11);
+    pGrip.rotation.x = -0.28;
+    const trigGuard = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.06, 0.08), metal);
+    trigGuard.position.set(0, -0.08, 0.05);
+    const trigger = new THREE.Mesh(new THREE.BoxGeometry(0.015, 0.035, 0.015), glow);
+    trigger.position.set(0, -0.075, 0.06);
+    // Magwell & Curved Banana Magazine
+    const mag = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.26, 0.12), accent);
+    mag.position.set(0, -0.19, -0.08);
+    mag.rotation.x = 0.24;
+    const magBase = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.03, 0.13), grip);
+    magBase.position.set(0, -0.31, -0.05);
+    magBase.rotation.x = 0.24;
+    // Quad-Rail Handguard & Barrel
+    const handguard = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.10, 0.32), accent);
+    handguard.position.set(0, 0.02, -0.28);
+    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.020, 0.020, 0.46, 12), metal);
+    barrel.rotateX(Math.PI / 2);
+    barrel.position.set(0, 0.03, -0.42);
+    const muzzleBrake = new THREE.Mesh(new THREE.CylinderGeometry(0.030, 0.030, 0.08, 10), metal);
+    muzzleBrake.rotateX(Math.PI / 2);
+    muzzleBrake.position.set(0, 0.03, -0.66);
+    // Holographic Reflex Sight
+    const sightBase = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.025, 0.18), metal);
+    sightBase.position.set(0, 0.09, -0.02);
+    const sightHood = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.08, 0.12), body);
+    sightHood.position.set(0, 0.14, -0.02);
+    const holoGlass = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.055, 0.01), glow);
+    holoGlass.position.set(0, 0.14, -0.02);
+    // Cyber Neon Light Stripe
+    const stripL = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.36), glow);
+    stripL.position.set(-0.052, 0.03, -0.05);
+    const stripR = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.36), glow);
+    stripR.position.set(0.052, 0.03, -0.05);
+
+    m.add(upper, lower, buffer, stock, cheekRest, buttPad, pGrip, trigGuard, trigger, mag, magBase, handguard, barrel, muzzleBrake, sightBase, sightHood, holoGlass, stripL, stripR);
+    m.scale.set(1.9, 1.9, 1.9);
+
+  } else if (id === 'SMG') {
+    // Compact Vector / PDW Chassis
+    const receiver = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.16, 0.32), body);
+    receiver.position.set(0, 0.03, -0.02);
+    const topRail = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.025, 0.38), metal);
+    topRail.position.set(0, 0.12, -0.04);
+    // Retractable PDW Stock Struts & Buttpad
+    const strutL = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.28, 8), metal);
+    strutL.rotateX(Math.PI / 2); strutL.position.set(-0.048, 0.06, 0.24);
+    const strutR = new THREE.Mesh(new THREE.CylinderGeometry(0.010, 0.010, 0.28, 8), metal);
+    strutR.rotateX(Math.PI / 2); strutR.position.set(0.048, 0.06, 0.24);
+    const pdwPad = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.14, 0.03), grip);
+    pdwPad.position.set(0, 0.04, 0.38);
+    // Pistol Grip & Forward Magwell / Angled Foregrip
+    const pGrip = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.17, 0.075), grip);
+    pGrip.position.set(0, -0.12, 0.07);
+    pGrip.rotation.x = -0.25;
+    const foreGrip = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.13, 0.07), grip);
+    foreGrip.position.set(0, -0.09, -0.20);
+    foreGrip.rotation.x = 0.22;
+    // Long 45-degree Stick Mag
+    const mag = new THREE.Mesh(new THREE.BoxGeometry(0.052, 0.30, 0.07), accent);
+    mag.position.set(0, -0.18, -0.09);
+    mag.rotation.x = -0.22;
+    // Integrated Heavy Suppressor / Barrel
+    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.28, 12), metal);
+    barrel.rotateX(Math.PI / 2);
+    barrel.position.set(0, 0.04, -0.32);
+    const muzzleTip = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.036, 0.04, 12), accent);
+    muzzleTip.rotateX(Math.PI / 2);
+    muzzleTip.position.set(0, 0.04, -0.46);
+    // Micro Reflex Sight
+    const sight = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.06, 0.08), body);
+    sight.position.set(0, 0.16, 0.02);
+    const sightDot = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.035, 0.01), glow);
+    sightDot.position.set(0, 0.16, 0.02);
+    // Side Cyber Glow Line
+    const sideGlow = new THREE.Mesh(new THREE.BoxGeometry(0.102, 0.02, 0.22), glow);
+    sideGlow.position.set(0, 0.03, -0.04);
+
+    m.add(receiver, topRail, strutL, strutR, pdwPad, pGrip, foreGrip, mag, barrel, muzzleTip, sight, sightDot, sideGlow);
+    m.scale.set(2.1, 2.1, 2.1);
+
+  } else if (id === 'SHOTGUN') {
+    // Heavy Receiver
+    const receiver = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.16, 0.38), body);
+    receiver.position.set(0, 0.03, 0.02);
+    // Full Tactical Solid Stock with Cheekrest & Thick Rubber Pad
+    const stock = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.15, 0.32), body);
+    stock.position.set(0, -0.01, 0.34);
+    const comb = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.04, 0.20), accent);
+    comb.position.set(0, 0.08, 0.32);
+    const recoilPad = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.17, 0.04), grip);
+    recoilPad.position.set(0, -0.01, 0.50);
+    // Heavy Combat Grip & Trigger
+    const pGrip = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.19, 0.08), grip);
+    pGrip.position.set(0, -0.15, 0.13);
+    pGrip.rotation.x = -0.25;
+    const trig = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.04, 0.02), glow);
+    trig.position.set(0, -0.08, 0.07);
+    // Twin Heavy Bore Barrels (Upper main shot barrel + lower tube magazine)
+    const topBarrel = new THREE.Mesh(new THREE.CylinderGeometry(0.034, 0.034, 0.54, 12), metal);
+    topBarrel.rotateX(Math.PI / 2); topBarrel.position.set(0, 0.065, -0.34);
+    const tubeMag = new THREE.Mesh(new THREE.CylinderGeometry(0.030, 0.030, 0.48, 12), metal);
+    tubeMag.rotateX(Math.PI / 2); tubeMag.position.set(0, -0.01, -0.31);
+    // Ribbed Pump Slide / Forend
+    const pumpSlide = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.09, 0.22), grip);
+    pumpSlide.position.set(0, -0.01, -0.26);
+    // Breaching Spiked Muzzle Brake
+    const breachMuzzle = new THREE.Mesh(new THREE.CylinderGeometry(0.040, 0.040, 0.08, 8), accent);
+    breachMuzzle.rotateX(Math.PI / 2); breachMuzzle.position.set(0, 0.065, -0.62);
+    // Vented Heat Shield & Glowing Sights
+    const heatShield = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.03, 0.32), accent);
+    heatShield.position.set(0, 0.10, -0.26);
+    const sightPost = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.04, 0.02), glow);
+    sightPost.position.set(0, 0.11, -0.58);
+    const shellRack = new THREE.Mesh(new THREE.BoxGeometry(0.145, 0.06, 0.14), glow);
+    shellRack.position.set(0, 0.04, 0.04);
+
+    m.add(receiver, stock, comb, recoilPad, pGrip, trig, topBarrel, tubeMag, pumpSlide, breachMuzzle, heatShield, sightPost, shellRack);
+    m.scale.set(1.8, 1.8, 1.8);
+
+  } else if (id === 'SNIPER') {
+    // Long Antimateriel Receiver with Ejection Port & Bolt
+    const receiver = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.15, 0.52), body);
+    receiver.position.set(0, 0.03, 0.04);
+    const boltHandle = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.09, 6), metal);
+    boltHandle.rotateZ(Math.PI / 3); boltHandle.position.set(0.07, 0.05, 0.16);
+    // Skeleton Precision Stock with Cheek Riser & Monopod
+    const stock = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.16, 0.38), body);
+    stock.position.set(0, -0.01, 0.44);
+    const cheekRiser = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.05, 0.20), accent);
+    cheekRiser.position.set(0, 0.09, 0.40);
+    const buttPad = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.18, 0.04), grip);
+    buttPad.position.set(0, -0.01, 0.63);
+    // Precision Vertical Match Grip
+    const pGrip = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.19, 0.07), grip);
+    pGrip.position.set(0, -0.15, 0.18);
+    pGrip.rotation.x = -0.15;
+    // Heavy AP Straight Magazine
+    const mag = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.22, 0.14), accent);
+    mag.position.set(0, -0.18, -0.04);
+    // Long Heavy Bull Barrel & Accelerator Side Rails
+    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.024, 0.76, 12), metal);
+    barrel.rotateX(Math.PI / 2); barrel.position.set(0, 0.04, -0.54);
+    const railL = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.045, 0.68), accent);
+    railL.position.set(-0.042, 0.04, -0.50);
+    const railR = new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.045, 0.68), accent);
+    railR.position.set(0.042, 0.04, -0.50);
+    // Huge 50-Cal Multistage Muzzle Brake
+    const brake = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.05, 0.14), metal);
+    brake.position.set(0, 0.04, -0.96);
+    // High-Magnification Scope with Mounts
+    const scopeTube = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.030, 0.42, 12), metal);
+    scopeTube.rotateX(Math.PI / 2); scopeTube.position.set(0, 0.18, 0.02);
+    const scopeBell = new THREE.Mesh(new THREE.CylinderGeometry(0.046, 0.034, 0.10, 12), accent);
+    scopeBell.rotateX(Math.PI / 2); scopeBell.position.set(0, 0.18, -0.22);
+    const scopeLens = new THREE.Mesh(new THREE.CircleGeometry(0.040, 16), glow);
+    scopeLens.position.set(0, 0.18, -0.275);
+    const mountF = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.07, 0.04), metal); mountF.position.set(0, 0.13, -0.08);
+    const mountR = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.07, 0.04), metal); mountR.position.set(0, 0.13, 0.12);
+    // Folded Bipod Under Barrel
+    const bipod = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.03, 0.24), metal);
+    bipod.position.set(0, -0.02, -0.42);
+    // Energy Beam Conduit
+    const beam = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.02, 0.66), glow);
+    beam.position.set(0, 0.04, -0.50);
+
+    m.add(receiver, boltHandle, stock, cheekRiser, buttPad, pGrip, mag, barrel, railL, railR, brake, scopeTube, scopeBell, scopeLens, mountF, mountR, bipod, beam);
+    m.scale.set(1.55, 1.55, 1.55);
+
+  } else if (id === 'TESLA') {
+    // High-Voltage Chassis
+    const receiver = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.17, 0.42), body);
+    receiver.position.set(0, 0.03, 0);
+    // Cyber-Strut Skeleton Stock & Grounding Pad
+    const stockL = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.32, 8), metal);
+    stockL.rotateX(Math.PI / 2); stockL.position.set(-0.045, 0.02, 0.32);
+    const stockR = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.32, 8), metal);
+    stockR.rotateX(Math.PI / 2); stockR.position.set(0.045, 0.02, 0.32);
+    const groundPad = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.15, 0.04), grip);
+    groundPad.position.set(0, 0.01, 0.48);
+    // Insulated Grips
+    const rearGrip = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.19, 0.08), grip);
+    rearGrip.position.set(0, -0.15, 0.14);
+    rearGrip.rotation.x = -0.22;
+    const frontHandle = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.14, 0.06), grip);
+    frontHandle.position.set(0, -0.12, -0.12);
+    // Diagonal Glowing Plasma Battery Cell
+    const cell = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.048, 0.22, 12), glow);
+    cell.rotateX(0.45); cell.position.set(0, -0.16, 0.01);
+    // 3 Concentric Torus Arc Rings
+    for (let i = 0; i < 3; i++) {
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.085, 0.015, 8, 18), glow);
+      ring.position.set(0, 0.03, -0.20 - i * 0.13);
+      m.add(ring);
+    }
+    // Twin Heavy Forward Tuning Fork Prongs
+    const prongL = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.07, 0.44), accent);
+    prongL.position.set(-0.085, 0.03, -0.40);
+    const prongR = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.07, 0.44), accent);
+    prongR.position.set(0.085, 0.03, -0.40);
+    const tipL = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.08, 6), metal);
+    tipL.rotateX(-Math.PI / 2); tipL.position.set(-0.085, 0.03, -0.65);
+    const tipR = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.08, 6), metal);
+    tipR.rotateX(-Math.PI / 2); tipR.position.set(0.085, 0.03, -0.65);
+    // Central Plasma Conduit
+    const coreBeam = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.48, 10), metal);
+    coreBeam.rotateX(Math.PI / 2); coreBeam.position.set(0, 0.03, -0.34);
+
+    m.add(receiver, stockL, stockR, groundPad, rearGrip, frontHandle, cell, prongL, prongR, tipL, tipR, coreBeam);
+    m.scale.set(1.8, 1.8, 1.8);
+
+  } else if (id === 'HYDRA') {
+    // Massive Quad Missile Launcher Housing
+    const housing = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.22, 0.44), body);
+    housing.position.set(0, 0.03, 0.04);
+    // Shoulder Rest / Heavy Counterweight
+    const shoulderRest = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.19, 0.26), body);
+    shoulderRest.position.set(0, 0.03, 0.36);
+    const shoulderPad = new THREE.Mesh(new THREE.BoxGeometry(0.184, 0.194, 0.04), grip);
+    shoulderPad.position.set(0, 0.03, 0.49);
+    // Bottom Pistol Grip & Side Forward Grip
+    const mainGrip = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.20, 0.08), grip);
+    mainGrip.position.set(0, -0.17, 0.12);
+    mainGrip.rotation.x = -0.2;
+    const sideGrip = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.16, 0.05), grip);
+    sideGrip.position.set(0.15, -0.06, -0.12);
+    // 4 Heavy Missile Launch Tubes (2x2 grid)
+    const offsets = [
+      [-0.055, 0.085],
+      [ 0.055, 0.085],
+      [-0.055, -0.025],
+      [ 0.055, -0.025]
+    ];
+    offsets.forEach(([ox, oy]) => {
+      const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.040, 0.040, 0.56, 12), metal);
+      tube.rotateX(Math.PI / 2); tube.position.set(ox, oy, -0.28);
+      const warhead = new THREE.Mesh(new THREE.ConeGeometry(0.034, 0.08, 10), glow);
+      warhead.rotateX(-Math.PI / 2); warhead.position.set(ox, oy, -0.54);
+      m.add(tube, warhead);
+    });
+    // Armored Front Cowl Faceplate
+    const faceplate = new THREE.Mesh(new THREE.BoxGeometry(0.21, 0.23, 0.05), accent);
+    faceplate.position.set(0, 0.03, -0.46);
+    // Side Targeting Pod with Sensor Eye
+    const targetPod = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.18), accent);
+    targetPod.position.set(-0.14, 0.10, -0.04);
+    const eye = new THREE.Mesh(new THREE.CircleGeometry(0.030, 14), glow);
+    eye.position.set(-0.14, 0.10, -0.132);
+
+    m.add(housing, shoulderRest, shoulderPad, mainGrip, sideGrip, faceplate, targetPod, eye);
+    m.scale.set(1.7, 1.7, 1.7);
+
+  } else if (id === 'GAUSS') {
+    // Angular Kinetic Frame
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.18, 0.48), body);
+    frame.position.set(0, 0.03, 0.02);
+    // Hydraulic Recoil Stock & Cyber Struts
+    const p1 = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.30, 8), metal);
+    p1.rotateX(Math.PI / 2); p1.position.set(-0.04, 0.07, 0.32);
+    const p2 = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.30, 8), metal);
+    p2.rotateX(Math.PI / 2); p2.position.set(0.04, 0.07, 0.32);
+    const buttStock = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.16, 0.06), grip);
+    buttStock.position.set(0, 0.03, 0.48);
+    // Cyber Ergonomic Handle
+    const handle = new THREE.Mesh(new THREE.BoxGeometry(0.065, 0.20, 0.08), grip);
+    handle.position.set(0, -0.16, 0.12);
+    handle.rotation.x = -0.22;
+    // Upper & Lower Heavy Magnetic Accelerator Rails
+    const railTop = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.045, 0.66), metal);
+    railTop.position.set(0, 0.09, -0.42);
+    const railBot = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.045, 0.66), metal);
+    railBot.position.set(0, -0.03, -0.42);
+    // Central Superconducting Plasma Core
+    const plasmaCore = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.045, 0.62), glow);
+    plasmaCore.position.set(0, 0.03, -0.42);
+    // Side Capacitor Banks (2 Left, 2 Right)
+    for (let i = 0; i < 2; i++) {
+      const capL = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.16, 8), accent);
+      capL.position.set(-0.09, 0.03, 0.10 - i * 0.16);
+      const capR = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.16, 8), accent);
+      capR.position.set(0.09, 0.03, 0.10 - i * 0.16);
+      const capGlowL = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.17, 8), glow);
+      capGlowL.position.set(-0.09, 0.03, 0.10 - i * 0.16);
+      const capGlowR = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.17, 8), glow);
+      capGlowR.position.set(0.09, 0.03, 0.10 - i * 0.16);
+      m.add(capL, capR, capGlowL, capGlowR);
+    }
+    // High-Tech Reticle Projector
+    const holoProj = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.04, 0.12), accent);
+    holoProj.position.set(0, 0.15, -0.02);
+    const holoRet = new THREE.Mesh(new THREE.RingGeometry(0.02, 0.035, 12), glow);
+    holoRet.position.set(0, 0.18, -0.02);
+
+    m.add(frame, p1, p2, buttStock, handle, railTop, railBot, plasmaCore, holoProj, holoRet);
+    m.scale.set(1.65, 1.65, 1.65);
+
+  } else {
+    // OMEGA (Alien Singularity Particle Disintegrator)
+    // Bio-Mechanical Curved Chassis
+    const chassis = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.11, 0.46, 8), body);
+    chassis.rotateX(Math.PI / 2); chassis.position.set(0, 0.02, 0.02);
+    // Sweeping Crystalline Rear Fins (Empennage / Stock)
+    const finL = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.16, 0.34), accent);
+    finL.position.set(-0.10, 0.05, 0.30); finL.rotation.y = 0.25; finL.rotation.z = -0.2;
+    const finR = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.16, 0.34), accent);
+    finR.position.set(0.10, 0.05, 0.30); finR.rotation.y = -0.25; finR.rotation.z = 0.2;
+    const rearSpike = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.22, 6), metal);
+    rearSpike.rotateX(Math.PI / 2); rearSpike.position.set(0, 0.02, 0.34);
+    // Seamless Bio-Grip
+    const gripStem = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.028, 0.20, 8), grip);
+    gripStem.position.set(0, -0.14, 0.08); gripStem.rotation.x = -0.3;
+    // 3 Curved Forward Mandibles focusing toward center
+    const mTop = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.36, 6), metal);
+    mTop.rotateX(-Math.PI / 2); mTop.position.set(0, 0.10, -0.40);
+    const mBotL = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.36, 6), metal);
+    mBotL.rotateX(-Math.PI / 2); mBotL.position.set(-0.08, -0.05, -0.40);
+    const mBotR = new THREE.Mesh(new THREE.ConeGeometry(0.025, 0.36, 6), metal);
+    mBotR.rotateX(-Math.PI / 2); mBotR.position.set(0.08, -0.05, -0.40);
+    // Floating Singularity Octahedron (Pulsing alien dark core)
+    const singularity = new THREE.Mesh(new THREE.OctahedronGeometry(0.075, 1), glow);
+    singularity.position.set(0, 0.02, -0.36);
+    // Inlaid Energy Veins
+    const veinL = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.32), glow);
+    veinL.position.set(-0.095, 0.02, 0.02);
+    const veinR = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.32), glow);
+    veinR.position.set(0.095, 0.02, 0.02);
+
+    m.add(chassis, finL, finR, rearSpike, gripStem, mTop, mBotL, mBotR, singularity, veinL, veinR);
+    m.scale.set(1.8, 1.8, 1.8);
+  }
+
+  return m;
+}
+
 function updateArmoryWeapon3DModel() {
   if (!armory3DGroup) return;
   while (armory3DGroup.children.length > 0) armory3DGroup.remove(armory3DGroup.children[0]);
 
   const w = WEAPONS[state.selectedShopWeaponIdx] || WEAPONS[0];
   const st = getWeaponStats(w.id);
-  const camo = CAMO_TYPES.find(c => c.id === (st.selectedCamo || 'DEFAULT')) || CAMO_TYPES[0];
+  let camoId = st.selectedCamo || 'DEFAULT';
+  if (camoId === 'OBSIDIAN') camoId = 'MAGMA';
+  if (camoId === 'CHRONO_GOLD') camoId = 'PRISMATIC';
+  const camo = CAMO_TYPES.find(c => c.id === camoId) || CAMO_TYPES[0];
   const camoHex = w.colorHex || 0x22d3ee;
 
-  const dark = new THREE.MeshBasicMaterial({ color: 0x0f172a });
-  const mid = new THREE.MeshBasicMaterial({ color: 0x334155 });
-  const light = new THREE.MeshBasicMaterial({ color: 0x64748b });
-  const glow = new THREE.MeshBasicMaterial({ color: camoHex });
+  const mats = getArmoryCamoMaterials(camo.id, camoHex);
+  const m = createCompleteArmoryWeapon3D(w.id, mats);
 
-  const m = new THREE.Group();
-  if (w.id === 'ASSAULT') {
-    m.add(new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.15, 0.56), dark));
-    const mag = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.24, 0.11), mid);
-    mag.position.set(0, -0.17, -0.08); mag.rotation.x = 0.22; m.add(mag);
-    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.48, 8), light);
-    barrel.rotateX(Math.PI / 2); barrel.position.set(0, 0.03, -0.38); m.add(barrel);
-    const strip = new THREE.Mesh(new THREE.BoxGeometry(0.128, 0.025, 0.42), glow);
-    strip.position.set(0, 0.02, -0.12); m.add(strip);
-    const aPostL = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.055, 0.02), glow); aPostL.position.set(-0.032, 0.13, 0.02);
-    const aPostR = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.055, 0.02), glow); aPostR.position.set(0.032, 0.13, 0.02);
-    m.add(aPostL, aPostR);
-  } else if (w.id === 'SMG') {
-    m.add(new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.18, 0.38), dark));
-    const sFront = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.22, 0.14), mid);
-    sFront.position.set(0, -0.04, -0.22); sFront.rotation.x = -0.2; m.add(sFront);
-    const sMag = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.30, 0.07), glow);
-    sMag.position.set(0, -0.19, -0.12); sMag.rotation.x = -0.28; m.add(sMag);
-    const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.034, 0.034, 0.24, 8), light);
-    barrel.rotateX(Math.PI / 2); barrel.position.set(0, 0.02, -0.34); m.add(barrel);
-    const topStrip = new THREE.Mesh(new THREE.BoxGeometry(0.122, 0.04, 0.26), glow);
-    topStrip.position.set(0, 0.03, -0.06); m.add(topStrip);
-  } else if (w.id === 'SHOTGUN') {
-    m.add(new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.18, 0.54), dark));
-    const b1 = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.036, 0.62, 8), light);
-    b1.rotateX(Math.PI / 2); b1.position.set(0, 0.055, -0.28); m.add(b1);
-    const b2 = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.036, 0.62, 8), mid);
-    b2.rotateX(Math.PI / 2); b2.position.set(0, -0.015, -0.26); m.add(b2);
-    const topBox = new THREE.Mesh(new THREE.BoxGeometry(0.176, 0.03, 0.36), glow);
-    topBox.position.set(0, 0.06, -0.10); m.add(topBox);
-  } else if (w.id === 'SNIPER') {
-    m.add(new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.16, 0.68), dark));
-    const rL = new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.055, 0.88), light); rL.position.set(-0.042, 0.04, -0.46);
-    const rR = new THREE.Mesh(new THREE.BoxGeometry(0.032, 0.055, 0.88), light); rR.position.set(0.042, 0.04, -0.46);
-    m.add(rL, rR);
-    const beam = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.025, 0.85), glow); beam.position.set(0, 0.04, -0.44); m.add(beam);
-    const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.036, 0.38, 10), mid);
-    tube.rotateX(Math.PI / 2); tube.position.set(0, 0.17, 0.02); m.add(tube);
-  } else if (w.id === 'TESLA') {
-    m.add(new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.16, 0.50), dark));
-    const pL = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.08, 0.48), mid); pL.position.set(-0.075, 0.02, -0.32);
-    const pR = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.08, 0.48), mid); pR.position.set(0.075, 0.02, -0.32);
-    m.add(pL, pR);
-    for (let i = 0; i < 3; i++) {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.085, 0.014, 6, 14), glow);
-      ring.position.set(0, 0.02, -0.18 - i * 0.14); m.add(ring);
-    }
-  } else if (w.id === 'HYDRA') {
-    const c1 = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.78, 10), dark);
-    c1.rotateX(Math.PI / 2); c1.position.set(0, 0.04, -0.22); m.add(c1);
-    const c2 = new THREE.Mesh(new THREE.CylinderGeometry(0.125, 0.125, 0.12, 10), glow);
-    c2.rotateX(Math.PI / 2); c2.position.set(0, 0.04, -0.52); m.add(c2);
-    const plate = new THREE.Mesh(new THREE.BoxGeometry(0.23, 0.03, 0.55), glow);
-    plate.position.set(0, 0.04, -0.20); m.add(plate);
-  } else if (w.id === 'GAUSS') {
-    m.add(new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.18, 0.64), dark));
-    const core = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.08, 0.55), glow);
-    core.position.set(0, 0.03, -0.42); m.add(core);
-  } else {
-    // SECRET / OMEGA
-    const c1 = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.11, 0.48, 6), dark);
-    c1.rotateX(Math.PI / 2); c1.position.set(0, 0, 0.06); m.add(c1);
-    const orb = new THREE.Mesh(new THREE.OctahedronGeometry(0.065, 1), glow);
-    orb.position.set(0, 0.03, -0.34); m.add(orb);
-  }
-
-  m.scale.set(2.4, 2.4, 2.4);
   armory3DGroup.add(m);
   armory3DGroup.rotation.set(0.15, -0.5, 0);
 }
