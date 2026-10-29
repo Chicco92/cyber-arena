@@ -1424,9 +1424,24 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         </div>
       </div>
 
-      <!-- CENTER STAGE: Astronaut is standing in center; Wardrobe panel floats underneath -->
-      <div id="profile-panel-suits" class="flex-1 flex flex-col justify-end items-center pb-2 pointer-events-none z-20">
-        <div class="cyber-panel rounded-2xl p-3 border border-fuchsia-400/50 bg-slate-950/90 backdrop-blur-md shadow-2xl max-w-lg w-full pointer-events-auto">
+      <!-- CENTER STAGE: 3D Operator Avatar in Center + Wardrobe underneath -->
+      <div id="profile-panel-suits" class="flex-1 flex flex-col justify-between items-center pb-2 pointer-events-none z-20 h-full overflow-hidden">
+        
+        <!-- 3D OPERATOR AVATAR VIEWPORT (STATICO, TRASCINABILE 360°) -->
+        <div id="profile-3d-wrapper" class="relative w-full flex-1 min-h-[260px] flex items-center justify-center pointer-events-auto">
+          <div id="profile-3d-box" class="w-full h-full min-h-[240px] relative cursor-grab active:cursor-grabbing rounded-2xl overflow-hidden">
+            <!-- Hint tag -->
+            <div class="absolute bottom-2 left-3 text-[10px] font-cyber text-cyan-300 bg-slate-950/85 px-2.5 py-1 rounded-lg border border-cyan-500/40 pointer-events-none select-none flex items-center gap-1.5 shadow-lg backdrop-blur-sm">
+              <span>🖱️</span><span>Trascina per ruotare l'operatore</span>
+            </div>
+            <button id="profile-3d-reset-btn" type="button" onclick="resetProfile3DView()" class="absolute top-2 right-2 px-2.5 py-1 rounded-lg bg-slate-900/85 hover:bg-slate-800 border border-slate-700 hover:border-cyan-400 text-[10px] font-cyber font-bold text-slate-300 hover:text-white transition cursor-pointer select-none shadow-md backdrop-blur-sm">
+              RESET 3D
+            </button>
+          </div>
+        </div>
+
+        <!-- WARDROBE CARD -->
+        <div class="cyber-panel rounded-2xl p-2.5 sm:p-3 border border-fuchsia-400/50 bg-slate-950/90 backdrop-blur-md shadow-2xl max-w-lg w-full pointer-events-auto mt-1 shrink-0">
           <div class="flex items-center justify-between gap-1 mb-2">
             <span class="text-[9px] font-cyber text-fuchsia-300 uppercase tracking-widest font-bold">👨‍🚀 GUARDAROBA TUTE 3D (CLICCA PER INDOSSARE)</span>
             <span class="text-[9px] text-slate-400">Aggiornamento 3D istantaneo</span>
@@ -4819,7 +4834,7 @@ function getArmoryCamoMaterials(camoId, defaultColorHex) {
   return { body: bodyMat, accent: accentMat, metal: metalMat, grip: gripMat, glow: glowMat };
 }
 
-function createCompleteArmoryWeapon3D(id, mats) {
+function createCompleteArmoryWeapon3D(id, mats, isFirstPerson = false) {
   const m = new THREE.Group();
   const { body, accent, metal, grip, glow } = mats;
 
@@ -4877,7 +4892,8 @@ function createCompleteArmoryWeapon3D(id, mats) {
     stripR.position.set(0.052, 0.03, -0.05);
 
     m.add(upper, lower, buffer, stock, cheekRest, buttPad, pGrip, trigGuard, trigger, mag, magBase, handguard, barrel, muzzleBrake, sightBase, sightHood, holoGlass, stripL, stripR);
-    m.scale.set(1.9, 1.9, 1.9);
+    if (!isFirstPerson) m.scale.set(1.9, 1.9, 1.9);
+    else m.scale.set(1.0, 1.0, 1.0);
 
   } else if (id === 'SMG') {
     // Compact Vector / PDW Chassis
@@ -4920,7 +4936,8 @@ function createCompleteArmoryWeapon3D(id, mats) {
     sideGlow.position.set(0, 0.03, -0.04);
 
     m.add(receiver, topRail, strutL, strutR, pdwPad, pGrip, foreGrip, mag, barrel, muzzleTip, sight, sightDot, sideGlow);
-    m.scale.set(2.1, 2.1, 2.1);
+    if (!isFirstPerson) m.scale.set(2.1, 2.1, 2.1);
+    else m.scale.set(1.0, 1.0, 1.0);
 
   } else if (id === 'SHOTGUN') {
     // Heavy Receiver
@@ -4959,7 +4976,8 @@ function createCompleteArmoryWeapon3D(id, mats) {
     shellRack.position.set(0, 0.04, 0.04);
 
     m.add(receiver, stock, comb, recoilPad, pGrip, trig, topBarrel, tubeMag, pumpSlide, breachMuzzle, heatShield, sightPost, shellRack);
-    m.scale.set(1.8, 1.8, 1.8);
+    if (!isFirstPerson) m.scale.set(1.8, 1.8, 1.8);
+    else m.scale.set(1.0, 1.0, 1.0);
 
   } else if (id === 'SNIPER') {
     // Long Antimateriel Receiver with Ejection Port & Bolt
@@ -5008,7 +5026,8 @@ function createCompleteArmoryWeapon3D(id, mats) {
     beam.position.set(0, 0.04, -0.50);
 
     m.add(receiver, boltHandle, stock, cheekRiser, buttPad, pGrip, mag, barrel, railL, railR, brake, scopeTube, scopeBell, scopeLens, mountF, mountR, bipod, beam);
-    m.scale.set(1.55, 1.55, 1.55);
+    if (!isFirstPerson) m.scale.set(1.55, 1.55, 1.55);
+    else m.scale.set(1.0, 1.0, 1.0);
 
   } else if (id === 'TESLA') {
     // High-Voltage Chassis
@@ -5035,6 +5054,7 @@ function createCompleteArmoryWeapon3D(id, mats) {
       const ring = new THREE.Mesh(new THREE.TorusGeometry(0.085, 0.015, 8, 18), glow);
       ring.position.set(0, 0.03, -0.20 - i * 0.13);
       m.add(ring);
+      if (i === 0 && isFirstPerson) teslaArcRing = ring;
     }
     // Twin Heavy Forward Tuning Fork Prongs
     const prongL = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.07, 0.44), accent);
@@ -5050,7 +5070,8 @@ function createCompleteArmoryWeapon3D(id, mats) {
     coreBeam.rotateX(Math.PI / 2); coreBeam.position.set(0, 0.03, -0.34);
 
     m.add(receiver, stockL, stockR, groundPad, rearGrip, frontHandle, cell, prongL, prongR, tipL, tipR, coreBeam);
-    m.scale.set(1.8, 1.8, 1.8);
+    if (!isFirstPerson) m.scale.set(1.8, 1.8, 1.8);
+    else m.scale.set(1.0, 1.0, 1.0);
 
   } else if (id === 'HYDRA') {
     // Massive Quad Missile Launcher Housing
@@ -5091,7 +5112,8 @@ function createCompleteArmoryWeapon3D(id, mats) {
     eye.position.set(-0.14, 0.10, -0.132);
 
     m.add(housing, shoulderRest, shoulderPad, mainGrip, sideGrip, faceplate, targetPod, eye);
-    m.scale.set(1.7, 1.7, 1.7);
+    if (!isFirstPerson) m.scale.set(1.7, 1.7, 1.7);
+    else m.scale.set(1.0, 1.0, 1.0);
 
   } else if (id === 'GAUSS') {
     // Angular Kinetic Frame
@@ -5116,6 +5138,7 @@ function createCompleteArmoryWeapon3D(id, mats) {
     // Central Superconducting Plasma Core
     const plasmaCore = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.045, 0.62), glow);
     plasmaCore.position.set(0, 0.03, -0.42);
+    if (isFirstPerson) gaussSpinCore = plasmaCore;
     // Side Capacitor Banks (2 Left, 2 Right)
     for (let i = 0; i < 2; i++) {
       const capL = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.16, 8), accent);
@@ -5135,10 +5158,11 @@ function createCompleteArmoryWeapon3D(id, mats) {
     holoRet.position.set(0, 0.18, -0.02);
 
     m.add(frame, p1, p2, buttStock, handle, railTop, railBot, plasmaCore, holoProj, holoRet);
-    m.scale.set(1.65, 1.65, 1.65);
+    if (!isFirstPerson) m.scale.set(1.65, 1.65, 1.65);
+    else m.scale.set(1.0, 1.0, 1.0);
 
   } else {
-    // OMEGA (Alien Singularity Particle Disintegrator)
+    // OMEGA / SECRET (Alien Singularity Particle Disintegrator)
     // Bio-Mechanical Curved Chassis
     const chassis = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.11, 0.46, 8), body);
     chassis.rotateX(Math.PI / 2); chassis.position.set(0, 0.02, 0.02);
@@ -5162,6 +5186,7 @@ function createCompleteArmoryWeapon3D(id, mats) {
     // Floating Singularity Octahedron (Pulsing alien dark core)
     const singularity = new THREE.Mesh(new THREE.OctahedronGeometry(0.075, 1), glow);
     singularity.position.set(0, 0.02, -0.36);
+    if (isFirstPerson) omegaCoreOrb = singularity;
     // Inlaid Energy Veins
     const veinL = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.02, 0.32), glow);
     veinL.position.set(-0.095, 0.02, 0.02);
@@ -5169,7 +5194,8 @@ function createCompleteArmoryWeapon3D(id, mats) {
     veinR.position.set(0.095, 0.02, 0.02);
 
     m.add(chassis, finL, finR, rearSpike, gripStem, mTop, mBotL, mBotR, singularity, veinL, veinR);
-    m.scale.set(1.8, 1.8, 1.8);
+    if (!isFirstPerson) m.scale.set(1.8, 1.8, 1.8);
+    else m.scale.set(1.0, 1.0, 1.0);
   }
 
   return m;
@@ -5188,11 +5214,141 @@ function updateArmoryWeapon3DModel() {
   const camoHex = w.colorHex || 0x22d3ee;
 
   const mats = getArmoryCamoMaterials(camo.id, camoHex);
-  const m = createCompleteArmoryWeapon3D(w.id, mats);
+  const m = createCompleteArmoryWeapon3D(w.id, mats, false);
 
   armory3DGroup.add(m);
   armory3DGroup.rotation.set(0.15, -0.5, 0);
 }
+
+// Motore 3D per ispezione operatore in Profilo (Three.js dedicato - STATICO, TRASCINABILE 360°)
+let profile3DScene = null, profile3DCamera = null, profile3DRenderer = null, profile3DGroup = null;
+let profile3DIsDragging = false, profile3DPrevX = 0, profile3DPrevY = 0;
+let profile3DAnimStarted = false;
+
+function initProfileAvatar3DViewport() {
+  const box = byId('profile-3d-box');
+  if (!box || profile3DRenderer) return;
+
+  const w = box.clientWidth || 360;
+  const h = box.clientHeight || 280;
+
+  profile3DScene = new THREE.Scene();
+  profile3DScene.background = new THREE.Color(0x020617);
+
+  // Hologram pedestal grid beneath character
+  const grid = new THREE.GridHelper(5, 12, 0x06b6d4, 0x1e293b);
+  grid.position.y = -1.25;
+  profile3DScene.add(grid);
+
+  // Glowing cyan circular ring around pedestal
+  const ringGeo = new THREE.RingGeometry(0.72, 0.80, 32);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, side: THREE.DoubleSide });
+  const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+  ringMesh.rotation.x = Math.PI / 2;
+  ringMesh.position.y = -1.24;
+  profile3DScene.add(ringMesh);
+
+  // Lighting
+  profile3DScene.add(new THREE.AmbientLight(0xffffff, 0.95));
+  const l1 = new THREE.DirectionalLight(0x38bdf8, 1.4);
+  l1.position.set(2, 3, 3);
+  profile3DScene.add(l1);
+  const l2 = new THREE.DirectionalLight(0xf59e0b, 0.85);
+  l2.position.set(-2, 1, -2);
+  profile3DScene.add(l2);
+  const lCam = new THREE.DirectionalLight(0xffffff, 1.3);
+  lCam.position.set(0, 1.2, 3.2);
+  profile3DScene.add(lCam);
+
+  profile3DCamera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
+  profile3DCamera.position.set(0, 0.10, 3.7);
+  profile3DCamera.lookAt(0, -0.05, 0);
+
+  profile3DRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  profile3DRenderer.setSize(w, h);
+  profile3DRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  box.appendChild(profile3DRenderer.domElement);
+
+  profile3DGroup = new THREE.Group();
+  profile3DScene.add(profile3DGroup);
+
+  // Drag interaction - STATIONARY (NO auto-rotation!), user drags to inspect 360°
+  box.addEventListener('mousedown', (e) => {
+    profile3DIsDragging = true;
+    profile3DPrevX = e.clientX;
+    profile3DPrevY = e.clientY;
+  });
+  window.addEventListener('mouseup', () => { profile3DIsDragging = false; });
+  window.addEventListener('mousemove', (e) => {
+    if (!profile3DIsDragging || !profile3DGroup) return;
+    profile3DGroup.rotation.y += (e.clientX - profile3DPrevX) * 0.012;
+    const dy = (e.clientY - profile3DPrevY) * 0.005;
+    profile3DGroup.rotation.x = Math.max(-0.35, Math.min(0.35, profile3DGroup.rotation.x + dy));
+    profile3DPrevX = e.clientX;
+    profile3DPrevY = e.clientY;
+  });
+
+  box.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      profile3DIsDragging = true;
+      profile3DPrevX = e.touches[0].clientX;
+      profile3DPrevY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  window.addEventListener('touchend', () => { profile3DIsDragging = false; });
+  window.addEventListener('touchmove', (e) => {
+    if (!profile3DIsDragging || !profile3DGroup || e.touches.length !== 1) return;
+    profile3DGroup.rotation.y += (e.touches[0].clientX - profile3DPrevX) * 0.012;
+    const dy = (e.touches[0].clientY - profile3DPrevY) * 0.005;
+    profile3DGroup.rotation.x = Math.max(-0.35, Math.min(0.35, profile3DGroup.rotation.x + dy));
+    profile3DPrevX = e.touches[0].clientX;
+    profile3DPrevY = e.touches[0].clientY;
+  }, { passive: true });
+
+  if (!profile3DAnimStarted) {
+    profile3DAnimStarted = true;
+    function animProfile3D() {
+      requestAnimationFrame(animProfile3D);
+      // NOTE: strictly stationary when idle (no rotation.y increment), user drags to rotate
+      if (currentLobbyMenu === 'PROFILE' && profile3DRenderer && profile3DScene && profile3DCamera) {
+        profile3DRenderer.render(profile3DScene, profile3DCamera);
+      }
+    }
+    animProfile3D();
+  }
+
+  window.addEventListener('resize', () => {
+    if (!box || !profile3DRenderer || !profile3DCamera) return;
+    const nw = box.clientWidth;
+    const nh = box.clientHeight;
+    if (nw > 0 && nh > 0) {
+      profile3DCamera.aspect = nw / nh;
+      profile3DCamera.updateProjectionMatrix();
+      profile3DRenderer.setSize(nw, nh);
+    }
+  });
+}
+
+function resetProfile3DView() {
+  if (!profile3DGroup || !profile3DCamera) return;
+  profile3DGroup.rotation.set(0, 0, 0);
+  profile3DCamera.position.set(0, 0.10, 3.7);
+  profile3DCamera.lookAt(0, -0.05, 0);
+}
+window.resetProfile3DView = resetProfile3DView;
+
+function updateProfileAvatar3DModel() {
+  if (!profile3DGroup) return;
+  while (profile3DGroup.children.length > 0) profile3DGroup.remove(profile3DGroup.children[0]);
+
+  const suitId = playerProfile.selectedSuit || 'DEFAULT';
+  const avatar = buildAvatarModel(suitId, state.currentWeaponIndex || 0);
+
+  // Position avatar so waist/chest is centered at origin (0, 0, 0)
+  avatar.position.set(0, -1.25, 0);
+  profile3DGroup.add(avatar);
+}
+window.updateProfileAvatar3DModel = updateProfileAvatar3DModel;
 
 function renderArmoryBlocks() {
   const container = byId('armory-blocks-grid');
@@ -6043,6 +6199,11 @@ function renderProfileView() {
   }
 
   renderOperatorPanelUI();
+
+  setTimeout(() => {
+    initProfileAvatar3DViewport();
+    updateProfileAvatar3DModel();
+  }, 50);
 }
 
 function renderTrophiesView() {
@@ -7264,199 +7425,43 @@ state.needsStaticRender = true;
 if (state.mode === 'MENU' && currentMapGroup) currentMapGroup.visible = false;
 }
 function buildFirstPersonWeapon() {
-weaponGroup = new THREE.Group();
-const darkMetal = basicMat(0x0f172a);
-const midMetal = basicMat(0x334155);
-const lightMetal = basicMat(0x64748b);
-const gripMat = basicMat(0x090d16);
-const assaultGrp = new THREE.Group();
-const cyanGlow = basicMat(0x22d3ee);
-assaultGrp.add(boxMesh(0.12, 0.15, 0.56, darkMetal));
-addBox(assaultGrp, 0.10, 0.13, 0.24, gripMat, 0, -0.02, 0.34);
-addBox(assaultGrp, 0.11, 0.11, 0.32, midMetal, 0, 0.01, -0.32);
-addCyl(assaultGrp, 0.022, 0.022, 0.48, 8, lightMetal, 0, 0.03, -0.38);
-addCyl(assaultGrp, 0.032, 0.028, 0.09, 8, darkMetal, 0, 0.03, -0.60);
-const aMag = boxMesh(0.075, 0.24, 0.11, midMetal);
-aMag.position.set(0, -0.17, -0.08);
-aMag.rotation.x = 0.22;
-assaultGrp.add(aMag);
-addBox(assaultGrp, 0.128, 0.025, 0.42, cyanGlow, 0, 0.02, -0.12);
-addBox(assaultGrp, 0.09, 0.025, 0.12, midMetal, 0, 0.09, 0.02);
-const aPostL = boxMesh(0.012, 0.055, 0.02, cyanGlow);
-aPostL.position.set(-0.032, 0.13, 0.02);
-const aPostR = boxMesh(0.012, 0.055, 0.02, cyanGlow);
-aPostR.position.set(0.032, 0.13, 0.02);
-assaultGrp.add(aPostL, aPostR);
-weaponModels['ASSAULT'] = assaultGrp;
-weaponGroup.add(assaultGrp);
-const smgGrp = new THREE.Group();
-const yellowGlow = basicMat(0xfacc15);
-addBox(smgGrp, 0.11, 0.18, 0.38, darkMetal, 0, -0.01, -0.02);
-const sFront = boxMesh(0.10, 0.22, 0.14, midMetal);
-sFront.position.set(0, -0.04, -0.22);
-sFront.rotation.x = -0.2;
-smgGrp.add(sFront);
-addBox(smgGrp, 0.05, 0.16, 0.05, gripMat, 0, -0.16, -0.26);
-const sMag = boxMesh(0.055, 0.30, 0.07, yellowGlow);
-sMag.position.set(0, -0.19, -0.12);
-sMag.rotation.x = -0.28;
-smgGrp.add(sMag);
-addCyl(smgGrp, 0.034, 0.034, 0.24, 8, lightMetal, 0, 0.02, -0.34);
-addBox(smgGrp, 0.122, 0.04, 0.26, yellowGlow, 0, 0.03, -0.06);
-const sPostL = boxMesh(0.012, 0.045, 0.025, yellowGlow);
-sPostL.position.set(-0.028, 0.12, 0.0);
-const sPostR = boxMesh(0.012, 0.045, 0.025, yellowGlow);
-sPostR.position.set(0.028, 0.12, 0.0);
-smgGrp.add(sPostL, sPostR);
-smgGrp.visible = false;
-weaponModels['SMG'] = smgGrp;
-weaponGroup.add(smgGrp);
-const sgGrp = new THREE.Group();
-const orangeGlow = basicMat(0xf97316);
-const shBody = boxMesh(0.17, 0.18, 0.54, darkMetal);
-sgGrp.add(shBody);
-addCyl(sgGrp, 0.036, 0.036, 0.62, 8, lightMetal, 0, 0.055, -0.28);
-addCyl(sgGrp, 0.036, 0.036, 0.62, 8, midMetal, 0, -0.015, -0.26);
-addBox(sgGrp, 0.15, 0.09, 0.26, gripMat, 0, -0.05, -0.32);
-for (let i = 0; i < 4; i++) {
-const shell = boxMesh(0.025, 0.055, 0.035, orangeGlow);
-shell.position.set(0.092, 0.02, 0.08 - i * 0.065);
-sgGrp.add(shell);
-}
-addBox(sgGrp, 0.176, 0.03, 0.36, orangeGlow, 0, 0.06, -0.10);
-const shRearSightL = boxMesh(0.015, 0.04, 0.04, orangeGlow);
-shRearSightL.position.set(-0.04, 0.13, 0.06);
-const shRearSightR = boxMesh(0.015, 0.04, 0.04, orangeGlow);
-shRearSightR.position.set(0.04, 0.13, 0.06);
-sgGrp.add(shRearSightL, shRearSightR);
-sgGrp.visible = false;
-weaponModels['SHOTGUN'] = sgGrp;
-weaponGroup.add(sgGrp);
-const sniperGrp = new THREE.Group();
-const redGlow = basicMat(0xf43f5e);
-const snBody = boxMesh(0.12, 0.16, 0.68, darkMetal);
-sniperGrp.add(snBody);
-const railGeo = new THREE.BoxGeometry(0.032, 0.055, 0.88);
-const railL = new THREE.Mesh(railGeo, lightMetal);
-railL.position.set(-0.042, 0.04, -0.46);
-const railR = new THREE.Mesh(railGeo, lightMetal);
-railR.position.set(0.042, 0.04, -0.46);
-sniperGrp.add(railL, railR);
-addBox(sniperGrp, 0.03, 0.025, 0.85, redGlow, 0, 0.04, -0.44);
-for (let i = 0; i < 4; i++) {
-addBox(sniperGrp, 0.135, 0.085, 0.03, redGlow, 0, 0.04, -0.22 - i * 0.18);
-}
-const snScopeTube = new THREE.CylinderGeometry(0.042, 0.036, 0.38, 10);
-snScopeTube.rotateX(Math.PI / 2);
-const snScope = new THREE.Mesh(snScopeTube, midMetal);
-snScope.position.set(0, 0.17, 0.02);
-sniperGrp.add(snScope);
-const bipodL = boxMesh(0.02, 0.02, 0.26, gripMat);
-bipodL.position.set(-0.04, -0.05, -0.45);
-const bipodR = boxMesh(0.02, 0.02, 0.26, gripMat);
-bipodR.position.set(0.04, -0.05, -0.45);
-sniperGrp.add(bipodL, bipodR);
-sniperGrp.visible = false;
-weaponModels['SNIPER'] = sniperGrp;
-weaponGroup.add(sniperGrp);
-const secretGrp = new THREE.Group();
-const purpleGlow = basicMat(0xd946ef);
-const cyanAccent = basicMat(0x22d3ee);
-addCyl(secretGrp, 0.09, 0.11, 0.48, 6, darkMetal, 0, 0, 0.06);
-for (let i = 0; i < 3; i++) {
-const angle = (i * Math.PI * 2) / 3 + Math.PI / 2;
-const claw = boxMesh(0.035, 0.035, 0.46, midMetal);
-claw.position.set(Math.cos(angle) * 0.095, Math.sin(angle) * 0.095 + 0.03, -0.34);
-secretGrp.add(claw);
-const clawTip = boxMesh(0.042, 0.042, 0.12, purpleGlow);
-clawTip.position.set(Math.cos(angle) * 0.085, Math.sin(angle) * 0.085 + 0.03, -0.54);
-secretGrp.add(clawTip);
-}
-omegaCoreOrb = new THREE.Mesh(new THREE.OctahedronGeometry(0.065, 1), purpleGlow);
-omegaCoreOrb.position.set(0, 0.03, -0.34);
-secretGrp.add(omegaCoreOrb);
-omegaOuterRings = [];
-const ring1 = new THREE.Mesh(new THREE.TorusGeometry(0.095, 0.01, 6, 16), cyanAccent);
-ring1.position.set(0, 0.03, -0.34);
-const ring2 = new THREE.Mesh(new THREE.TorusGeometry(0.115, 0.01, 6, 16), purpleGlow);
-ring2.position.set(0, 0.03, -0.34);
-ring2.rotation.y = Math.PI / 2;
-secretGrp.add(ring1, ring2);
-omegaOuterRings.push(ring1, ring2);
-secretGrp.visible = false;
-weaponModels['SECRET'] = secretGrp;
-weaponGroup.add(secretGrp);
-const teslaGrp = new THREE.Group();
-const teslaGlow = basicMat(0x38bdf8);
-const tBody = boxMesh(0.14, 0.16, 0.50, darkMetal);
-teslaGrp.add(tBody);
-const tProngL = boxMesh(0.035, 0.08, 0.48, midMetal);
-tProngL.position.set(-0.075, 0.02, -0.32);
-const tProngR = boxMesh(0.035, 0.08, 0.48, midMetal);
-tProngR.position.set(0.075, 0.02, -0.32);
-teslaGrp.add(tProngL, tProngR);
-for (let i = 0; i < 3; i++) {
-const coilRing = new THREE.Mesh(new THREE.TorusGeometry(0.085, 0.014, 6, 14), teslaGlow);
-coilRing.position.set(0, 0.02, -0.18 - i * 0.14);
-teslaGrp.add(coilRing);
-}
-teslaArcRing = new THREE.Mesh(new THREE.OctahedronGeometry(0.055, 0), teslaGlow);
-teslaArcRing.position.set(0, 0.02, -0.52);
-teslaGrp.add(teslaArcRing);
-teslaGrp.visible = false;
-weaponModels['TESLA'] = teslaGrp;
-weaponGroup.add(teslaGrp);
-const hydraGrp = new THREE.Group();
-const hydraGlow = basicMat(0x10b981);
-addCyl(hydraGrp, 0.11, 0.11, 0.78, 10, darkMetal, 0, 0.04, -0.22);
-addCyl(hydraGrp, 0.125, 0.125, 0.12, 10, hydraGlow, 0, 0.04, -0.52);
-addBox(hydraGrp, 0.23, 0.03, 0.55, hydraGlow, 0, 0.04, -0.20);
-hydraGrp.visible = false;
-weaponModels['HYDRA'] = hydraGrp;
-weaponGroup.add(hydraGrp);
-const gaussGrp = new THREE.Group();
-const goldGlow = basicMat(0xfbbf24);
-const gBody = boxMesh(0.15, 0.18, 0.64, darkMetal);
-gaussGrp.add(gBody);
-const gRailGeo = new THREE.BoxGeometry(0.028, 0.028, 0.82);
-const railOffsets = [[-0.055, 0.07], [0.055, 0.07], [-0.055, -0.01], [0.055, -0.01]];
-railOffsets.forEach(([rx, ry]) => {
-const r = new THREE.Mesh(gRailGeo, lightMetal);
-r.position.set(rx, ry, -0.44);
-gaussGrp.add(r);
-});
-gaussSpinCore = boxMesh(0.08, 0.08, 0.55, goldGlow);
-gaussSpinCore.position.set(0, 0.03, -0.42);
-gaussGrp.add(gaussSpinCore);
-gaussGrp.visible = false;
-weaponModels['GAUSS'] = gaussGrp;
-weaponGroup.add(gaussGrp);
-weaponBarrelTip = new THREE.Object3D();
-weaponBarrelTip.position.set(0, 0.04, -0.58);
-weaponGroup.add(weaponBarrelTip);
-muzzleMesh = new THREE.Mesh(
-new THREE.SphereGeometry(0.12, 6, 6),
-new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0 })
-);
-muzzleMesh.scale.set(1, 1, 2.2);
-weaponBarrelTip.add(muzzleMesh);
-muzzleLight = new THREE.PointLight(0x22d3ee, 0, 5);
-weaponBarrelTip.add(muzzleLight);
-const baseMetalHexes = [0x0f172a, 0x334155, 0x64748b, 0x090d16];
-Object.keys(weaponModels).forEach(key => {
-weaponModels[key].traverse(child => {
-if (child.isMesh && child.material) {
-child.material = child.material.clone();
-const hex = child.material.color.getHex();
-child.userData.origColor = hex;
-child.userData.isGlow = !baseMetalHexes.includes(hex);
-}
-});
-});
-weaponGroup.position.set(0.28, -0.24, -0.45);
-camera.add(weaponGroup);
-scene.add(camera);
-applyWeaponVisuals(WEAPONS[0]);
+  weaponGroup = new THREE.Group();
+  weaponBarrelTip = new THREE.Object3D();
+  weaponBarrelTip.position.set(0, 0.04, -0.58);
+  weaponGroup.add(weaponBarrelTip);
+
+  muzzleMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(0.12, 6, 6),
+    new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0 })
+  );
+  muzzleMesh.scale.set(1, 1, 2.2);
+  weaponBarrelTip.add(muzzleMesh);
+
+  muzzleLight = new THREE.PointLight(0x22d3ee, 0, 5);
+  weaponBarrelTip.add(muzzleLight);
+
+  const fpLight = new THREE.PointLight(0xffffff, 0.95, 3.5);
+  fpLight.position.set(0.2, 0.25, -0.2);
+  weaponGroup.add(fpLight);
+
+  weaponGroup.position.set(0.28, -0.24, -0.45);
+  camera.add(weaponGroup);
+  scene.add(camera);
+
+  // Costruisci ciascuna arma con il modello 3D completo e la camo selezionata
+  WEAPONS.forEach(w => {
+    const st = getWeaponStats(w.id);
+    let camo = st.selectedCamo || 'DEFAULT';
+    if (camo === 'OBSIDIAN') camo = 'MAGMA';
+    if (camo === 'CHRONO_GOLD') camo = 'PRISMATIC';
+    const mats = getArmoryCamoMaterials(camo, w.colorHex);
+    const m = createCompleteArmoryWeapon3D(w.id, mats, true);
+    m.visible = (w.id === 'ASSAULT');
+    weaponModels[w.id] = m;
+    weaponGroup.add(m);
+  });
+
+  applyWeaponVisuals(WEAPONS[0]);
 }
 function getActiveWeaponCamoColorHex(w) {
 const st = getWeaponStats(w.id);
@@ -7482,9 +7487,6 @@ return w.colorHex;
 }
 function applyWeaponVisuals(w) {
 if (!weaponGroup) return;
-Object.keys(weaponModels).forEach(key => {
-weaponModels[key].visible = (key === w.id);
-});
 const st = getWeaponStats(w.id);
 if (st.selectedCamo && !isCamoUnlocked(w.id, st.selectedCamo)) {
 st.selectedCamo = 'DEFAULT';
@@ -7492,64 +7494,33 @@ st.selectedCamo = 'DEFAULT';
 let camo = st.selectedCamo || 'DEFAULT';
 if (camo === 'OBSIDIAN') camo = 'MAGMA';
 if (camo === 'CHRONO_GOLD') camo = 'PRISMATIC';
-const activeGrp = weaponModels[w.id];
+
 darkMatterDynamicMats.length = 0;
-if (activeGrp) {
-activeGrp.traverse(child => {
-if (child.isMesh && child.material && child.userData.origColor !== undefined) {
-if (child.material.map) {
-child.material.map = null;
-child.material.needsUpdate = true;
-}
-if (camo === 'DEFAULT') {
-const suit = playerProfile.selectedSuit || 'DEFAULT';
-let cHex = child.userData.origColor;
-if (child.userData.isGlow) {
-if (suit === 'NEON_RONIN') cHex = 0x10b981;
-else if (suit === 'OBSIDIAN_OPS') cHex = 0xef4444;
-else if (suit === 'SOLARIS_PRIME') cHex = 0xfbbf24;
-}
-child.material.color.setHex(cHex);
-} else if (camo === 'GOLD') {
-child.material.map = goldMetallicTexture;
-if (child.userData.origColor === 0x0f172a) {
-child.material.color.setHex(0x452505);
-} else if (child.userData.isGlow) {
-child.material.color.setHex(0xfffbeb);
-} else {
-child.material.color.setHex(0xffe066);
-}
-child.material.needsUpdate = true;
-} else if (camo === 'DIAMOND') {
-child.material.map = diamondMetallicTexture;
-if (child.userData.origColor === 0x0f172a) {
-child.material.color.setHex(0x334155);
-} else if (child.userData.isGlow) {
-child.material.color.setHex(0xe0f2fe);
-} else {
-child.material.color.setHex(0xffffff);
-}
-child.material.needsUpdate = true;
-} else if (camo === 'DARK_MATTER') {
-child.material.map = darkMatterTexture;
-child.material.color.setHex(0xffffff);
-child.material.needsUpdate = true;
-darkMatterDynamicMats.push({ mat: child.material, isGlow: child.userData.isGlow, type: 'DARK_MATTER' });
-} else if (camo === 'RUBY') {
-child.material.color.setHex(child.userData.isGlow ? 0xff3b3b : (child.userData.origColor === 0x0f172a ? 0x18181b : 0xb91c1c));
-} else if (camo === 'EMERALD') {
-child.material.color.setHex(child.userData.isGlow ? 0x22c55e : (child.userData.origColor === 0x0f172a ? 0x064e3b : 0x059669));
-} else if (camo === 'MAGMA') {
-child.material.color.setHex(child.userData.isGlow ? 0xffa200 : (child.userData.origColor === 0x0f172a ? 0x1c1917 : 0xea580c));
+
+const mats = getArmoryCamoMaterials(camo, w.colorHex);
+
+if (camo === 'DARK_MATTER') {
+  darkMatterDynamicMats.push({ mat: mats.body, type: 'DARK_MATTER' });
+  darkMatterDynamicMats.push({ mat: mats.glow, type: 'DARK_MATTER', isGlow: true });
 } else if (camo === 'PRISMATIC') {
-child.material.color.setHex(child.userData.isGlow ? 0xffffff : (child.userData.origColor === 0x0f172a ? 0x334155 : 0xf8fafc));
-darkMatterDynamicMats.push({ mat: child.material, isGlow: child.userData.isGlow, type: 'PRISMATIC' });
+  darkMatterDynamicMats.push({ mat: mats.body, type: 'PRISMATIC', isGlow: false });
+  darkMatterDynamicMats.push({ mat: mats.glow, type: 'PRISMATIC', isGlow: true });
 }
+
+// Rigenera il modello dell'arma attiva con la geometria completa e i materiali camo PBR
+if (weaponModels[w.id]) {
+  weaponGroup.remove(weaponModels[w.id]);
 }
+const completeM = createCompleteArmoryWeapon3D(w.id, mats, true);
+weaponModels[w.id] = completeM;
+weaponGroup.add(completeM);
+
+Object.keys(weaponModels).forEach(key => {
+  weaponModels[key].visible = (key === w.id);
 });
-}
+
 const beamHex = getActiveWeaponCamoColorHex(w);
-weaponBarrelTip.position.set(0, 0.04, w.tipZ || -0.55);
+weaponBarrelTip.position.set(0, 0.04, w.tipZ || -0.58);
 muzzleMesh.material.color.setHex(beamHex);
 muzzleLight.color.setHex(beamHex);
 applyReticleVisuals();
