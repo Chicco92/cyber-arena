@@ -1691,125 +1691,136 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       </div>
     </footer>
   </div>
-</div>
 
-<!-- ==================== MENU 6: AMICI (FRIENDS NETWORK) ==================== -->
-<div id="lobby-view-friends" class="hidden absolute inset-0 z-10 w-full h-full flex flex-col justify-between p-3 sm:p-5 pointer-events-none overflow-y-auto">
-  <!-- Atmospheric Background (Separate from Lobby 3D) -->
-  <div class="fixed inset-0 pointer-events-none z-0 bg-gradient-to-b from-slate-950/98 via-slate-900/95 to-slate-950/98" style="background-image: radial-gradient(circle at 50% 25%, rgba(6,182,212,0.12), transparent 70%), linear-gradient(rgba(148,163,184,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.04) 1px, transparent 1px); background-size: 100% 100%, 36px 36px, 36px 36px;"></div>
-
-  <div class="relative z-10 max-w-6xl w-full mx-auto flex flex-col flex-1 pointer-events-auto space-y-4">
+  <!-- ==================== VIEW 6: AMICI (FRIENDS NETWORK // FULL SCREEN) ==================== -->
+  <div id="lobby-view-friends" class="hidden w-full flex-1 min-h-0 flex-col justify-between overflow-hidden pointer-events-none relative">
     
-    <!-- Top Header Bar -->
-    <div class="cyber-panel rounded-2xl p-4 sm:p-5 border border-cyan-500/40 bg-slate-950/90 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-3">
-      <div>
-        <div class="flex items-center gap-2 mb-1">
-          <span class="text-xl">📡</span>
-          <span class="text-[10px] font-cyber text-cyan-400 tracking-widest uppercase">COMUNICAZIONI SATELLITARI // SQUADRA & CO-OP</span>
-        </div>
-        <h1 class="text-xl sm:text-2xl font-cyber font-black text-white tracking-wider uppercase flex items-center gap-2">
-          RETE OPERATORI & AMICI
-        </h1>
-        <p class="text-xs text-slate-400 font-cyber mt-0.5">
-          Aggiungi compagni tramite il loro nickname univoco, accetta richieste e invitali a giocare in tempo reale!
-        </p>
-      </div>
-
-      <!-- Quick Stats & Actions -->
-      <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
-        <div class="bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 shadow">
-          <span class="text-xs">👥</span>
-          <span class="text-[10px] font-cyber text-slate-300">Amici:</span>
-          <strong id="friends-stat-count" class="text-cyan-300 font-mono font-bold text-xs">0</strong>
-        </div>
-        <div class="bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 shadow">
-          <span class="text-xs">✉️</span>
-          <span class="text-[10px] font-cyber text-slate-300">In arrivo:</span>
-          <strong id="friends-stat-pending" class="text-amber-400 font-mono font-bold text-xs">0</strong>
-        </div>
-        <button type="button" onclick="refreshFriendsData()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 font-cyber font-bold text-[10px] uppercase transition cursor-pointer flex items-center gap-1.5 active:scale-95 shadow">
-          <span>🔄</span>
-          <span>AGGIORNA</span>
-        </button>
-      </div>
+    <!-- SFONDO DEDICATO OPACO (NASCONDE LA LOBBY) -->
+    <div class="fixed inset-0 -z-10 pointer-events-none bg-[#030712] overflow-hidden">
+      <!-- Cyan & Teal Cyber Starfield Glow with Grid -->
+      <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(circle at 50% 18%, rgba(6,182,212,0.20) 0%, rgba(20,184,166,0.12) 40%, rgba(3,7,18,0.92) 65%, #030712 100%), radial-gradient(rgba(6,182,212,0.12) 1px, transparent 1px); background-size: 100% 100%, 28px 28px;"></div>
+      <!-- Core Spotlight Flare -->
+      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Cyber Annotations -->
+      <div class="absolute top-20 left-6 text-cyan-400/25 font-mono text-[9px] tracking-widest hidden sm:block select-none">/// PROTOCOLLO COMUNICAZIONI SATELLITARI // SQUADRA & CO-OP<br>RETE OPERATORI CERTIFICATI</div>
+      <div class="absolute bottom-6 right-6 text-teal-400/25 font-mono text-[9px] tracking-widest hidden sm:block select-none text-right">STATO RETE: ONLINE<br>CONNESSIONE MULTIPLAYER DISPONIBILE</div>
     </div>
 
-    <!-- Send Friend Request Bar -->
-    <div class="cyber-panel rounded-2xl p-4 sm:p-5 border border-slate-800 bg-slate-950/85 backdrop-blur-md shadow-xl">
-      <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800/80">
-        <div class="flex items-center gap-2">
-          <span class="text-base">✉️</span>
-          <span class="text-xs font-cyber font-black text-amber-300 uppercase tracking-wider">
-            INVIA RICHIESTA D'AMICIZIA PER NICKNAME
-          </span>
-        </div>
-        <span class="text-[9px] font-cyber text-slate-500 hidden sm:inline">NOMI UNICI VERIFICATI</span>
-      </div>
-
-      <div class="flex flex-col sm:flex-row items-center gap-2.5">
-        <div class="relative flex-1 w-full">
-          <input id="friends-input-username" type="text" maxlength="16" placeholder="Inserisci il nome esatto dell'operatore (es. JOY, CHICCO)..." class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-2.5 text-xs font-cyber font-bold text-white outline-none transition placeholder-slate-500">
-        </div>
-        <button id="friends-btn-submit-req" type="button" onclick="handleSendFriendRequestClick()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider hover:brightness-110 shadow-lg cursor-pointer flex items-center justify-center gap-2 active:scale-95 transition">
-          <span>INVIA RICHIESTA</span>
-          <span>🚀</span>
-        </button>
-      </div>
-      <div id="friends-send-feedback" class="text-[11px] font-cyber mt-2 min-h-[1.2rem] transition"></div>
-    </div>
-
-    <!-- Main Columns Grid: Left = Friends List, Right = Incoming Requests & Outgoing -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
+    <!-- Scrollable Stage Area containing Sub-Header, Input, and Lists -->
+    <div class="relative w-full flex-1 min-h-0 py-1 sm:py-2 pointer-events-auto overflow-y-auto z-20 max-w-6xl mx-auto px-1 sm:px-2 flex flex-col space-y-3">
       
-      <!-- Left Column (8 Cols): My Friends List -->
-      <div class="lg:col-span-8 flex flex-col">
-        <div class="cyber-panel rounded-2xl p-4 sm:p-5 border border-slate-800 bg-slate-950/90 shadow-xl flex-1 flex flex-col">
-          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
-            <div class="flex items-center gap-2">
-              <span class="text-base">👥</span>
-              <span class="text-xs font-cyber font-black text-white uppercase tracking-wider">I MIEI AMICI</span>
-            </div>
-            <span id="friends-counter-label" class="text-[10px] font-cyber text-slate-400">0 Amici Registrati</span>
+      <!-- Top Sub-Header Bar -->
+      <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-cyan-500/40 bg-slate-950/85 backdrop-blur-md shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2 mb-0.5">
+            <span class="text-lg sm:text-xl">📡</span>
+            <span class="text-[9px] sm:text-[10px] font-cyber text-cyan-400 tracking-widest uppercase">COMUNICAZIONI SATELLITARI // SQUADRA & CO-OP</span>
           </div>
+          <h2 class="text-base sm:text-lg font-cyber font-black text-white tracking-wider uppercase flex items-center gap-2">
+            RETE OPERATORI & AMICI
+          </h2>
+          <p class="text-[11px] text-slate-400 font-cyber mt-0.5">
+            Aggiungi compagni tramite il loro nickname univoco, accetta richieste e invitali a giocare in tempo reale!
+          </p>
+        </div>
 
-          <!-- Container for Friends Cards -->
-          <div id="friends-cards-container" class="space-y-2.5 flex-1 overflow-y-auto max-h-[480px] pr-1">
-            <!-- Rendered by JS -->
+        <!-- Quick Stats & Actions -->
+        <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+          <div class="bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 shadow">
+            <span class="text-xs">👥</span>
+            <span class="text-[10px] font-cyber text-slate-300">Amici:</span>
+            <strong id="friends-stat-count" class="text-cyan-300 font-mono font-bold text-xs">0</strong>
           </div>
+          <div class="bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 shadow">
+            <span class="text-xs">✉️</span>
+            <span class="text-[10px] font-cyber text-slate-300">In arrivo:</span>
+            <strong id="friends-stat-pending" class="text-amber-400 font-mono font-bold text-xs">0</strong>
+          </div>
+          <button type="button" onclick="refreshFriendsData()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 font-cyber font-bold text-[10px] uppercase transition cursor-pointer flex items-center gap-1.5 active:scale-95 shadow">
+            <span>🔄</span>
+            <span>AGGIORNA</span>
+          </button>
         </div>
       </div>
 
-      <!-- Right Column (4 Cols): Incoming Requests & Pending Sent -->
-      <div class="lg:col-span-4 flex flex-col space-y-4">
-        
-        <!-- Incoming Friend Requests -->
-        <div class="cyber-panel rounded-2xl p-4 border border-amber-500/40 bg-slate-950/90 shadow-xl flex flex-col">
-          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm">📥</span>
-              <span class="text-xs font-cyber font-black text-amber-300 uppercase tracking-wider">RICHIESTE RICEVUTE</span>
-            </div>
-            <span id="friends-incoming-badge" class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-[9px]">0</span>
+      <!-- Send Friend Request Bar -->
+      <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-slate-800 bg-slate-950/85 backdrop-blur-md shadow-xl">
+        <div class="flex items-center justify-between pb-1.5 mb-2.5 border-b border-slate-800/80">
+          <div class="flex items-center gap-2">
+            <span class="text-sm">✉️</span>
+            <span class="text-xs font-cyber font-black text-amber-300 uppercase tracking-wider">
+              INVIA RICHIESTA D'AMICIZIA PER NICKNAME
+            </span>
           </div>
+          <span class="text-[9px] font-cyber text-slate-500 hidden sm:inline">NOMI UNICI VERIFICATI</span>
+        </div>
 
-          <div id="friends-incoming-container" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
-            <!-- Rendered by JS -->
+        <div class="flex flex-col sm:flex-row items-center gap-2.5">
+          <div class="relative flex-1 w-full">
+            <input id="friends-input-username" type="text" maxlength="16" placeholder="Inserisci il nome esatto dell'operatore (es. JOY, CHICCO)..." class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-2.5 text-xs font-cyber font-bold text-white outline-none transition placeholder-slate-500">
+          </div>
+          <button id="friends-btn-submit-req" type="button" onclick="handleSendFriendRequestClick()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider hover:brightness-110 shadow-lg cursor-pointer flex items-center justify-center gap-2 active:scale-95 transition">
+            <span>INVIA RICHIESTA</span>
+            <span>🚀</span>
+          </button>
+        </div>
+        <div id="friends-send-feedback" class="text-[11px] font-cyber mt-1.5 min-h-[1.2rem] transition"></div>
+      </div>
+
+      <!-- Main Columns Grid: Left = Friends List, Right = Incoming Requests & Outgoing -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 flex-1">
+        
+        <!-- Left Column (8 Cols): My Friends List -->
+        <div class="lg:col-span-8 flex flex-col">
+          <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-slate-800 bg-slate-950/90 shadow-xl flex-1 flex flex-col min-h-[260px]">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="text-base">👥</span>
+                <span class="text-xs font-cyber font-black text-white uppercase tracking-wider">I MIEI AMICI</span>
+              </div>
+              <span id="friends-counter-label" class="text-[10px] font-cyber text-slate-400">0 Amici Registrati</span>
+            </div>
+
+            <!-- Container for Friends Cards -->
+            <div id="friends-cards-container" class="space-y-2.5 flex-1 overflow-y-auto max-h-[460px] pr-1">
+              <!-- Rendered by JS -->
+            </div>
           </div>
         </div>
 
-        <!-- Outgoing Pending Requests -->
-        <div class="cyber-panel rounded-2xl p-4 border border-slate-800 bg-slate-950/85 shadow-xl flex flex-col flex-1">
-          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm">📤</span>
-              <span class="text-xs font-cyber font-black text-slate-300 uppercase tracking-wider">RICHIESTE INVIATE</span>
+        <!-- Right Column (4 Cols): Incoming Requests & Pending Sent -->
+        <div class="lg:col-span-4 flex flex-col space-y-3 sm:space-y-4">
+          
+          <!-- Incoming Friend Requests -->
+          <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-amber-500/40 bg-slate-950/90 shadow-xl flex flex-col">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm">📥</span>
+                <span class="text-xs font-cyber font-black text-amber-300 uppercase tracking-wider">RICHIESTE RICEVUTE</span>
+              </div>
+              <span id="friends-incoming-badge" class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-[9px]">0</span>
             </div>
-            <span id="friends-outgoing-badge" class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono font-bold text-[9px]">0</span>
+
+            <div id="friends-incoming-container" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+              <!-- Rendered by JS -->
+            </div>
           </div>
 
-          <div id="friends-outgoing-container" class="space-y-2 max-h-[200px] overflow-y-auto pr-1 flex-1">
-            <!-- Rendered by JS -->
+          <!-- Outgoing Pending Requests -->
+          <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-slate-800 bg-slate-950/85 shadow-xl flex flex-col flex-1">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm">📤</span>
+                <span class="text-xs font-cyber font-black text-slate-300 uppercase tracking-wider">RICHIESTE INVIATE</span>
+              </div>
+              <span id="friends-outgoing-badge" class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono font-bold text-[9px]">0</span>
+            </div>
+
+            <div id="friends-outgoing-container" class="space-y-2 max-h-[200px] overflow-y-auto pr-1 flex-1">
+              <!-- Rendered by JS -->
+            </div>
           </div>
+
         </div>
 
       </div>
@@ -1817,7 +1828,7 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
     </div>
 
     <!-- Bottom Footer Bar -->
-    <footer class="w-full flex items-center justify-between pt-2 border-t border-slate-800/80 pointer-events-auto z-20">
+    <footer class="w-full flex items-center justify-between pt-2 border-t border-slate-800/80 pointer-events-auto z-20 max-w-6xl mx-auto px-1 sm:px-2">
       <button type="button" onclick="switchMenu('PLAY')" class="px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5">
         <span>← TORNA ALLA LOBBY</span>
       </button>
@@ -1825,7 +1836,6 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         <!-- Generated via JS -->
       </div>
     </footer>
-
   </div>
 </div>
 
