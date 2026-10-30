@@ -3471,9 +3471,10 @@ return stats;
 }
 const playerProfile = {
 name: 'GHOST-01',
-cyberChips: 3500,
+cyberChips: 0,
 unlockedBlackMarketCamos: [],
 unlockedSuits: [],
+economyResetVersion: 1,
 bestScore: 0,
 bestWave: 1,
 totalKills: 0,
@@ -3678,24 +3679,21 @@ playerProfile.sfxEnabled = parsed.sfxEnabled !== undefined ? Boolean(parsed.sfxE
 playerProfile.musicEnabled = parsed.musicEnabled !== undefined ? Boolean(parsed.musicEnabled) : true;
 playerProfile.unlockedTrophies = Array.isArray(parsed.unlockedTrophies) ? parsed.unlockedTrophies : [];
 
-// PERSISTENZA CRITICA: Cyber-Chips, Skin Mercato Nero e Tute Casinò sbloccate
-playerProfile.cyberChips = typeof parsed.cyberChips === 'number' ? parsed.cyberChips : 3500;
+// PERSISTENZA CRITICA: Cyber-Chips, Skin Mercato Nero e Tute Casinò
+playerProfile.economyResetVersion = Number(parsed.economyResetVersion) || 0;
+playerProfile.cyberChips = typeof parsed.cyberChips === 'number' ? parsed.cyberChips : 0;
 playerProfile.unlockedBlackMarketCamos = Array.isArray(parsed.unlockedBlackMarketCamos) ? parsed.unlockedBlackMarketCamos : [];
 playerProfile.unlockedSuits = Array.isArray(parsed.unlockedSuits) ? parsed.unlockedSuits : [];
-playerProfile.restoredLostAssetsV2 = Boolean(parsed.restoredLostAssetsV2);
 
-// Ripristino e risarcimento automatico salvataggi persi
-if (!playerProfile.restoredLostAssetsV2) {
-  const lostCamos = ['MATRIX_CASCADE', 'HYPER_VOLT', 'NEBULA_VORTEX', 'BIOSHOCK_GLITCH', 'CYBER_EMPEROR', 'BYTE_GLITCH', 'CARBON_FIBER', 'SUPERNOVA'];
-  lostCamos.forEach(c => {
-    if (!playerProfile.unlockedBlackMarketCamos.includes(c)) playerProfile.unlockedBlackMarketCamos.push(c);
-  });
-  const lostSuits = ['CYBER_RONIN', 'CHRONO_SPECTRE', 'VOID_REAPER'];
-  lostSuits.forEach(s => {
-    if (!playerProfile.unlockedSuits.includes(s)) playerProfile.unlockedSuits.push(s);
-  });
-  playerProfile.cyberChips = Math.max(playerProfile.cyberChips || 0, 75000);
-  playerProfile.restoredLostAssetsV2 = true;
+// RESET ECONOMIA V1: Tutti i giocatori partono da 0 CC e con tutte le nuove skin e tute bloccate
+if (playerProfile.economyResetVersion < 1) {
+  playerProfile.cyberChips = 0;
+  playerProfile.unlockedBlackMarketCamos = [];
+  playerProfile.unlockedSuits = [];
+  playerProfile.economyResetVersion = 1;
+  if (playerProfile.selectedSuit === 'BLACK_OPS_HACKER' || playerProfile.selectedSuit === 'HIGH_ROLLER_GOLD' || playerProfile.selectedSuit === 'CYBER_RONIN' || playerProfile.selectedSuit === 'CHRONO_SPECTRE' || playerProfile.selectedSuit === 'VOID_REAPER') {
+    playerProfile.selectedSuit = 'DEFAULT';
+  }
 }
 
 if (parsed.weaponStats) {
@@ -3743,11 +3741,16 @@ playerProfile.operatorXp = 0;
 playerProfile.selectedOptic = 'STANDARD';
 playerProfile.selectedSuit = 'DEFAULT';
 playerProfile.lastDailyBoxDate = '';
-playerProfile.cyberChips = 75000;
-playerProfile.unlockedBlackMarketCamos = ['MATRIX_CASCADE', 'HYPER_VOLT', 'NEBULA_VORTEX', 'BIOSHOCK_GLITCH', 'CYBER_EMPEROR', 'BYTE_GLITCH', 'CARBON_FIBER', 'SUPERNOVA'];
-playerProfile.unlockedSuits = ['CYBER_RONIN', 'CHRONO_SPECTRE', 'VOID_REAPER'];
-playerProfile.restoredLostAssetsV2 = true;
+playerProfile.cyberChips = 0;
+playerProfile.unlockedBlackMarketCamos = [];
+playerProfile.unlockedSuits = [];
+playerProfile.economyResetVersion = 1;
 }
+try {
+  if (window.localStorage) {
+    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(playerProfile));
+  }
+} catch (e) {}
 } catch (e) {}
 }
 function savePlayerProfile() {
@@ -3785,7 +3788,8 @@ Object.assign(playerProfile, {
 name: 'GHOST-01', bestScore: 0, bestWave: 1, totalKills: 0, airKills: 0,
 perksCollected: 0, gamesPlayed: 0, maxBossesDefeatedPermanent: 0,
 sensitivity: 1.0, unlockedTrophies: [], weaponStats: createDefaultWeaponStats(),
-operatorXp: 0, selectedOptic: 'STANDARD', selectedSuit: 'DEFAULT'
+operatorXp: 0, selectedOptic: 'STANDARD', selectedSuit: 'DEFAULT',
+cyberChips: 0, unlockedBlackMarketCamos: [], unlockedSuits: [], economyResetVersion: 1
 });
 state.bossesDefeated = 0;
 savePlayerProfile();
@@ -3958,18 +3962,26 @@ playerProfile.operatorXp = Math.max(playerProfile.operatorXp || 0, src.operatorX
 } else {
 playerProfile.operatorXp = Math.max(playerProfile.operatorXp || 0, calculateRetroactiveOperatorXp(playerProfile));
 }
-if (typeof src.cyberChips === 'number') {
-  playerProfile.cyberChips = Math.max(playerProfile.cyberChips || 0, src.cyberChips);
-}
-if (Array.isArray(src.unlockedBlackMarketCamos)) {
-  src.unlockedBlackMarketCamos.forEach(c => {
-    if (!playerProfile.unlockedBlackMarketCamos.includes(c)) playerProfile.unlockedBlackMarketCamos.push(c);
-  });
-}
-if (Array.isArray(src.unlockedSuits)) {
-  src.unlockedSuits.forEach(s => {
-    if (!playerProfile.unlockedSuits.includes(s)) playerProfile.unlockedSuits.push(s);
-  });
+if (src.economyResetVersion && Number(src.economyResetVersion) >= 1) {
+  if (typeof src.cyberChips === 'number') {
+    playerProfile.cyberChips = Math.max(playerProfile.cyberChips || 0, src.cyberChips);
+  }
+  if (Array.isArray(src.unlockedBlackMarketCamos)) {
+    src.unlockedBlackMarketCamos.forEach(c => {
+      if (!playerProfile.unlockedBlackMarketCamos.includes(c)) playerProfile.unlockedBlackMarketCamos.push(c);
+    });
+  }
+  if (Array.isArray(src.unlockedSuits)) {
+    src.unlockedSuits.forEach(s => {
+      if (!playerProfile.unlockedSuits.includes(s)) playerProfile.unlockedSuits.push(s);
+    });
+  }
+} else {
+  playerProfile.cyberChips = 0;
+  playerProfile.unlockedBlackMarketCamos = [];
+  playerProfile.unlockedSuits = [];
+  playerProfile.economyResetVersion = 1;
+  savePlayerProfile();
 }
 if (src.selectedOptic && isOpticUnlocked(src.selectedOptic)) playerProfile.selectedOptic = src.selectedOptic;
 if (src.selectedSuit && isSuitUnlocked(src.selectedSuit)) playerProfile.selectedSuit = src.selectedSuit;
