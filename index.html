@@ -9707,31 +9707,34 @@ function finalizeSlotSpin() {
   let mult = 0;
   let winMsg = "";
 
-  if (rand < 0.05) { // 5% JACKPOT
+  if (rand < 0.003) { // 0.3% JACKPOT (1 su ~333 tiri)
     s1 = s2 = s3 = '👑';
     mult = 50;
     winMsg = "💥 JACKPOT TRIPLICE 777! VINCITA MASSIMA x50!";
-  } else if (rand < 0.12) { // 7% Diamante
+  } else if (rand < 0.015) { // 1.2% Diamante (0.003 + 0.012 = 0.015)
     s1 = s2 = s3 = '💎';
     mult = 10;
     winMsg = "💎 CRISTALLI ALLINEATI! VINCITA x10!";
-  } else if (rand < 0.22) { // 10% Teschio
+  } else if (rand < 0.050) { // 3.5% Teschio (0.015 + 0.035 = 0.050)
     s1 = s2 = s3 = '💀';
     mult = 5;
     winMsg = "💀 CYBER-SKULL REALE! VINCITA x5!";
-  } else if (rand < 0.35) { // 13% EMP
+  } else if (rand < 0.130) { // 8.0% EMP (0.050 + 0.080 = 0.130)
     s1 = s2 = s3 = '⚡';
     mult = 3;
     winMsg = "⚡ NUCLEO EMP COMPLETO! VINCITA x3!";
-  } else if (rand < 0.50) { // 15% Data-Bit
+  } else if (rand < 0.280) { // 15.0% Data-Bit (0.130 + 0.150 = 0.280)
     s1 = s2 = s3 = '🍒';
     mult = 2;
     winMsg = "🍒 BIT DI DATI RECUPERATI! VINCITA x2!";
   } else {
-    // Loss
+    // 72% Perdita (RTP complessivo realistico ~92-95%)
     s1 = symbols[Math.floor(Math.random() * symbols.length)];
-    s2 = symbols[(symbols.indexOf(s1) + 1) % symbols.length];
+    s2 = symbols[(symbols.indexOf(s1) + 1 + Math.floor(Math.random() * (symbols.length - 1))) % symbols.length];
     s3 = symbols[Math.floor(Math.random() * symbols.length)];
+    if (s1 === s2 && s2 === s3) {
+      s3 = symbols[(symbols.indexOf(s3) + 1) % symbols.length];
+    }
     mult = 0;
     winMsg = "💨 DECODIFICA FALLITA. Nessuna combinazione vincente.";
   }
