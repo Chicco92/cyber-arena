@@ -139,26 +139,38 @@ padding: 0.75rem 1rem !important;
 }
 }
 .lobby-play-btn {
-background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 50%, #0891b2 100%);
+background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
 clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%);
-box-shadow: 0 0 30px rgba(6, 182, 212, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.6);
-transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: 0 0 30px rgba(245, 158, 11, 0.55), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.lobby-play-btn:hover {
+.lobby-play-btn:hover:not(:disabled):not(.is-disabled) {
 transform: scale(1.05) translateY(-2px);
-box-shadow: 0 0 45px rgba(34, 211, 238, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85);
-background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #06b6d4 100%);
+box-shadow: 0 0 45px rgba(251, 191, 36, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85);
+background: linear-gradient(135deg, #fde047 0%, #fbbf24 50%, #f59e0b 100%);
 }
-.lobby-play-btn:active {
+.lobby-play-btn:active:not(:disabled):not(.is-disabled) {
 transform: scale(0.96);
 }
-.lobby-play-btn-solo {
-background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%) !important;
-box-shadow: 0 0 30px rgba(245, 158, 11, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.6) !important;
+.lobby-play-btn:disabled, .lobby-play-btn.is-disabled {
+background: linear-gradient(135deg, #334155 0%, #1e293b 50%, #0f172a 100%) !important;
+box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(15, 23, 42, 0.5) !important;
+cursor: not-allowed !important;
+transform: none !important;
 }
-.lobby-play-btn-solo:hover {
-background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%) !important;
-box-shadow: 0 0 45px rgba(251, 191, 36, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85) !important;
+.lobby-play-btn:disabled #lobby-play-btn-title, .lobby-play-btn.is-disabled #lobby-play-btn-title {
+color: #94a3b8 !important;
+}
+.lobby-play-btn:disabled #lobby-play-btn-subtitle, .lobby-play-btn.is-disabled #lobby-play-btn-subtitle {
+color: #64748b !important;
+}
+.lobby-play-btn.is-ready {
+background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%) !important;
+box-shadow: 0 0 35px rgba(16, 185, 129, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.7) !important;
+}
+.lobby-play-btn.is-ready:hover:not(:disabled):not(.is-disabled) {
+background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%) !important;
+box-shadow: 0 0 45px rgba(52, 211, 153, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85) !important;
 }
 
 /* ==================== SCREEN RECOGNITION & RESPONSIVE ENGINE ==================== */
@@ -1165,17 +1177,25 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
             <span class="text-cyan-400 text-[10px] ml-1">▼</span>
           </button>
           <div id="lobby-mode-dropdown" class="hidden absolute bottom-full mb-1 left-0 right-0 bg-slate-950/95 backdrop-blur-md border border-cyan-400/50 rounded-xl overflow-hidden shadow-2xl z-50">
+            <div class="px-3 py-1 bg-amber-950/50 text-[8px] font-cyber font-black tracking-widest text-amber-400 border-b border-amber-500/30 uppercase flex items-center justify-between">
+              <span>── SINGLE PLAYER ──</span>
+              <span class="text-[7px] text-amber-300/80">SOLITARIO</span>
+            </div>
             <button type="button" data-mode="SOLO" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-amber-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
-              <span>🧟 SOPRAVVIVENZA (SOLO)</span>
+              <span class="flex items-center gap-1.5"><span>🧟</span><span>SOPRAVVIVENZA</span></span>
               <span class="text-[9px] text-amber-400 font-mono">1 Giocatore</span>
             </button>
-            <button type="button" data-mode="PVP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
-              <span>⚔️ DEATHMATCH (PVP)</span>
-              <span class="text-[9px] text-rose-400 font-mono">Lobby Squadra</span>
-            </button>
-            <button type="button" data-mode="COOP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer">
-              <span>🤝 CO-OP SQUAD (ONLINE)</span>
+            <div class="px-3 py-1 bg-cyan-950/50 text-[8px] font-cyber font-black tracking-widest text-cyan-400 border-b border-cyan-500/30 uppercase flex items-center justify-between">
+              <span>── MULTIPLAYER ──</span>
+              <span class="text-[7px] text-cyan-300/80">ONLINE SQUAD</span>
+            </div>
+            <button type="button" data-mode="COOP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
+              <span class="flex items-center gap-1.5"><span>🤝</span><span>CO-OP SQUAD</span></span>
               <span class="text-[9px] text-cyan-400 font-mono">Cooperativa</span>
+            </button>
+            <button type="button" data-mode="PVP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer">
+              <span class="flex items-center gap-1.5"><span>⚔️</span><span>DEATHMATCH (PVP)</span></span>
+              <span class="text-[9px] text-rose-400 font-mono">Lobby Squadra</span>
             </button>
           </div>
         </div>
@@ -1206,7 +1226,7 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 
       <!-- GIANT GIOCA BUTTON -->
       <div id="lobby-play-btn-col" class="flex flex-col items-stretch shrink-0 w-44 sm:w-56">
-        <button id="btn-start-game" type="button" class="lobby-play-btn lobby-play-btn-solo group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+        <button id="btn-start-game" type="button" class="lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer">
           <span id="lobby-play-btn-title" class="text-2xl sm:text-4xl font-cyber font-black text-slate-950 tracking-widest uppercase italic drop-shadow-md">
             GIOCA
           </span>
@@ -2768,6 +2788,25 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         ENTRA IN LOBBY
       </button>
       <button id="btn-cancel-join-party" type="button" class="px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
+        Annulla
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== LEAVE SQUAD CONFIRMATION MODAL ==================== -->
+<div id="leave-squad-confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm">
+  <div class="cyber-panel rounded-2xl max-w-sm w-full p-6 border-2 border-amber-500 text-center relative shadow-[0_0_50px_rgba(245,158,11,0.4)]">
+    <div class="text-[10px] font-cyber uppercase tracking-widest text-amber-400 font-bold mb-1">Squadra // Separazione Modalità</div>
+    <h3 id="leave-squad-modal-title" class="text-xl font-cyber font-black text-white uppercase mb-2">LASCIARE LA SQUADRA?</h3>
+    <p id="leave-squad-modal-msg" class="text-xs text-slate-300 mb-5 leading-relaxed">
+      Sei attualmente in gruppo con altri giocatori! Passando a Single Player la stanza multiplayer verrà sciolta e uscirai dalla squadra. Vuoi procedere?
+    </p>
+    <div class="flex gap-2">
+      <button id="btn-confirm-leave-squad" type="button" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_20px_rgba(245,158,11,0.4)]">
+        CONFERMA E VAI IN SOLO
+      </button>
+      <button id="btn-cancel-leave-squad" type="button" class="px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
         Annulla
       </button>
     </div>
@@ -4775,7 +4814,7 @@ function startMultiplayerMatch() {
   }
 }
 
-function leaveCurrentRoom() {
+function leaveCurrentRoom(silent = false) {
   if (mpState.roomRef && mpState.myId) {
     mpState.roomRef.child('players/' + mpState.myId).remove();
     mpState.roomRef.off();
@@ -4787,18 +4826,24 @@ function leaveCurrentRoom() {
   mpState.roomCode = null;
   mpState.isHost = false;
   mpState.roomRef = null;
+  cachedLobbyPlayerList = [];
+  if (typeof updateLobbySquadSlots === 'function') {
+    updateLobbySquadSlots([]);
+  }
 
   const viewHub = byId('mp-view-hub');
   const viewRoom = byId('mp-view-room');
   if (viewHub) viewHub.classList.remove('hidden');
   if (viewRoom) viewRoom.classList.add('hidden');
 
-  const mpModal = byId('multiplayer-modal');
-  if (mpModal) {
-    mpModal.classList.remove('hidden');
-    mpModal.classList.add('flex');
+  if (!silent) {
+    const mpModal = byId('multiplayer-modal');
+    if (mpModal) {
+      mpModal.classList.remove('hidden');
+      mpModal.classList.add('flex');
+    }
+    refreshPublicLobbies();
   }
-  refreshPublicLobbies();
 }
 
 function withTimeout(promise, ms = 8000, errorMsg = 'Timeout: i server Firebase non rispondono. Controlla la connessione.') {
@@ -10477,8 +10522,8 @@ function buildLobbyScene() {
 function applyLobbyGameMode3D(mode) {
   if (currentLobbyMenu !== 'PLAY') return;
   const isSolo = mode === 'SOLO';
-  if (slot2LobbyPodiumGroup) slot2LobbyPodiumGroup.visible = !isSolo;
-  if (slot3LobbyPodiumGroup) slot3LobbyPodiumGroup.visible = !isSolo;
+  if (slot2LobbyPodiumGroup) slot2LobbyPodiumGroup.visible = true;
+  if (slot3LobbyPodiumGroup) slot3LobbyPodiumGroup.visible = true;
   if (slot2LobbyAvatarGroup && isSolo) slot2LobbyAvatarGroup.visible = false;
   if (slot3LobbyAvatarGroup && isSolo) slot3LobbyAvatarGroup.visible = false;
 
@@ -11235,12 +11280,14 @@ function updateLobbyPlayButton(playerList) {
   const sub = byId('lobby-play-btn-subtitle');
   if (!playBtn) return;
 
+  const baseClass = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer';
+
   const isSolo = state.selectedGameMode === 'SOLO' && !mpState.roomId;
   if (isSolo) {
     if (title) title.textContent = 'GIOCA';
     if (sub) sub.textContent = 'SOPRAVVIVENZA // ONDATA 1';
     playBtn.disabled = false;
-    playBtn.className = 'lobby-play-btn lobby-play-btn-solo group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-[0_0_25px_rgba(245,158,11,0.4)]';
+    playBtn.className = baseClass;
     return;
   }
 
@@ -11251,37 +11298,36 @@ function updateLobbyPlayButton(playerList) {
   if (isHost) {
     const guests = pList.filter(p => !p.isHost && p.id !== mpState.myId);
     if (guests.length === 0) {
-      if (title) title.textContent = 'AVVIA PARTITA';
-      if (sub) sub.textContent = 'SQUADRA // IN ATTESA AMICI O AVVIA SUBITO';
+      if (title) title.textContent = 'GIOCA';
+      if (sub) sub.textContent = state.selectedGameMode === 'COOP' ? 'CO-OP SQUAD // AVVIA O ATTENDI' : 'DEATHMATCH // AVVIA O ATTENDI';
       playBtn.disabled = false;
-      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-cyber font-black shadow-[0_0_25px_rgba(245,158,11,0.5)]';
+      playBtn.className = baseClass;
     } else {
       const readyGuests = guests.filter(g => g.ready);
       const allReady = readyGuests.length === guests.length;
       if (allReady) {
-        if (title) title.textContent = 'AVVIA PARTITA';
+        if (title) title.textContent = 'GIOCA';
         if (sub) sub.textContent = `TUTTI PRONTI (${readyGuests.length}/${guests.length}) // AVVIA ORA!`;
         playBtn.disabled = false;
-        playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-gradient-to-r from-emerald-400 via-teal-400 to-amber-400 text-slate-950 font-cyber font-black shadow-[0_0_35px_rgba(16,185,129,0.7)] animate-pulse';
+        playBtn.className = baseClass + ' animate-pulse';
       } else {
         if (title) title.textContent = 'IN ATTESA...';
         if (sub) sub.textContent = `ATTENDI GIOCATORI PRONTI (${readyGuests.length}/${guests.length})`;
         playBtn.disabled = true;
-        playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center bg-slate-900 border-2 border-slate-800 text-slate-400 font-cyber font-bold cursor-not-allowed opacity-80';
+        playBtn.className = baseClass + ' is-disabled cursor-not-allowed';
       }
     }
   } else {
     // Non-Host (Guest) sees "PRONTO" or "✓ SEI PRONTO"
+    playBtn.disabled = false;
     if (mpState.myReady) {
       if (title) title.textContent = '✓ SEI PRONTO';
       if (sub) sub.textContent = 'IN ATTESA CHE L\'HOST AVVII LA PARTITA';
-      playBtn.disabled = false;
-      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 text-slate-950 font-cyber font-black shadow-[0_0_30px_rgba(16,185,129,0.6)] animate-pulse';
+      playBtn.className = baseClass + ' is-ready animate-pulse';
     } else {
       if (title) title.textContent = 'PRONTO';
       if (sub) sub.textContent = 'CLICCA PER CONFERMARE PRONTEZZA';
-      playBtn.disabled = false;
-      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-gradient-to-r from-cyan-400 via-amber-400 to-yellow-400 text-slate-950 font-cyber font-black shadow-[0_0_25px_rgba(6,182,212,0.5)]';
+      playBtn.className = baseClass;
     }
   }
 }
@@ -12803,37 +12849,30 @@ function setLobbyGameMode(selected) {
     }
   }
 
-  // Center Panels: Solo vs Multiplayer
+  // Squad Slots & Party Box: ALWAYS VISIBLE across all modes
   const soloPanels = byId('lobby-solo-panels');
   const mpSlots = byId('lobby-multiplayer-slots');
   const mpPartyBox = byId('lobby-party-container');
   const mpBrowserBtn = byId('lobby-btn-multiplayer-browser');
-  const playBtnSubtitle = byId('lobby-play-btn-subtitle');
-  const playBtn = byId('btn-start-game');
   const playerModeBadge = byId('lobby-player-mode-badge');
 
+  if (soloPanels) { soloPanels.classList.add('hidden'); soloPanels.classList.remove('flex'); }
+  if (mpSlots) { mpSlots.classList.remove('hidden'); }
+  if (mpPartyBox) { mpPartyBox.classList.remove('hidden'); }
+  if (mpBrowserBtn) { mpBrowserBtn.classList.remove('hidden'); }
+
   if (isSolo) {
-    if (soloPanels) { soloPanels.classList.remove('hidden'); soloPanels.classList.add('flex'); }
-    if (mpSlots) { mpSlots.classList.add('hidden'); }
-    if (mpPartyBox) { mpPartyBox.classList.add('hidden'); }
-    if (mpBrowserBtn) { mpBrowserBtn.classList.add('hidden'); }
-    if (playBtnSubtitle) playBtnSubtitle.textContent = 'SOPRAVVIVENZA // ONDATA 1';
-    if (playBtn) playBtn.classList.add('lobby-play-btn-solo');
     if (playerModeBadge) {
       playerModeBadge.textContent = 'SOLO';
       playerModeBadge.className = 'px-2 py-0.5 rounded-md bg-amber-950/90 border border-amber-400/60 text-[9px] font-cyber font-black text-amber-300 font-mono tracking-wider';
     }
 
-    if (mpState.active) leaveCurrentRoom();
+    const partyCodeDisplay = byId('lobby-party-code-display');
+    if (partyCodeDisplay && !mpState.roomId) partyCodeDisplay.textContent = 'SOLO';
+
+    if (mpState.active) leaveCurrentRoom(true);
     updateLobbySquadSlots([]);
-    updateSoloLobbyUI();
   } else {
-    if (soloPanels) { soloPanels.classList.add('hidden'); soloPanels.classList.remove('flex'); }
-    if (mpSlots) { mpSlots.classList.remove('hidden'); }
-    if (mpPartyBox) { mpPartyBox.classList.remove('hidden'); }
-    if (mpBrowserBtn) { mpBrowserBtn.classList.remove('hidden'); }
-    if (playBtnSubtitle) playBtnSubtitle.textContent = selected === 'COOP' ? 'SQUADRA CO-OP' : 'AVVIA BATTAGLIA';
-    if (playBtn) playBtn.classList.remove('lobby-play-btn-solo');
     if (playerModeBadge) {
       playerModeBadge.textContent = 'SQUADRA';
       playerModeBadge.className = 'px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-[9px] font-cyber font-black text-cyan-300 font-mono tracking-wider';
@@ -12846,6 +12885,8 @@ function setLobbyGameMode(selected) {
       if (partyCodeDisplay) partyCodeDisplay.textContent = mpState.roomCode || 'ONLINE';
     }
   }
+
+  updateLobbyPlayButton(cachedLobbyPlayerList);
 
   // 3D Scene updates
   if (typeof applyLobbyGameMode3D === 'function') {
@@ -13170,13 +13211,75 @@ function updateResponsiveScreen() {
 }
 window.updateResponsiveScreen = updateResponsiveScreen;
 
+let pendingLobbyMode = null;
+
+function requestChangeLobbyMode(selected) {
+  const isCurrentlyInRoomWithOthers = mpState.roomId && cachedLobbyPlayerList && cachedLobbyPlayerList.length > 1;
+
+  if (selected === 'SOLO' && isCurrentlyInRoomWithOthers) {
+    const me = (cachedLobbyPlayerList || []).find(p => p.id === mpState.myId);
+    const isHost = mpState.isHost || (me && me.isHost);
+
+    const modal = byId('leave-squad-confirm-modal');
+    const titleEl = byId('leave-squad-modal-title');
+    const msgEl = byId('leave-squad-modal-msg');
+    const confirmBtn = byId('btn-confirm-leave-squad');
+
+    if (modal && titleEl && msgEl && confirmBtn) {
+      if (isHost) {
+        titleEl.textContent = 'SCIOGLIERE LA SQUADRA?';
+        msgEl.textContent = 'Sei il caposquadra! Passando a Single Player la stanza multiplayer verrà sciolta e uscirai dal gruppo. I tuoi compagni torneranno in lobby. Vuoi continuare?';
+        confirmBtn.textContent = 'SCIOGLI E VAI IN SOLO';
+      } else {
+        titleEl.textContent = 'ABBANDONARE LA SQUADRA?';
+        msgEl.textContent = 'Sei attualmente in gruppo con altri giocatori! Passando a Single Player uscirai dalla squadra del caposquadra. Vuoi continuare?';
+        confirmBtn.textContent = 'ABBANDONA E VAI IN SOLO';
+      }
+      pendingLobbyMode = 'SOLO';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    const modeDropdown = byId('lobby-mode-dropdown');
+    if (modeDropdown) modeDropdown.classList.add('hidden');
+    return;
+  }
+
+  setLobbyGameMode(selected);
+}
+
 document.querySelectorAll('.lobby-mode-option').forEach(opt => {
   opt.addEventListener('click', (e) => {
     e.stopPropagation();
     const selected = opt.getAttribute('data-mode');
-    setLobbyGameMode(selected);
+    requestChangeLobbyMode(selected);
   });
 });
+
+const btnConfirmLeaveSquad = byId('btn-confirm-leave-squad');
+const btnCancelLeaveSquad = byId('btn-cancel-leave-squad');
+const leaveSquadModal = byId('leave-squad-confirm-modal');
+
+if (btnConfirmLeaveSquad) {
+  btnConfirmLeaveSquad.addEventListener('click', () => {
+    if (leaveSquadModal) {
+      leaveSquadModal.classList.add('hidden');
+      leaveSquadModal.classList.remove('flex');
+    }
+    leaveCurrentRoom(true);
+    setLobbyGameMode('SOLO');
+    showAnnouncement('🧟 SINGLE PLAYER', 'Sei passato alla modalità Sopravvivenza in singolo.');
+  });
+}
+
+if (btnCancelLeaveSquad) {
+  btnCancelLeaveSquad.addEventListener('click', () => {
+    if (leaveSquadModal) {
+      leaveSquadModal.classList.add('hidden');
+      leaveSquadModal.classList.remove('flex');
+    }
+    pendingLobbyMode = null;
+  });
+}
 
 const btnSoloArmory = byId('lobby-solo-btn-armory');
 if (btnSoloArmory) {
@@ -13209,6 +13312,9 @@ const slot2El = byId('lobby-slot-2');
 if (slot2El) slot2El.addEventListener('click', () => {
   const s2Filled = byId('lobby-slot-2-filled');
   if (!s2Filled || s2Filled.classList.contains('hidden')) {
+    if (state.selectedGameMode === 'SOLO') {
+      setLobbyGameMode('COOP');
+    }
     copyPartyCodeOrLink();
   }
 });
@@ -13217,6 +13323,9 @@ const slot3El = byId('lobby-slot-3');
 if (slot3El) slot3El.addEventListener('click', () => {
   const s3Filled = byId('lobby-slot-3-filled');
   if (!s3Filled || s3Filled.classList.contains('hidden')) {
+    if (state.selectedGameMode === 'SOLO') {
+      setLobbyGameMode('COOP');
+    }
     copyPartyCodeOrLink();
   }
 });
