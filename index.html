@@ -733,6 +733,10 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
           <span>AMICI</span>
           <span id="nav-friends-badge" class="hidden px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[9px] font-black font-mono animate-pulse">0</span>
         </button>
+        <button id="nav-tab-casino" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-fuchsia-300 hover:text-fuchsia-200 hover:bg-fuchsia-950/40 border border-fuchsia-500/30 transition cursor-pointer flex items-center gap-1.5 shadow-[0_0_12px_rgba(217,70,239,0.2)]">
+          <span>🎰</span>
+          <span>CASINÒ</span>
+        </button>
       </nav>
     </div>
 
@@ -741,6 +745,10 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       <button id="lobby-currency-pn" type="button" title="Punti Negozio (PN) - Clicca per aprire l'Armeria" class="flex items-center gap-1.5 bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-amber-500/40 cursor-pointer transition">
         <span class="text-sm">🪙</span>
         <span id="lobby-pn-amount" class="text-xs sm:text-sm font-black text-amber-400 font-mono">0</span>
+      </button>
+      <button id="lobby-currency-cc" type="button" onclick="switchMenu('CASINO')" title="Cyber-Chips (CC) - Clicca per aprire il Casinò Clandestino" class="flex items-center gap-1.5 bg-gradient-to-r from-fuchsia-950/80 to-purple-950/80 hover:brightness-125 px-3 py-1.5 rounded-xl border border-fuchsia-500/60 cursor-pointer transition shadow-[0_0_12px_rgba(217,70,239,0.3)]">
+        <span class="text-sm">💠</span>
+        <span id="lobby-cc-amount" class="text-xs sm:text-sm font-black text-fuchsia-300 font-mono">0</span>
       </button>
       <button id="lobby-currency-trophies" type="button" title="Trofei Sbloccati - Clicca per aprire la Bacheca" class="hidden sm:flex items-center gap-1.5 bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-fuchsia-500/40 cursor-pointer transition">
         <span class="text-sm">🏆</span>
@@ -1837,6 +1845,458 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       </div>
     </footer>
   </div>
+
+  <!-- ==================== VIEW 7: CASINÒ CLANDESTINO (BLACK MARKET & HIGH-STAKES GAMBLING) ==================== -->
+  <div id="lobby-view-casino" class="hidden w-full flex-1 min-h-0 flex-col justify-between overflow-hidden pointer-events-none relative">
+    
+    <!-- SFONDO DEDICATO OPACO (CYBERPUNK NEON NOIR) -->
+    <div class="fixed inset-0 -z-10 pointer-events-none bg-[#05020a] overflow-hidden">
+      <!-- Magenta, Violet & Cyan Neon Underground Glow -->
+      <div class="absolute inset-0 opacity-45" style="background-image: radial-gradient(circle at 50% 20%, rgba(217,70,239,0.25) 0%, rgba(147,51,234,0.18) 40%, rgba(5,2,10,0.95) 75%, #05020a 100%), radial-gradient(rgba(217,70,239,0.15) 1px, transparent 1px); background-size: 100% 100%, 30px 30px;"></div>
+      <!-- Core Spotlight Flares -->
+      <div class="absolute -top-32 left-1/3 -translate-x-1/2 w-[800px] h-96 bg-fuchsia-600/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -top-20 right-1/4 w-[600px] h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Cyber Annotations -->
+      <div class="absolute top-20 left-6 text-fuchsia-400/30 font-mono text-[9px] tracking-widest hidden sm:block select-none">/// BLACK MARKET SECTOR // NETWORK CLANDESTINA 07<br>HIGH STAKES // ACCESSO RISERVATO OPERATORI</div>
+      <div class="absolute bottom-6 right-6 text-purple-400/30 font-mono text-[9px] tracking-widest hidden sm:block select-none text-right">PROTOCOLLO GAMBLE: ATTIVO<br>PROBABILITÀ VERIFICATE REAL-TIME</div>
+    </div>
+
+    <!-- Scrollable Stage Area containing Casino Sub-Header, Tabs & Games -->
+    <div class="relative w-full flex-1 min-h-0 py-1 sm:py-2 pointer-events-auto overflow-y-auto z-20 max-w-6xl mx-auto px-1 sm:px-2 flex flex-col space-y-3">
+      
+      <!-- Top Sub-Header Bar: Title, Balance & Currency Exchange -->
+      <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-fuchsia-500/50 bg-slate-950/90 backdrop-blur-md shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2 mb-0.5">
+            <span class="text-xl">🎰</span>
+            <span class="text-[9px] sm:text-[10px] font-cyber text-fuchsia-400 tracking-widest uppercase">MERCATO NERO // CASINÒ AD ALTO RISCHIO</span>
+          </div>
+          <h2 class="text-base sm:text-lg font-cyber font-black text-white tracking-wider uppercase flex items-center gap-2">
+            TERMINALE OSCURO // GIANO-NET
+          </h2>
+          <p class="text-[11px] text-slate-400 font-cyber mt-0.5">
+            Scommetti i tuoi Cyber-Chips (💠), raddoppia le tue riserve o acquista le 5 Skin Esclusive Animate del Mercato Nero!
+          </p>
+        </div>
+
+        <!-- Right Side: Cyber-Chips Balance & One-Way Converter Button -->
+        <div class="flex items-center gap-2.5 flex-wrap self-start md:self-auto">
+          <div class="bg-gradient-to-r from-fuchsia-950 to-purple-950 border border-fuchsia-500/50 px-3.5 py-1.5 rounded-xl flex items-center gap-2 shadow-[0_0_15px_rgba(217,70,239,0.25)]">
+            <span class="text-sm">💠</span>
+            <div class="flex flex-col text-left">
+              <span class="text-[8px] font-cyber text-fuchsia-300 uppercase leading-none">Saldo CC</span>
+              <strong id="casino-header-cc" class="text-white font-mono font-black text-sm">3.500</strong>
+            </div>
+          </div>
+          <!-- One-way Converter Modal Button: CC -> PN ONLY -->
+          <button type="button" onclick="openCasinoExchangeModal()" class="px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/50 text-amber-300 font-cyber font-bold text-[10px] uppercase transition cursor-pointer flex items-center gap-1.5 active:scale-95 shadow">
+            <span>💱</span>
+            <span>BANCO CAMBIO (CC ➔ PN)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Casino Sub-Navigation Tabs (Slots, Overclock, Mystery Crates, Black Market Skins) -->
+      <div class="w-full flex items-center justify-center my-0.5 pointer-events-auto z-20">
+        <div class="inline-flex items-center gap-1 p-1 rounded-2xl bg-slate-950/95 border border-fuchsia-500/30 shadow-xl max-w-full overflow-x-auto">
+          <button id="casino-tab-btn-slot" type="button" onclick="setCasinoTab('SLOT')" class="casino-subtab px-3.5 sm:px-5 py-2 rounded-xl font-cyber text-[10px] sm:text-xs font-black uppercase transition cursor-pointer flex items-center gap-2 text-fuchsia-300 bg-fuchsia-500/20 border border-fuchsia-400/50 shadow-[0_0_15px_rgba(217,70,239,0.3)]">
+            <span>🎰</span><span>HACKER SLOT</span>
+          </button>
+          <button id="casino-tab-btn-overclock" type="button" onclick="setCasinoTab('OVERCLOCK')" class="casino-subtab px-3.5 sm:px-5 py-2 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-2 text-slate-400 hover:text-cyan-300">
+            <span>⚡</span><span>OVERCLOCK (x32)</span>
+          </button>
+          <button id="casino-tab-btn-crates" type="button" onclick="setCasinoTab('CRATES')" class="casino-subtab px-3.5 sm:px-5 py-2 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-2 text-slate-400 hover:text-amber-300">
+            <span>📦</span><span>CASSE CIFRATE</span>
+          </button>
+          <button id="casino-tab-btn-market" type="button" onclick="setCasinoTab('MARKET')" class="casino-subtab px-3.5 sm:px-5 py-2 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-2 text-slate-400 hover:text-emerald-300">
+            <span>🛍️</span><span>MERCATO NERO (SKIN)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== PANE 1: HACKER SLOT MACHINE ==================== -->
+      <div id="casino-pane-slot" class="casino-pane flex flex-col space-y-3">
+        <div class="cyber-panel rounded-2xl p-4 sm:p-6 border border-fuchsia-500/40 bg-slate-950/90 shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
+          
+          <div class="flex items-center justify-between w-full pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-sm">🎰</span>
+              <span class="text-xs font-cyber font-black text-fuchsia-300 uppercase tracking-wider">HACKER TERMINAL V3 // DECODIFICA TRIPLICE RULLO</span>
+            </div>
+            <div class="text-[10px] font-cyber text-amber-400 font-bold flex items-center gap-1.5">
+              <span>JACKPOT MASSIMO:</span>
+              <span class="font-mono bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/40">x50 PUNTATA (👑 👑 👑)</span>
+            </div>
+          </div>
+
+          <!-- The 3 Holographic Reels Box -->
+          <div class="my-5 p-4 rounded-3xl bg-[#090314] border-2 border-fuchsia-500/60 shadow-[0_0_40px_rgba(217,70,239,0.35)] flex items-center justify-center gap-3 sm:gap-6 w-full max-w-xl">
+            <!-- Reel 1 -->
+            <div class="flex-1 h-36 sm:h-44 rounded-2xl bg-slate-950/90 border border-fuchsia-500/40 flex flex-col items-center justify-center overflow-hidden relative shadow-inner">
+              <div id="slot-reel-1" class="text-4xl sm:text-6xl select-none transition-transform duration-300 drop-shadow-[0_0_15px_rgba(217,70,239,0.8)]">👑</div>
+              <span class="text-[9px] font-cyber text-fuchsia-400/80 font-bold mt-2 uppercase tracking-widest">RULLO ALFA</span>
+            </div>
+            <!-- Reel 2 -->
+            <div class="flex-1 h-36 sm:h-44 rounded-2xl bg-slate-950/90 border border-fuchsia-500/40 flex flex-col items-center justify-center overflow-hidden relative shadow-inner">
+              <div id="slot-reel-2" class="text-4xl sm:text-6xl select-none transition-transform duration-300 drop-shadow-[0_0_15px_rgba(217,70,239,0.8)]">👑</div>
+              <span class="text-[9px] font-cyber text-fuchsia-400/80 font-bold mt-2 uppercase tracking-widest">RULLO BETA</span>
+            </div>
+            <!-- Reel 3 -->
+            <div class="flex-1 h-36 sm:h-44 rounded-2xl bg-slate-950/90 border border-fuchsia-500/40 flex flex-col items-center justify-center overflow-hidden relative shadow-inner">
+              <div id="slot-reel-3" class="text-4xl sm:text-6xl select-none transition-transform duration-300 drop-shadow-[0_0_15px_rgba(217,70,239,0.8)]">👑</div>
+              <span class="text-[9px] font-cyber text-fuchsia-400/80 font-bold mt-2 uppercase tracking-widest">RULLO GAMMA</span>
+            </div>
+          </div>
+
+          <!-- Feedback Status Banner -->
+          <div id="slot-status-banner" class="text-sm font-cyber font-bold min-h-[2rem] flex items-center justify-center text-amber-300">
+            Imposta la tua puntata e premi "TIRA LA LEVA" per decodificare i rulli!
+          </div>
+
+          <!-- Bet Selector and Spin Button Controls -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-3 w-full max-w-xl">
+            <div class="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-slate-800">
+              <span class="text-[10px] font-cyber text-slate-400 uppercase px-2 font-bold">Puntata:</span>
+              <button type="button" onclick="setSlotBet(50)" class="slot-bet-btn active px-3 py-1.5 rounded-lg font-cyber text-xs font-black text-fuchsia-300 bg-fuchsia-500/20 border border-fuchsia-500/40">50 💠</button>
+              <button type="button" onclick="setSlotBet(100)" class="slot-bet-btn px-3 py-1.5 rounded-lg font-cyber text-xs font-bold text-slate-400 hover:text-white">100 💠</button>
+              <button type="button" onclick="setSlotBet(250)" class="slot-bet-btn px-3 py-1.5 rounded-lg font-cyber text-xs font-bold text-slate-400 hover:text-white">250 💠</button>
+              <button type="button" onclick="setSlotBet(1000)" class="slot-bet-btn px-3 py-1.5 rounded-lg font-cyber text-xs font-bold text-slate-400 hover:text-white">1.000 💠</button>
+            </div>
+            <button id="slot-spin-btn" type="button" onclick="spinSlotReels()" class="flex-1 w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-400 hover:to-purple-500 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(217,70,239,0.5)] active:scale-95 transition cursor-pointer flex items-center justify-center gap-2">
+              <span>🚀 TIRA LA LEVA</span>
+              <span class="font-mono text-slate-950 bg-white/30 px-2 py-0.5 rounded text-[10px]" id="slot-spin-cost-badge">50 💠</span>
+            </button>
+          </div>
+
+          <!-- Paytable Mini Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-5 w-full max-w-2xl text-[10px] font-cyber">
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-slate-800">🍒 3x Data-Bit: <strong class="text-cyan-300">x2</strong></div>
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-slate-800">⚡ 3x EMP: <strong class="text-cyan-300">x3</strong></div>
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-slate-800">💀 3x Skull: <strong class="text-rose-400">x5</strong></div>
+            <div class="p-2 rounded-xl bg-slate-900/60 border border-slate-800">💎 3x Prisma: <strong class="text-emerald-300">x10</strong></div>
+            <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/40 col-span-2 sm:col-span-1">👑 3x 777: <strong class="text-amber-400">x50</strong></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==================== PANE 2: OVERCLOCK (DOUBLE OR NOTHING) ==================== -->
+      <div id="casino-pane-overclock" class="casino-pane hidden flex flex-col space-y-3">
+        <div class="cyber-panel rounded-2xl p-4 sm:p-6 border border-cyan-500/40 bg-slate-950/90 shadow-2xl flex flex-col items-center text-center relative overflow-hidden">
+          
+          <div class="flex items-center justify-between w-full pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-sm">⚡</span>
+              <span class="text-xs font-cyber font-black text-cyan-300 uppercase tracking-wider">PROTOCOLLO OVERCLOCK // RADDOPPIO O NIENTE</span>
+            </div>
+            <span class="text-[10px] font-cyber text-slate-400">SOVRACCARICO CRITICO: FINO A <strong class="text-amber-400 font-mono">x32</strong></span>
+          </div>
+
+          <!-- Multiplier Ladder -->
+          <div class="flex items-center justify-center gap-1.5 sm:gap-3 my-4 flex-wrap max-w-2xl">
+            <div id="oc-step-1" class="px-3 py-1.5 rounded-xl border border-slate-800 bg-slate-900/80 font-cyber font-black text-xs text-slate-400">x2</div>
+            <span class="text-slate-600">➔</span>
+            <div id="oc-step-2" class="px-3 py-1.5 rounded-xl border border-slate-800 bg-slate-900/80 font-cyber font-black text-xs text-slate-400">x4</div>
+            <span class="text-slate-600">➔</span>
+            <div id="oc-step-3" class="px-3 py-1.5 rounded-xl border border-slate-800 bg-slate-900/80 font-cyber font-black text-xs text-slate-400">x8</div>
+            <span class="text-slate-600">➔</span>
+            <div id="oc-step-4" class="px-3 py-1.5 rounded-xl border border-slate-800 bg-slate-900/80 font-cyber font-black text-xs text-slate-400">x16</div>
+            <span class="text-slate-600">➔</span>
+            <div id="oc-step-5" class="px-3.5 py-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 font-cyber font-black text-xs text-amber-300">x32 MAX</div>
+          </div>
+
+          <!-- Current Stake & Pot Counter -->
+          <div class="my-3 p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/40 w-full max-w-md flex items-center justify-around shadow-lg">
+            <div class="text-left">
+              <span class="text-[9px] font-cyber text-slate-400 uppercase block">Puntata Base:</span>
+              <strong id="oc-base-bet" class="text-white font-mono text-base">100 💠</strong>
+            </div>
+            <div class="h-8 w-px bg-slate-800"></div>
+            <div class="text-right">
+              <span class="text-[9px] font-cyber text-cyan-400 uppercase block font-bold">Malloppo Attuale:</span>
+              <strong id="oc-current-pot" class="text-cyan-300 font-mono text-xl font-black drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]">0 💠</strong>
+            </div>
+          </div>
+
+          <!-- Two Nodes Decision (Blue vs Red) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-3 w-full max-w-lg">
+            <button id="oc-btn-blue" type="button" onclick="chooseOverclockNode('BLUE')" class="p-4 rounded-2xl bg-gradient-to-br from-cyan-950/80 to-blue-950/80 border-2 border-cyan-400/80 hover:border-cyan-300 text-white font-cyber flex flex-col items-center justify-center gap-2 group transition cursor-pointer active:scale-95 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+              <span class="text-3xl group-hover:scale-110 transition">🔵</span>
+              <span class="text-xs font-black uppercase tracking-wider text-cyan-300">NODO CRYO ALFA</span>
+              <span class="text-[9px] text-slate-400 font-mono">50% PROBABILITÀ</span>
+            </button>
+            <button id="oc-btn-red" type="button" onclick="chooseOverclockNode('RED')" class="p-4 rounded-2xl bg-gradient-to-br from-rose-950/80 to-red-950/80 border-2 border-rose-400/80 hover:border-rose-300 text-white font-cyber flex flex-col items-center justify-center gap-2 group transition cursor-pointer active:scale-95 shadow-[0_0_20px_rgba(244,63,94,0.3)]">
+              <span class="text-3xl group-hover:scale-110 transition">🔴</span>
+              <span class="text-xs font-black uppercase tracking-wider text-rose-300">NODO PYRO BETA</span>
+              <span class="text-[9px] text-slate-400 font-mono">50% PROBABILITÀ</span>
+            </button>
+          </div>
+
+          <!-- Cashout / Start Button -->
+          <div class="flex items-center gap-3 mt-2">
+            <button id="oc-btn-cashout" type="button" onclick="cashoutOverclock()" class="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.4)] disabled:opacity-40 disabled:cursor-not-allowed">
+              💰 INCASSA MALLOPPO
+            </button>
+            <button id="oc-btn-start" type="button" onclick="startOverclockGame()" class="px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+              ⚡ AVVIA SFIDA (100 💠)
+            </button>
+          </div>
+
+          <div id="oc-status-banner" class="text-xs font-cyber text-slate-400 mt-3 min-h-[1.5rem]">
+            ⚠️ Scegli il nodo corretto per raddoppiare. Se sbagli, il reattore collassa e perdi tutto!
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==================== PANE 3: CASSE CIFRATE (MYSTERY CRATES) ==================== -->
+      <div id="casino-pane-crates" class="casino-pane hidden flex flex-col space-y-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- Cassa 1: Glitch Low Tier -->
+          <div class="cyber-panel rounded-2xl p-4 sm:p-5 border border-slate-700 bg-slate-950/90 shadow-xl flex flex-col justify-between text-center relative">
+            <div>
+              <div class="text-4xl mb-2">📦</div>
+              <h3 class="text-sm font-cyber font-black text-white uppercase tracking-wider">CASSA GLITCH</h3>
+              <span class="text-[10px] font-cyber text-cyan-400 block mb-3 font-bold">Rischio Minimo</span>
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[10px] font-cyber text-left space-y-1 mb-4">
+                <div class="text-rose-400">• 45% Vuota (0 💠)</div>
+                <div class="text-slate-300">• 35% Salvezza: 150 💠 (x1.5)</div>
+                <div class="text-cyan-300">• 15% Guadagno: 300 💠 (x3)</div>
+                <div class="text-amber-300 font-bold">• 5% Colpo Grosso: 800 💠 (x8)</div>
+              </div>
+            </div>
+            <button type="button" onclick="openCrate('GLITCH', 100)" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-cyan-600 hover:text-slate-950 border border-slate-600 text-white font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer active:scale-95 shadow">
+              APRI (100 💠)
+            </button>
+          </div>
+
+          <!-- Cassa 2: Matrix Mid Tier -->
+          <div class="cyber-panel rounded-2xl p-4 sm:p-5 border border-purple-500/50 bg-slate-950/90 shadow-xl flex flex-col justify-between text-center relative">
+            <div>
+              <div class="text-4xl mb-2">🧰</div>
+              <h3 class="text-sm font-cyber font-black text-purple-300 uppercase tracking-wider">CASSA MATRIX</h3>
+              <span class="text-[10px] font-cyber text-purple-400 block mb-3 font-bold">Rischio Medio</span>
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[10px] font-cyber text-left space-y-1 mb-4">
+                <div class="text-rose-400">• 50% Vuota (0 💠)</div>
+                <div class="text-slate-300">• 30% Salvezza: 800 💠 (x1.6)</div>
+                <div class="text-purple-300">• 15% Guadagno: 2.000 💠 (x4)</div>
+                <div class="text-amber-300 font-bold">• 5% Jackpot: 5.000 💠 (x10)</div>
+              </div>
+            </div>
+            <button type="button" onclick="openCrate('MATRIX', 500)" class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer active:scale-95 shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+              APRI (500 💠)
+            </button>
+          </div>
+
+          <!-- Cassa 3: Void High Roller -->
+          <div class="cyber-panel rounded-2xl p-4 sm:p-5 border-2 border-amber-500/70 bg-gradient-to-b from-amber-950/20 to-slate-950/90 shadow-2xl flex flex-col justify-between text-center relative">
+            <span class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 font-cyber font-bold text-[8px] uppercase">HIGH ROLLER</span>
+            <div>
+              <div class="text-4xl mb-2">💎</div>
+              <h3 class="text-sm font-cyber font-black text-amber-300 uppercase tracking-wider">CASSA NUCLEO OSCURO</h3>
+              <span class="text-[10px] font-cyber text-amber-400 block mb-3 font-bold">Massimo Rischio // 25.000 💠 JACKPOT</span>
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-amber-500/30 text-[10px] font-cyber text-left space-y-1 mb-4">
+                <div class="text-rose-500 font-bold">• 65% Meltdown (0 💠 - Perdi tutto)</div>
+                <div class="text-slate-300">• 20% Salvezza: 4.000 💠 (x1.6)</div>
+                <div class="text-amber-300">• 10% Trionfo: 10.000 💠 (x4)</div>
+                <div class="text-amber-400 font-black animate-pulse">• 5% MEGA JACKPOT: 25.000 💠 (x10)</div>
+              </div>
+            </div>
+            <button type="button" onclick="openCrate('VOID', 2500)" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer active:scale-95 shadow-[0_0_20px_rgba(245,158,11,0.5)]">
+              DECODIFICA (2.500 💠)
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Crate Opening Feedback Modal / Overlay Display -->
+        <div id="crate-result-overlay" class="hidden p-4 rounded-2xl bg-slate-900/95 border border-fuchsia-500/60 text-center font-cyber space-y-2">
+          <div id="crate-result-icon" class="text-5xl animate-bounce">🎁</div>
+          <h4 id="crate-result-title" class="text-lg font-black text-white uppercase">ESITO APERTURA</h4>
+          <p id="crate-result-desc" class="text-xs text-slate-300 font-mono"></p>
+        </div>
+      </div>
+
+      <!-- ==================== PANE 4: MERCATO NERO (LE 5 SKIN ESCLUSIVE ANIMATE) ==================== -->
+      <div id="casino-pane-market" class="casino-pane hidden flex flex-col space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          
+          <!-- Skin 1: Matrix Cascade (15.000 CC) -->
+          <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-emerald-500/50 bg-slate-950/90 shadow-xl flex flex-col justify-between text-left relative group">
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-[8px] font-bold self-start mb-2 border border-emerald-500/30">ANIMATA ★</span>
+            <div>
+              <div class="h-20 w-full rounded-xl bg-gradient-to-br from-emerald-950 via-slate-900 to-black border border-emerald-500/40 mb-2 flex items-center justify-center text-3xl shadow-inner group-hover:scale-105 transition">
+                📟
+              </div>
+              <h4 class="text-xs font-cyber font-black text-emerald-300 uppercase tracking-wider">MATRIX CASCADE</h4>
+              <p class="text-[9px] text-slate-400 font-cyber mt-1 leading-snug">
+                Cascata continua di codice verde fosforescente che scorre lungo la canna e la scocca dell'arma.
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-xs font-mono font-black text-emerald-400">15.000 💠</span>
+              <button type="button" onclick="buyBlackMarketSkin('MATRIX_CASCADE', 15000)" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 border border-emerald-400 text-emerald-300 hover:text-slate-950 font-cyber font-bold text-[10px] uppercase transition cursor-pointer">
+                SBLOCCA
+              </button>
+            </div>
+          </div>
+
+          <!-- Skin 2: Hyper-Volt Plasma (30.000 CC) -->
+          <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-cyan-500/50 bg-slate-950/90 shadow-xl flex flex-col justify-between text-left relative group">
+            <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono text-[8px] font-bold self-start mb-2 border border-cyan-500/30">ANIMATA ★★</span>
+            <div>
+              <div class="h-20 w-full rounded-xl bg-gradient-to-br from-cyan-950 via-blue-900 to-black border border-cyan-500/40 mb-2 flex items-center justify-center text-3xl shadow-inner group-hover:scale-105 transition">
+                ⚡
+              </div>
+              <h4 class="text-xs font-cyber font-black text-cyan-300 uppercase tracking-wider">HYPER-VOLT PLASMA</h4>
+              <p class="text-[9px] text-slate-400 font-cyber mt-1 leading-snug">
+                Scariche di plasma ciano e fulmini pulsanti a frequenza dinamica tra canna e mirino.
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-xs font-mono font-black text-cyan-400">30.000 💠</span>
+              <button type="button" onclick="buyBlackMarketSkin('HYPER_VOLT', 30000)" class="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500 border border-cyan-400 text-cyan-300 hover:text-slate-950 font-cyber font-bold text-[10px] uppercase transition cursor-pointer">
+                SBLOCCA
+              </button>
+            </div>
+          </div>
+
+          <!-- Skin 3: Nebula Cosmica Vortex (50.000 CC) -->
+          <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-fuchsia-500/50 bg-slate-950/90 shadow-xl flex flex-col justify-between text-left relative group">
+            <span class="px-2 py-0.5 rounded-full bg-fuchsia-500/20 text-fuchsia-300 font-mono text-[8px] font-bold self-start mb-2 border border-fuchsia-500/30">ANIMATA ★★★</span>
+            <div>
+              <div class="h-20 w-full rounded-xl bg-gradient-to-br from-fuchsia-950 via-purple-900 to-black border border-fuchsia-500/40 mb-2 flex items-center justify-center text-3xl shadow-inner group-hover:scale-105 transition">
+                🌌
+              </div>
+              <h4 class="text-xs font-cyber font-black text-fuchsia-300 uppercase tracking-wider">NEBULA VORTEX</h4>
+              <p class="text-[9px] text-slate-400 font-cyber mt-1 leading-snug">
+                Portale astronomico in movimento continuo: vortice cosmico viola con stelle scintillanti.
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-xs font-mono font-black text-fuchsia-400">50.000 💠</span>
+              <button type="button" onclick="buyBlackMarketSkin('NEBULA_VORTEX', 50000)" class="px-3 py-1.5 rounded-lg bg-fuchsia-500/20 hover:bg-fuchsia-500 border border-fuchsia-400 text-fuchsia-300 hover:text-slate-950 font-cyber font-bold text-[10px] uppercase transition cursor-pointer">
+                SBLOCCA
+              </button>
+            </div>
+          </div>
+
+          <!-- Skin 4: Bioshock Glitch Tossico (75.000 CC) -->
+          <div class="cyber-panel rounded-2xl p-3 sm:p-4 border border-amber-500/50 bg-slate-950/90 shadow-xl flex flex-col justify-between text-left relative group">
+            <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-[8px] font-bold self-start mb-2 border border-amber-500/30">ANIMATA ★★★★</span>
+            <div>
+              <div class="h-20 w-full rounded-xl bg-gradient-to-br from-amber-950 via-rose-900 to-black border border-amber-500/40 mb-2 flex items-center justify-center text-3xl shadow-inner group-hover:scale-105 transition">
+                ☣️
+              </div>
+              <h4 class="text-xs font-cyber font-black text-amber-300 uppercase tracking-wider">BIOSHOCK GLITCH</h4>
+              <p class="text-[9px] text-slate-400 font-cyber mt-1 leading-snug">
+                Distorsione a pixel glitch arancione e bio-fluorescenza tossica con sfarfallio quantistico.
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-xs font-mono font-black text-amber-400">75.000 💠</span>
+              <button type="button" onclick="buyBlackMarketSkin('BIOSHOCK_GLITCH', 75000)" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500 border border-amber-400 text-amber-300 hover:text-slate-950 font-cyber font-bold text-[10px] uppercase transition cursor-pointer">
+                SBLOCCA
+              </button>
+            </div>
+          </div>
+
+          <!-- Skin 5: Cyber-Emperor 24K Aura (120.000 CC) -->
+          <div class="cyber-panel rounded-2xl p-3 sm:p-4 border-2 border-yellow-400/80 bg-gradient-to-b from-yellow-950/30 to-slate-950/90 shadow-[0_0_25px_rgba(250,204,21,0.25)] flex flex-col justify-between text-left relative group">
+            <span class="px-2 py-0.5 rounded-full bg-yellow-400/20 text-yellow-300 font-mono text-[8px] font-black self-start mb-2 border border-yellow-400/50">APICE HIGH ROLLER 👑</span>
+            <div>
+              <div class="h-20 w-full rounded-xl bg-gradient-to-br from-yellow-700/50 via-amber-600/30 to-black border border-yellow-400/60 mb-2 flex items-center justify-center text-3xl shadow-inner group-hover:scale-105 transition">
+                👑
+              </div>
+              <h4 class="text-xs font-cyber font-black text-yellow-300 uppercase tracking-wider">CYBER-EMPEROR 24K</h4>
+              <p class="text-[9px] text-slate-400 font-cyber mt-1 leading-snug">
+                Oro puro 24 carati a specchio con riflessi dinamici bianchi e particelle auree fluttuanti.
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-yellow-500/40 flex items-center justify-between">
+              <span class="text-xs font-mono font-black text-yellow-300">120.000 💠</span>
+              <button type="button" onclick="buyBlackMarketSkin('CYBER_EMPEROR', 120000)" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 text-slate-950 font-cyber font-black text-[10px] uppercase transition cursor-pointer hover:brightness-110 shadow-[0_0_15px_rgba(250,204,21,0.5)]">
+                SBLOCCA
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Footer Bar -->
+    <footer class="w-full flex items-center justify-between pt-2 border-t border-slate-800/80 pointer-events-auto z-20 max-w-6xl mx-auto px-1 sm:px-2">
+      <button type="button" onclick="switchMenu('PLAY')" class="px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5">
+        <span>← TORNA ALLA LOBBY</span>
+      </button>
+      <div id="casino-footer-status" class="text-[11px] font-cyber text-slate-400 flex items-center gap-3">
+        <span>Operatore: <strong class="text-fuchsia-300 font-bold" id="casino-footer-name">CHICCO</strong></span>
+        <span>•</span>
+        <span>Vincita Record: <strong class="text-amber-400 font-mono" id="casino-footer-record">0 💠</strong></span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== MODAL: BANCO CAMBIO (CC ➔ PN - UNIDIREZIONALE) ==================== -->
+  <div id="casino-exchange-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/95 backdrop-blur-md">
+    <div class="cyber-panel rounded-2xl max-w-md w-full p-5 sm:p-6 border-2 border-amber-500/60 bg-slate-950 shadow-2xl relative text-left">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">💱</span>
+          <div>
+            <span class="text-[9px] font-cyber text-amber-400 uppercase tracking-widest block">BANCO CAMBIO CLANDESTINO</span>
+            <h3 class="text-base font-cyber font-black text-white uppercase">CONVERSIONE CC ➔ PN</h3>
+          </div>
+        </div>
+        <button type="button" onclick="closeCasinoExchangeModal()" class="text-slate-400 hover:text-white font-bold text-lg cursor-pointer">✕</button>
+      </div>
+
+      <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[11px] font-cyber text-amber-300 mb-4">
+        ⚠️ <strong>CAMBIO UNIDIREZIONALE:</strong> Puoi convertire i tuoi <strong>Cyber-Chips (💠)</strong> in <strong>Punti Negozio (🪙)</strong> per potenziare le tue armi. Non è consentito il cambio inverso da PN a CC!
+      </div>
+
+      <!-- Exchange Ratio Options: Tanti CC per pochi PN -->
+      <div class="space-y-2.5">
+        <!-- Option 1: 500 CC -> 100 PN -->
+        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-400/60 transition">
+          <div class="font-cyber">
+            <span class="text-xs text-white font-black">500 💠 Cyber-Chips</span>
+            <span class="text-[10px] text-slate-400 block font-mono">Tasso Base (5 : 1)</span>
+          </div>
+          <button type="button" onclick="executeExchange(500, 100)" class="px-3.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-cyber font-black text-xs uppercase cursor-pointer transition shadow">
+            ➔ 100 🪙 PN
+          </button>
+        </div>
+
+        <!-- Option 2: 2.000 CC -> 500 PN -->
+        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-400/60 transition">
+          <div class="font-cyber">
+            <span class="text-xs text-white font-black">2.000 💠 Cyber-Chips</span>
+            <span class="text-[10px] text-slate-400 block font-mono">Tasso Intermedio (4 : 1)</span>
+          </div>
+          <button type="button" onclick="executeExchange(2000, 500)" class="px-3.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-cyber font-black text-xs uppercase cursor-pointer transition shadow">
+            ➔ 500 🪙 PN
+          </button>
+        </div>
+
+        <!-- Option 3: 10.000 CC -> 3.000 PN -->
+        <div class="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-amber-950/30 to-slate-900/90 border border-amber-500/50 hover:border-amber-300 transition">
+          <div class="font-cyber">
+            <span class="text-xs text-amber-300 font-black">10.000 💠 Cyber-Chips</span>
+            <span class="text-[10px] text-slate-400 block font-mono">Tasso All'Ingrosso (3.33 : 1)</span>
+          </div>
+          <button type="button" onclick="executeExchange(10000, 3000)" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-yellow-300 hover:brightness-110 text-slate-950 font-cyber font-black text-xs uppercase cursor-pointer transition shadow-[0_0_10px_rgba(245,158,11,0.5)]">
+            ➔ 3.000 🪙 PN
+          </button>
+        </div>
+      </div>
+
+      <div id="exchange-feedback" class="text-[11px] font-cyber mt-3 min-h-[1.2rem] text-center"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ==================== SETTINGS MODAL (GEAR ICON ⚙️) ==================== -->
@@ -2404,7 +2864,17 @@ const CAMO_TYPES = [
 { id: 'RUBY', name: '🔴 Rubino Cremisi', reqText: '100 Headshot', reqHeadshots: 100, badgeColor: '#ef4444' },
 { id: 'EMERALD', name: '🟢 Smeraldo Tossico', reqText: '250 Headshot', reqHeadshots: 250, badgeColor: '#10b981' },
 { id: 'MAGMA', name: '🌋 Magma Vulcanico', reqText: '500 Headshot', reqHeadshots: 500, badgeColor: '#f97316' },
-{ id: 'PRISMATIC', name: '🌈 Cromo Prisma Animato', reqText: '1.000 Headshot', reqHeadshots: 1000, badgeColor: '#e879f9', animated: true }
+{ id: 'PRISMATIC', name: '🌈 Cromo Prisma Animato', reqText: '1.000 Headshot', reqHeadshots: 1000, badgeColor: '#e879f9', animated: true },
+// BLACK MARKET ANIMATED SKINS (Universal for all weapons)
+{ id: 'MATRIX_CASCADE', name: '📟 Matrix Cascade', reqText: 'Mercato Nero (15.000 💠)', isBlackMarket: true, badgeColor: '#10b981', animated: true },
+{ id: 'HYPER_VOLT', name: '⚡ Hyper-Volt Plasma', reqText: 'Mercato Nero (30.000 💠)', isBlackMarket: true, badgeColor: '#06b6d4', animated: true },
+{ id: 'NEBULA_VORTEX', name: '🌌 Nebula Vortex', reqText: 'Mercato Nero (50.000 💠)', isBlackMarket: true, badgeColor: '#d946ef', animated: true },
+{ id: 'BIOSHOCK_GLITCH', name: '☣️ Bioshock Glitch', reqText: 'Mercato Nero (75.000 💠)', isBlackMarket: true, badgeColor: '#f59e0b', animated: true },
+{ id: 'CYBER_EMPEROR', name: '👑 Cyber-Emperor 24K', reqText: 'Mercato Nero (120.000 💠)', isBlackMarket: true, badgeColor: '#facc15', animated: true },
+// MYSTERY CRATE EXCLUSIVE DROPS
+{ id: 'BYTE_GLITCH', name: '💾 Byte-Glitch', reqText: 'Cassa Glitch Drop', isCrateDrop: true, badgeColor: '#38bdf8', animated: true },
+{ id: 'CARBON_FIBER', name: '🕸️ Carbon-Matrix', reqText: 'Cassa Matrix Drop', isCrateDrop: true, badgeColor: '#a855f7', animated: true },
+{ id: 'SUPERNOVA', name: '💥 Supernova Void', reqText: 'Cassa Nucleo Oscuro', isCrateDrop: true, badgeColor: '#f43f5e', animated: true }
 ];
 const PERK_TYPES = [
 { id: 'DOUBLE_DMG', name: 'DOPPIA POTENZA', duration: 12, colorHex: 0xf43f5e, uiColor: '#f43f5e', icon: '⚔️' },
@@ -2442,7 +2912,10 @@ const OPERATOR_SUITS = [
 { id: 'DEFAULT', name: 'Astro-Cyber MK-I', reqLevel: 1, color: '#22d3ee', badge: 'EVA White', desc: 'Tuta astronauta EVA bianco-spaziale pressurizzata con visore panoramico olografico ciano e propulsore di manovra.' },
 { id: 'NEON_RONIN', name: 'Cosmo Ninja EVA', reqLevel: 8, color: '#10b981', badge: 'Smeraldo', desc: 'Tuta orbitale stealth in titanio scuro ad agilità estrema con visore smeraldo radiante e pinna cyber.' },
 { id: 'OBSIDIAN_OPS', name: 'Deep Space Void', reqLevel: 18, color: '#f43f5e', badge: 'Stealth', desc: 'Tuta astronautica stealth nera opaca per il vuoto cosmico profondo con visiera rubino laser e termoregolazione.' },
-{ id: 'SOLARIS_PRIME', name: 'Solaris Apex', reqLevel: 25, color: '#fbbf24', badge: 'Leggenda', desc: 'Tuta spaziale suprema placcata in oro 24K riflettente, visiera aurea a specchio e creste solari al plasma.' }
+{ id: 'SOLARIS_PRIME', name: 'Solaris Apex', reqLevel: 25, color: '#fbbf24', badge: 'Leggenda', desc: 'Tuta spaziale suprema placcata in oro 24K riflettente, visiera aurea a specchio e creste solari al plasma.' },
+// CASINO CRATE SPECIAL SUITS
+{ id: 'BLACK_OPS_HACKER', name: 'Hacker Operative', reqLevel: 1, isCasinoUnlock: true, color: '#a855f7', badge: 'Black Market', desc: 'Tuta mimetica clandestina in kevlar con nanotessuti fucsia e visiera con decodificatore olografico.' },
+{ id: 'HIGH_ROLLER_GOLD', name: 'High Roller VIP', reqLevel: 1, isCasinoUnlock: true, color: '#f59e0b', badge: 'VIP Apex', desc: 'Tuta cerimoniale in leghe di platino e oro specchiato con aurea luminescente del vincitore del casinò.' }
 ];
 
 const OPERATOR_REWARDS = [
@@ -2543,6 +3016,9 @@ return getOperatorLevel() >= op.reqLevel;
 function isSuitUnlocked(suitId) {
 const s = OPERATOR_SUITS.find(st => st.id === suitId);
 if (!s) return true;
+if (s.isCasinoUnlock) {
+  return Array.isArray(playerProfile.unlockedSuits) && playerProfile.unlockedSuits.includes(suitId);
+}
 return getOperatorLevel() >= s.reqLevel;
 }
 
@@ -2610,6 +3086,9 @@ return stats;
 }
 const playerProfile = {
 name: 'GHOST-01',
+cyberChips: 3500,
+unlockedBlackMarketCamos: [],
+unlockedSuits: [],
 bestScore: 0,
 bestWave: 1,
 totalKills: 0,
@@ -2656,6 +3135,9 @@ if (camoId === 'OBSIDIAN') camoId = 'MAGMA';
 if (camoId === 'CHRONO_GOLD') camoId = 'PRISMATIC';
 const camo = CAMO_TYPES.find(c => c.id === camoId);
 if (!camo) return true;
+if (camo.isBlackMarket || camo.isCrateDrop) {
+  return Array.isArray(playerProfile.unlockedBlackMarketCamos) && playerProfile.unlockedBlackMarketCamos.includes(camoId);
+}
 const st = getWeaponStats(weaponId);
 if (camo.reqHeadshots !== undefined && camo.reqHeadshots > 0) {
 return (st.headshots || 0) >= camo.reqHeadshots;
@@ -2949,6 +3431,8 @@ if (hudLvlBadge) hudLvlBadge.textContent = `LVL ${opProg.level}`;
 // Lobby Header & Operator Sync
 const lobbyPn = byId('lobby-pn-amount');
 if (lobbyPn) lobbyPn.textContent = getTotalAvailableShopPoints().toLocaleString();
+const lobbyCc = byId('lobby-cc-amount');
+if (lobbyCc) lobbyCc.textContent = (playerProfile.cyberChips || 0).toLocaleString();
 const lobbyTrophies = byId('lobby-trophies-amount');
 if (lobbyTrophies) lobbyTrophies.textContent = `${tCount}/${PSN_TROPHIES.length}`;
 const lobbyLvl = byId('lobby-level-badge');
@@ -5082,6 +5566,62 @@ function getArmoryCamoMaterials(camoId, defaultColorHex) {
     });
     armoryDynamicMats.push({ mat: glowMat, type: 'PRISMATIC', isPrimary: false });
     armoryDynamicMats.push({ mat: bodyMat, type: 'PRISMATIC', isPrimary: true });
+  } else if (camoId === 'MATRIX_CASCADE') {
+    bodyMat = new THREE.MeshStandardMaterial({ color: 0x021a0f, metalness: 0.85, roughness: 0.25 });
+    accentMat = new THREE.MeshStandardMaterial({ color: 0x054f2a, metalness: 0.90, roughness: 0.20 });
+    metalMat = new THREE.MeshStandardMaterial({ color: 0x011409, metalness: 0.92, roughness: 0.15 });
+    gripMat = new THREE.MeshStandardMaterial({ color: 0x032112, roughness: 0.80, metalness: 0.10 });
+    glowMat = new THREE.MeshStandardMaterial({ color: 0x6ee7b7, emissive: 0x10b981, emissiveIntensity: 2.2, roughness: 0.1 });
+    armoryDynamicMats.push({ mat: glowMat, type: 'MATRIX_CASCADE' });
+  } else if (camoId === 'HYPER_VOLT') {
+    bodyMat = new THREE.MeshStandardMaterial({ color: 0x041f3d, metalness: 0.90, roughness: 0.18 });
+    accentMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.92, roughness: 0.12 });
+    metalMat = new THREE.MeshStandardMaterial({ color: 0x031124, metalness: 0.95, roughness: 0.10 });
+    gripMat = new THREE.MeshStandardMaterial({ color: 0x071e36, roughness: 0.75, metalness: 0.20 });
+    glowMat = new THREE.MeshStandardMaterial({ color: 0xe0f2fe, emissive: 0x00f0ff, emissiveIntensity: 2.4, roughness: 0.1 });
+    armoryDynamicMats.push({ mat: glowMat, type: 'HYPER_VOLT' });
+  } else if (camoId === 'NEBULA_VORTEX') {
+    bodyMat = new THREE.MeshStandardMaterial({ color: 0x1a052e, metalness: 0.85, roughness: 0.22 });
+    accentMat = new THREE.MeshStandardMaterial({ color: 0x7e22ce, metalness: 0.88, roughness: 0.18 });
+    metalMat = new THREE.MeshStandardMaterial({ color: 0x0d0217, metalness: 0.92, roughness: 0.20 });
+    gripMat = new THREE.MeshStandardMaterial({ color: 0x22053d, roughness: 0.80, metalness: 0.15 });
+    glowMat = new THREE.MeshStandardMaterial({ color: 0xf5d0fe, emissive: 0xd946ef, emissiveIntensity: 2.4, roughness: 0.15 });
+    armoryDynamicMats.push({ mat: glowMat, type: 'NEBULA_VORTEX' });
+  } else if (camoId === 'BIOSHOCK_GLITCH') {
+    bodyMat = new THREE.MeshStandardMaterial({ color: 0x241203, metalness: 0.75, roughness: 0.35 });
+    accentMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.25 });
+    metalMat = new THREE.MeshStandardMaterial({ color: 0x170b02, metalness: 0.90, roughness: 0.20 });
+    gripMat = new THREE.MeshStandardMaterial({ color: 0x301804, roughness: 0.85, metalness: 0.10 });
+    glowMat = new THREE.MeshStandardMaterial({ color: 0xfef3c7, emissive: 0xf59e0b, emissiveIntensity: 2.5, roughness: 0.1 });
+    armoryDynamicMats.push({ mat: glowMat, type: 'BIOSHOCK_GLITCH' });
+  } else if (camoId === 'CYBER_EMPEROR') {
+    bodyMat = new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 0.98, roughness: 0.08 });
+    accentMat = new THREE.MeshStandardMaterial({ color: 0xfff085, metalness: 0.99, roughness: 0.05 });
+    metalMat = new THREE.MeshStandardMaterial({ color: 0xb45309, metalness: 0.95, roughness: 0.15 });
+    gripMat = new THREE.MeshStandardMaterial({ color: 0x271904, roughness: 0.75, metalness: 0.30 });
+    glowMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfacc15, emissiveIntensity: 2.6, roughness: 0.08 });
+    armoryDynamicMats.push({ mat: glowMat, type: 'CYBER_EMPEROR' });
+  } else if (camoId === 'BYTE_GLITCH') {
+    bodyMat = new THREE.MeshStandardMaterial({ color: 0x081829, metalness: 0.80, roughness: 0.30 });
+    accentMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.88, roughness: 0.20 });
+    metalMat = new THREE.MeshStandardMaterial({ color: 0x030d17, metalness: 0.90, roughness: 0.18 });
+    gripMat = new THREE.MeshStandardMaterial({ color: 0x0b1a2c, roughness: 0.80, metalness: 0.10 });
+    glowMat = new THREE.MeshStandardMaterial({ color: 0x7dd3fc, emissive: 0x38bdf8, emissiveIntensity: 2.2, roughness: 0.1 });
+    armoryDynamicMats.push({ mat: glowMat, type: 'BYTE_GLITCH' });
+  } else if (camoId === 'CARBON_FIBER') {
+    bodyMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.65, roughness: 0.40 });
+    accentMat = new THREE.MeshStandardMaterial({ color: 0x6b21a8, metalness: 0.85, roughness: 0.25 });
+    metalMat = new THREE.MeshStandardMaterial({ color: 0x070b14, metalness: 0.92, roughness: 0.20 });
+    gripMat = new THREE.MeshStandardMaterial({ color: 0x1e1035, roughness: 0.85, metalness: 0.15 });
+    glowMat = new THREE.MeshStandardMaterial({ color: 0xe9d5ff, emissive: 0xa855f7, emissiveIntensity: 2.3, roughness: 0.12 });
+    armoryDynamicMats.push({ mat: glowMat, type: 'CARBON_FIBER' });
+  } else if (camoId === 'SUPERNOVA') {
+    bodyMat = new THREE.MeshStandardMaterial({ color: 0x310413, metalness: 0.90, roughness: 0.18 });
+    accentMat = new THREE.MeshStandardMaterial({ color: 0xe11d48, metalness: 0.92, roughness: 0.14 });
+    metalMat = new THREE.MeshStandardMaterial({ color: 0x140207, metalness: 0.95, roughness: 0.15 });
+    gripMat = new THREE.MeshStandardMaterial({ color: 0x24030d, roughness: 0.80, metalness: 0.20 });
+    glowMat = new THREE.MeshStandardMaterial({ color: 0xffe4e6, emissive: 0xf43f5e, emissiveIntensity: 2.6, roughness: 0.1 });
+    armoryDynamicMats.push({ mat: glowMat, type: 'SUPERNOVA' });
   } else {
     // DEFAULT Cyber
     bodyMat = new THREE.MeshStandardMaterial({
@@ -6187,6 +6727,7 @@ function switchMenu(menuName) {
   const tabTrophies = byId('nav-tab-trophies');
   const tabLeaderboard = byId('nav-tab-leaderboard');
   const tabFriends = byId('nav-tab-friends');
+  const tabCasino = byId('nav-tab-casino');
 
   const viewPlay = byId('lobby-view-play');
   const viewArmory = byId('lobby-view-armory');
@@ -6194,6 +6735,7 @@ function switchMenu(menuName) {
   const viewTrophies = byId('lobby-view-trophies');
   const viewLeaderboard = byId('lobby-view-leaderboard');
   const viewFriends = byId('lobby-view-friends');
+  const viewCasino = byId('lobby-view-casino');
 
   const navs = [
     { name: 'PLAY', btn: tabPlay },
@@ -6201,7 +6743,8 @@ function switchMenu(menuName) {
     { name: 'PROFILE', btn: tabProfile },
     { name: 'TROPHIES', btn: tabTrophies },
     { name: 'LEADERBOARD', btn: tabLeaderboard },
-    { name: 'FRIENDS', btn: tabFriends }
+    { name: 'FRIENDS', btn: tabFriends },
+    { name: 'CASINO', btn: tabCasino }
   ];
 
   navs.forEach(n => {
@@ -6239,6 +6782,11 @@ function switchMenu(menuName) {
     if (currentLobbyMenu === 'FRIENDS') viewFriends.classList.add('flex');
     else viewFriends.classList.remove('flex');
   }
+  if (viewCasino) {
+    viewCasino.classList.toggle('hidden', currentLobbyMenu !== 'CASINO');
+    if (currentLobbyMenu === 'CASINO') viewCasino.classList.add('flex');
+    else viewCasino.classList.remove('flex');
+  }
 
   if (currentLobbyMenu === 'ARMORY') {
     initShopDOMOnce();
@@ -6264,6 +6812,8 @@ function switchMenu(menuName) {
     renderLeaderboardView();
   } else if (currentLobbyMenu === 'FRIENDS') {
     if (typeof renderFriendsUI === 'function') renderFriendsUI();
+  } else if (currentLobbyMenu === 'CASINO') {
+    if (typeof renderCasinoUI === 'function') renderCasinoUI();
   } else if (currentLobbyMenu === 'PLAY') {
     if (typeof updateSoloLobbyUI === 'function') updateSoloLobbyUI();
   }
@@ -8088,6 +8638,527 @@ window.closeGameInvitePopup = closeGameInvitePopup;
 window.refreshFriendsData = refreshFriendsData;
 window.renderFriendsUI = renderFriendsUI;
 
+/* ==================== BLACK MARKET & CASINO LOGIC ==================== */
+let currentCasinoTab = 'SLOT';
+let slotBetAmount = 50;
+let isSlotSpinning = false;
+let ocCurrentPot = 0;
+let ocCurrentStep = 0; // 0 = not playing, 1=x2, 2=x4, 3=x8, 4=x16, 5=x32
+let ocBaseBet = 100;
+let ocGameActive = false;
+
+function renderCasinoUI() {
+  const headerCc = byId('casino-header-cc');
+  if (headerCc) headerCc.textContent = (playerProfile.cyberChips || 0).toLocaleString();
+  const lobbyCc = byId('lobby-cc-amount');
+  if (lobbyCc) lobbyCc.textContent = (playerProfile.cyberChips || 0).toLocaleString();
+  const footerName = byId('casino-footer-name');
+  if (footerName) footerName.textContent = playerProfile.name || 'GHOST-01';
+
+  // Update Black Market Skin Buttons state if unlocked
+  if (Array.isArray(playerProfile.unlockedBlackMarketCamos)) {
+    const marketSkins = [
+      { id: 'MATRIX_CASCADE', cost: 15000 },
+      { id: 'HYPER_VOLT', cost: 30000 },
+      { id: 'NEBULA_VORTEX', cost: 50000 },
+      { id: 'BIOSHOCK_GLITCH', cost: 75000 },
+      { id: 'CYBER_EMPEROR', cost: 120000 }
+    ];
+
+    marketSkins.forEach(sk => {
+      const btn = document.querySelector(`button[onclick*="'${sk.id}'"]`);
+      if (btn) {
+        if (playerProfile.unlockedBlackMarketCamos.includes(sk.id)) {
+          btn.textContent = '✓ EQUIPAGGIA';
+          btn.className = 'px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-cyber font-black text-[10px] uppercase transition cursor-pointer shadow-[0_0_10px_rgba(16,185,129,0.5)]';
+        } else {
+          btn.textContent = 'SBLOCCA';
+        }
+      }
+    });
+  }
+}
+
+function setCasinoTab(tabName) {
+  currentCasinoTab = tabName;
+  const tabs = [
+    { name: 'SLOT', btn: byId('casino-tab-btn-slot'), pane: byId('casino-pane-slot') },
+    { name: 'OVERCLOCK', btn: byId('casino-tab-btn-overclock'), pane: byId('casino-pane-overclock') },
+    { name: 'CRATES', btn: byId('casino-tab-btn-crates'), pane: byId('casino-pane-crates') },
+    { name: 'MARKET', btn: byId('casino-tab-btn-market'), pane: byId('casino-pane-market') }
+  ];
+
+  tabs.forEach(t => {
+    if (!t.btn || !t.pane) return;
+    if (t.name === tabName) {
+      t.btn.className = 'casino-subtab px-3.5 sm:px-5 py-2 rounded-xl font-cyber text-[10px] sm:text-xs font-black uppercase transition cursor-pointer flex items-center gap-2 text-fuchsia-300 bg-fuchsia-500/20 border border-fuchsia-400/50 shadow-[0_0_15px_rgba(217,70,239,0.3)]';
+      t.pane.classList.remove('hidden');
+    } else {
+      t.btn.className = 'casino-subtab px-3.5 sm:px-5 py-2 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-2 text-slate-400 hover:text-white';
+      t.pane.classList.add('hidden');
+    }
+  });
+
+  renderCasinoUI();
+}
+
+// 1. Slot Functions
+function setSlotBet(amt) {
+  slotBetAmount = amt;
+  const costBadge = byId('slot-spin-cost-badge');
+  if (costBadge) costBadge.textContent = `${amt} 💠`;
+  document.querySelectorAll('.slot-bet-btn').forEach(btn => {
+    if (btn.textContent.includes(amt.toString())) {
+      btn.className = 'slot-bet-btn active px-3 py-1.5 rounded-lg font-cyber text-xs font-black text-fuchsia-300 bg-fuchsia-500/20 border border-fuchsia-500/40';
+    } else {
+      btn.className = 'slot-bet-btn px-3 py-1.5 rounded-lg font-cyber text-xs font-bold text-slate-400 hover:text-white';
+    }
+  });
+}
+
+function spinSlotReels() {
+  if (isSlotSpinning) return;
+  if ((playerProfile.cyberChips || 0) < slotBetAmount) {
+    const banner = byId('slot-status-banner');
+    if (banner) {
+      banner.innerHTML = `<span class="text-rose-400">❌ Cyber-Chips insufficienti! Hai bisogno di ${slotBetAmount} 💠</span>`;
+    }
+    return;
+  }
+
+  playerProfile.cyberChips = (playerProfile.cyberChips || 0) - slotBetAmount;
+  renderCasinoUI();
+  updateProfileUI();
+
+  isSlotSpinning = true;
+  const r1 = byId('slot-reel-1');
+  const r2 = byId('slot-reel-2');
+  const r3 = byId('slot-reel-3');
+  const banner = byId('slot-status-banner');
+  if (banner) banner.innerHTML = `<span class="text-fuchsia-400 animate-pulse">⚡ Decodifica dati in corso... Rulli in accelerazione!</span>`;
+
+  const symbols = ['🍒', '⚡', '💀', '💎', '👑'];
+  let count = 0;
+  const spinInterval = setInterval(() => {
+    count++;
+    if (r1) r1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    if (r2) r2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    if (r3) r3.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    if (count > 12) {
+      clearInterval(spinInterval);
+      finalizeSlotSpin();
+    }
+  }, 100);
+}
+
+function finalizeSlotSpin() {
+  isSlotSpinning = false;
+  const symbols = ['🍒', '⚡', '💀', '💎', '👑'];
+  // Outcome odds
+  const rand = Math.random();
+  let s1, s2, s3;
+  let mult = 0;
+  let winMsg = "";
+
+  if (rand < 0.05) { // 5% JACKPOT
+    s1 = s2 = s3 = '👑';
+    mult = 50;
+    winMsg = "💥 JACKPOT TRIPLICE 777! VINCITA MASSIMA x50!";
+  } else if (rand < 0.12) { // 7% Diamante
+    s1 = s2 = s3 = '💎';
+    mult = 10;
+    winMsg = "💎 CRISTALLI ALLINEATI! VINCITA x10!";
+  } else if (rand < 0.22) { // 10% Teschio
+    s1 = s2 = s3 = '💀';
+    mult = 5;
+    winMsg = "💀 CYBER-SKULL REALE! VINCITA x5!";
+  } else if (rand < 0.35) { // 13% EMP
+    s1 = s2 = s3 = '⚡';
+    mult = 3;
+    winMsg = "⚡ NUCLEO EMP COMPLETO! VINCITA x3!";
+  } else if (rand < 0.50) { // 15% Data-Bit
+    s1 = s2 = s3 = '🍒';
+    mult = 2;
+    winMsg = "🍒 BIT DI DATI RECUPERATI! VINCITA x2!";
+  } else {
+    // Loss
+    s1 = symbols[Math.floor(Math.random() * symbols.length)];
+    s2 = symbols[(symbols.indexOf(s1) + 1) % symbols.length];
+    s3 = symbols[Math.floor(Math.random() * symbols.length)];
+    mult = 0;
+    winMsg = "💨 DECODIFICA FALLITA. Nessuna combinazione vincente.";
+  }
+
+  const r1 = byId('slot-reel-1');
+  const r2 = byId('slot-reel-2');
+  const r3 = byId('slot-reel-3');
+  if (r1) r1.textContent = s1;
+  if (r2) r2.textContent = s2;
+  if (r3) r3.textContent = s3;
+
+  const banner = byId('slot-status-banner');
+  if (mult > 0) {
+    const winAmt = slotBetAmount * mult;
+    playerProfile.cyberChips = (playerProfile.cyberChips || 0) + winAmt;
+    if (banner) {
+      banner.innerHTML = `<span class="text-emerald-400 font-black animate-bounce">${winMsg} (+${winAmt.toLocaleString()} 💠)</span>`;
+    }
+  } else {
+    if (banner) {
+      banner.innerHTML = `<span class="text-rose-400 font-bold">${winMsg} (-${slotBetAmount} 💠)</span>`;
+    }
+  }
+  renderCasinoUI();
+  updateProfileUI();
+}
+
+// 2. Overclock (Double or Nothing)
+function updateOverclockLadderUI() {
+  const steps = [
+    { id: 'oc-step-1', mult: 2 },
+    { id: 'oc-step-2', mult: 4 },
+    { id: 'oc-step-3', mult: 8 },
+    { id: 'oc-step-4', mult: 16 },
+    { id: 'oc-step-5', mult: 32 }
+  ];
+
+  steps.forEach((s, idx) => {
+    const el = byId(s.id);
+    if (!el) return;
+    if (ocCurrentStep === idx + 1) {
+      el.className = 'px-3 py-1.5 rounded-xl border-2 border-cyan-400 bg-cyan-500/30 font-cyber font-black text-xs text-white shadow-[0_0_15px_rgba(6,182,212,0.6)] animate-pulse';
+    } else if (ocCurrentStep > idx + 1) {
+      el.className = 'px-3 py-1.5 rounded-xl border border-emerald-500/50 bg-emerald-950/60 font-cyber font-bold text-xs text-emerald-400';
+    } else {
+      el.className = 'px-3 py-1.5 rounded-xl border border-slate-800 bg-slate-900/80 font-cyber font-black text-xs text-slate-400';
+    }
+  });
+
+  const potEl = byId('oc-current-pot');
+  if (potEl) potEl.textContent = `${ocCurrentPot.toLocaleString()} 💠`;
+
+  const cashoutBtn = byId('oc-btn-cashout');
+  if (cashoutBtn) {
+    cashoutBtn.disabled = !ocGameActive || ocCurrentPot <= 0;
+  }
+}
+
+function startOverclockGame() {
+  if (ocGameActive) return;
+  if ((playerProfile.cyberChips || 0) < ocBaseBet) {
+    const banner = byId('oc-status-banner');
+    if (banner) banner.innerHTML = `<span class="text-rose-400">❌ Saldo insufficiente! Servono ${ocBaseBet} 💠</span>`;
+    return;
+  }
+
+  playerProfile.cyberChips = (playerProfile.cyberChips || 0) - ocBaseBet;
+  renderCasinoUI();
+  updateProfileUI();
+
+  ocGameActive = true;
+  ocCurrentStep = 0;
+  ocCurrentPot = ocBaseBet;
+
+  const banner = byId('oc-status-banner');
+  if (banner) banner.innerHTML = `<span class="text-cyan-300 font-bold">⚡ Sfida avviata! Scegli il NODO CRYO 🔵 o PYRO 🔴 per raddoppiare a 200 💠!</span>`;
+  updateOverclockLadderUI();
+}
+
+function chooseOverclockNode(nodeColor) {
+  if (!ocGameActive) {
+    const banner = byId('oc-status-banner');
+    if (banner) banner.innerHTML = `<span class="text-amber-400">Premi prima su "AVVIA SFIDA (100 💠)" per iniziare!</span>`;
+    return;
+  }
+
+  // 50% Win Chance
+  const win = Math.random() < 0.50;
+  const banner = byId('oc-status-banner');
+
+  if (win) {
+    ocCurrentStep++;
+    ocCurrentPot = ocCurrentPot * 2;
+    updateOverclockLadderUI();
+
+    if (ocCurrentStep >= 5) { // Max level reached!
+      const finalWin = ocCurrentPot;
+      playerProfile.cyberChips = (playerProfile.cyberChips || 0) + finalWin;
+      ocGameActive = false;
+      ocCurrentStep = 0;
+      ocCurrentPot = 0;
+      if (banner) {
+        banner.innerHTML = `<span class="text-amber-300 font-black animate-bounce">🏆 OVERCLOCK CRITICO x32 COMPLETATO! Hai incassato ${finalWin.toLocaleString()} 💠!</span>`;
+      }
+      renderCasinoUI();
+      updateProfileUI();
+      updateOverclockLadderUI();
+    } else {
+      if (banner) {
+        banner.innerHTML = `<span class="text-emerald-400 font-bold">✓ Nodo corretto! Malloppo raddoppiato a ${ocCurrentPot.toLocaleString()} 💠! INCASSA o RISCHIA per il livello ${ocCurrentStep + 1}!</span>`;
+      }
+    }
+  } else {
+    // Loss
+    ocGameActive = false;
+    ocCurrentStep = 0;
+    ocCurrentPot = 0;
+    updateOverclockLadderUI();
+    if (banner) {
+      banner.innerHTML = `<span class="text-rose-500 font-black animate-pulse">💥 MELTDOWN! Il reattore è esploso. Hai perso tutto il malloppo!</span>`;
+    }
+  }
+}
+
+function cashoutOverclock() {
+  if (!ocGameActive || ocCurrentPot <= 0) return;
+  const win = ocCurrentPot;
+  playerProfile.cyberChips = (playerProfile.cyberChips || 0) + win;
+  ocGameActive = false;
+  ocCurrentStep = 0;
+  ocCurrentPot = 0;
+
+  const banner = byId('oc-status-banner');
+  if (banner) {
+    banner.innerHTML = `<span class="text-emerald-400 font-black">💰 Malloppo incassato con successo: +${win.toLocaleString()} 💠!</span>`;
+  }
+  renderCasinoUI();
+  updateProfileUI();
+  updateOverclockLadderUI();
+}
+
+// 3. Mystery Crates
+function openCrate(tier, cost) {
+  if ((playerProfile.cyberChips || 0) < cost) {
+    alert(`Cyber-Chips insufficienti! Servono ${cost.toLocaleString()} 💠 per questa cassa.`);
+    return;
+  }
+
+  playerProfile.cyberChips = (playerProfile.cyberChips || 0) - cost;
+
+  const overlay = byId('crate-result-overlay');
+  const title = byId('crate-result-title');
+  const desc = byId('crate-result-desc');
+  const icon = byId('crate-result-icon');
+
+  if (overlay) overlay.classList.remove('hidden');
+
+  const rand = Math.random();
+  let winAmt = 0;
+  let wonItem = null; // { type: 'CAMO' | 'SUIT', id: '...', name: '...' }
+
+  if (!Array.isArray(playerProfile.unlockedBlackMarketCamos)) playerProfile.unlockedBlackMarketCamos = [];
+  if (!Array.isArray(playerProfile.unlockedSuits)) playerProfile.unlockedSuits = [];
+
+  if (tier === 'GLITCH') {
+    // 45% empty, 30% 150 CC, 12% 300 CC, 8% 800 CC, 5% Special BYTE_GLITCH skin drop!
+    if (rand < 0.05 && !playerProfile.unlockedBlackMarketCamos.includes('BYTE_GLITCH')) {
+      wonItem = { type: 'CAMO', id: 'BYTE_GLITCH', name: '💾 Skin Armi "Byte-Glitch" (Animata)' };
+      playerProfile.unlockedBlackMarketCamos.push('BYTE_GLITCH');
+    } else if (rand < 0.45) {
+      winAmt = 0;
+    } else if (rand < 0.75) {
+      winAmt = 150;
+    } else if (rand < 0.92) {
+      winAmt = 300;
+    } else {
+      winAmt = 800;
+    }
+  } else if (tier === 'MATRIX') {
+    // 45% empty, 25% 800 CC, 15% 2000 CC, 7% 5000 CC, 5% CARBON_FIBER skin, 3% BLACK_OPS_HACKER suit!
+    if (rand < 0.03 && !playerProfile.unlockedSuits.includes('BLACK_OPS_HACKER')) {
+      wonItem = { type: 'SUIT', id: 'BLACK_OPS_HACKER', name: '🥷 Tuta Operatore "Hacker Operative"' };
+      playerProfile.unlockedSuits.push('BLACK_OPS_HACKER');
+    } else if (rand < 0.08 && !playerProfile.unlockedBlackMarketCamos.includes('CARBON_FIBER')) {
+      wonItem = { type: 'CAMO', id: 'CARBON_FIBER', name: '🕸️ Skin Armi "Carbon-Matrix" (Animata)' };
+      playerProfile.unlockedBlackMarketCamos.push('CARBON_FIBER');
+    } else if (rand < 0.48) {
+      winAmt = 0;
+    } else if (rand < 0.78) {
+      winAmt = 800;
+    } else if (rand < 0.93) {
+      winAmt = 2000;
+    } else {
+      winAmt = 5000;
+    }
+  } else { // VOID High Roller
+    // 60% meltdown, 18% 4000 CC, 10% 10000 CC, 5% 25000 CC Jackpot, 4% SUPERNOVA skin, 3% HIGH_ROLLER_GOLD suit!
+    if (rand < 0.03 && !playerProfile.unlockedSuits.includes('HIGH_ROLLER_GOLD')) {
+      wonItem = { type: 'SUIT', id: 'HIGH_ROLLER_GOLD', name: '👑 Tuta Operatore "High Roller VIP 24K"' };
+      playerProfile.unlockedSuits.push('HIGH_ROLLER_GOLD');
+    } else if (rand < 0.07 && !playerProfile.unlockedBlackMarketCamos.includes('SUPERNOVA')) {
+      wonItem = { type: 'CAMO', id: 'SUPERNOVA', name: '💥 Skin Armi "Supernova Void" (Animata)' };
+      playerProfile.unlockedBlackMarketCamos.push('SUPERNOVA');
+    } else if (rand < 0.60) {
+      winAmt = 0;
+    } else if (rand < 0.82) {
+      winAmt = 4000;
+    } else if (rand < 0.95) {
+      winAmt = 10000;
+    } else {
+      winAmt = 25000;
+    }
+  }
+
+  if (wonItem) {
+    sound.playTrophyUnlock();
+    if (icon) icon.textContent = wonItem.type === 'SUIT' ? '🥷' : '✨';
+    if (title) title.innerHTML = `<span class="text-amber-400 font-black animate-pulse">DROP LEGGENDARIO TROVATO!</span>`;
+    if (desc) {
+      desc.innerHTML = `
+        <div class="space-y-2">
+          <div class="text-white text-sm font-black">${wonItem.name}</div>
+          <div class="text-emerald-400 text-xs">Sbloccata permanentemente nel tuo inventario!</div>
+          <div class="flex items-center justify-center gap-2 pt-2">
+            <button type="button" onclick="quickEquipWonItem('${wonItem.type}', '${wonItem.id}')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-cyber font-black text-xs uppercase cursor-pointer hover:brightness-110 shadow-lg">
+              ✓ EQUIPAGGIA SUBITO
+            </button>
+            <button type="button" onclick="byId('crate-result-overlay').classList.add('hidden')" class="px-3.5 py-2 rounded-xl bg-slate-800 text-slate-300 font-cyber font-bold text-xs uppercase cursor-pointer hover:bg-slate-700">
+              CHIUDI
+            </button>
+          </div>
+        </div>
+      `;
+    }
+  } else if (winAmt > 0) {
+    sound.playPerkPickup();
+    playerProfile.cyberChips = (playerProfile.cyberChips || 0) + winAmt;
+    if (icon) icon.textContent = '🎉';
+    if (title) title.innerHTML = `<span class="text-emerald-400 font-black">VINCITA CONFERMATA!</span>`;
+    if (desc) {
+      desc.innerHTML = `
+        <div class="text-cyan-300 font-mono text-sm">+${winAmt.toLocaleString()} 💠 Cyber-Chips accreditati!</div>
+        <button type="button" onclick="byId('crate-result-overlay').classList.add('hidden')" class="mt-2 px-4 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-cyber cursor-pointer hover:bg-slate-700">OK</button>
+      `;
+    }
+  } else {
+    sound.playPlayerDamage();
+    if (icon) icon.textContent = '💀';
+    if (title) title.innerHTML = `<span class="text-rose-500 font-black">CASSA CORROTTA // VUOTA</span>`;
+    if (desc) {
+      desc.innerHTML = `
+        <div class="text-slate-400 font-mono text-xs">Il firewall ha incenerito il contenuto. Hai perso ${cost.toLocaleString()} 💠!</div>
+        <button type="button" onclick="byId('crate-result-overlay').classList.add('hidden')" class="mt-2 px-4 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-cyber cursor-pointer hover:bg-slate-700">OK</button>
+      `;
+    }
+  }
+
+  savePlayerProfile();
+  renderCasinoUI();
+  updateProfileUI();
+}
+
+function quickEquipWonItem(type, itemId) {
+  if (type === 'SUIT') {
+    playerProfile.selectedSuit = itemId;
+    savePlayerProfile();
+    applyWeaponVisuals(getCurrentWeapon());
+    renderProfileView();
+    updateProfileUI();
+    if (typeof updateLobbyAvatars === 'function') updateLobbyAvatars();
+    showLobbyToast('TUTA EQUIPAGGIATA', 'Nuova tuta indossata con successo!');
+  } else if (type === 'CAMO') {
+    const curW = WEAPONS[state.currentWeaponIndex];
+    if (curW) {
+      const st = getWeaponStats(curW.id);
+      st.selectedCamo = itemId;
+      savePlayerProfile();
+      applyWeaponVisuals(curW);
+      updateArmoryWeapon3DModel();
+      updateLobbyAvatars();
+      showLobbyToast('SKIN EQUIPAGGIATA', 'Nuova finitura applicata a ' + curW.name + '!');
+    }
+  }
+  const overlay = byId('crate-result-overlay');
+  if (overlay) overlay.classList.add('hidden');
+}
+
+// 4. Black Market Skins & Exchange
+function buyBlackMarketSkin(skinId, cost) {
+  if (!Array.isArray(playerProfile.unlockedBlackMarketCamos)) {
+    playerProfile.unlockedBlackMarketCamos = [];
+  }
+
+  if (playerProfile.unlockedBlackMarketCamos.includes(skinId)) {
+    // Already unlocked: quick equip on current weapon or open armory
+    const curW = WEAPONS[state.currentWeaponIndex];
+    if (curW) {
+      const st = getWeaponStats(curW.id);
+      st.selectedCamo = skinId;
+      savePlayerProfile();
+      applyWeaponVisuals(curW);
+      updateArmoryWeapon3DModel();
+      updateLobbyAvatars();
+      showLobbyToast('SKIN EQUIPAGGIATA', 'Skin ' + skinId + ' equipaggiata su ' + curW.name + '!');
+    }
+    renderCasinoUI();
+    return;
+  }
+
+  if ((playerProfile.cyberChips || 0) < cost) {
+    alert(`Cyber-Chips insufficienti! Servono ${cost.toLocaleString()} 💠 per sbloccare questa skin.`);
+    return;
+  }
+
+  playerProfile.cyberChips = (playerProfile.cyberChips || 0) - cost;
+  playerProfile.unlockedBlackMarketCamos.push(skinId);
+  savePlayerProfile();
+  sound.playTrophyUnlock();
+
+  // Equip immediately to active weapon
+  const curW = WEAPONS[state.currentWeaponIndex];
+  if (curW) {
+    const st = getWeaponStats(curW.id);
+    st.selectedCamo = skinId;
+    applyWeaponVisuals(curW);
+    updateArmoryWeapon3DModel();
+    updateLobbyAvatars();
+  }
+
+  showLobbyToast('MERCATO NERO', 'Skin ' + skinId + ' sbloccata ed equipaggiata!');
+  renderCasinoUI();
+  updateProfileUI();
+}
+
+function openCasinoExchangeModal() {
+  const m = byId('casino-exchange-modal');
+  if (m) m.classList.remove('hidden');
+}
+
+function closeCasinoExchangeModal() {
+  const m = byId('casino-exchange-modal');
+  if (m) m.classList.add('hidden');
+}
+
+function executeExchange(ccCost, pnGain) {
+  const fb = byId('exchange-feedback');
+  if ((playerProfile.cyberChips || 0) < ccCost) {
+    if (fb) fb.innerHTML = `<span class="text-rose-400 font-bold">❌ Cyber-Chips insufficienti! Servono ${ccCost.toLocaleString()} 💠</span>`;
+    return;
+  }
+
+  playerProfile.cyberChips = (playerProfile.cyberChips || 0) - ccCost;
+  // Distribute pnGain into available weapon shop points
+  playerProfile.weaponStats.ASSAULT.shopPoints = (playerProfile.weaponStats.ASSAULT.shopPoints || 0) + pnGain;
+
+  if (fb) fb.innerHTML = `<span class="text-emerald-400 font-bold">✓ Scambio completato: -${ccCost.toLocaleString()} 💠 ➔ +${pnGain.toLocaleString()} 🪙 PN!</span>`;
+  renderCasinoUI();
+  updateProfileUI();
+}
+
+window.renderCasinoUI = renderCasinoUI;
+window.setCasinoTab = setCasinoTab;
+window.setSlotBet = setSlotBet;
+window.spinSlotReels = spinSlotReels;
+window.startOverclockGame = startOverclockGame;
+window.chooseOverclockNode = chooseOverclockNode;
+window.cashoutOverclock = cashoutOverclock;
+window.openCrate = openCrate;
+window.quickEquipWonItem = quickEquipWonItem;
+window.buyBlackMarketSkin = buyBlackMarketSkin;
+window.openCasinoExchangeModal = openCasinoExchangeModal;
+window.closeCasinoExchangeModal = closeCasinoExchangeModal;
+window.executeExchange = executeExchange;
+
 
 
 function buildLobbyScene() {
@@ -8330,6 +9401,25 @@ function buildAvatarModel(suitId, weaponIndex, camoIdOverride) {
     visorEmissiveColor = 0xfef08a; // Blazing solar visor
     visorIntensity = 0.95;
     tankColor = 0xfef08a;          // Golden high-pressure tanks
+  } else if (suit.id === 'BLACK_OPS_HACKER') {
+    fabricColor = 0x1c102b;        // Dark cyberpunk violet
+    darkPlateColor = 0x0f0717;     // Deep carbon obsidian
+    trimColor = 0x0a040f;          // Hermetic black seal
+    metalColor = 0x581c87;         // Violet chrome
+    visorBaseColor = 0x7e22ce;     // Deep purple glass
+    visorEmissiveColor = 0xd946ef; // Glowing magenta laser visor
+    visorIntensity = 0.95;
+    tankColor = 0x1e1133;
+  } else if (suit.id === 'HIGH_ROLLER_GOLD') {
+    isSolaris = true;
+    fabricColor = 0x451a03;        // Rich mahogany / gold weave
+    darkPlateColor = 0xb45309;     // Polished gold plates
+    trimColor = 0x271004;          // Contrast luxury seals
+    metalColor = 0xf59e0b;         // Brilliant gold alloy
+    visorBaseColor = 0xd97706;     // Amber chrome glass
+    visorEmissiveColor = 0xfacc15; // Radiant 24K gold visor
+    visorIntensity = 1.0;
+    tankColor = 0xffd700;
   }
 
   const fabricMat = new THREE.MeshLambertMaterial({ color: fabricColor });
@@ -9625,6 +10715,8 @@ if (camo === 'DARK_MATTER') {
 } else if (camo === 'PRISMATIC') {
   darkMatterDynamicMats.push({ mat: mats.body, type: 'PRISMATIC', isGlow: false });
   darkMatterDynamicMats.push({ mat: mats.glow, type: 'PRISMATIC', isGlow: true });
+} else if (camo === 'MATRIX_CASCADE' || camo === 'HYPER_VOLT' || camo === 'NEBULA_VORTEX' || camo === 'BIOSHOCK_GLITCH' || camo === 'CYBER_EMPEROR' || camo === 'BYTE_GLITCH' || camo === 'CARBON_FIBER' || camo === 'SUPERNOVA') {
+  darkMatterDynamicMats.push({ mat: mats.glow, type: camo, isGlow: true });
 }
 
 // Rigenera il modello dell'arma attiva con la geometria completa e i materiali camo PBR
@@ -10192,6 +11284,7 @@ const tabProfile = byId('nav-tab-profile');
 const tabTrophies = byId('nav-tab-trophies');
 const tabLeaderboard = byId('nav-tab-leaderboard');
 const tabFriends = byId('nav-tab-friends');
+const tabCasino = byId('nav-tab-casino');
 const btnChangeSkin = byId('lobby-btn-change-skin');
 const curPnBtn = byId('lobby-currency-pn');
 const curTrophiesBtn = byId('lobby-currency-trophies');
@@ -10203,6 +11296,7 @@ if (tabProfile) tabProfile.addEventListener('click', () => { sound.init(); sound
 if (tabTrophies) tabTrophies.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('TROPHIES'); });
 if (tabLeaderboard) tabLeaderboard.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('LEADERBOARD'); });
 if (tabFriends) tabFriends.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('FRIENDS'); });
+if (tabCasino) tabCasino.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('CASINO'); });
 
 if (curPnBtn) curPnBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('ARMORY'); });
 if (curTrophiesBtn) curTrophiesBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('TROPHIES'); });
@@ -12329,15 +13423,18 @@ const cycleBadge = cycleNum > 1 ? ` (Ciclo ${cycleNum})` : '';
 if (cycleStep === 20) {
 state.unlockedKillstreaks.k20 = true;
 sound.playPerkPickup();
-showAnnouncement(`🛰️ SCANNER ORBITALE SBLOCCATO!${cycleBadge}`, 'Premi [6] o clicca sull\'icona HUD per rivelare i nemici!');
+playerProfile.cyberChips = (playerProfile.cyberChips || 0) + 100;
+showAnnouncement(`🛰️ SCANNER ORBITALE SBLOCCATO!${cycleBadge}`, '+100 💠 Cyber-Chips! Premi [6] per rivelare i nemici!');
 } else if (cycleStep === 35) {
 state.unlockedKillstreaks.k35 = true;
 sound.playTrophyUnlock();
-showAnnouncement(`🛸 DRONE SENTINEL SBLOCCATO!${cycleBadge}`, 'Premi [7] o clicca per attivare il drone di supporto aereo!');
+playerProfile.cyberChips = (playerProfile.cyberChips || 0) + 250;
+showAnnouncement(`🛸 DRONE SENTINEL SBLOCCATO!${cycleBadge}`, '+250 💠 Cyber-Chips! Premi [7] per il drone di supporto!');
 } else if (cycleStep === 50) {
 state.unlockedKillstreaks.k50 = true;
 sound.playTrophyUnlock();
-showAnnouncement(`☄️ RAGGIO ORBITALE SBLOCCATO!${cycleBadge}`, 'Premi [8] o clicca per scatenare il bombardamento al plasma!');
+playerProfile.cyberChips = (playerProfile.cyberChips || 0) + 600;
+showAnnouncement(`☄️ RAGGIO ORBITALE SBLOCCATO!${cycleBadge}`, '+600 💠 Cyber-Chips! Premi [8] per il bombardamento al plasma!');
 }
 updateKillstreakHUD();
 }
@@ -13387,6 +14484,25 @@ item.mat.color.setHSL(hue, 1.0, 0.65);
 } else {
 item.mat.color.setHSL(hue, 0.8, 0.4);
 }
+} else if (item.type === 'MATRIX_CASCADE') {
+  const pulse = 1.4 + Math.sin(now * 0.008) * 0.8;
+  item.mat.emissiveIntensity = pulse;
+} else if (item.type === 'HYPER_VOLT') {
+  const jitter = 1.5 + (Math.random() > 0.4 ? Math.random() * 1.5 : 0.2);
+  item.mat.emissiveIntensity = jitter;
+} else if (item.type === 'NEBULA_VORTEX') {
+  const sinV = 0.5 + 0.5 * Math.sin(now * 0.004);
+  item.mat.emissive.setHSL(0.80 + sinV * 0.12, 0.9, 0.6);
+  item.mat.emissiveIntensity = 1.8 + sinV * 0.8;
+} else if (item.type === 'BIOSHOCK_GLITCH') {
+  const glitch = Math.random() > 0.85 ? 0.3 : 2.4;
+  item.mat.emissiveIntensity = glitch;
+} else if (item.type === 'CYBER_EMPEROR') {
+  const aura = 2.0 + Math.sin(now * 0.005) * 0.8;
+  item.mat.emissiveIntensity = aura;
+} else if (item.type === 'BYTE_GLITCH' || item.type === 'CARBON_FIBER' || item.type === 'SUPERNOVA') {
+  const wave = 1.6 + Math.sin(now * 0.006 + idx) * 0.7;
+  item.mat.emissiveIntensity = wave;
 }
 });
 }
@@ -13542,7 +14658,14 @@ state.waveTransitionTimer = 1.4;
 }
 if (state.inWaveTransition) {
 state.waveTransitionTimer -= dt;
-if (state.waveTransitionTimer <= 0) startWave(state.wave + 1);
+if (state.waveTransitionTimer <= 0) {
+  // Reward Cyber-Chips on wave completion!
+  const ccReward = (state.wave % 5 === 0) ? 200 : (25 + state.wave * 5);
+  playerProfile.cyberChips = (playerProfile.cyberChips || 0) + ccReward;
+  showAnnouncement(`ONDATA ${state.wave} VINTA!`, `+${ccReward} 💠 Cyber-Chips guadagnati!`);
+  savePlayerProfile();
+  startWave(state.wave + 1);
+}
 }
 if (state.activeBoss) {
 const boss = state.activeBoss;
