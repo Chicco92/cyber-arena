@@ -729,6 +729,10 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         <button id="nav-tab-leaderboard" type="button" class="lobby-nav-btn px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
           LEADERBOARD
         </button>
+        <button id="nav-tab-friends" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer flex items-center gap-1.5">
+          <span>AMICI</span>
+          <span id="nav-friends-badge" class="hidden px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[9px] font-black font-mono animate-pulse">0</span>
+        </button>
       </nav>
     </div>
 
@@ -1686,6 +1690,142 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
   </div>
 </div>
 
+<!-- ==================== MENU 6: AMICI (FRIENDS NETWORK) ==================== -->
+<div id="lobby-view-friends" class="hidden absolute inset-0 z-10 w-full h-full flex flex-col justify-between p-3 sm:p-5 pointer-events-none overflow-y-auto">
+  <!-- Atmospheric Background (Separate from Lobby 3D) -->
+  <div class="fixed inset-0 pointer-events-none z-0 bg-gradient-to-b from-slate-950/98 via-slate-900/95 to-slate-950/98" style="background-image: radial-gradient(circle at 50% 25%, rgba(6,182,212,0.12), transparent 70%), linear-gradient(rgba(148,163,184,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.04) 1px, transparent 1px); background-size: 100% 100%, 36px 36px, 36px 36px;"></div>
+
+  <div class="relative z-10 max-w-6xl w-full mx-auto flex flex-col flex-1 pointer-events-auto space-y-4">
+    
+    <!-- Top Header Bar -->
+    <div class="cyber-panel rounded-2xl p-4 sm:p-5 border border-cyan-500/40 bg-slate-950/90 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-xl">📡</span>
+          <span class="text-[10px] font-cyber text-cyan-400 tracking-widest uppercase">COMUNICAZIONI SATELLITARI // SQUADRA & CO-OP</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-cyber font-black text-white tracking-wider uppercase flex items-center gap-2">
+          RETE OPERATORI & AMICI
+        </h1>
+        <p class="text-xs text-slate-400 font-cyber mt-0.5">
+          Aggiungi compagni tramite il loro nickname univoco, accetta richieste e invitali a giocare in tempo reale!
+        </p>
+      </div>
+
+      <!-- Quick Stats & Actions -->
+      <div class="flex items-center gap-2 flex-wrap self-start md:self-auto">
+        <div class="bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 shadow">
+          <span class="text-xs">👥</span>
+          <span class="text-[10px] font-cyber text-slate-300">Amici:</span>
+          <strong id="friends-stat-count" class="text-cyan-300 font-mono font-bold text-xs">0</strong>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-xl flex items-center gap-2 shadow">
+          <span class="text-xs">✉️</span>
+          <span class="text-[10px] font-cyber text-slate-300">In arrivo:</span>
+          <strong id="friends-stat-pending" class="text-amber-400 font-mono font-bold text-xs">0</strong>
+        </div>
+        <button type="button" onclick="refreshFriendsData()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 font-cyber font-bold text-[10px] uppercase transition cursor-pointer flex items-center gap-1.5 active:scale-95 shadow">
+          <span>🔄</span>
+          <span>AGGIORNA</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Send Friend Request Bar -->
+    <div class="cyber-panel rounded-2xl p-4 sm:p-5 border border-slate-800 bg-slate-950/85 backdrop-blur-md shadow-xl">
+      <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800/80">
+        <div class="flex items-center gap-2">
+          <span class="text-base">✉️</span>
+          <span class="text-xs font-cyber font-black text-amber-300 uppercase tracking-wider">
+            INVIA RICHIESTA D'AMICIZIA PER NICKNAME
+          </span>
+        </div>
+        <span class="text-[9px] font-cyber text-slate-500 hidden sm:inline">NOMI UNICI VERIFICATI</span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-2.5">
+        <div class="relative flex-1 w-full">
+          <input id="friends-input-username" type="text" maxlength="16" placeholder="Inserisci il nome esatto dell'operatore (es. JOY, CHICCO)..." class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-2.5 text-xs font-cyber font-bold text-white outline-none transition placeholder-slate-500">
+        </div>
+        <button id="friends-btn-submit-req" type="button" onclick="handleSendFriendRequestClick()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider hover:brightness-110 shadow-lg cursor-pointer flex items-center justify-center gap-2 active:scale-95 transition">
+          <span>INVIA RICHIESTA</span>
+          <span>🚀</span>
+        </button>
+      </div>
+      <div id="friends-send-feedback" class="text-[11px] font-cyber mt-2 min-h-[1.2rem] transition"></div>
+    </div>
+
+    <!-- Main Columns Grid: Left = Friends List, Right = Incoming Requests & Outgoing -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
+      
+      <!-- Left Column (8 Cols): My Friends List -->
+      <div class="lg:col-span-8 flex flex-col">
+        <div class="cyber-panel rounded-2xl p-4 sm:p-5 border border-slate-800 bg-slate-950/90 shadow-xl flex-1 flex flex-col">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="text-base">👥</span>
+              <span class="text-xs font-cyber font-black text-white uppercase tracking-wider">I MIEI AMICI</span>
+            </div>
+            <span id="friends-counter-label" class="text-[10px] font-cyber text-slate-400">0 Amici Registrati</span>
+          </div>
+
+          <!-- Container for Friends Cards -->
+          <div id="friends-cards-container" class="space-y-2.5 flex-1 overflow-y-auto max-h-[480px] pr-1">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column (4 Cols): Incoming Requests & Pending Sent -->
+      <div class="lg:col-span-4 flex flex-col space-y-4">
+        
+        <!-- Incoming Friend Requests -->
+        <div class="cyber-panel rounded-2xl p-4 border border-amber-500/40 bg-slate-950/90 shadow-xl flex flex-col">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm">📥</span>
+              <span class="text-xs font-cyber font-black text-amber-300 uppercase tracking-wider">RICHIESTE RICEVUTE</span>
+            </div>
+            <span id="friends-incoming-badge" class="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-[9px]">0</span>
+          </div>
+
+          <div id="friends-incoming-container" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Outgoing Pending Requests -->
+        <div class="cyber-panel rounded-2xl p-4 border border-slate-800 bg-slate-950/85 shadow-xl flex flex-col flex-1">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm">📤</span>
+              <span class="text-xs font-cyber font-black text-slate-300 uppercase tracking-wider">RICHIESTE INVIATE</span>
+            </div>
+            <span id="friends-outgoing-badge" class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono font-bold text-[9px]">0</span>
+          </div>
+
+          <div id="friends-outgoing-container" class="space-y-2 max-h-[200px] overflow-y-auto pr-1 flex-1">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Footer Bar -->
+    <footer class="w-full flex items-center justify-between pt-2 border-t border-slate-800/80 pointer-events-auto z-20">
+      <button type="button" onclick="switchMenu('PLAY')" class="px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5">
+        <span>← TORNA ALLA LOBBY</span>
+      </button>
+      <div id="friends-footer-status" class="text-[11px] font-cyber text-slate-400">
+        <!-- Generated via JS -->
+      </div>
+    </footer>
+
+  </div>
+</div>
+
 <!-- ==================== SETTINGS MODAL (GEAR ICON ⚙️) ==================== -->
 <div id="settings-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/95 backdrop-blur-sm overflow-y-auto">
   <div class="cyber-panel rounded-2xl max-w-lg w-full p-5 sm:p-6 border border-cyan-400/50 my-auto text-left relative shadow-2xl">
@@ -1953,6 +2093,29 @@ Aggiungi CyberStrike 3D direttamente al <strong>Menu Start di Windows</strong> o
 </div>
 </div>
 </div>
+
+<!-- FLOATING REALTIME GAME INVITE POPUP -->
+<div id="game-invite-popup" class="fixed bottom-6 right-6 z-50 hidden flex-col max-w-sm w-full p-4 rounded-2xl bg-slate-950/98 border-2 border-cyan-400 shadow-[0_0_40px_rgba(34,211,238,0.5)] backdrop-blur-md pointer-events-auto transition-all duration-300">
+  <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
+    <div class="flex items-center gap-2">
+      <span class="text-xl">🎮</span>
+      <span class="text-xs font-cyber font-black text-cyan-300 uppercase tracking-wider">INVITO DI GIOCO RICEVUTO!</span>
+    </div>
+    <button type="button" onclick="closeGameInvitePopup()" class="text-slate-400 hover:text-white text-sm cursor-pointer">✕</button>
+  </div>
+  <p id="game-invite-popup-text" class="text-xs text-slate-300 mb-3 font-cyber">
+    Un tuo compagno ti ha invitato a giocare!
+  </p>
+  <div class="flex items-center gap-2">
+    <button id="game-invite-btn-accept" type="button" class="flex-1 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider hover:brightness-110 shadow-lg cursor-pointer">
+      UNISCITI SUBITO 🚀
+    </button>
+    <button id="game-invite-btn-decline" type="button" onclick="closeGameInvitePopup()" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-700 font-cyber text-xs uppercase cursor-pointer">
+      IGNORA
+    </button>
+  </div>
+</div>
+
 <!-- MULTIPLAYER MODAL -->
 <div id="multiplayer-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-5 bg-slate-950/96 overflow-y-auto">
 <div class="cyber-panel rounded-2xl max-w-3xl w-full p-5 sm:p-6 border border-emerald-400/60 my-auto text-left relative shadow-[0_0_50px_rgba(16,185,129,0.25)]">
@@ -3028,11 +3191,24 @@ authFeedback.className = 'text-xs font-cyber font-bold text-amber-300';
 authFeedback.textContent = '⏳ Comunicazione con i server Google in corso...';
 try {
 if (authMode === 'REGISTER') {
+if (username) {
+  const check = await checkUsernameAvailable(username, null);
+  if (!check.ok) {
+    authSubmit.disabled = false;
+    authFeedback.className = 'text-xs font-cyber font-bold text-rose-400';
+    authFeedback.textContent = `⚠️ ${check.msg}`;
+    return;
+  }
+}
 const cred = await fbAuth.createUserWithEmailAndPassword(email, password);
 if (username) {
-await cred.user.updateProfile({ displayName: username });
-playerProfile.name = username.toUpperCase();
-savePlayerProfile();
+  const norm = username.trim().toUpperCase();
+  await cred.user.updateProfile({ displayName: norm });
+  playerProfile.name = norm;
+  savePlayerProfile();
+  if (fbDb && cred.user && cred.user.uid) {
+    fbDb.ref('usernames/' + encodeUsernameKey(norm)).set({ uid: cred.user.uid, name: norm, claimedAt: Date.now() });
+  }
 }
 authFeedback.className = 'text-xs font-cyber font-bold text-emerald-400';
 authFeedback.textContent = '✓ Account creato con successo! Migrazione completata.';
@@ -3070,9 +3246,12 @@ updateAuthUI();
 if (user) {
 await syncCloudProfileOnLogin(user);
 syncLeaderboardRegistration();
+if (typeof initFriendsListeners === 'function') initFriendsListeners();
 }
 if (currentLobbyMenu === 'LEADERBOARD') {
 renderLeaderboardView();
+} else if (currentLobbyMenu === 'FRIENDS') {
+if (typeof renderFriendsUI === 'function') renderFriendsUI();
 }
 });
 }
@@ -5919,27 +6098,30 @@ function switchMenu(menuName) {
   const tabProfile = byId('nav-tab-profile');
   const tabTrophies = byId('nav-tab-trophies');
   const tabLeaderboard = byId('nav-tab-leaderboard');
+  const tabFriends = byId('nav-tab-friends');
 
   const viewPlay = byId('lobby-view-play');
   const viewArmory = byId('lobby-view-armory');
   const viewProfile = byId('lobby-view-profile');
   const viewTrophies = byId('lobby-view-trophies');
   const viewLeaderboard = byId('lobby-view-leaderboard');
+  const viewFriends = byId('lobby-view-friends');
 
   const navs = [
     { name: 'PLAY', btn: tabPlay },
     { name: 'ARMORY', btn: tabArmory },
     { name: 'PROFILE', btn: tabProfile },
     { name: 'TROPHIES', btn: tabTrophies },
-    { name: 'LEADERBOARD', btn: tabLeaderboard }
+    { name: 'LEADERBOARD', btn: tabLeaderboard },
+    { name: 'FRIENDS', btn: tabFriends }
   ];
 
   navs.forEach(n => {
     if (!n.btn) return;
     if (n.name === currentLobbyMenu) {
-      n.btn.className = 'lobby-nav-btn active px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 border-b-2 border-amber-400 transition cursor-pointer';
+      n.btn.className = 'lobby-nav-btn active px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 border-b-2 border-amber-400 transition cursor-pointer flex items-center gap-1.5';
     } else {
-      n.btn.className = 'lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer';
+      n.btn.className = 'lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer flex items-center gap-1.5';
     }
   });
 
@@ -5964,6 +6146,11 @@ function switchMenu(menuName) {
     if (currentLobbyMenu === 'LEADERBOARD') viewLeaderboard.classList.add('flex');
     else viewLeaderboard.classList.remove('flex');
   }
+  if (viewFriends) {
+    viewFriends.classList.toggle('hidden', currentLobbyMenu !== 'FRIENDS');
+    if (currentLobbyMenu === 'FRIENDS') viewFriends.classList.add('flex');
+    else viewFriends.classList.remove('flex');
+  }
 
   if (currentLobbyMenu === 'ARMORY') {
     initShopDOMOnce();
@@ -5987,6 +6174,8 @@ function switchMenu(menuName) {
     renderTrophiesView();
   } else if (currentLobbyMenu === 'LEADERBOARD') {
     renderLeaderboardView();
+  } else if (currentLobbyMenu === 'FRIENDS') {
+    if (typeof renderFriendsUI === 'function') renderFriendsUI();
   } else if (currentLobbyMenu === 'PLAY') {
     if (typeof updateSoloLobbyUI === 'function') updateSoloLobbyUI();
   }
@@ -6011,6 +6200,7 @@ function setActiveNavTab(tabId) {
   else if (tabId === 'nav-tab-profile') switchMenu('PROFILE');
   else if (tabId === 'nav-tab-trophies') switchMenu('TROPHIES');
   else if (tabId === 'nav-tab-leaderboard') switchMenu('LEADERBOARD');
+  else if (tabId === 'nav-tab-friends') switchMenu('FRIENDS');
 }
 
 function openShop(initialTab) {
@@ -7107,6 +7297,690 @@ window.setLeaderboardCategory = setLeaderboardCategory;
 window.refreshLeaderboardData = refreshLeaderboardData;
 window.openRegisterModalFromLeaderboard = openRegisterModalFromLeaderboard;
 
+/* ==========================================================================
+   CYBER ARENA // UNIQUE USERNAMES & FRIENDS NETWORK SYSTEM (FIREBASE LIVE)
+   ========================================================================== */
+
+function normalizeUsername(name) {
+  return (name || '').trim().toUpperCase();
+}
+
+function encodeUsernameKey(name) {
+  return normalizeUsername(name).replace(/[\.\$\#\[\]\/]/g, '_');
+}
+
+async function checkUsernameAvailable(rawName, currentUid = null) {
+  const norm = normalizeUsername(rawName);
+  if (!norm || norm.length < 3) {
+    return { ok: false, msg: 'Il nickname deve contenere almeno 3 caratteri.' };
+  }
+  if (norm.length > 16) {
+    return { ok: false, msg: 'Il nickname non può superare i 16 caratteri.' };
+  }
+  if (!/^[A-Z0-9_\-]+$/.test(norm)) {
+    return { ok: false, msg: 'Il nome può contenere solo lettere, numeri, trattini e underscore.' };
+  }
+  const reserved = ['ADMIN', 'SYSTEM', 'SERVER', 'CYBERSTRIKE', 'MODERATOR', 'BOT', 'HOST', 'ROOT'];
+  if (reserved.includes(norm)) {
+    return { ok: false, msg: 'Questo nome è riservato di sistema. Scegline uno diverso.' };
+  }
+
+  // 1. Check local registered cache
+  if (registeredPlayersCache) {
+    const conflict = Object.values(registeredPlayersCache).find(p => {
+      if (!p || !p.name) return false;
+      if (currentUid && p.uid === currentUid) return false;
+      return normalizeUsername(p.name) === norm;
+    });
+    if (conflict) {
+      return { ok: false, msg: `Il nickname "${norm}" è già stato scelto da un altro operatore!` };
+    }
+  }
+
+  // 2. Query Firebase Realtime Database
+  if (fbDb) {
+    try {
+      const snap = await fbDb.ref('users').once('value');
+      const allUsers = snap.val();
+      if (allUsers) {
+        for (const uid of Object.keys(allUsers)) {
+          if (currentUid && uid === currentUid) continue;
+          const u = allUsers[uid];
+          const profName = u && u.profile && u.profile.name;
+          const dispName = u && u.displayName;
+          if ((profName && normalizeUsername(profName) === norm) || (dispName && normalizeUsername(dispName) === norm)) {
+            return { ok: false, msg: `Il nickname "${norm}" è già in uso da un altro operatore.` };
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Errore verifica disponibilità nickname:', err);
+    }
+  }
+
+  return { ok: true, name: norm };
+}
+
+let friendsCache = {};
+let incomingRequestsCache = {};
+let outgoingRequestsCache = {};
+let activeGameInvite = null;
+let friendsListenersAttached = false;
+
+function initFriendsListeners() {
+  if (!fbDb || !currentFirebaseUser) return;
+  const myUid = currentFirebaseUser.uid;
+
+  try {
+    // 1. Listen to my friends list
+    fbDb.ref('friends/' + myUid).on('value', (snap) => {
+      friendsCache = snap.val() || {};
+      updateFriendsBadge();
+      if (currentLobbyMenu === 'FRIENDS') renderFriendsUI();
+    });
+
+    // 2. Listen to incoming friend requests
+    fbDb.ref('friendRequests/' + myUid).on('value', (snap) => {
+      incomingRequestsCache = snap.val() || {};
+      updateFriendsBadge();
+      if (currentLobbyMenu === 'FRIENDS') renderFriendsUI();
+    });
+
+    // 3. Listen to outgoing sent friend requests
+    fbDb.ref('friendRequestsSent/' + myUid).on('value', (snap) => {
+      outgoingRequestsCache = snap.val() || {};
+      if (currentLobbyMenu === 'FRIENDS') renderFriendsUI();
+    });
+
+    // 4. Listen for realtime game invites from friends
+    fbDb.ref('gameInvites/' + myUid).on('child_added', (snap) => {
+      const invite = snap.val();
+      if (invite) handleIncomingGameInvite(invite, snap.key);
+    });
+
+    friendsListenersAttached = true;
+  } catch (err) {
+    console.warn('Errore attivazione listener amici:', err);
+  }
+}
+
+function updateFriendsBadge() {
+  const reqCount = Object.keys(incomingRequestsCache).length;
+  const friendCount = Object.keys(friendsCache).length;
+
+  const badgeNav = byId('nav-friends-badge');
+  if (badgeNav) {
+    if (reqCount > 0) {
+      badgeNav.textContent = reqCount;
+      badgeNav.classList.remove('hidden');
+    } else {
+      badgeNav.classList.add('hidden');
+    }
+  }
+
+  const statCount = byId('friends-stat-count');
+  if (statCount) statCount.textContent = friendCount;
+
+  const statPending = byId('friends-stat-pending');
+  if (statPending) statPending.textContent = reqCount;
+
+  const incomingBadge = byId('friends-incoming-badge');
+  if (incomingBadge) incomingBadge.textContent = reqCount;
+
+  const outgoingBadge = byId('friends-outgoing-badge');
+  if (outgoingBadge) outgoingBadge.textContent = Object.keys(outgoingRequestsCache).length;
+
+  const counterLabel = byId('friends-counter-label');
+  if (counterLabel) counterLabel.textContent = `${friendCount} Amic${friendCount === 1 ? 'o' : 'i'} Registrat${friendCount === 1 ? 'o' : 'i'}`;
+}
+
+async function handleSendFriendRequestClick() {
+  sound.init();
+  const input = byId('friends-input-username');
+  const feedback = byId('friends-send-feedback');
+  if (!input) return;
+
+  const targetName = input.value.trim().toUpperCase();
+  if (!targetName) {
+    if (feedback) {
+      feedback.className = 'text-[11px] font-cyber text-rose-400 mt-2 min-h-[1.2rem]';
+      feedback.textContent = '⚠️ Inserisci il nickname esatto del giocatore da aggiungere.';
+    }
+    return;
+  }
+
+  if (!currentFirebaseUser) {
+    if (feedback) {
+      feedback.className = 'text-[11px] font-cyber text-amber-300 mt-2 min-h-[1.2rem]';
+      feedback.textContent = '🔒 Devi prima accedere o registrarti per inviare richieste d\'amicizia!';
+    }
+    showAnnouncement('ACCESSO RICHIESTO', 'Crea o accedi al tuo account per utilizzare la rete amici.');
+    openRegisterModalFromLeaderboard();
+    return;
+  }
+
+  const myName = (playerProfile.name || currentFirebaseUser.displayName || 'OPERATORE').trim().toUpperCase();
+  if (targetName === myName) {
+    if (feedback) {
+      feedback.className = 'text-[11px] font-cyber text-rose-400 mt-2 min-h-[1.2rem]';
+      feedback.textContent = '⚠️ Non puoi inviare una richiesta d\'amicizia a te stesso!';
+    }
+    sound.playHit();
+    return;
+  }
+
+  const btn = byId('friends-btn-submit-req');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'RICERCA...';
+  }
+  if (feedback) {
+    feedback.className = 'text-[11px] font-cyber text-cyan-300 mt-2 min-h-[1.2rem]';
+    feedback.textContent = '⏳ Ricerca dell\'operatore nel database globale...';
+  }
+
+  try {
+    let targetUid = null;
+    let targetActualName = targetName;
+
+    // 1. Search in local registeredPlayersCache
+    if (registeredPlayersCache) {
+      const match = Object.values(registeredPlayersCache).find(p => p && normalizeUsername(p.name) === targetName);
+      if (match) {
+        targetUid = match.uid;
+        targetActualName = match.name;
+      }
+    }
+
+    // 2. Search directly in Firebase /users if not in cache
+    if (!targetUid && fbDb) {
+      const snap = await fbDb.ref('users').once('value');
+      const allUsers = snap.val();
+      if (allUsers) {
+        for (const uid of Object.keys(allUsers)) {
+          const u = allUsers[uid];
+          const profName = u && u.profile && u.profile.name;
+          const dispName = u && u.displayName;
+          if ((profName && normalizeUsername(profName) === targetName) || (dispName && normalizeUsername(dispName) === targetName)) {
+            targetUid = uid;
+            targetActualName = (profName || dispName).toUpperCase();
+            break;
+          }
+        }
+      }
+    }
+
+    if (!targetUid) {
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span>INVIA RICHIESTA</span><span>🚀</span>'; }
+      if (feedback) {
+        feedback.className = 'text-[11px] font-cyber text-rose-400 mt-2 min-h-[1.2rem]';
+        feedback.textContent = `❌ Nessun operatore registrato trovato con il nome "${targetName}". Controlla che il nome sia esatto e che l'utente sia registrato!`;
+      }
+      sound.playHit();
+      return;
+    }
+
+    if (targetUid === currentFirebaseUser.uid) {
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span>INVIA RICHIESTA</span><span>🚀</span>'; }
+      if (feedback) {
+        feedback.className = 'text-[11px] font-cyber text-rose-400 mt-2 min-h-[1.2rem]';
+        feedback.textContent = '⚠️ Questo account corrisponde al tuo profilo.';
+      }
+      return;
+    }
+
+    // Check if already friends
+    if (friendsCache && friendsCache[targetUid]) {
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span>INVIA RICHIESTA</span><span>🚀</span>'; }
+      if (feedback) {
+        feedback.className = 'text-[11px] font-cyber text-amber-300 mt-2 min-h-[1.2rem]';
+        feedback.textContent = `ℹ️ Sei già amico di ${targetActualName}!`;
+      }
+      return;
+    }
+
+    // Check if already sent
+    if (outgoingRequestsCache && outgoingRequestsCache[targetUid]) {
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span>INVIA RICHIESTA</span><span>🚀</span>'; }
+      if (feedback) {
+        feedback.className = 'text-[11px] font-cyber text-amber-300 mt-2 min-h-[1.2rem]';
+        feedback.textContent = `⏳ Hai già una richiesta inviata in attesa di risposta per ${targetActualName}.`;
+      }
+      return;
+    }
+
+    // Check if they already sent us a request -> automatically accept!
+    if (incomingRequestsCache && incomingRequestsCache[targetUid]) {
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span>INVIA RICHIESTA</span><span>🚀</span>'; }
+      await acceptFriendRequest(targetUid, targetActualName);
+      if (feedback) {
+        feedback.className = 'text-[11px] font-cyber text-emerald-400 mt-2 min-h-[1.2rem]';
+        feedback.textContent = `✓ ${targetActualName} ti aveva già inviato una richiesta: siete ora ufficialmente amici!`;
+      }
+      input.value = '';
+      return;
+    }
+
+    // Send request to Firebase
+    const myUid = currentFirebaseUser.uid;
+    const myLevel = (typeof getOperatorLevelProgress === 'function' && playerProfile.operatorXp)
+      ? getOperatorLevelProgress(playerProfile.operatorXp).level : 1;
+
+    const reqData = {
+      fromUid: myUid,
+      fromName: myName,
+      fromLevel: myLevel,
+      fromSuit: playerProfile.selectedSuit || 'DEFAULT',
+      sentAt: Date.now()
+    };
+
+    if (fbDb) {
+      await fbDb.ref('friendRequests/' + targetUid + '/' + myUid).set(reqData);
+      await fbDb.ref('friendRequestsSent/' + myUid + '/' + targetUid).set({
+        toUid: targetUid,
+        toName: targetActualName,
+        sentAt: Date.now()
+      });
+    }
+
+    outgoingRequestsCache[targetUid] = { toUid: targetUid, toName: targetActualName, sentAt: Date.now() };
+
+    if (btn) { btn.disabled = false; btn.innerHTML = '<span>INVIA RICHIESTA</span><span>🚀</span>'; }
+    if (feedback) {
+      feedback.className = 'text-[11px] font-cyber text-emerald-400 mt-2 min-h-[1.2rem]';
+      feedback.textContent = `✓ Richiesta d'amicizia inviata con successo a ${targetActualName}!`;
+    }
+    input.value = '';
+    sound.playPickup();
+    showLobbyToast('RICHIESTA INVIATA', `Richiesta trasmessa a ${targetActualName}`);
+    renderFriendsUI();
+  } catch (err) {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<span>INVIA RICHIESTA</span><span>🚀</span>'; }
+    if (feedback) {
+      feedback.className = 'text-[11px] font-cyber text-rose-400 mt-2 min-h-[1.2rem]';
+      feedback.textContent = `⚠️ Errore invio richiesta: ${err.message}`;
+    }
+  }
+}
+
+async function acceptFriendRequest(fromUid, fromName) {
+  sound.init();
+  if (!currentFirebaseUser) return;
+  const myUid = currentFirebaseUser.uid;
+  const myName = (playerProfile.name || currentFirebaseUser.displayName || 'OPERATORE').trim().toUpperCase();
+
+  try {
+    if (fbDb) {
+      await Promise.all([
+        fbDb.ref('friends/' + myUid + '/' + fromUid).set({ uid: fromUid, name: fromName, addedAt: Date.now() }),
+        fbDb.ref('friends/' + fromUid + '/' + myUid).set({ uid: myUid, name: myName, addedAt: Date.now() }),
+        fbDb.ref('friendRequests/' + myUid + '/' + fromUid).remove(),
+        fbDb.ref('friendRequestsSent/' + fromUid + '/' + myUid).remove()
+      ]);
+    }
+
+    friendsCache[fromUid] = { uid: fromUid, name: fromName, addedAt: Date.now() };
+    delete incomingRequestsCache[fromUid];
+
+    sound.playPickup();
+    showAnnouncement('🤝 NUOVO AMICO AGGIUNTO', `Ora sei amico di ${fromName}! Puoi invitarlo a giocare in co-op.`);
+    showLobbyToast('RICHIESTA ACCETTATA', `${fromName} è ora tra i tuoi amici!`);
+    updateFriendsBadge();
+    renderFriendsUI();
+  } catch (err) {
+    console.warn('Errore accettazione richiesta:', err);
+  }
+}
+
+async function rejectFriendRequest(fromUid) {
+  sound.init();
+  if (!currentFirebaseUser) return;
+  const myUid = currentFirebaseUser.uid;
+
+  try {
+    if (fbDb) {
+      await Promise.all([
+        fbDb.ref('friendRequests/' + myUid + '/' + fromUid).remove(),
+        fbDb.ref('friendRequestsSent/' + fromUid + '/' + myUid).remove()
+      ]);
+    }
+    delete incomingRequestsCache[fromUid];
+    sound.playHit();
+    showLobbyToast('RICHIESTA RIFIUTATA', 'Richiesta rimossa con successo.');
+    updateFriendsBadge();
+    renderFriendsUI();
+  } catch (err) {
+    console.warn('Errore rifiuto richiesta:', err);
+  }
+}
+
+async function cancelFriendRequest(toUid) {
+  sound.init();
+  if (!currentFirebaseUser) return;
+  const myUid = currentFirebaseUser.uid;
+
+  try {
+    if (fbDb) {
+      await Promise.all([
+        fbDb.ref('friendRequestsSent/' + myUid + '/' + toUid).remove(),
+        fbDb.ref('friendRequests/' + toUid + '/' + myUid).remove()
+      ]);
+    }
+    delete outgoingRequestsCache[toUid];
+    sound.playHit();
+    showLobbyToast('RICHIESTA ANNULLATA', 'Richiesta in uscita cancellata.');
+    updateFriendsBadge();
+    renderFriendsUI();
+  } catch (err) {
+    console.warn('Errore annullamento richiesta:', err);
+  }
+}
+
+async function confirmRemoveFriend(friendUid, friendName) {
+  sound.init();
+  if (!confirm(`Sei sicuro di voler rimuovere ${friendName} dai tuoi amici?`)) return;
+  if (!currentFirebaseUser) return;
+  const myUid = currentFirebaseUser.uid;
+
+  try {
+    if (fbDb) {
+      await Promise.all([
+        fbDb.ref('friends/' + myUid + '/' + friendUid).remove(),
+        fbDb.ref('friends/' + friendUid + '/' + myUid).remove()
+      ]);
+    }
+    delete friendsCache[friendUid];
+    sound.playHit();
+    showLobbyToast('AMICO RIMOSSO', `${friendName} è stato rimosso dalla lista.`);
+    updateFriendsBadge();
+    renderFriendsUI();
+  } catch (err) {
+    console.warn('Errore rimozione amico:', err);
+  }
+}
+
+async function inviteFriendToPlay(friendUid, friendName) {
+  sound.init();
+  if (!currentFirebaseUser) {
+    showAnnouncement('ACCESSO RICHIESTO', 'Devi essere registrato per invitare amici a giocare.');
+    openRegisterModalFromLeaderboard();
+    return;
+  }
+
+  try {
+    // Ensure room is created or active
+    if (!mpState.roomId || !mpState.roomCode) {
+      showLobbyToast('CREAZIONE STANZA', 'Apertura stanza multiplayer in corso...');
+      await createRoom(null, state.selectedGameMode === 'PVP' ? 'PVP' : 'COOP', false, state.selectedMap || 'ARENA');
+    }
+
+    const code = mpState.roomCode || 'ONLINE';
+    const myUid = currentFirebaseUser.uid;
+    const myName = (playerProfile.name || currentFirebaseUser.displayName || 'OPERATORE').trim().toUpperCase();
+
+    const inviteData = {
+      fromUid: myUid,
+      fromName: myName,
+      roomCode: code,
+      mode: state.selectedGameMode === 'PVP' ? 'PVP' : 'COOP',
+      sentAt: Date.now()
+    };
+
+    if (fbDb) {
+      await fbDb.ref('gameInvites/' + friendUid).push(inviteData);
+    }
+
+    sound.playPickup();
+    showAnnouncement('🎮 INVITO INVIATO', `Hai invitato ${friendName} a unirsi alla Stanza ${code}!`);
+    showLobbyToast('INVITO TRASMESSO', `Invito inviato a ${friendName} (Codice: ${code})`);
+  } catch (err) {
+    console.warn('Errore invio invito gioco:', err);
+    showLobbyToast('ERRORE INVITO', err.message, 'rose');
+  }
+}
+
+function handleIncomingGameInvite(invite, inviteKey) {
+  if (!invite || !invite.roomCode) return;
+  if (Date.now() - (invite.sentAt || 0) > 180000) return; // Discard expired invites (>3 mins)
+
+  activeGameInvite = Object.assign({}, invite, { key: inviteKey });
+  const popup = byId('game-invite-popup');
+  const text = byId('game-invite-popup-text');
+  const btnAccept = byId('game-invite-btn-accept');
+
+  if (popup && text && btnAccept) {
+    text.innerHTML = `L'operatore <strong class="text-white">${invite.fromName}</strong> ti ha invitato a giocare nella stanza <strong class="text-cyan-400 font-mono text-sm">${invite.roomCode}</strong> (Modalità: <b class="text-amber-300">${invite.mode || 'CO-OP'}</b>)!`;
+    btnAccept.onclick = async () => {
+      closeGameInvitePopup();
+      sound.playPickup();
+      if (inviteKey && fbDb && currentFirebaseUser) {
+        fbDb.ref('gameInvites/' + currentFirebaseUser.uid + '/' + inviteKey).remove().catch(() => {});
+      }
+      await joinRoomByCode(invite.roomCode);
+      switchMenu('PLAY');
+    };
+    popup.classList.remove('hidden');
+    popup.classList.add('flex');
+    sound.playHit();
+  }
+}
+
+function closeGameInvitePopup() {
+  const popup = byId('game-invite-popup');
+  if (popup) {
+    popup.classList.add('hidden');
+    popup.classList.remove('flex');
+  }
+  if (activeGameInvite && activeGameInvite.key && fbDb && currentFirebaseUser) {
+    fbDb.ref('gameInvites/' + currentFirebaseUser.uid + '/' + activeGameInvite.key).remove().catch(() => {});
+    activeGameInvite = null;
+  }
+}
+
+function refreshFriendsData() {
+  sound.playHit();
+  if (currentFirebaseUser && fbDb) {
+    const myUid = currentFirebaseUser.uid;
+    Promise.all([
+      fbDb.ref('friends/' + myUid).once('value'),
+      fbDb.ref('friendRequests/' + myUid).once('value'),
+      fbDb.ref('friendRequestsSent/' + myUid).once('value')
+    ]).then(([frSnap, reqSnap, sentSnap]) => {
+      friendsCache = frSnap.val() || {};
+      incomingRequestsCache = reqSnap.val() || {};
+      outgoingRequestsCache = sentSnap.val() || {};
+      updateFriendsBadge();
+      renderFriendsUI();
+      showLobbyToast('RETE AMICI AGGIORNATA', 'Dati e richieste sincronizzati con successo!');
+    }).catch(err => {
+      console.warn('Errore refresh amici:', err);
+      renderFriendsUI();
+    });
+  } else {
+    renderFriendsUI();
+    showLobbyToast('MODALITÀ OSPITE', 'Accedi per connetterti alla rete globale amici.');
+  }
+}
+
+function renderFriendsUI() {
+  const cardsContainer = byId('friends-cards-container');
+  const incomingContainer = byId('friends-incoming-container');
+  const outgoingContainer = byId('friends-outgoing-container');
+  const footerStatus = byId('friends-footer-status');
+
+  const isLogged = Boolean(currentFirebaseUser && currentFirebaseUser.uid);
+  const myName = (playerProfile.name || (currentFirebaseUser && currentFirebaseUser.displayName) || 'OPERATORE').toUpperCase();
+
+  updateFriendsBadge();
+
+  // Footer status
+  if (footerStatus) {
+    footerStatus.innerHTML = `
+      <div class="flex items-center gap-3">
+        <span>Il Tuo Nickname Esclusivo: <strong class="text-amber-400 font-bold">${myName}</strong></span>
+        <span>•</span>
+        <span>Stato Rete: <strong class="${isLogged ? 'text-emerald-400' : 'text-slate-400'} font-bold">${isLogged ? 'Connesso' : 'Ospite (Offline)'}</strong></span>
+        <span>•</span>
+        <span>Amici Totali: <strong class="text-cyan-300 font-mono">${Object.keys(friendsCache).length}</strong></span>
+      </div>
+    `;
+  }
+
+  // 1. Render Friends Cards
+  if (cardsContainer) {
+    if (!isLogged) {
+      cardsContainer.innerHTML = `
+        <div class="py-12 px-4 flex flex-col items-center justify-center text-center cyber-panel rounded-2xl border border-dashed border-slate-800 bg-slate-950/60">
+          <div class="text-3xl mb-2">🔒</div>
+          <div class="text-sm font-cyber font-bold text-white uppercase tracking-wider mb-1">ACCEDI PER VISUALIZZARE I TUOI AMICI</div>
+          <p class="text-xs text-slate-400 max-w-md mb-4 font-cyber">
+            La lista amici è riservata agli account registrati. Accedi o crea il tuo profilo unico per aggiungere i compagni di squadra!
+          </p>
+          <button type="button" onclick="openRegisterModalFromLeaderboard()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 text-slate-950 font-cyber font-black text-xs uppercase tracking-wider hover:brightness-110 shadow-lg cursor-pointer">
+            ISCRIVITI / ACCEDI AL CLOUD
+          </button>
+        </div>
+      `;
+    } else {
+      const friendsList = Object.values(friendsCache);
+      if (friendsList.length === 0) {
+        cardsContainer.innerHTML = `
+          <div class="py-14 flex flex-col items-center justify-center text-center cyber-panel rounded-2xl border border-dashed border-slate-800 bg-slate-950/40">
+            <div class="w-14 h-14 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-center text-2xl mb-3 shadow-inner">
+              👥
+            </div>
+            <div class="text-xs font-cyber font-black text-slate-300 uppercase tracking-widest mb-1">
+              NESSUN AMICO NELLA TUA RETE
+            </div>
+            <p class="text-[10px] font-cyber text-slate-500 max-w-sm mt-0.5">
+              Usa la barra sopra per cercare un operatore registrato tramite il suo nickname unico (es. JOY, CHICCO) e inviagli una richiesta!
+            </p>
+          </div>
+        `;
+      } else {
+        cardsContainer.innerHTML = friendsList.map(fr => {
+          // Look up live stats from registered cache if available
+          const prof = (registeredPlayersCache && registeredPlayersCache[fr.uid]) || {};
+          const frLvl = prof.operatorLevel || 1;
+          const frScore = (prof.bestScore || 0).toLocaleString();
+          const frWave = prof.bestWave || 1;
+          const frSuit = prof.selectedSuit || 'DEFAULT';
+
+          return `
+            <div class="cyber-panel rounded-2xl p-3.5 border border-slate-800 hover:border-cyan-500/40 bg-slate-900/70 hover:bg-slate-900/90 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-2xl relative shrink-0 shadow-inner">
+                  <span>👨‍🚀</span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-400 border-2 border-slate-950 absolute -bottom-0.5 -right-0.5 animate-pulse" title="Operatore Connesso"></span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-cyber font-black text-white text-sm sm:text-base tracking-wider">${fr.name}</span>
+                    <span class="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[8px] font-cyber font-bold uppercase">AMICO</span>
+                  </div>
+                  <div class="text-[9px] text-slate-400 font-cyber flex items-center gap-2 mt-1">
+                    <span>Livello <strong class="text-cyan-400 font-mono">${frLvl}</strong></span>
+                    <span>•</span>
+                    <span>Tuta: <b class="text-slate-300">${frSuit}</b></span>
+                    <span>•</span>
+                    <span>Record: <strong class="text-amber-300 font-mono">${frScore}</strong></span>
+                    <span>•</span>
+                    <span>Ondata: <strong class="text-cyan-300 font-mono">${frWave}</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                <button type="button" onclick="inviteFriendToPlay('${fr.uid}', '${fr.name}')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:brightness-110 text-slate-950 font-cyber font-black text-[10px] uppercase tracking-wider transition cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-md">
+                  <span>INVITA A GIOCARE</span>
+                  <span>🎮</span>
+                </button>
+                <button type="button" onclick="confirmRemoveFriend('${fr.uid}', '${fr.name}')" title="Rimuovi amico" class="px-2.5 py-2 rounded-xl bg-slate-800 hover:bg-rose-950/80 border border-slate-700 hover:border-rose-500/50 text-slate-400 hover:text-rose-300 font-cyber text-xs transition cursor-pointer active:scale-95">
+                  🗑️
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+  }
+
+  // 2. Render Incoming Requests
+  if (incomingContainer) {
+    const incList = Object.values(incomingRequestsCache);
+    if (!isLogged || incList.length === 0) {
+      incomingContainer.innerHTML = `
+        <div class="py-6 text-center text-slate-500 font-cyber text-[10px] italic">
+          Nessuna richiesta ricevuta in attesa
+        </div>
+      `;
+    } else {
+      incomingContainer.innerHTML = incList.map(req => {
+        return `
+          <div class="p-2.5 rounded-xl border border-amber-500/50 bg-slate-900/90 flex items-center justify-between gap-2 shadow">
+            <div class="flex items-center gap-2 truncate">
+              <span class="text-lg">👨‍🚀</span>
+              <div class="truncate">
+                <div class="text-xs font-cyber font-black text-amber-300 truncate">${req.fromName}</div>
+                <div class="text-[8px] font-cyber text-slate-400">Liv. ${req.fromLevel || 1} • Richiesta ricevuta</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" onclick="acceptFriendRequest('${req.fromUid}', '${req.fromName}')" class="px-2.5 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-cyber font-black text-[9px] uppercase transition cursor-pointer shadow active:scale-95">
+                ACCETTA ✓
+              </button>
+              <button type="button" onclick="rejectFriendRequest('${req.fromUid}')" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-rose-900 text-slate-300 hover:text-white font-cyber text-[9px] uppercase transition cursor-pointer">
+                ✕
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  // 3. Render Outgoing Requests
+  if (outgoingContainer) {
+    const outList = Object.values(outgoingRequestsCache);
+    if (!isLogged || outList.length === 0) {
+      outgoingContainer.innerHTML = `
+        <div class="py-6 text-center text-slate-500 font-cyber text-[10px] italic">
+          Nessuna richiesta inviata in attesa
+        </div>
+      `;
+    } else {
+      outgoingContainer.innerHTML = outList.map(req => {
+        return `
+          <div class="p-2 rounded-xl border border-slate-800 bg-slate-900/50 flex items-center justify-between gap-2 text-xs font-cyber">
+            <div class="truncate">
+              <span class="text-white font-bold">${req.toName}</span>
+              <span class="text-[8px] text-slate-400 block font-mono">In attesa di approvazione...</span>
+            </div>
+            <button type="button" onclick="cancelFriendRequest('${req.toUid}')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-rose-900 text-slate-400 hover:text-rose-200 text-[8px] uppercase transition cursor-pointer">
+              Annulla
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+}
+
+window.checkUsernameAvailable = checkUsernameAvailable;
+window.normalizeUsername = normalizeUsername;
+window.encodeUsernameKey = encodeUsernameKey;
+window.initFriendsListeners = initFriendsListeners;
+window.handleSendFriendRequestClick = handleSendFriendRequestClick;
+window.acceptFriendRequest = acceptFriendRequest;
+window.rejectFriendRequest = rejectFriendRequest;
+window.cancelFriendRequest = cancelFriendRequest;
+window.confirmRemoveFriend = confirmRemoveFriend;
+window.inviteFriendToPlay = inviteFriendToPlay;
+window.closeGameInvitePopup = closeGameInvitePopup;
+window.refreshFriendsData = refreshFriendsData;
+window.renderFriendsUI = renderFriendsUI;
+
 
 
 function buildLobbyScene() {
@@ -8151,6 +9025,7 @@ function initThreeJS() {
 loadPlayerProfile();
 if (typeof initRegisteredPlayersCache === 'function') initRegisteredPlayersCache();
 if (typeof syncLeaderboardRegistration === 'function') syncLeaderboardRegistration();
+if (typeof initFriendsListeners === 'function') initFriendsListeners();
 state.maxHealth = getOperatorMaxHealth();
 state.maxStamina = getOperatorMaxStamina();
 state.health = state.maxHealth;
@@ -9209,6 +10084,7 @@ const tabArmory = byId('nav-tab-armory');
 const tabProfile = byId('nav-tab-profile');
 const tabTrophies = byId('nav-tab-trophies');
 const tabLeaderboard = byId('nav-tab-leaderboard');
+const tabFriends = byId('nav-tab-friends');
 const btnChangeSkin = byId('lobby-btn-change-skin');
 const curPnBtn = byId('lobby-currency-pn');
 const curTrophiesBtn = byId('lobby-currency-trophies');
@@ -9219,6 +10095,7 @@ if (tabArmory) tabArmory.addEventListener('click', () => { sound.init(); sound.p
 if (tabProfile) tabProfile.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('PROFILE'); });
 if (tabTrophies) tabTrophies.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('TROPHIES'); });
 if (tabLeaderboard) tabLeaderboard.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('LEADERBOARD'); });
+if (tabFriends) tabFriends.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('FRIENDS'); });
 
 if (curPnBtn) curPnBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('ARMORY'); });
 if (curTrophiesBtn) curTrophiesBtn.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('TROPHIES'); });
@@ -9254,19 +10131,52 @@ if (btnArmoryEquipPrimary) {
 const btnSaveProfileName = byId('btn-profile-view-save-name');
 const inputProfileName = byId('profile-view-name-input');
 if (btnSaveProfileName && inputProfileName) {
-  btnSaveProfileName.addEventListener('click', () => {
+  btnSaveProfileName.addEventListener('click', async () => {
     sound.init();
     const val = inputProfileName.value.trim().toUpperCase();
     if (!val) return;
+    if (val === (playerProfile.name || '').trim().toUpperCase()) {
+      showLobbyToast('NOME INVARIATO', 'Questo è già il tuo nome operatore.');
+      return;
+    }
+    btnSaveProfileName.disabled = true;
+    btnSaveProfileName.textContent = '...';
+    const myUid = currentFirebaseUser ? currentFirebaseUser.uid : null;
+    const check = await checkUsernameAvailable(val, myUid);
+    btnSaveProfileName.disabled = false;
+    btnSaveProfileName.textContent = 'SALVA';
+    if (!check.ok) {
+      sound.playHit();
+      showAnnouncement('❌ NICKNAME NON DISPONIBILE', check.msg);
+      showLobbyToast('NICKNAME OCCUPATO', check.msg, 'rose');
+      return;
+    }
+    const oldName = playerProfile.name;
     playerProfile.name = val.slice(0, 16);
     savePlayerProfile();
+    if (fbDb && myUid) {
+      fbDb.ref('usernames/' + encodeUsernameKey(val)).set({ uid: myUid, name: val, claimedAt: Date.now() });
+      if (oldName && oldName !== val) {
+        fbDb.ref('usernames/' + encodeUsernameKey(oldName)).remove().catch(() => {});
+      }
+    }
     updateProfileUI();
     sound.playPickup();
+    showAnnouncement('✓ NICKNAME REGISTRATO', 'Nome operatore unico confermato: ' + playerProfile.name);
     showLobbyToast('PROFILO AGGIORNATO', 'Nome operatore salvato: ' + playerProfile.name);
   });
   inputProfileName.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       btnSaveProfileName.click();
+    }
+  });
+}
+
+const friendsSearchInput = byId('friends-input-username');
+if (friendsSearchInput) {
+  friendsSearchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      handleSendFriendRequestClick();
     }
   });
 }
