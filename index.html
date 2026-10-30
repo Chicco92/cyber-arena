@@ -139,25 +139,26 @@ padding: 0.75rem 1rem !important;
 }
 }
 .lobby-play-btn {
-background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 50%, #0891b2 100%);
 clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%);
-box-shadow: 0 0 30px rgba(245, 158, 11, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+box-shadow: 0 0 30px rgba(6, 182, 212, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.6);
 transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.lobby-play-btn:hover:not(:disabled) {
+.lobby-play-btn:hover {
 transform: scale(1.05) translateY(-2px);
-box-shadow: 0 0 45px rgba(251, 191, 36, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85);
-background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+box-shadow: 0 0 45px rgba(34, 211, 238, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85);
+background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #06b6d4 100%);
 }
-.lobby-play-btn:active:not(:disabled) {
+.lobby-play-btn:active {
 transform: scale(0.96);
 }
-.lobby-play-btn:disabled {
-opacity: 0.55;
-cursor: not-allowed !important;
-filter: grayscale(0.6);
-transform: none !important;
-box-shadow: 0 0 15px rgba(245, 158, 11, 0.15) !important;
+.lobby-play-btn-solo {
+background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%) !important;
+box-shadow: 0 0 30px rgba(245, 158, 11, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.6) !important;
+}
+.lobby-play-btn-solo:hover {
+background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%) !important;
+box-shadow: 0 0 45px rgba(251, 191, 36, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.85) !important;
 }
 
 /* ==================== SCREEN RECOGNITION & RESPONSIVE ENGINE ==================== */
@@ -818,13 +819,8 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         ⚙️
       </button>
       <nav class="flex items-center gap-1 sm:gap-2">
-        <button id="nav-tab-singleplayer" type="button" class="lobby-nav-btn active px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 border-b-2 border-amber-400 transition cursor-pointer flex items-center gap-1.5">
-          <span>👤</span>
-          <span>SINGLE PLAYER</span>
-        </button>
-        <button id="nav-tab-multiplayer" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer flex items-center gap-1.5">
-          <span>👥</span>
-          <span>MULTIPLAYER</span>
+        <button id="nav-tab-play" type="button" class="lobby-nav-btn active px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 border-b-2 border-amber-400 transition cursor-pointer">
+          GIOCA
         </button>
         <button id="nav-tab-armory" type="button" class="lobby-nav-btn relative px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-900 transition cursor-pointer">
           ARMERIA
@@ -1157,36 +1153,29 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 
       <!-- Mode & Map Selectors -->
       <div id="lobby-footer-selectors-row" class="flex flex-col gap-1.5 items-stretch shrink-0 w-44 sm:w-56">
-        <!-- Solo Mode Display (Visible only in Single Player) -->
-        <div id="lobby-solo-mode-display" class="w-full px-3 py-1.5 rounded-xl bg-slate-900/90 border border-amber-500/40 text-left flex items-center justify-between shadow-md">
-          <div>
-            <div class="text-[7px] text-amber-400 uppercase tracking-widest font-cyber font-bold">MODALITÀ</div>
-            <div class="text-xs font-cyber font-black text-amber-300 uppercase leading-none mt-0.5 truncate">
-              🧟 SOPRAVVIVENZA SOLO
-            </div>
-          </div>
-          <span class="text-amber-400 font-mono text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-400/40">1P</span>
-        </div>
-
-        <!-- Multiplayer Mode Selector Dropdown (Visible only in Multiplayer) -->
-        <div id="lobby-mode-select-container" class="hidden relative">
+        <!-- Mode Selector Dropdown -->
+        <div class="relative">
           <button id="lobby-btn-mode-select" type="button" class="w-full px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 hover:border-cyan-400 text-left transition flex items-center justify-between cursor-pointer shadow-md">
             <div>
-              <div class="text-[7px] text-cyan-400 uppercase tracking-widest font-cyber font-bold">MODALITÀ MULTIPLAYER</div>
-              <div id="lobby-selected-mode-text" class="text-xs font-cyber font-black text-cyan-300 uppercase leading-none mt-0.5 truncate">
-                🤝 CO-OP SQUAD (ONLINE)
+              <div class="text-[7px] text-slate-400 uppercase tracking-widest font-cyber">SELEZIONA MODALITÀ</div>
+              <div id="lobby-selected-mode-text" class="text-xs font-cyber font-black text-amber-300 uppercase leading-none mt-0.5 truncate">
+                🧟 SOPRAVVIVENZA (SOLO)
               </div>
             </div>
             <span class="text-cyan-400 text-[10px] ml-1">▼</span>
           </button>
           <div id="lobby-mode-dropdown" class="hidden absolute bottom-full mb-1 left-0 right-0 bg-slate-950/95 backdrop-blur-md border border-cyan-400/50 rounded-xl overflow-hidden shadow-2xl z-50">
-            <button type="button" data-mode="COOP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
-              <span>🤝 CO-OP SQUAD (ONLINE)</span>
-              <span class="text-[9px] text-cyan-400 font-mono">Cooperativa</span>
+            <button type="button" data-mode="SOLO" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-amber-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
+              <span>🧟 SOPRAVVIVENZA (SOLO)</span>
+              <span class="text-[9px] text-amber-400 font-mono">1 Giocatore</span>
             </button>
-            <button type="button" data-mode="PVP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer">
+            <button type="button" data-mode="PVP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer border-b border-slate-800">
               <span>⚔️ DEATHMATCH (PVP)</span>
               <span class="text-[9px] text-rose-400 font-mono">Lobby Squadra</span>
+            </button>
+            <button type="button" data-mode="COOP" class="lobby-mode-option w-full px-3 py-2 text-left hover:bg-cyan-950/80 flex items-center justify-between text-xs font-cyber font-bold text-slate-200 cursor-pointer">
+              <span>🤝 CO-OP SQUAD (ONLINE)</span>
+              <span class="text-[9px] text-cyan-400 font-mono">Cooperativa</span>
             </button>
           </div>
         </div>
@@ -1217,7 +1206,7 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 
       <!-- GIANT GIOCA BUTTON -->
       <div id="lobby-play-btn-col" class="flex flex-col items-stretch shrink-0 w-44 sm:w-56">
-        <button id="btn-start-game" type="button" class="lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer">
+        <button id="btn-start-game" type="button" class="lobby-play-btn lobby-play-btn-solo group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer">
           <span id="lobby-play-btn-title" class="text-2xl sm:text-4xl font-cyber font-black text-slate-950 tracking-widest uppercase italic drop-shadow-md">
             GIOCA
           </span>
@@ -2780,26 +2769,6 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
       </button>
       <button id="btn-cancel-join-party" type="button" class="px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
         Annulla
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ==================== LEAVE SQUAD CONFIRMATION MODAL ==================== -->
-<div id="leave-squad-confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/90 backdrop-blur-sm">
-  <div class="cyber-panel rounded-2xl max-w-sm w-full p-6 border-2 border-rose-500/80 text-center relative shadow-[0_0_50px_rgba(244,63,94,0.4)]">
-    <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-400 flex items-center justify-center text-2xl mx-auto mb-3">
-      ⚠️
-    </div>
-    <div class="text-[10px] font-cyber uppercase tracking-widest text-rose-400 font-bold mb-1">Squadra // Abbandono Lobby</div>
-    <h3 class="text-lg font-cyber font-black text-white uppercase mb-2">LASCIARE LA SQUADRA?</h3>
-    <p class="text-xs text-slate-300 mb-5 leading-relaxed">Sei attualmente in lobby con altri compagni di squadra. Passando al <strong>Single Player</strong> lascerai la stanza multiplayer.</p>
-    <div class="flex gap-2">
-      <button id="btn-confirm-leave-squad" type="button" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white font-cyber font-black text-xs uppercase tracking-wider transition cursor-pointer shadow-[0_0_20px_rgba(244,63,94,0.4)]">
-        ABBANDONA SQUADRA
-      </button>
-      <button id="btn-cancel-leave-squad" type="button" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-cyber text-xs font-bold uppercase transition cursor-pointer">
-        ANNULLA
       </button>
     </div>
   </div>
@@ -4806,7 +4775,7 @@ function startMultiplayerMatch() {
   }
 }
 
-function leaveCurrentRoom(suppressModal = false) {
+function leaveCurrentRoom() {
   if (mpState.roomRef && mpState.myId) {
     mpState.roomRef.child('players/' + mpState.myId).remove();
     mpState.roomRef.off();
@@ -4818,22 +4787,18 @@ function leaveCurrentRoom(suppressModal = false) {
   mpState.roomCode = null;
   mpState.isHost = false;
   mpState.roomRef = null;
-  cachedLobbyPlayerList = [];
 
   const viewHub = byId('mp-view-hub');
   const viewRoom = byId('mp-view-room');
   if (viewHub) viewHub.classList.remove('hidden');
   if (viewRoom) viewRoom.classList.add('hidden');
 
-  if (!suppressModal) {
-    const mpModal = byId('multiplayer-modal');
-    if (mpModal) {
-      mpModal.classList.remove('hidden');
-      mpModal.classList.add('flex');
-    }
+  const mpModal = byId('multiplayer-modal');
+  if (mpModal) {
+    mpModal.classList.remove('hidden');
+    mpModal.classList.add('flex');
   }
   refreshPublicLobbies();
-  if (typeof updateLobbySquadSlots === 'function') updateLobbySquadSlots([]);
 }
 
 function withTimeout(promise, ms = 8000, errorMsg = 'Timeout: i server Firebase non rispondono. Controlla la connessione.') {
@@ -5052,7 +5017,7 @@ async function joinRoomById(roomId) {
       mpModal.classList.add('hidden');
       mpModal.classList.remove('flex');
     }
-    switchMenu(state.selectedGameMode === 'SOLO' ? 'SINGLEPLAYER' : 'MULTIPLAYER');
+    switchMenu('PLAY');
     if (feedback) feedback.textContent = '';
   } catch (err) {
     if (feedback) feedback.textContent = `⚠️ Errore accesso: ${err.message}`;
@@ -7628,13 +7593,9 @@ function showLobbyToast(title, subtitle) {
 let currentLobbyMenu = 'PLAY';
 
 function switchMenu(menuName) {
-  if (menuName === 'PLAY') {
-    menuName = (state.selectedGameMode === 'SOLO' && !mpState.roomId) ? 'SINGLEPLAYER' : 'MULTIPLAYER';
-  }
-  currentLobbyMenu = menuName || 'SINGLEPLAYER';
+  currentLobbyMenu = menuName || 'PLAY';
   
-  const tabSingleplayer = byId('nav-tab-singleplayer');
-  const tabMultiplayer = byId('nav-tab-multiplayer');
+  const tabPlay = byId('nav-tab-play');
   const tabArmory = byId('nav-tab-armory');
   const tabShop = byId('nav-tab-shop');
   const tabCasino = byId('nav-tab-casino');
@@ -7653,8 +7614,7 @@ function switchMenu(menuName) {
   const viewFriends = byId('lobby-view-friends');
 
   const navs = [
-    { name: 'SINGLEPLAYER', btn: tabSingleplayer },
-    { name: 'MULTIPLAYER', btn: tabMultiplayer },
+    { name: 'PLAY', btn: tabPlay },
     { name: 'ARMORY', btn: tabArmory },
     { name: 'SHOP', btn: tabShop },
     { name: 'CASINO', btn: tabCasino },
@@ -7673,15 +7633,7 @@ function switchMenu(menuName) {
     }
   });
 
-  const isGameView = currentLobbyMenu === 'SINGLEPLAYER' || currentLobbyMenu === 'MULTIPLAYER';
-  if (viewPlay) viewPlay.classList.toggle('hidden', !isGameView);
-
-  if (currentLobbyMenu === 'SINGLEPLAYER') {
-    setLobbyGameMode('SOLO');
-  } else if (currentLobbyMenu === 'MULTIPLAYER') {
-    if (state.selectedGameMode === 'SOLO') state.selectedGameMode = 'COOP';
-    setLobbyGameMode(state.selectedGameMode || 'COOP');
-  }
+  if (viewPlay) viewPlay.classList.toggle('hidden', currentLobbyMenu !== 'PLAY');
   if (viewArmory) {
     viewArmory.classList.toggle('hidden', currentLobbyMenu !== 'ARMORY');
     if (currentLobbyMenu === 'ARMORY') viewArmory.classList.add('flex');
@@ -7765,8 +7717,7 @@ function switchMenu(menuName) {
 }
 
 function setActiveNavTab(tabId) {
-  if (tabId === 'nav-tab-singleplayer' || tabId === 'nav-tab-play') switchMenu('SINGLEPLAYER');
-  else if (tabId === 'nav-tab-multiplayer') switchMenu('MULTIPLAYER');
+  if (tabId === 'nav-tab-play') switchMenu('PLAY');
   else if (tabId === 'nav-tab-armory' || tabId === 'nav-tab-inventory' || tabId === 'nav-tab-shop') switchMenu('ARMORY');
   else if (tabId === 'nav-tab-profile') switchMenu('PROFILE');
   else if (tabId === 'nav-tab-trophies') switchMenu('TROPHIES');
@@ -7803,7 +7754,7 @@ function closeShop() {
       try { canvas.requestPointerLock(); } catch (err) {}
     }
   } else {
-    switchMenu(state.selectedGameMode === 'SOLO' ? 'SINGLEPLAYER' : 'MULTIPLAYER');
+    switchMenu('PLAY');
   }
   updateProfileUI();
   updateHUD();
@@ -9350,7 +9301,7 @@ function handleIncomingGameInvite(invite, inviteKey) {
         fbDb.ref('gameInvites/' + currentFirebaseUser.uid + '/' + inviteKey).remove().catch(() => {});
       }
       await joinRoomByCode(invite.roomCode);
-      switchMenu(state.selectedGameMode === 'SOLO' ? 'SINGLEPLAYER' : 'MULTIPLAYER');
+      switchMenu('PLAY');
     };
     popup.classList.remove('hidden');
     popup.classList.add('flex');
@@ -11289,7 +11240,7 @@ function updateLobbyPlayButton(playerList) {
     if (title) title.textContent = 'GIOCA';
     if (sub) sub.textContent = 'SOPRAVVIVENZA // ONDATA 1';
     playBtn.disabled = false;
-    playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer';
+    playBtn.className = 'lobby-play-btn lobby-play-btn-solo group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-[0_0_25px_rgba(245,158,11,0.4)]';
     return;
   }
 
@@ -11300,40 +11251,39 @@ function updateLobbyPlayButton(playerList) {
   if (isHost) {
     const guests = pList.filter(p => !p.isHost && p.id !== mpState.myId);
     if (guests.length === 0) {
-      if (title) title.textContent = 'GIOCA';
-      if (sub) sub.textContent = 'SQUADRA // AVVIA SUBITO';
+      if (title) title.textContent = 'AVVIA PARTITA';
+      if (sub) sub.textContent = 'SQUADRA // IN ATTESA AMICI O AVVIA SUBITO';
       playBtn.disabled = false;
-      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer';
+      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-cyber font-black shadow-[0_0_25px_rgba(245,158,11,0.5)]';
     } else {
       const readyGuests = guests.filter(g => g.ready);
       const allReady = readyGuests.length === guests.length;
       if (allReady) {
-        if (title) title.textContent = 'GIOCA';
+        if (title) title.textContent = 'AVVIA PARTITA';
         if (sub) sub.textContent = `TUTTI PRONTI (${readyGuests.length}/${guests.length}) // AVVIA ORA!`;
         playBtn.disabled = false;
-        playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer';
+        playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-gradient-to-r from-emerald-400 via-teal-400 to-amber-400 text-slate-950 font-cyber font-black shadow-[0_0_35px_rgba(16,185,129,0.7)] animate-pulse';
       } else {
         if (title) title.textContent = 'IN ATTESA...';
-        if (sub) sub.textContent = `ATTENDI GIOCATORI (${readyGuests.length}/${guests.length})`;
+        if (sub) sub.textContent = `ATTENDI GIOCATORI PRONTI (${readyGuests.length}/${guests.length})`;
         playBtn.disabled = true;
-        playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center';
+        playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center bg-slate-900 border-2 border-slate-800 text-slate-400 font-cyber font-bold cursor-not-allowed opacity-80';
       }
     }
   } else {
-    // Non-Host (Guest) sees "PRONTO" or "✓ PRONTO"
+    // Non-Host (Guest) sees "PRONTO" or "✓ SEI PRONTO"
     if (mpState.myReady) {
-      if (title) title.textContent = '✓ PRONTO';
-      if (sub) sub.textContent = 'IN ATTESA DELL\'HOST';
+      if (title) title.textContent = '✓ SEI PRONTO';
+      if (sub) sub.textContent = 'IN ATTESA CHE L\'HOST AVVII LA PARTITA';
       playBtn.disabled = false;
-      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer';
+      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 text-slate-950 font-cyber font-black shadow-[0_0_30px_rgba(16,185,129,0.6)] animate-pulse';
     } else {
       if (title) title.textContent = 'PRONTO';
-      if (sub) sub.textContent = 'CLICCA PER CONFERMARE';
+      if (sub) sub.textContent = 'CLICCA PER CONFERMARE PRONTEZZA';
       playBtn.disabled = false;
-      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer';
+      playBtn.className = 'lobby-play-btn group relative h-16 sm:h-20 w-full px-6 sm:px-8 flex flex-col items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-gradient-to-r from-cyan-400 via-amber-400 to-yellow-400 text-slate-950 font-cyber font-black shadow-[0_0_25px_rgba(6,182,212,0.5)]';
     }
   }
-}
 }
 window.updateLobbyPlayButton = updateLobbyPlayButton;
 
@@ -11510,7 +11460,7 @@ function goToLobby() {
   updateLobbyAvatars();
   if (typeof updateResponsiveScreen === 'function') updateResponsiveScreen();
   if (typeof setLobbyGameMode === 'function') setLobbyGameMode(state.selectedGameMode || 'SOLO');
-  if (typeof setActiveNavTab === 'function') setActiveNavTab(state.selectedGameMode === 'SOLO' ? 'nav-tab-singleplayer' : 'nav-tab-multiplayer');
+  if (typeof setActiveNavTab === 'function') setActiveNavTab('nav-tab-play');
 }
 
 function initThreeJS() {
@@ -12609,9 +12559,8 @@ if (state.mode === 'PAUSED') {
 }
 });
 
-// Top Navigation Tabs & Views (SINGLEPLAYER, MULTIPLAYER, ARMERIA, PROFILO, BACHECA, LEADERBOARD)
-const tabSingleplayer = byId('nav-tab-singleplayer');
-const tabMultiplayer = byId('nav-tab-multiplayer');
+// Top Navigation Tabs & Views (GIOCA, ARMERIA, PROFILO, BACHECA, LEADERBOARD)
+const tabPlay = byId('nav-tab-play');
 const tabArmory = byId('nav-tab-armory');
 const tabShop = byId('nav-tab-shop');
 const tabCasino = byId('nav-tab-casino');
@@ -12624,63 +12573,7 @@ const curPnBtn = byId('lobby-currency-pn');
 const curTrophiesBtn = byId('lobby-currency-trophies');
 const curLvlBtn = byId('lobby-level-badge-container');
 
-if (tabSingleplayer) {
-  tabSingleplayer.addEventListener('click', () => {
-    sound.init();
-    sound.playHit();
-    const pList = cachedLobbyPlayerList || [];
-    if (mpState.roomId && pList.length > 1) {
-      const modal = byId('leave-squad-confirm-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      }
-      return;
-    }
-    if (mpState.roomId) {
-      leaveCurrentRoom(true);
-    }
-    switchMenu('SINGLEPLAYER');
-  });
-}
-
-if (tabMultiplayer) {
-  tabMultiplayer.addEventListener('click', () => {
-    sound.init();
-    sound.playHit();
-    switchMenu('MULTIPLAYER');
-  });
-}
-
-const btnConfirmLeaveSquad = byId('btn-confirm-leave-squad');
-const btnCancelLeaveSquad = byId('btn-cancel-leave-squad');
-const leaveSquadModal = byId('leave-squad-confirm-modal');
-
-if (btnConfirmLeaveSquad) {
-  btnConfirmLeaveSquad.addEventListener('click', () => {
-    sound.init();
-    sound.playHit();
-    if (leaveSquadModal) {
-      leaveSquadModal.classList.add('hidden');
-      leaveSquadModal.classList.remove('flex');
-    }
-    leaveCurrentRoom(true);
-    showLobbyToast('SQUADRA ABBANDONATA', 'Sei tornato in modalità Single Player.');
-    switchMenu('SINGLEPLAYER');
-  });
-}
-
-if (btnCancelLeaveSquad) {
-  btnCancelLeaveSquad.addEventListener('click', () => {
-    sound.init();
-    sound.playHit();
-    if (leaveSquadModal) {
-      leaveSquadModal.classList.add('hidden');
-      leaveSquadModal.classList.remove('flex');
-    }
-  });
-}
-
+if (tabPlay) tabPlay.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('PLAY'); if (settingsModal) settingsModal.classList.add('hidden'); });
 if (tabArmory) tabArmory.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('ARMORY'); });
 if (tabShop) tabShop.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('SHOP'); });
 if (tabCasino) tabCasino.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('CASINO'); });
@@ -12696,13 +12589,13 @@ if (curLvlBtn) curLvlBtn.addEventListener('click', () => { sound.init(); sound.p
 if (btnChangeSkin) btnChangeSkin.addEventListener('click', () => { sound.init(); sound.playHit(); switchMenu('PROFILE'); });
 
 const btnArmoryBack = byId('armory-btn-back-play');
-if (btnArmoryBack) btnArmoryBack.addEventListener('click', () => { sound.init(); switchMenu(state.selectedGameMode === 'SOLO' ? 'SINGLEPLAYER' : 'MULTIPLAYER'); });
+if (btnArmoryBack) btnArmoryBack.addEventListener('click', () => { sound.init(); switchMenu('PLAY'); });
 
 const btnProfileBack = byId('profile-btn-back-play');
-if (btnProfileBack) btnProfileBack.addEventListener('click', () => { sound.init(); switchMenu(state.selectedGameMode === 'SOLO' ? 'SINGLEPLAYER' : 'MULTIPLAYER'); });
+if (btnProfileBack) btnProfileBack.addEventListener('click', () => { sound.init(); switchMenu('PLAY'); });
 
 const btnTrophiesBack = byId('trophies-btn-back-play');
-if (btnTrophiesBack) btnTrophiesBack.addEventListener('click', () => { sound.init(); switchMenu(state.selectedGameMode === 'SOLO' ? 'SINGLEPLAYER' : 'MULTIPLAYER'); });
+if (btnTrophiesBack) btnTrophiesBack.addEventListener('click', () => { sound.init(); switchMenu('PLAY'); });
 
 // Armory: Equip Primary Button
 const btnArmoryEquipPrimary = byId('armory-btn-equip-primary');
@@ -12910,27 +12803,28 @@ function setLobbyGameMode(selected) {
     }
   }
 
-  // Center Panels & Mode Selectors: Solo vs Multiplayer
+  // Center Panels: Solo vs Multiplayer
   const soloPanels = byId('lobby-solo-panels');
   const mpSlots = byId('lobby-multiplayer-slots');
   const mpPartyBox = byId('lobby-party-container');
   const mpBrowserBtn = byId('lobby-btn-multiplayer-browser');
+  const playBtnSubtitle = byId('lobby-play-btn-subtitle');
+  const playBtn = byId('btn-start-game');
   const playerModeBadge = byId('lobby-player-mode-badge');
-  const modeSelectContainer = byId('lobby-mode-select-container');
-  const soloModeDisplay = byId('lobby-solo-mode-display');
 
   if (isSolo) {
     if (soloPanels) { soloPanels.classList.remove('hidden'); soloPanels.classList.add('flex'); }
     if (mpSlots) { mpSlots.classList.add('hidden'); }
     if (mpPartyBox) { mpPartyBox.classList.add('hidden'); }
     if (mpBrowserBtn) { mpBrowserBtn.classList.add('hidden'); }
-    if (modeSelectContainer) { modeSelectContainer.classList.add('hidden'); }
-    if (soloModeDisplay) { soloModeDisplay.classList.remove('hidden'); }
+    if (playBtnSubtitle) playBtnSubtitle.textContent = 'SOPRAVVIVENZA // ONDATA 1';
+    if (playBtn) playBtn.classList.add('lobby-play-btn-solo');
     if (playerModeBadge) {
       playerModeBadge.textContent = 'SOLO';
       playerModeBadge.className = 'px-2 py-0.5 rounded-md bg-amber-950/90 border border-amber-400/60 text-[9px] font-cyber font-black text-amber-300 font-mono tracking-wider';
     }
 
+    if (mpState.active) leaveCurrentRoom();
     updateLobbySquadSlots([]);
     updateSoloLobbyUI();
   } else {
@@ -12938,10 +12832,10 @@ function setLobbyGameMode(selected) {
     if (mpSlots) { mpSlots.classList.remove('hidden'); }
     if (mpPartyBox) { mpPartyBox.classList.remove('hidden'); }
     if (mpBrowserBtn) { mpBrowserBtn.classList.remove('hidden'); }
-    if (modeSelectContainer) { modeSelectContainer.classList.remove('hidden'); }
-    if (soloModeDisplay) { soloModeDisplay.classList.add('hidden'); }
+    if (playBtnSubtitle) playBtnSubtitle.textContent = selected === 'COOP' ? 'SQUADRA CO-OP' : 'AVVIA BATTAGLIA';
+    if (playBtn) playBtn.classList.remove('lobby-play-btn-solo');
     if (playerModeBadge) {
-      playerModeBadge.textContent = selected === 'PVP' ? 'PVP' : 'CO-OP';
+      playerModeBadge.textContent = 'SQUADRA';
       playerModeBadge.className = 'px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-400/60 text-[9px] font-cyber font-black text-cyan-300 font-mono tracking-wider';
     }
 
@@ -12952,8 +12846,6 @@ function setLobbyGameMode(selected) {
       if (partyCodeDisplay) partyCodeDisplay.textContent = mpState.roomCode || 'ONLINE';
     }
   }
-
-  updateLobbyPlayButton(cachedLobbyPlayerList);
 
   // 3D Scene updates
   if (typeof applyLobbyGameMode3D === 'function') {
@@ -13305,10 +13197,8 @@ if (btnSoloTabLoadout) btnSoloTabLoadout.addEventListener('click', (e) => { e.st
 const btnSoloTabOperator = byId('solo-tab-btn-operator');
 if (btnSoloTabOperator) btnSoloTabOperator.addEventListener('click', (e) => { e.stopPropagation(); sound.init(); sound.playHit(); setSoloMobileTab('OPERATOR'); });
 
-// Initial sync of Lobby Mode UI (Solo Single Player by default)
-state.selectedGameMode = 'SOLO';
-setLobbyGameMode('SOLO');
-switchMenu('SINGLEPLAYER');
+// Initial sync of Lobby Mode UI (Solo by default)
+setLobbyGameMode(state.selectedGameMode || 'SOLO');
 updateResponsiveScreen();
 
 // Party Code & Squad Slots Click
@@ -13467,7 +13357,7 @@ return;
 if (currentLobbyMenu !== 'PLAY') {
   if (e.code === 'Escape') {
     e.preventDefault();
-    switchMenu(state.selectedGameMode === 'SOLO' ? 'SINGLEPLAYER' : 'MULTIPLAYER');
+    switchMenu('PLAY');
     return;
   }
 }
