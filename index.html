@@ -1667,8 +1667,11 @@ text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
         <button id="lb-tab-kills" type="button" onclick="setLeaderboardCategory('KILLS')" class="px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5 text-slate-400 hover:text-rose-400">
           <span>💀</span><span>TOTALE UCCISIONI</span>
         </button>
+        <button id="lb-tab-streak" type="button" onclick="setLeaderboardCategory('STREAK')" class="px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5 text-slate-400 hover:text-amber-400">
+          <span>🔥</span><span>KILLSTREAK MAX</span>
+        </button>
         <button id="lb-tab-all" type="button" onclick="setLeaderboardCategory('ALL')" class="px-3 sm:px-4 py-1.5 rounded-xl font-cyber text-[10px] sm:text-xs font-bold uppercase transition cursor-pointer flex items-center gap-1.5 text-slate-400 hover:text-white">
-          <span>📊</span><span>TUTTE E 3</span>
+          <span>📊</span><span>TUTTE E 4</span>
         </button>
       </div>
     </div>
@@ -2351,7 +2354,7 @@ singleShot: false, chainTargets: 3, chainRadius: 13.0
 id: 'HYDRA', key: '6', name: "Lanciarazzi Termico Hydra", shortName: "HYDRA RPG", desc: "Missili Termobarici ad Area",
 maxAmmo: 5, reloadTime: 1.95, fireRate: 0.85, damage: 210, adsDamage: 270, pellets: 1, hipSpread: 0.02, adsSpread: 0.0,
 adsFov: 44, recoil: 0.34, colorHex: 0x10b981, uiColor: '#10b981', beamWidth: 0.07,
-adsX: 0.14, adsY: -0.10, adsZ: -0.30, tipZ: -0.66, secret: true,
+adsX: 0.14, adsY: -0.10, adsZ: -0.42, tipZ: -0.66, secret: true,
 reqKills: 200, reqWave: 5, reqBosses: 1, unlockLabel: "1° BOSS + 200 KILL",
 singleShot: true, explosiveRadius: 8.5, splashDamage: 115
 },
@@ -5487,10 +5490,13 @@ function createCompleteArmoryWeapon3D(id, mats, targetMode = 'ARMORY') {
     // Massive Quad Missile Launcher Housing & Counterweight
     const housing = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.22, 0.44), body);
     housing.position.set(0, 0.03, 0.04);
-    const shoulderRest = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.19, 0.26), body);
-    shoulderRest.position.set(0, 0.03, 0.36);
+    const shoulderLen = isFirstPerson ? 0.12 : 0.26;
+    const shoulderZ = isFirstPerson ? 0.20 : 0.36;
+    const shoulderRest = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.19, shoulderLen), body);
+    shoulderRest.position.set(0, 0.03, shoulderZ);
+    const padZ = isFirstPerson ? 0.27 : 0.49;
     const shoulderPad = new THREE.Mesh(new THREE.BoxGeometry(0.184, 0.194, 0.04), grip);
-    shoulderPad.position.set(0, 0.03, 0.49);
+    shoulderPad.position.set(0, 0.03, padZ);
     // Bottom Main Grip & Side Forward Grip
     const mainGrip = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.20, 0.08), grip);
     mainGrip.position.set(0, -0.17, 0.12); mainGrip.rotation.x = -0.2;
@@ -5516,28 +5522,24 @@ function createCompleteArmoryWeapon3D(id, mats, targetMode = 'ARMORY') {
     const faceplate = new THREE.Mesh(new THREE.BoxGeometry(0.21, 0.23, 0.05), accent);
     faceplate.position.set(0, 0.03, -0.46);
 
-    // LEFT-SIDE AUTHENTIC RPG OPTICAL SCOPE (PGO-7V PERISCOPE - HOLLOW & TRANSPARENT)
-    // Side Dovetail Mounting Bracket from Launcher Flank (x = -0.09) to Scope (x = -0.14)
-    const mountArm = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.032, 0.10), metal);
-    mountArm.position.set(-0.112, 0.08, -0.04);
-    // Prismatic periscopic scope main body
-    const opticPrism = new THREE.Mesh(new THREE.BoxGeometry(0.050, 0.075, 0.12), darkPlate);
-    opticPrism.position.set(-0.14, 0.095, -0.04);
-    // Rear Eyepiece & Rubber Eyecup (at x = -0.14, y = 0.10)
-    const eyepieceTube = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, 0.05, 12), metal);
-    eyepieceTube.rotateX(Math.PI / 2); eyepieceTube.position.set(-0.14, 0.10, 0.03);
-    const eyecup = new THREE.Mesh(new THREE.TorusGeometry(0.026, 0.006, 10, 24), grip);
-    eyecup.position.set(-0.14, 0.10, 0.06);
-    // Forward Objective Tube & Sunshade Hood
-    const objTube = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.07, 12), metal);
-    objTube.rotateX(Math.PI / 2); objTube.position.set(-0.14, 0.10, -0.11);
-    const objHood = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.034, 0.03, 12), accent);
+    // LEFT-SIDE AUTHENTIC RPG OPTICAL SCOPE (PGO-7V PERISCOPE - HOLLOW & COMPLETELY UNOBSTRUCTED)
+    // Mounting base and arm located UNDER the sightline (at y = 0.055)
+    const mountArm = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.025, 0.08), metal);
+    mountArm.position.set(-0.112, 0.055, -0.04);
+    const opticLowerBase = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.045, 0.12), darkPlate);
+    opticLowerBase.position.set(-0.14, 0.055, -0.04);
+    // Continuous Hollow Cylindrical Scope Tube from z = 0.06 to z = -0.15 (at y = 0.10, openEnded: true)
+    const scopeTube = new THREE.Mesh(new THREE.CylinderGeometry(0.030, 0.028, 0.22, 16, 1, true), darkPlate);
+    scopeTube.rotateX(Math.PI / 2); scopeTube.position.set(-0.14, 0.10, -0.04);
+    // Rubber eyecup at the rear
+    const eyecup = new THREE.Mesh(new THREE.TorusGeometry(0.028, 0.005, 10, 24), grip);
+    eyecup.position.set(-0.14, 0.10, 0.07);
+    // Forward Objective Hood (openEnded: true)
+    const objHood = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.031, 0.04, 16, 1, true), accent);
     objHood.rotateX(Math.PI / 2); objHood.position.set(-0.14, 0.10, -0.15);
-    // Crystal-Clear See-Through Optical Lenses (front & rear - player looks straight through)
-    const rearLens = new THREE.Mesh(new THREE.CircleGeometry(0.023, 16), glass);
-    rearLens.position.set(-0.14, 0.10, 0.055);
-    const frontLens = new THREE.Mesh(new THREE.CircleGeometry(0.028, 16), glass);
-    frontLens.position.set(-0.14, 0.10, -0.14);
+    // Transparent front optical lens (crystal-clear, zero occlusion)
+    const frontLens = new THREE.Mesh(new THREE.CircleGeometry(0.027, 16), glass);
+    frontLens.position.set(-0.14, 0.10, -0.15);
     // Side Range Estimation Drum Dial
     const rangeDrum = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.022, 12), metal);
     rangeDrum.rotateZ(Math.PI / 2); rangeDrum.position.set(-0.172, 0.10, -0.04);
@@ -5545,13 +5547,13 @@ function createCompleteArmoryWeapon3D(id, mats, targetMode = 'ARMORY') {
     rangeDialRing.rotateZ(Math.PI / 2); rangeDialRing.position.set(-0.180, 0.10, -0.04);
     // Micro Battery Box & Status LED
     const battBox = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.038, 0.038), metal);
-    battBox.position.set(-0.14, 0.042, -0.04);
+    battBox.position.set(-0.14, 0.020, -0.04);
     const ledStatus = new THREE.Mesh(new THREE.CircleGeometry(0.005, 8), led);
-    ledStatus.rotateY(-Math.PI / 2); ledStatus.position.set(-0.152, 0.042, -0.04);
+    ledStatus.rotateY(-Math.PI / 2); ledStatus.position.set(-0.152, 0.020, -0.04);
 
     m.add(housing, shoulderRest, shoulderPad, mainGrip, sideGrip, faceplate,
-          mountArm, opticPrism, eyepieceTube, eyecup, objTube, objHood,
-          rearLens, frontLens, rangeDrum, rangeDialRing, battBox, ledStatus);
+          mountArm, opticLowerBase, scopeTube, eyecup, objHood, frontLens,
+          rangeDrum, rangeDialRing, battBox, ledStatus);
 
   } else if (id === 'GAUSS') {
     // Angular Kinetic Frame & Dampers
@@ -6862,6 +6864,7 @@ function initRegisteredPlayersCache() {
               bestScore: Number(prof.bestScore) || 0,
               bestWave: Number(prof.bestWave) || 1,
               totalKills: Number(prof.totalKills) || 0,
+              bestKillstreak: Number(prof.bestKillstreak) || 0,
               operatorLevel: opLvl,
               selectedSuit: prof.selectedSuit || 'DEFAULT',
               trophiesCount: Array.isArray(prof.unlockedTrophies) ? prof.unlockedTrophies.length : 0,
@@ -6934,6 +6937,7 @@ function syncLeaderboardRegistration() {
     bestScore: Math.max(Number(playerProfile.bestScore) || 0, state.score || 0),
     bestWave: Math.max(Number(playerProfile.bestWave) || 1, state.wave || 1),
     totalKills: Number(playerProfile.totalKills) || 0,
+    bestKillstreak: Math.max(Number(playerProfile.bestKillstreak) || 0, state.killstreak || 0),
     operatorLevel: (typeof getOperatorLevelProgress === 'function' && playerProfile.operatorXp) ? getOperatorLevelProgress(playerProfile.operatorXp).level : 1,
     selectedSuit: playerProfile.selectedSuit || 'DEFAULT',
     trophiesCount: (playerProfile.unlockedTrophies || []).length,
@@ -6958,6 +6962,7 @@ function setLeaderboardCategory(cat) {
     { id: 'lb-tab-score', cat: 'SCORE', activeClass: 'text-amber-300 bg-amber-500/20 border border-amber-400/50 shadow-md font-black' },
     { id: 'lb-tab-wave', cat: 'WAVE', activeClass: 'text-cyan-300 bg-cyan-500/20 border border-cyan-400/50 shadow-md font-black' },
     { id: 'lb-tab-kills', cat: 'KILLS', activeClass: 'text-rose-300 bg-rose-500/20 border border-rose-400/50 shadow-md font-black' },
+    { id: 'lb-tab-streak', cat: 'STREAK', activeClass: 'text-amber-400 bg-amber-500/20 border border-amber-400/50 shadow-md font-black' },
     { id: 'lb-tab-all', cat: 'ALL', activeClass: 'text-white bg-slate-800 border border-slate-600 shadow-md font-black' }
   ];
 
@@ -7005,6 +7010,7 @@ function refreshLeaderboardData() {
             bestScore: Number(prof.bestScore) || 0,
             bestWave: Number(prof.bestWave) || 1,
             totalKills: Number(prof.totalKills) || 0,
+            bestKillstreak: Number(prof.bestKillstreak) || 0,
             operatorLevel: opLvl,
             selectedSuit: prof.selectedSuit || 'DEFAULT',
             trophiesCount: Array.isArray(prof.unlockedTrophies) ? prof.unlockedTrophies.length : 0,
@@ -7047,6 +7053,7 @@ function getLeaderboardSortedList(category) {
       bestScore: Math.max(Number(playerProfile.bestScore) || 0, state.score || 0),
       bestWave: Math.max(Number(playerProfile.bestWave) || 1, state.wave || 1),
       totalKills: Number(playerProfile.totalKills) || 0,
+      bestKillstreak: Math.max(Number(playerProfile.bestKillstreak) || 0, state.killstreak || 0),
       operatorLevel: (typeof getOperatorLevelProgress === 'function' && playerProfile.operatorXp) ? getOperatorLevelProgress(playerProfile.operatorXp).level : 1,
       selectedSuit: playerProfile.selectedSuit || 'DEFAULT',
       trophiesCount: (playerProfile.unlockedTrophies || []).length,
@@ -7064,6 +7071,8 @@ function getLeaderboardSortedList(category) {
     list.sort((a, b) => (b.bestWave - a.bestWave) || (b.bestScore - a.bestScore) || (b.totalKills - a.totalKills));
   } else if (category === 'KILLS') {
     list.sort((a, b) => (b.totalKills - a.totalKills) || (b.bestScore - a.bestScore) || (b.bestWave - a.bestWave));
+  } else if (category === 'STREAK') {
+    list.sort((a, b) => (b.bestKillstreak - a.bestKillstreak) || (b.bestScore - a.bestScore) || (b.totalKills - a.totalKills));
   }
   return list;
 }
@@ -7121,21 +7130,25 @@ function renderLeaderboardView() {
         <span>Ondata Max: <strong class="text-cyan-400 font-mono">${playerProfile.bestWave || 1}</strong></span>
         <span>•</span>
         <span>Kill: <strong class="text-rose-400 font-mono">${(playerProfile.totalKills || 0).toLocaleString()}</strong></span>
+        <span>•</span>
+        <span>Killstreak: <strong class="text-amber-400 font-mono">${playerProfile.bestKillstreak || 0} Kill</strong></span>
       </div>
     `;
   }
 
   if (currentLeaderboardTab === 'ALL') {
-    // 3-Column Parallel View
+    // 4-Column Parallel View (Score, Wave, Kills, Killstreak)
     const scoreList = getLeaderboardSortedList('SCORE');
     const waveList = getLeaderboardSortedList('WAVE');
     const killsList = getLeaderboardSortedList('KILLS');
+    const streakList = getLeaderboardSortedList('STREAK');
 
     container.innerHTML = `
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3.5 pb-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5 pb-3">
         ${renderMiniLeaderboardColumn('🏆 RECORD PUNTEGGIO', 'SCORE', scoreList, 'PTS', p => (p.bestScore || 0).toLocaleString())}
         ${renderMiniLeaderboardColumn('🌊 ONDATA MASSIMA', 'WAVE', waveList, 'ONDATA', p => 'Liv. ' + (p.bestWave || 1))}
         ${renderMiniLeaderboardColumn('💀 TOTALE UCCISIONI', 'KILLS', killsList, 'KILL', p => (p.totalKills || 0).toLocaleString())}
+        ${renderMiniLeaderboardColumn('🔥 KILLSTREAK MAX', 'STREAK', streakList, 'SERIE', p => (p.bestKillstreak || 0) + ' Kill')}
       </div>
     `;
     return;
@@ -7163,6 +7176,11 @@ function renderLeaderboardView() {
     catUnit = 'KILL';
     catValFn = p => (p.totalKills || 0).toLocaleString();
     catColor = 'text-rose-400';
+  } else if (currentLeaderboardTab === 'STREAK') {
+    catTitle = 'KILLSTREAK MASSIMA';
+    catUnit = 'SERIE UCCISIONI';
+    catValFn = p => (p.bestKillstreak || 0) + ' Kill';
+    catColor = 'text-amber-400';
   }
 
   container.innerHTML = `
@@ -7221,6 +7239,7 @@ function renderLeaderboardView() {
               <th class="py-2 px-3 text-center hidden sm:table-cell">RECORD PUNTI</th>
               <th class="py-2 px-3 text-center hidden sm:table-cell">ONDATA MAX</th>
               <th class="py-2 px-3 text-center hidden sm:table-cell">KILL TOTALI</th>
+              <th class="py-2 px-3 text-center hidden md:table-cell">KILLSTREAK</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-800/40">
@@ -7248,11 +7267,12 @@ function renderLeaderboardView() {
                   <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${(p.bestScore || 0).toLocaleString()}</td>
                   <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${p.bestWave || 1}</td>
                   <td class="py-2.5 px-3 text-center font-mono text-slate-400 hidden sm:table-cell">${(p.totalKills || 0).toLocaleString()}</td>
+                  <td class="py-2.5 px-3 text-center font-mono text-amber-300 font-bold hidden md:table-cell">${p.bestKillstreak || 0}</td>
                 </tr>
               `;
             }).join('') : `
               <tr>
-                <td colspan="6" class="py-6 text-center text-slate-500 font-cyber text-xs">
+                <td colspan="7" class="py-6 text-center text-slate-500 font-cyber text-xs">
                   Nessun altro utente registrato al momento • Invita i tuoi amici a iscriversi!
                 </td>
               </tr>
@@ -7295,10 +7315,11 @@ function renderPodiumCardContent(player, catValFn, catUnit, valColor, myName, is
         ${catValFn(player)}
       </div>
     </div>
-    <div class="grid grid-cols-3 gap-1 w-full text-[8px] font-cyber text-slate-400 pt-1 border-t border-slate-800/80">
+    <div class="grid grid-cols-4 gap-1 w-full text-[8px] font-cyber text-slate-400 pt-1 border-t border-slate-800/80">
       <div>Pts: <b class="text-slate-200 font-mono">${(player.bestScore || 0).toLocaleString()}</b></div>
       <div>Ond: <b class="text-slate-200 font-mono">${player.bestWave || 1}</b></div>
       <div>Kill: <b class="text-slate-200 font-mono">${(player.totalKills || 0).toLocaleString()}</b></div>
+      <div>Serie: <b class="text-amber-400 font-mono">${player.bestKillstreak || 0}</b></div>
     </div>
   `;
 }
@@ -9119,7 +9140,7 @@ updateProfileUI();
 scene = new THREE.Scene();
 scene.background = new THREE.Color(0x040611);
 scene.fog = new THREE.FogExp2(0x040611, 0.006);
-camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 360);
+camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 360);
 camera.position.set(0, GAME_CONFIG.playerHeight, 26);
 clock = new THREE.Clock();
 buildWeaponWheelUI();
